@@ -1,11 +1,13 @@
 'use client'
 import { useRouter } from 'next/navigation';
 import { IoSearchOutline } from 'react-icons/io5';
-import { useEffect, useState } from 'react';
-
-export default function MasterNavber() {
+import { useEffect, useState }  from 'react';
+import React from 'react';
+interface MasterNavberProps {
+  setShowInput: React.Dispatch<React.SetStateAction<boolean>>;
+}
+export default function MasterNavber({setShowInput}:MasterNavberProps) {
   const router = useRouter();
-
   const outerMenu: { name: string; path: string }[] = [
     { name: 'Home', path: '/' },
     { name: 'Store', path: '/AllAssets' },
@@ -38,7 +40,6 @@ export default function MasterNavber() {
       <div className="top  w-screen border-[#4d4d4d] flex justify-between items-center h-10 px-1 lg:px-2">
         {/* <img src="/logo.png" className="w-6 lg:w-7" /> */}
         <div>
-          <button className='border bg-white px-1 text-black rounded-[2px]'>Join community</button>
         </div>
       </div>
 
@@ -59,7 +60,7 @@ export default function MasterNavber() {
           </div>
         ) : null}
 
-        <div className="flex gap-6">
+        <div className="flex gap-3 lg:gap-6 lg:mr-4">
           <div className="search mt-0.5 relative">
       
             <IoSearchOutline
@@ -68,8 +69,10 @@ export default function MasterNavber() {
             />
           </div>
           <h6>[ 10 ]</h6>
+          <button className='border bg-white px-1 py-0.5 text-[15px] text-black rounded-[3px]' onClick={()=> setShowInput(true)}>Join community</button>
         </div>
       </div>
+
 <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div>
     </nav>
   );

@@ -62,7 +62,7 @@ input{
   font-weight: 200;
   font-size: 14px;
   padding: 3px 7px;
-  background-color:  #363636;
+  background-color:  #000000;
   color: '#dadada';
 
 }
@@ -99,10 +99,11 @@ h4 {
 input{
   font-family: var(--font-inter), sans-serif;
   font-weight: 200;
-  font-size: 14px;
+  font-size: 13px;
   padding: 3px 7px;
-  background-color:  #363636;
+  background-color:  #101010;
   color: '#dadada';
+  border-radius : 2px;
 
 }
 

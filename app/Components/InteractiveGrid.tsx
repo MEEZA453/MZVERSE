@@ -1,11 +1,13 @@
 'use client';
 import React, { useRef, useEffect , useState  } from "react";
 import {useRouter} from 'next/navigation'
-export default function InteractiveGrid() {
+import JoinCommunityInput from '../Components/JoinCommunity'
+export default function InteractiveGrid({showInput , setShowInput}:{showInput : boolean , setShowInput : React.Dispatch<React.SetStateAction<boolean>>}) {
   const router = useRouter()
   const [isMobile , setIsMobile]  = useState(false)
   const GRID_SIZE = isMobile ? 20 : 8;
   const bgRef = useRef<HTMLDivElement | null>(null);
+  
 
   const targetedImages: { row: number; col: number; src: string; alt?: string }[] = [
     { row: 1, col: 3, src: "/nostalogia.webp", alt: "Nostalogia" },
@@ -63,7 +65,9 @@ useEffect(() => {
     <div className="h-screen w-screen  sticky top-0  overflow-hidden">
       <div className="absolute w-screen h-80 bg-gradient-to-t from-black to-[#00000000] bottom-0 z-[10]"></div>
       <div className="absolute w-screen h-80 bg-gradient-to-b from-black to-[#00000000] top-0 z-[10]"></div>
-
+{showInput ? <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999]">
+<JoinCommunityInput setShowInput={setShowInput}/>
+</div>: null}
       <div className="bg-black/60 h-screen w-screen  px-3 z-[10] absolute flex flex-col gap-2 items-center max-sm:items-start justify-center ">
       <h1 >A Design achive for visual thinking.</h1>
       <button className='bg-white text-black text-[16px] rounded-[2px] px-2 py-1' onClick={()=>router.push('/AllAssets')}>Join now</button>
@@ -80,7 +84,7 @@ useEffect(() => {
             return (
               <div
                 key={`${row}-${col}`}
-                className="border-l border-b border-[#414141] flex relative justify-center h-[40vw] lg:h-[15vw] items-center"
+                className="border-l border-b border-[#9d9d9d] flex relative justify-center h-[40vw] lg:h-[15vw] items-center"
               >
                 {img && <img src={img.src} className="w-[50%]" />}
               </div>
