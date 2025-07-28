@@ -1,6 +1,7 @@
 import * as api from '../../api'
+import {Product } from '../../types/Product'
 
-export const postDesign = (post) => async (dispatch) => {
+export const postDesign = (post : Product) => async (dispatch) => {
     try {
       console.log('Post data being sent:', post);  // Log the post data to check if it's formatted correctly
       const { data } = await api.postDesign(post); 
@@ -10,7 +11,7 @@ export const postDesign = (post) => async (dispatch) => {
     }
   };
 
-  export const getDesign = (page , limit)=> async(dispatch) =>{
+  export const getDesign = (page : number , limit : number)=> async(dispatch) =>{
     try {
       const { data } = await api.getDesign(page , limit);
       dispatch({type : 'FETCH_ALL_PRODUCTS' , payload : data})
@@ -18,7 +19,7 @@ export const postDesign = (post) => async (dispatch) => {
       console.log('error in action : ', err.message)
     }
   }
-  export const deleteDesign = (id) => async (dispatch) => {
+  export const deleteDesign = (id : string) => async (dispatch) => {
   try {
     console.log(id)
     await api.deleteDesign(id); // Send DELETE request
@@ -28,7 +29,7 @@ export const postDesign = (post) => async (dispatch) => {
   }
 };
 
-export const createOrder = (items) => async (dispatch) => {
+export const createOrder = (items : Product[]) => async (dispatch) => {
   try {
     console.log('creating order...', items);
     const { data } = await api.createOrder(items);

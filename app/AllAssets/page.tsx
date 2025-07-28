@@ -1,6 +1,6 @@
 'use client'
 import MasterNavber from '../Components/MasterNavber';
-import { useAssets } from '../Context/AllAssetsContext.jsx';
+import { useAssets } from '../Context/AllAssetsContext';
 import {useRouter , usePathname} from 'next/navigation';
 import {Product} from '../types/Product';
 import Loading from '../Components/loading'

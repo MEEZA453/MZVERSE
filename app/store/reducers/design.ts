@@ -1,4 +1,6 @@
-export default (state = [], action) => {
+import {Product} from '../../types/Product'
+import {AnyAction} from 'redux'
+export default (state:Product[] = [], action : AnyAction):Product[] => {
   switch (action.type) {
     case 'FETCH_ALL_PRODUCTS':
       return [...state, ...action.payload];
