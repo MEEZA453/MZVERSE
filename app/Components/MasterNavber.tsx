@@ -4,7 +4,7 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { useEffect, useState }  from 'react';
 import React from 'react';
 interface MasterNavberProps {
-  setShowInput: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowInput?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function MasterNavber({setShowInput}:MasterNavberProps) {
   const router = useRouter();
