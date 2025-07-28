@@ -1,4 +1,4 @@
-export default ( state = [] , action)=>{
+const cart = ( state = [] , action)=>{
     switch(action.type){
         case 'FETCH_ALL_CART':
             return action.payload
@@ -12,3 +12,4 @@ export default ( state = [] , action)=>{
                 return state;
     }
 }
+export default cart

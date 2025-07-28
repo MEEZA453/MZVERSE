@@ -11,7 +11,7 @@ export const postDesign = (post : Product) => async (dispatch) => {
     }
   };
 
-  export const getDesign = (page : number , limit : number)=> async(dispatch) =>{
+  export const getDesign = (page : number , limit : number)=> async(dispatch : any) =>{
     try {
       const { data } = await api.getDesign(page , limit);
       dispatch({type : 'FETCH_ALL_PRODUCTS' , payload : data})

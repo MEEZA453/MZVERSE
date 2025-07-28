@@ -47,7 +47,7 @@ const slug = productpath[productpath.length - 1]
             return <div key={index}>
               <h4 className='w-screen  lg:w-[30vw] bg-[#1d1d1d] my-2 px-3'> {section.title}</h4>
               <div className='px-2'>{section.content.map((el , i)=>{
-                return <p>• {el}</p>
+                return <p key={i}>• {el}</p>
               })}</div>
             </div>
           })}
@@ -56,8 +56,8 @@ const slug = productpath[productpath.length - 1]
           <h4 className='bg-[#1d1d1d] my-2 px-3 w-screen lg:w-[30vw]'>Tags</h4>
           <div className='flex px-3 gap-2'>
 
-          {product.hastags.map((el)=>{
-            return <label className='text-[14px] bg-[#4d4d4d] text-[#dadada] px-2'>#{el}</label>
+          {product.hastags.map((el , i)=>{
+            return <label key={i} className='text-[14px] bg-[#4d4d4d] text-[#dadada] px-2'>#{el}</label>
             
           })}
           </div>

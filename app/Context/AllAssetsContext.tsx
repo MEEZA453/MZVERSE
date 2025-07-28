@@ -32,7 +32,7 @@ export function AllAssetsProvider({ children }: Props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getDesign());
+      await dispatch(getDesign(10 , 10));
       setLoading(false);
     };
 
