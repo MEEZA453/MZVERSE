@@ -44,7 +44,7 @@ onChange={(e)=> setPassword(e.target.value)}
       className="flex-1 outline-none"
     />
   </div>
-  <a>I don't have a account </a>
+<a>I don&apos;t have an account</a>
 
   <div className="text-right">
     <button type="submit" className="px-2 bg-white text-black text-[15px] rounded-[2px]">
