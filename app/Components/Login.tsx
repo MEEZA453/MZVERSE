@@ -3,7 +3,6 @@ import { RxCross2 } from "react-icons/rx";
 import {useState , useEffect } from 'react'
 import {useRouter} from 'next/navigation'
 import {useAuth} from '../Context/AuthContext'
-import { useProfile } from "../Context/ProfileContext";
 interface MasterNavberProps {
   setShowInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
