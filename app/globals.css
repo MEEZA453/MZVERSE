@@ -49,10 +49,10 @@ color : #a9a9a9
 
 label {
   font-family: var(--font-inter), sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing : -0.5px;
   height : fit-content; 
-  border-radius : 2px;
+  border-radius : 1.5px;
 }
 button{
   font-family: var(--font-inter), sans-serif;
