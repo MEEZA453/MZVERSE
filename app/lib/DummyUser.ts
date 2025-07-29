@@ -30,15 +30,17 @@ export const users: User[] = [
     email: 'rohan@gmail.com',
     handle: 'rohan',
     password: 'rohan@123',
-    bio: "I'm a dumm",
+    bio: "I'm a dumm! I love to blend cretivity with passion",
     post: [
-      { name: 'Starlight', images: ['/designimage.jpg'] },
-      { name: 'Future', images: ['/futureimage.jpg'] },
-      { name: 'Night', images: ['/nightimage.jpg'] }
+      { name: 'Starlight', images: ['/starlight.webp'] },
+      { name: 'Abundance', images: ['/abundance.webp'] },
+      { name: 'freedom', images: ['freedom.webp'] },
+      { name: 'Monster', images: ['monster.webp'] }
+
     ],
     assets: [
       {
-        name: 'Texture Pack',
+        name: 'Timeless',
         details: [
           'High-res seamless textures',
           'Perfect for digital art backgrounds',
@@ -52,7 +54,40 @@ export const users: User[] = [
           'Curated for creators',
           'Compatible with Photoshop & Figma'
         ],
-        images: ['/image1.jpg', '/image2.jpg']
+        images: ['/timeless.webp', '/wanted.webp']
+      },
+            {
+        name: 'Wanted',
+        details: [
+          'High-res seamless textures',
+          'Perfect for digital art backgrounds',
+          'Available in JPG & PNG',
+          'Free for personal & commercial use',
+          'Neutral and color variants included'
+        ],
+        highlight: [
+          '4K resolution quality',
+          'Royalty-free license',
+          'Curated for creators',
+          'Compatible with Photoshop & Figma'
+        ],
+        images: [ '/wanted.webp']
+      }  ,    {
+        name: 'Nostalogia',
+        details: [
+          'High-res seamless textures',
+          'Perfect for digital art backgrounds',
+          'Available in JPG & PNG',
+          'Free for personal & commercial use',
+          'Neutral and color variants included'
+        ],
+        highlight: [
+          '4K resolution quality',
+          'Royalty-free license',
+          'Curated for creators',
+          'Compatible with Photoshop & Figma'
+        ],
+        images: ['abundance.webp']
       }
     ]
   },
