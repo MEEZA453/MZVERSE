@@ -17,9 +17,9 @@ const {logout} = useAuth()
 
   const [activeIndex, setActiveIndex] = useState(0)
   const tabs = ['Posts', 'Assets', 'About']
-  const handleClick = (path : string):void=>{
-    window.location.href = 'http://localhost:3000/AllAssets/'+path
-  }
+const handleClick = (path: string): void => {
+  window.location.href = window.location.origin +'/AllAssets/' + path;
+};
 
   return (
     <div className='w-screen overflow-hidden'>
@@ -76,10 +76,10 @@ const {logout} = useAuth()
             <img src={product.images[0]} className=" w-[70%] mb-4 lg:w-[55%]" />
             <div className="absolute  group-hover:-translate-y-7 duration-200 left-2 top-[88%]">
               <div className="flex items-center gap-2">
-                <h5>{product.name}</h5> 
+                <h5>{product.name}</h5> <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>$25</label>
               </div>
               <p className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {product.name} 
+                {product.headline} 
               </p>
             </div>
           </div>
