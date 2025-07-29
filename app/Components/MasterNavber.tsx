@@ -1,13 +1,22 @@
 'use client'
-import { useRouter } from 'next/navigation';
+import { useRouter , usePathname  } from 'next/navigation';
 import { IoSearchOutline } from 'react-icons/io5';
-import { useEffect, useState }  from 'react';
+import { useEffect, useState , useRef }  from 'react';
 import React from 'react';
+import dynamic from 'next/dynamic';
+import { useAuth } from '../Context/AuthContext';
+
 interface MasterNavberProps {
   setShowInput?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function MasterNavber({setShowInput}:MasterNavberProps) {
   const router = useRouter();
+
+  
+  const {isLoggedIn , profileLink} = useAuth();
+  console.log(profileLink)
+  const currentPath = usePathname();
+const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   const outerMenu: { name: string; path: string }[] = [
     { name: 'Home', path: '/' },
     { name: 'Store', path: '/AllAssets' },
@@ -20,6 +29,7 @@ export default function MasterNavber({setShowInput}:MasterNavberProps) {
     { name: 'Presets', path: '/' },
     { name: 'Account', path: '/' },
   ];
+  
 
   const [isLargeScreen, setIsLargeScreen] = useState(false);
 
@@ -33,7 +43,14 @@ export default function MasterNavber({setShowInput}:MasterNavberProps) {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+// useEffect(()=>{
+// if(currentPath  === '/' && dynamicButtonRef.current){
+//   dynamicButtonRef.current.innerText = 'Join community'
+// }else{
+//   dynamicButtonRef.current.innerText = 'Login'
 
+// }
+// },[])
   return (
     <nav className="w-screen  overflow-hidden">
 
@@ -69,8 +86,8 @@ export default function MasterNavber({setShowInput}:MasterNavberProps) {
             />
           </div>
           <h6>[ 10 ]</h6>
-          <button className='border bg-white px-1 py-0.5 text-[15px] text-black rounded-[3px]' onClick={()=> setShowInput(true)}>Join community</button>
-        </div>
+          {isLoggedIn? <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src='/image.png'/> :<button className='border bg-white px-1 py-0.5 text-[15px] text-black rounded-[3px]' onClick={()=> setShowInput(true)} ref={dynamicButtonRef}>Join community</button>}
+                  </div>
       </div>
 
 <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div>

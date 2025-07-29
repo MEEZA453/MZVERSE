@@ -2,6 +2,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { ReduxProvider } from "./store/Provider"; // ✅ still allowed to import .js
 import { AllAssetsProvider } from "./Context/AllAssetsContext";
+import { AuthProvider } from "./Context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,7 +34,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-black text-white`}
       >
         <ReduxProvider>
+          <AuthProvider>
+            
+
           <AllAssetsProvider>{children}</AllAssetsProvider>
+          </AuthProvider>
         </ReduxProvider>
       </body>
     </html>

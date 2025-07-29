@@ -7,9 +7,12 @@ import { HiOutlineLink } from "react-icons/hi2";
 import MasterNavber from '../../Components/MasterNavber';
 import ProductImages from '../../Components/ProductImages'
 import Loading from '../../Components/loading'
+import Login from '../../Components/Login';
+import { useShowInput } from '../../Context/ShowInputContext';
 export default function ProductPage() {
 const pathname = usePathname()
 const productpath = pathname.split('/');
+const {showInput , setShowInput} = useShowInput()
 const slug = productpath[productpath.length - 1]
   const { data , loading}: { data: Product[] ; loading : boolean } = useAssets();
   const product = data.find((item) => item.name === slug);
@@ -18,8 +21,8 @@ const slug = productpath[productpath.length - 1]
 
   
   
-      <MasterNavber/>
-
+      <MasterNavber setShowInput={setShowInput}/>
+      {showInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowInput={setShowInput}/></div>:null}
       {
       loading ? <Loading/>: <main  className='desc flex max-sm:flex-col h-screen w-screen  max-sm:items-center'>
 

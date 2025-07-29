@@ -3,8 +3,9 @@
 import { usePathname } from 'next/navigation'
 import { useRef, useState } from 'react'
 import { users } from '../lib/DummyUser'
-
+import {useAuth } from '../Context/AuthContext'
 export default function Account() {
+const {logout} = useAuth()
   const currentPath = usePathname()
   const userPath = currentPath.split('/').pop()
   const user = users.find((el) => el.id === userPath)
@@ -15,7 +16,10 @@ export default function Account() {
 
   return (
     <div className='w-screen'>
-      <h4 className='absolute top-2 left-2'>{user?.id}</h4>
+      <div className='absolute w-screen flex justify-between px-2 top-2 left-2'>
+      <h4 >{user?.id}</h4>
+<button onClick={()=>logout()} className='px-1 py-0.5 bg-red-500 text-white rounded-[2px]'>Logout</button>
+      </div>
 
       <div className='profile relative flex flex-col h-90 border-b border-[#4d4d4d] gap-3 mt-10 items-center justify-center w-screen'>
         <img
