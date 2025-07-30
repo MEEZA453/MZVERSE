@@ -175,7 +175,10 @@ export const users: User[] = [
     bio: "I'm a dumm! I love to blend cretivity with passion",
     post: [
       { name: 'Starlight', images: ['/blackw.png'] },
+      { name: 'Abundance', images: ['/freedom.webp'] },
       { name: 'Abundance', images: ['/architecture.webp'] },
+
+
 
     ],
     assets: [

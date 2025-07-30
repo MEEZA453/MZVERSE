@@ -28,8 +28,14 @@ export default function AllAssets() {
           <div
           onClick={()=>handleClick(product.name)}
             key={index}
-            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-14 lg:h-90 min-h-[200px]"
+            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-14 lg:h-90 min-h-[190px]"
           >
+            <div  className='flex gap-2 absolute top-2 left-1'>
+
+         <img className='h-6 w-6 rounded-full items-center object-cover' src='/image.png'/>
+                <p>mzco.</p>
+            </div>
+
   <Image  
   alt='' 
   height={400} 
