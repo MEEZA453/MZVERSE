@@ -30,10 +30,10 @@ export default function AllAssets() {
             key={index}
             className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-14 lg:h-90 min-h-[190px]"
           >
-            <div  className='flex gap-2 absolute top-2 left-1'>
+            <div  className='flex gap-1 lg:gap-2 items-center absolute top-2 left-1'>
 
-         <img className='h-6 w-6 rounded-full items-center object-cover' src='/image.png'/>
-                <p>mzco.</p>
+         <img className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
+                <h3 className='opacity-[0.66]'>meeza_29</h3>
             </div>
 
   <Image  
@@ -41,7 +41,7 @@ export default function AllAssets() {
   height={400} 
   width={300} 
   src={product.image[0]}  
-  className="w-[70%] mb-4 lg:w-[55%]"
+  className="w-[70%]  lg:mb-4  lg:w-[55%]"
   placeholder="blur"
   blurDataURL="data:image/jpeg;base64,..."
 />
