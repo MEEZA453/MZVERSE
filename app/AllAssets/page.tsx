@@ -2,6 +2,7 @@
 import MasterNavber from '../Components/MasterNavber';
 import { useAssets } from '../Context/AllAssetsContext';
 import {useRouter , usePathname} from 'next/navigation';
+import Image from 'next/image';
 import {Product} from '../types/Product';
 import {useState} from 'react'
 import Login from '../Components/Login'
@@ -29,7 +30,15 @@ export default function AllAssets() {
             key={index}
             className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-10 lg:h-90 min-h-[220px]"
           >
-            <img src={product.image[0]} className=" w-[70%] mb-4 lg:w-[55%]" />
+  <Image  
+  alt='' 
+  height={400} 
+  width={300} 
+  src={product.image[0]}  
+  className="w-[70%] mb-4 lg:w-[55%]"
+  placeholder="blur"
+  blurDataURL="data:image/jpeg;base64,..."
+/>
             <div className="absolute  group-hover:-translate-y-7 duration-200 left-2 top-[88%]">
               <div className="flex items-center gap-2">
                 <h5>{product.name}</h5>

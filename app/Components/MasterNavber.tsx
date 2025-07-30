@@ -20,7 +20,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   const outerMenu: { name: string; path: string }[] = [
     { name: 'Home', path: '/' },
     { name: 'Store', path: '/AllAssets' },
-    { name: 'About', path: '/' },
+    { name: 'Gallary', path: '/posts' },
   ];
 
   const innerMenu: { name: string; path: string }[] = [

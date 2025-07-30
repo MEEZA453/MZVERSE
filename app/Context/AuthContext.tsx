@@ -49,7 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setProfileLink(link);
       localStorage.setItem('user', JSON.stringify(foundUser));
       localStorage.setItem('profileLink', link);
-
++
       // Redirect immediately
       router.push(link);
       return true;
