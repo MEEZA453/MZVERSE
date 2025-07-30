@@ -26,7 +26,7 @@ export default function AllAssets() {
    {   !loading ? <div className='lg:grid-cols-5 grid-cols-3 grid'>
         {data.map((product, index) => (
           <div
-          onClick={()=>handleClick(product.name)}
+          onClick={()=>handleClick(product._id)}
             key={index}
             className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-14 lg:h-90 min-h-[190px]"
           >

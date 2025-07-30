@@ -15,7 +15,8 @@ const productpath = pathname.split('/');
 const {showInput , setShowInput} = useShowInput()
 const slug = productpath[productpath.length - 1]
   const { data , loading}: { data: Product[] ; loading : boolean } = useAssets();
-  const product = data.find((item) => item.name === slug);
+  const product = data.find((item) => item._id === slug);
+  console.log(product)
   return (
     <div className='w-screen h-screen'>
 
