@@ -38,8 +38,15 @@ const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
 
   const isDarkMode = true; // optional
 
+  const handleProfileClick = (userId:string)=>{
+    window.location.href = window.location.origin+'/'+userId
+}
   return (
     <motion.div className="h-screen w-screen overflow-hidden">
+      <div onClick={()=>handleProfileClick(userId)} className='flex gap-2  absolute items-center top-2 left-2'>
+        <img className='h-7 w-7 rounded-full items-center object-cover' src='/image.png'/>
+        <h5 >{userId}</h5>
+      </div>
       {/* Main Image */}
       <motion.img
         src={imageDeta[selectedIndex]}
@@ -50,7 +57,7 @@ const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
       />
 
       {/* Slider */}
-      <div className={`absolute bottom-[15%] max-sm:bottom-4 left-1/2 -translate-x-1/2 w-screen 'flex items-center justify-center' lg:w-[30vw] overflow-hidden`}>
+      <div className={`absolute bottom-4 left-1/2 -translate-x-1/2 w-screen 'flex items-center justify-center' lg:w-[30vw] overflow-hidden`}>
         <div className={`bg-gradient-to-l ${isDarkMode ? 'from-black' : 'from-white'} to-transparent h-12 w-32 absolute right-0 z-10 pointer-events-none`} />
         <div className={`bg-gradient-to-r ${isDarkMode ? 'from-black' : 'from-white'} to-transparent h-12 w-32 absolute left-0 z-10 pointer-events-none`} />
 

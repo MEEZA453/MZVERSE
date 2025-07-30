@@ -14,7 +14,6 @@ export default function AllAssets() {
   const {showInput , setShowInput } = useShowInput()
   const router = useRouter();
   const { data , loading }: { data: Product[] , loading : boolean } = useAssets();
-  console.log(data);
   const handleClick = (path : string):void=>{
     router.push(currentPath + '/'+path)
   }
