@@ -50,7 +50,7 @@ const imagesRef = useRef<(HTMLImageElement | null)[]>([]);
       />
 
       {/* Slider */}
-      <div className={`absolute bottom-[15%] left-1/2 -translate-x-1/2 w-screen 'flex items-center justify-center' lg:w-[30vw] overflow-hidden`}>
+      <div className={`absolute bottom-[15%] max-sm:bottom-4 left-1/2 -translate-x-1/2 w-screen 'flex items-center justify-center' lg:w-[30vw] overflow-hidden`}>
         <div className={`bg-gradient-to-l ${isDarkMode ? 'from-black' : 'from-white'} to-transparent h-12 w-32 absolute right-0 z-10 pointer-events-none`} />
         <div className={`bg-gradient-to-r ${isDarkMode ? 'from-black' : 'from-white'} to-transparent h-12 w-32 absolute left-0 z-10 pointer-events-none`} />
 
