@@ -23,12 +23,12 @@ export default function AllAssets() {
     <div className='w-screen'>
       <MasterNavber setShowInput={setShowInput}/>
       {showInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowInput={setShowInput}/></div>:null}
-   {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>
+   {   !loading ? <div className='lg:grid-cols-5 grid-cols-3 grid'>
         {data.map((product, index) => (
           <div
           onClick={()=>handleClick(product.name)}
             key={index}
-            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-10 lg:h-90 min-h-[220px]"
+            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-14 lg:h-90 min-h-[200px]"
           >
   <Image  
   alt='' 
