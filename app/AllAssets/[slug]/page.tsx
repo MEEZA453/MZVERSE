@@ -12,7 +12,7 @@ import { useShowInput } from '../../Context/ShowInputContext';
 export default function ProductPage() {
 const pathname = usePathname()
 const productpath = pathname.split('/');
-const {showInput , setShowInput} = useShowInput()
+const {setShowLoginInput , setShowSignupInput , showLoginInput , showSignupInput} = useShowInput()
 const slug = productpath[productpath.length - 1]
   const { data , loading}: { data: Product[] ; loading : boolean } = useAssets();
   const product = data.find((item) => item._id === slug);
@@ -21,9 +21,8 @@ const slug = productpath[productpath.length - 1]
     <div className='w-screen h-screen'>
 
   
-  
-      <MasterNavber setShowInput={setShowInput}/>
-      {showInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowInput={setShowInput}/></div>:null}
+       <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
+      {showLoginInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
       {
       loading ? <Loading/>: <main  className='desc flex max-sm:flex-col h-screen w-screen  max-sm:items-center'>
 
