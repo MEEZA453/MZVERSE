@@ -18,7 +18,7 @@ h5 {
   font-family: var(--font-inter), sans-serif;
   font-weight: 300;
   letter-spacing: -0.02px;
-  font-size: 15px;
+  font-size: 14px;
 }
 a {
   font-family: var(--font-inter), sans-serif;
@@ -42,8 +42,8 @@ h1 {
 p {
   font-family: var(--font-inter), sans-serif;
   font-weight: 300;
-  font-size: 14px;
-  line-height: 2ch;
+  font-size: 13.5px;
+  line-height: 1.5ch;
 color : #a9a9a9
 }
 h3 {

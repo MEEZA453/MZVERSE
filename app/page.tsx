@@ -17,6 +17,6 @@ const {showLoginInput , showSignupInput ,setShowLoginInput , setShowSignupInput}
 </div>: null}
     <MasterNavber setShowLoginInput = {setShowLoginInput} setShowSignupInput = {setShowSignupInput}/>
     <InteractiveGrid/>
-    <div className="bg-[#3b3b3b] h-screen w-screen relative z-[30]"></div>
+
       </div>
 }

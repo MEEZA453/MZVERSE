@@ -24,7 +24,7 @@ export default function AllAssets() {
       <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
       {showLoginInput ? <div className='z-[999] fixed  -translate-y-20  bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
       {showSignupInput ? <div className='z-[999] fixed flex -translate-y-20 items-center justify-center   bg-black/70 h-screen w-screen '><JoinCommunityInput setShowSignupInput={setShowSignupInput}/></div>:null}
-   {   !loading ? <div className='lg:grid-cols-5 grid-cols-3 grid'>
+   {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>
         {data.map((product, index) => (
           <div
           onClick={()=>handleClick(product._id)}
@@ -42,18 +42,23 @@ export default function AllAssets() {
   height={400} 
   width={300} 
   src={product.image[0]}  
-  className="w-[70%]  lg:mb-4  lg:w-[55%]"
+  className="w-[60%]  lg:mb-4  lg:w-[55%]"
   placeholder="blur"
   blurDataURL="data:image/jpeg;base64,..."
 />
-            <div className="absolute  group-hover:-translate-y-7 duration-200 left-2 top-[88%]">
+            <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
               <div className="flex items-center gap-2">
                 <h5>{product.name}</h5>
-                 {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+                 <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label>
               </div>
-              <p className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {product.headline} 
+              <div className='flex gap-1'>
+                {product.hastags.map((h , i)=>{
+                  return  <p className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                #{h} 
               </p>
+                })}
+              </div>
+             
             </div>
           </div>
         ))}
