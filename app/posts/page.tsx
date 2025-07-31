@@ -2,8 +2,12 @@
 import MasterNavber from '../Components/MasterNavber'
 import {useRouter} from 'next/navigation'
 import {users} from '../lib/DummyUser'
+import JoinCommunityInput from '../Components/JoinCommunity'
+import Login from '../Components/Login'
+import { useShowInput } from '../Context/ShowInputContext'
 export default function Posts(){
     const router = useRouter()
+    const {showLoginInput , setShowLoginInput , setShowSignupInput , showSignupInput} = useShowInput()
    const allPosts = users.flatMap(user => user.post.map(post => ({
     
     ...post,
@@ -15,7 +19,15 @@ const handleProfileClick = (userId:string)=>{
     window.location.href = window.location.origin+'/'+userId
 }
     return <div>
-        <MasterNavber/>
+            <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
+
+    {showSignupInput ? <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999]">
+<JoinCommunityInput setShowSignupInput={setShowSignupInput}/>
+</div>: null}
+ {showLoginInput ? <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999]">
+<Login setShowLoginInput={setShowLoginInput}/>
+</div>: null}
+
                 <div  className='grid grid-cols-3 lg:grid-cols-5'>
 
       {allPosts.map((p , i)=>{
