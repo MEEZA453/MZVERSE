@@ -107,6 +107,87 @@ export const users: User[] = [
       { name: 'Starlight', images: ['/blackw.png'] },
       { name: 'Abundance', images: ['/freedom.webp'] },
       { name: 'Abundance', images: ['/architecture.webp'] },
+      { name: 'Abundance', images: ['/wanted.webp'] },
+      { name: 'Abundance', images: ['/obito.webp'] },
+
+
+
+    
+
+
+    ],
+    assets: [
+      {
+        name: 'Timeless',
+        headline : 'A high quality 4k paper texture drag & drop in your project',
+        details: [
+          'High-res seamless textures',
+          'Perfect for digital art backgrounds',
+          'Available in JPG & PNG',
+          'Free for personal & commercial use',
+          'Neutral and color variants included'
+        ],
+        highlight: [
+          '4K resolution quality',
+          'Royalty-free license',
+          'Curated for creators',
+          'Compatible with Photoshop & Figma'
+        ],
+        images: ['/timeless.webp', '/wanted.webp']
+      },
+            {
+        name: 'Wanted',
+        headline : 'A high quality 4k paper texture drag & drop in your project',
+        details: [
+          'High-res seamless textures',
+          'Perfect for digital art backgrounds',
+          'Available in JPG & PNG',
+          'Free for personal & commercial use',
+          'Neutral and color variants included'
+        ],
+        highlight: [
+          '4K resolution quality',
+          'Royalty-free license',
+          'Curated for creators',
+          'Compatible with Photoshop & Figma'
+        ],
+        images: [ '/wanted.webp']
+      }  ,    {
+        name: 'Nostalogia',
+        headline : 'A high quality 4k paper texture drag & drop in your project.',
+        details: [
+          'High-res seamless textures',
+          'Perfect for digital art backgrounds',
+          'Available in JPG & PNG',
+          'Free for personal & commercial use',
+          'Neutral and color variants included'
+        ],
+        highlight: [
+          '4K resolution quality',
+          'Royalty-free license',
+          'Curated for creators',
+          'Compatible with Photoshop & Figma'
+        ],
+        images: ['/abundance.webp']
+      }
+    ]
+  },
+    {
+    id: 'Meezan',
+    name: 'Sk Meejanur',
+    profile: '/image.png',
+    email: 'rohan@gmail.com',
+    handle: 'rohan',
+    password: 'rohan@123',
+    bio: "I'm a dumm! I love to blend cretivity with passion",
+    post: [
+      { name: 'monster', images: ['/monster.webp'] },
+      { name: 'Abundance', images: ['/abundance.webp'] },
+      { name: 'Abundance', images: ['/founder.webp'] },
+      { name: 'Starlight', images: ['/starlight.webp'] },
+      { name: 'Starlight', images: ['/timeless.webp'] },
+
+
 
     
 
