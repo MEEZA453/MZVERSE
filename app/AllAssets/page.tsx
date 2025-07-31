@@ -33,18 +33,19 @@ export default function AllAssets() {
           >
             <div  className='flex gap-1 lg:gap-2 items-center absolute top-2 left-1'>
 
-         <img className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
+          <Image  
+  height={300}
+  width={300}
+  alt='fdfdf'  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
                 <h3 className='opacity-[0.66]'>meeza_29</h3>
             </div>
 
   <Image  
-  alt='' 
-  height={400} 
-  width={300} 
+  height={300}
+  width={300}
+  alt='dff' 
   src={product.image[0]}  
   className="w-[60%]  lg:mb-4  lg:w-[55%]"
-  placeholder="blur"
-  blurDataURL="data:image/jpeg;base64,..."
 />
             <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
               <div className="flex items-center gap-2">
@@ -53,7 +54,7 @@ export default function AllAssets() {
               </div>
               <div className='flex gap-1'>
                 {product.hastags.map((h , i)=>{
-                  return  <p className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  return  <p key={i} className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 #{h} 
               </p>
                 })}

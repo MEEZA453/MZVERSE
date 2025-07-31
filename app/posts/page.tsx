@@ -38,7 +38,7 @@ const handleProfileClick = (userId:string)=>{
                 <h3 className='opacity-[0.66]'>{p.userId}</h3>
             </div>
 
-            <img className=' w-[70%]  mb-2 lg:mb-4 lg:w-[55%]' onClick={()=>   { window.location.href = window.location.origin+'/'+ p.userId+'/Gallary'}} src={p.images[0]}/></div>
+            <img className=' w-[70%]  mb-2 lg:mb-4 lg:w-[55%]' onClick={()=> { window.location.href = window.location.origin+'/'+ p.userId+'/Gallary'}} src={p.images[0]}/></div>
         })}
         </div>
     </div>
