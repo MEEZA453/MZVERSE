@@ -7,9 +7,11 @@ import dynamic from 'next/dynamic';
 import { useAuth } from '../Context/AuthContext';
 
 interface MasterNavberProps {
-  setShowInput?: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowSignupInput?: React.Dispatch<React.SetStateAction<boolean>>;
+
 }
-export default function MasterNavber({setShowInput}:MasterNavberProps) {
+export default function MasterNavber({setShowLoginInput , setShowSignupInput}:MasterNavberProps) {
   const router = useRouter();
 
   
@@ -77,7 +79,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
           </div>
         ) : null}
 
-        <div className="flex gap-3 lg:gap-6 lg:mr-4">
+        <div className="flex gap-3 items-center lg:gap-6 lg:mr-4">
           <div className="search mt-0.5 relative">
       
             <IoSearchOutline
@@ -86,7 +88,11 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
             />
           </div>
           <h6>[ 10 ]</h6>
-          {isLoggedIn? <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src='/image.png'/> :<button className='border bg-white px-1 py-0.5 text-[15px] text-black rounded-[3px]' onClick={()=> setShowInput(true)} ref={dynamicButtonRef}>Join community</button>}
+          {isLoggedIn? <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src='/image.png'/> :<div className='flex gap-2 items-center'>
+              <button className='border border-white px-3 rounded-[4px] py-0.5 text-[15px] text-white ' onClick={()=> setShowSignupInput(true)} ref={dynamicButtonRef}>Sign up</button>
+            <button className='border bg-white px-2 py-0.5 text-[15px] text-black rounded-[3px]' onClick={()=> setShowLoginInput(true)} ref={dynamicButtonRef}>Login</button>
+        
+          </div>}
                   </div>
       </div>
 

@@ -4,9 +4,9 @@ import {useState , useEffect } from 'react'
 import {useRouter} from 'next/navigation'
 import {useAuth} from '../Context/AuthContext'
 interface MasterNavberProps {
-  setShowInput: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowLoginInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function Login ({setShowInput}:MasterNavberProps){
+export default function Login ({setShowLoginInput}:MasterNavberProps){
 const router  = useRouter()
 const [id , setId]  = useState('');
 const [password , setPassword] = useState('');
@@ -22,7 +22,7 @@ else alert ('Invailed credentials')
     return <div className="lg:w-94 w-80 flex-col flex justify-between relative top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 px-2 py-1 pb-2 rounded h-46 bg-[#252525]">
 <div className="flex justify-between items-center w-full">
     <h6 className="ml-18">Be a part of the community.</h6>
-<RxCross2 onClick={()=> setShowInput(false)}/>
+<RxCross2 onClick={()=> setShowLoginInput(false)}/>
 </div>
 <form onSubmit={handleSubmit} className="space-y-2">
   <div className="flex items-center gap-2">

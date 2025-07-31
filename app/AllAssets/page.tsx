@@ -6,12 +6,13 @@ import Image from 'next/image';
 import {Product} from '../types/Product';
 import {useState} from 'react'
 import Login from '../Components/Login'
+import JoinCommunityInput from '../Components/JoinCommunity';
 import Loading from '../Components/loading'
 import { useShowInput } from '../Context/ShowInputContext';
 import { useAuth } from '../Context/AuthContext';
 export default function AllAssets() {
   const currentPath  = usePathname()
-  const {showInput , setShowInput } = useShowInput()
+  const {showLoginInput , setShowLoginInput  , setShowSignupInput , showSignupInput } = useShowInput()
   const router = useRouter();
   const { data , loading }: { data: Product[] , loading : boolean } = useAssets();
   const handleClick = (path : string):void=>{
@@ -20,8 +21,9 @@ export default function AllAssets() {
 
   return (
     <div className='w-screen'>
-      <MasterNavber setShowInput={setShowInput}/>
-      {showInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowInput={setShowInput}/></div>:null}
+      <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
+      {showLoginInput ? <div className='z-[999] fixed  -translate-y-20  bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
+      {showSignupInput ? <div className='z-[999] fixed flex -translate-y-20 items-center justify-center   bg-black/70 h-screen w-screen '><JoinCommunityInput setShowSignupInput={setShowSignupInput}/></div>:null}
    {   !loading ? <div className='lg:grid-cols-5 grid-cols-3 grid'>
         {data.map((product, index) => (
           <div
