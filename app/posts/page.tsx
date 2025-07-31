@@ -30,7 +30,7 @@ const handleProfileClick = (userId:string)=>{
 
                 <div  className='grid grid-cols-3 lg:grid-cols-5'>
 
-      {allPosts.map((p , i)=>{
+      {allPosts.map((p , i)=>{  
           return <div  key={i} className="group relative flex flex-col  items-center justify-center lg:p-4 p-2 border-r border-b border-[#4d4d4d] h-4 lg:h-90 min-h-[200px]">
               <div onClick={()=> handleProfileClick(p.userId)} className='flex cursor-pointer gap-1 lg:gap-2 items-center absolute top-2 left-1'>
 
@@ -38,7 +38,9 @@ const handleProfileClick = (userId:string)=>{
                 <h3 className='opacity-[0.66]'>{p.userId}</h3>
             </div>
 
-            <img className=' w-[70%]  mb-2 lg:mb-4 lg:w-[55%]' onClick={()=> { window.location.href = window.location.origin+'/'+ p.userId+'/Gallary'}} src={p.images[0]}/></div>
+            <img className=' w-[70%]  mb-2 lg:mb-4 lg:w-[55%]'
+            //  onClick={()=> { window.location.href = window.location.origin+'/'+ p.userId+'/Gallary'}}
+              src={p.images[0]}/></div>
         })}
         </div>
     </div>
