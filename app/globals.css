@@ -73,11 +73,20 @@ input{
   font-family: var(--font-inter), sans-serif;
   font-weight: 200;
   font-size: 14px;
-  padding: 3px 7px;
-  background-color:  #000000;
+  background-color:  #212020;
   color: '#dadada';
 
 }
+
+textarea{
+  font-family: var(--font-inter), sans-serif;
+  font-weight: 200;
+  font-size: 14px;
+  padding: 3px 10px;
+  color: '#dadada';
+  background-color:  #101010;
+}
+
 
 @media  (min-width : 1024px){
 /* Or apply directly to element selectors */
@@ -119,8 +128,8 @@ input{
   font-family: var(--font-inter), sans-serif;
   font-weight: 200;
   font-size: 13px;
-  padding: 3px 7px;
-  background-color:  #101010;
+
+  background-color:  #212020;
   color: '#dadada';
   border-radius : 2px;
 

@@ -13,8 +13,10 @@ import { MdOutlineAttachFile } from "react-icons/md";
 
 import { useAuth } from '../Context/AuthContext';
 import { HiOutlineLinkSlash } from 'react-icons/hi2';
+import CreateProduct from '../Components/CreateProduct';
 export default function AllAssets() {
-  const currentPath  = usePathname()
+  const currentPath  = usePathname();
+  const showCreateProduct = true;
   const {showLoginInput , setShowLoginInput  , setShowSignupInput , showSignupInput } = useShowInput()
   const router = useRouter();
   const { data , loading }: { data: Product[] , loading : boolean } = useAssets();
@@ -25,6 +27,7 @@ export default function AllAssets() {
   return (
     <div className='w-screen'>
       <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
+      {showCreateProduct ? <CreateProduct/>:null}
       {showLoginInput ? <div className='z-[999] fixed  -translate-y-20  bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
       {showSignupInput ? <div className='z-[999] fixed flex -translate-y-20 items-center justify-center   bg-black/70 h-screen w-screen '><JoinCommunityInput setShowSignupInput={setShowSignupInput}/></div>:null}
    {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>

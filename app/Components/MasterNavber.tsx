@@ -88,7 +88,10 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
             />
           </div>
           <h6>[ 10 ]</h6>
-          {isLoggedIn? <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src='/image.png'/> :<div className='flex gap-2 items-center'>
+          {isLoggedIn? 
+          <button className='border bg-white px-2 py-0.5 text-[19px] text-black rounded-[3px]' onClick={()=> setShowCreateProduct(true)} ref={dynamicButtonRef}>+</button>
+          // <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src='/image.png'/> 
+          :<div className='flex gap-2 items-center'>
               <button className='border border-white px-3 rounded-[4px] py-0.5 text-[15px] text-white ' onClick={()=> setShowSignupInput(true)} ref={dynamicButtonRef}>Sign up</button>
             <button className='border bg-white px-2 py-0.5 text-[15px] text-black rounded-[3px]' onClick={()=> setShowLoginInput(true)} ref={dynamicButtonRef}>Login</button>
         
@@ -96,7 +99,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
                   </div>
       </div>
 
-<div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div>
+{/* <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div> */}
     </nav>
   );
 }
