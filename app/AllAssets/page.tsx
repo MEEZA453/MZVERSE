@@ -9,7 +9,10 @@ import Login from '../Components/Login'
 import JoinCommunityInput from '../Components/JoinCommunity';
 import Loading from '../Components/loading'
 import { useShowInput } from '../Context/ShowInputContext';
+import { MdOutlineAttachFile } from "react-icons/md";
+
 import { useAuth } from '../Context/AuthContext';
+import { HiOutlineLinkSlash } from 'react-icons/hi2';
 export default function AllAssets() {
   const currentPath  = usePathname()
   const {showLoginInput , setShowLoginInput  , setShowSignupInput , showSignupInput } = useShowInput()
@@ -31,7 +34,8 @@ export default function AllAssets() {
             key={index}
             className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-14 lg:h-90 min-h-[190px]"
           >
-            <div  className='flex gap-1 lg:gap-2 items-center absolute top-2 left-1'>
+            <div  className='flex px-1 items-center absolute top-2 rounded-[2px] bg-white/60  right-2'><MdOutlineAttachFile className='text-black p-1 ' size={26}/><h6 className='text-black'>3</h6></div>
+            <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
 
           <Image  
   height={300}
@@ -49,8 +53,8 @@ export default function AllAssets() {
 />
             <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
               <div className="flex items-center gap-2">
-                <h5>{product.name}</h5>
-                 <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label>
+                <h5>{product.name}.</h5>
+                 {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
               </div>
               <div className='flex gap-1'>
                 {product.hastags.map((h , i)=>{
