@@ -89,7 +89,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
           </div>
           <h6>[ 10 ]</h6>
           {isLoggedIn? 
-          <button className='border bg-white px-2 py-0.5 text-[19px] text-black rounded-[3px]' onClick={()=> setShowCreateProduct(true)} ref={dynamicButtonRef}>+</button>
+          <button className='border bg-white px-2 py-0.5 text-[19px] text-black rounded-[3px]' onClick={()=> router.push('/createProduct')} ref={dynamicButtonRef}>+</button>
           // <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src='/image.png'/> 
           :<div className='flex gap-2 items-center'>
               <button className='border border-white px-3 rounded-[4px] py-0.5 text-[15px] text-white ' onClick={()=> setShowSignupInput(true)} ref={dynamicButtonRef}>Sign up</button>

@@ -1,7 +1,8 @@
 import * as api from '../../api'
 import {Product } from '../../types/Product'
+import { AppDispatch } from '../store';
 
-export const postDesign = (post : Product) => async (dispatch) => {
+export const postDesign = (post : FormData) => async (dispatch : AppDispatch) => {
     try {
       console.log('Post data being sent:', post);  // Log the post data to check if it's formatted correctly
       const { data } = await api.postDesign(post); 

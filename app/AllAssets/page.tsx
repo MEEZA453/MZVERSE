@@ -27,7 +27,7 @@ export default function AllAssets() {
   return (
     <div className='w-screen'>
       <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
-      {showCreateProduct ? <CreateProduct/>:null}
+     
       {showLoginInput ? <div className='z-[999] fixed  -translate-y-20  bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
       {showSignupInput ? <div className='z-[999] fixed flex -translate-y-20 items-center justify-center   bg-black/70 h-screen w-screen '><JoinCommunityInput setShowSignupInput={setShowSignupInput}/></div>:null}
    {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>
@@ -47,13 +47,17 @@ export default function AllAssets() {
                 <h3 className='opacity-[0.66]'>meeza_29</h3>
             </div>
 
-  <Image  
-  height={300}
-  width={300}
-  alt='dff' 
-  src={product.image[0]}  
-  className="w-[60%]  lg:mb-4  lg:w-[55%]"
-/>
+{product.image && product.image.length > 0 ? (
+  <Image
+    height={300}
+    width={300}
+    alt="dff"
+    src={product.image[0]}
+    className="w-[60%] lg:mb-4 lg:w-[55%]"
+    priority
+  />
+) : null}
+
             <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
               <div className="flex items-center gap-2">
                 <h5>{product.name}.</h5>
