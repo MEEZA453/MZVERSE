@@ -1,22 +1,29 @@
 'use client'
 
 import { useAssets } from '../../Context/AllAssetsContext';
+import Image from 'next/image';
 import {usePathname} from 'next/navigation';
 import { Product } from '../../types/Product';
 import { HiOutlineLink } from "react-icons/hi2";
 import MasterNavber from '../../Components/MasterNavber';
 import ProductImages from '../../Components/ProductImages'
 import Loading from '../../Components/loading'
+import { PiHeartLight } from "react-icons/pi";
+import { GoHeartFill } from "react-icons/go";
 import Login from '../../Components/Login';
 import { useShowInput } from '../../Context/ShowInputContext';
+import { useState } from 'react';
 export default function ProductPage() {
 const pathname = usePathname()
 const productpath = pathname.split('/');
+const [red ,setRed ] = useState(false)
 const {setShowLoginInput , setShowSignupInput , showLoginInput , showSignupInput} = useShowInput()
 const slug = productpath[productpath.length - 1]
   const { data , loading}: { data: Product[] ; loading : boolean } = useAssets();
   const product = data.find((item) => item._id === slug);
-  console.log(product)
+ const handleFavClick = ()=>{
+  setRed(!red )
+}
   return (
     <div className='w-screen h-screen'>
 
@@ -30,10 +37,21 @@ const slug = productpath[productpath.length - 1]
 
         <ProductImages images = {product.image}/>
 </section>
+<div className='absolute top-16 left-3 flex justify-between z-[999] w-[92vw]  lg:w-[68vw]'>
+ <div  className='flex gap-[2px] lg:gap-2 items-center  '>
 
+          <Image  
+  height={300}
+  width={300}
+  alt='fdfdf'  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
+                <h3 className='opacity-[0.66]'>meeza_29</h3>
+            </div> 
+<button onClick={handleFavClick} className='' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#e3e3e3]' />}</button> 
+
+</div>
 <div  style={{ height: `${product.image.length * 50 + 50}vh` }}>
 
-        <aside  className='flex flex-col items-center  sticky top-2 overflow-y-auto   mt-4'>
+        <aside  className='flex flex-col items-center  sticky top-2 overflow-y-auto   lg:mt-4'>
 
          <div className='pricing flex flex-col justify-between pb-4 relative bg-white h-40 rounded w-[96%] '>
             <div className='name flex gap-1 px-2 items-center'>
@@ -88,6 +106,7 @@ const slug = productpath[productpath.length - 1]
          </main>
     }
 
+<div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[300] top-0"></div>
       
     </div>
   );

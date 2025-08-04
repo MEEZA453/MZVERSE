@@ -12,11 +12,13 @@ export default function ProductImages({images}: ProductImagesProps){
            <div className="border-r border-[#4d4d4d] flex h-full items-center justify-center">
             <Image width={300} height={300} alt="images" src={images[1]} className="w-[17vw]"/>
         </div>
-
-
-        <div className="  flex items-center justify-center">
+{images.length > 2 ?<div className="  flex items-center justify-center">
             <Image width={300} height={300} alt="images" src={images[2]} className="w-[17vw]"/>
-        </div>
+        </div>:null
+
+}
+
+        
 
 
         </div> : null}
