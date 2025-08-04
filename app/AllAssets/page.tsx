@@ -36,15 +36,15 @@ export default function AllAssets() {
             key={index}
             className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-14 lg:h-90 min-h-[190px]"
           >
-            <div  className='flex px-1 items-center absolute top-2 rounded-[2px] bg-white/60  right-2'><MdOutlineAttachFile className='text-black p-1 ' size={26}/><h6 className='text-black'>3</h6></div>
-            <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
+            <div  className='flex px-1 items-center absolute top-2 rounded-[2px] bg-white/75  right-2'><MdOutlineAttachFile className='text-black p-1 ' size={22}/><h6 className='text-black'>3</h6></div>
+            {/* <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
 
           <Image  
   height={300}
   width={300}
   alt='fdfdf'  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
                 <h3 className='opacity-[0.66]'>meeza_29</h3>
-            </div>
+            </div> */}
 
 {product.image && product.image.length > 0 ? (
   <Image
