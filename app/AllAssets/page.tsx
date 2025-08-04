@@ -34,9 +34,9 @@ export default function AllAssets() {
           <div
           onClick={()=>handleClick(product._id)}
             key={index}
-            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-14 lg:h-90 min-h-[190px]"
+            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
           >
-            <div  className='flex px-1 items-center absolute top-2 rounded-[2px] bg-white/75  right-2'><MdOutlineAttachFile className='text-black p-1 ' size={22}/><h6 className='text-black'>3</h6></div>
+            <div  className='flex px-1 py-0.5 items-center absolute top-2 rounded-[2px] bg-white/75  right-2'><MdOutlineAttachFile className='text-black   ' size={17}/><h6 className='text-black'>3</h6></div>
             {/* <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
 
           <Image  
