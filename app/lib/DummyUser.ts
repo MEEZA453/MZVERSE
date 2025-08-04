@@ -108,7 +108,7 @@ export const users: User[] = [
       { name: 'Abundance', images: ['/freedom.webp'] },
       { name: 'Abundance', images: ['/architecture.webp'] },
       { name: 'Abundance', images: ['/wanted.webp'] },
-      { name: 'Abundance', images: ['/obito.webp'] },
+
 
 
 

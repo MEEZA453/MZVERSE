@@ -16,7 +16,7 @@ const {logout} = useAuth()
   const user = users.find((el) => el.id === userPath)
 
   const [activeIndex, setActiveIndex] = useState(0)
-  const tabs = ['Posts', 'Assets', 'About']
+  const tabs = ['Assets', 'Favourait', 'About']
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
@@ -60,11 +60,7 @@ const handleClick = (path: string): void => {
       </div>
 
 <div className='w-[300vw] flex duration-500' style={{transform :`translate(${-activeIndex*100}vw)`}}>
-  <div className='posts w-screen lg:grid-cols-5 grid-cols-2 grid '>
-    {user.post.map((p , i)=>{
-      return <div key={i}  className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-10 lg:h-90 min-h-[220px]"><img onClick={()=>router.push(`${user.id}/Gallary`)} className=' w-[70%] mb-4 lg:w-[55%]' src={p.images[0]}/></div>
-    })}
-  </div>
+
   <div className='assets w-screen h-90'>
       <div className='lg:grid-cols-5 grid-cols-2 grid'>
         {user.assets.map((product, index) => (
@@ -87,6 +83,12 @@ const handleClick = (path: string): void => {
         ))}
       </div> 
   </div>
+  <div className='posts w-screen lg:grid-cols-5 grid-cols-2 grid '>
+    {user.post.map((p , i)=>{
+      return <div key={i}  className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-10 lg:h-90 min-h-[220px]"><img onClick={()=>router.push(`${user.id}/Gallary`)} className=' w-[70%] mb-4 lg:w-[55%]' src={p.images[0]}/></div>
+    })}
+  </div>
+
   <div className='About w-screen h-90'></div>
 
 </div>

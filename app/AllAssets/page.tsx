@@ -5,6 +5,8 @@ import {useRouter , usePathname} from 'next/navigation';
 import Image from 'next/image';
 import {Product} from '../types/Product';
 import {useState} from 'react'
+import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeart } from "react-icons/io";
 import Login from '../Components/Login'
 import JoinCommunityInput from '../Components/JoinCommunity';
 import Loading from '../Components/loading'
@@ -18,10 +20,14 @@ export default function AllAssets() {
   const showCreateProduct = true;
   const {showLoginInput , setShowLoginInput  , setShowSignupInput , showSignupInput } = useShowInput()
   const router = useRouter();
+  const [red , setRed ] = useState(false)
   const { data , loading }: { data: Product[] , loading : boolean } = useAssets();
   const handleClick = (path : string):void=>{
     router.push(currentPath + '/'+path)
   }
+const handleFavClick = ()=>{
+  setRed(!red )
+}
 
   return (
     <div className='w-screen'>
@@ -32,11 +38,12 @@ export default function AllAssets() {
    {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>
         {data?.map((product, index) => (
           <div
-          onClick={()=>handleClick(product._id)}
+        
             key={index}
             className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
           >
             <div  className='flex px-1 py-0.5 items-center absolute top-2 rounded-[2px] bg-white/75  right-2'><MdOutlineAttachFile className='text-black   ' size={17}/><h6 className='text-black'>3</h6></div>
+            <button onClick={handleFavClick} className='absolute top-2 left-2' >{red ? <IoMdHeart className='text-red-600'/>:<IoMdHeartEmpty className='text-[#4d4d4d]' />}</button>
             {/* <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
 
           <Image  
@@ -48,6 +55,7 @@ export default function AllAssets() {
 
 {product.image && product.image.length > 0 ? (
   <Image
+    onClick={()=>handleClick(product._id)}
     height={300}
     width={300}
     alt="dff"
