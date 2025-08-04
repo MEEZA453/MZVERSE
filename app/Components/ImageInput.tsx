@@ -1,6 +1,6 @@
 'use client'
 import React, { useState, ChangeEvent, useEffect } from "react";
-
+import Image from "next/image";
 type ImageInputProps = {
   selectedImage: File[];
   setSelectedImage: React.Dispatch<React.SetStateAction<File[]>>;
@@ -55,7 +55,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
   {previewURLs.length > 0 && (
   <div className="w-screen lg:w-[70vw] border-r border-[#4d4d4d] mb-4">
     <div className="w-screen lg:w-[70vw] h-80 lg:h-screen border-b relative flex justify-center items-center border-[#4d4d4d]">
-      <img src={previewURLs[0]} className="w-[35vw] lg:w-[20vw]" />
+      <Image height = {300} width = {300} alt = 'dfd' src={previewURLs[0]} className="w-[35vw] lg:w-[20vw]" />
     </div>
    {    selectedImage.length ===1 ? <div className="flex items-center justify-center h-80 lg:h-screen  border-b border-[#4d4d4d]">
            <input
@@ -84,7 +84,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
               index % 2 === 0 ? "border-r" : ""
             } border-[#4d4d4d] flex h-full items-center justify-center`}
           >
-            <img src={url} className="w-[17vw]" />
+            <Image height = {300} width = {300} alt = 'dfd' src={url} className="w-[17vw]" />
           </div>
         ))}
 

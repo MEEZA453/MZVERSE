@@ -4,6 +4,8 @@ import { IoSearchOutline } from 'react-icons/io5';
 import { useEffect, useState , useRef }  from 'react';
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { GoPlus } from "react-icons/go";
+
 import { useAuth } from '../Context/AuthContext';
 
 interface MasterNavberProps {
@@ -87,19 +89,21 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
               size={18}
             />
           </div>
-          <h6>[ 10 ]</h6>
-          {isLoggedIn? 
-          <button className='border bg-white px-2 py-0.5 text-[19px] text-black rounded-[3px]' onClick={()=> router.push('/createProduct')} ref={dynamicButtonRef}>+</button>
-          // <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src='/image.png'/> 
+          {/* <h6>[ 10 ]</h6> */}
+          {isLoggedIn? <div className='flex  gap-2 lg:gap-4'><div className='flex gap-2'>
+                      <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src='/image.png'/>
+                      
+          
+ </div><button className=" text-white border px-2.5 py-0.5 rounded-full"onClick={()=> router.push('/createProduct')} ref={dynamicButtonRef}>Create item</button></div>
           :<div className='flex gap-2 items-center'>
-              <button className='border border-white px-3 rounded-[4px] py-0.5 text-[15px] text-white ' onClick={()=> setShowSignupInput(true)} ref={dynamicButtonRef}>Sign up</button>
+              <button className='border border-white px-2 rounded-[4px] py-0.5 text-[15px] text-white ' onClick={()=> setShowSignupInput(true)} ref={dynamicButtonRef}>Sign up</button>
             <button className='border bg-white px-2 py-0.5 text-[15px] text-black rounded-[3px]' onClick={()=> setShowLoginInput(true)} ref={dynamicButtonRef}>Login</button>
         
           </div>}
                   </div>
       </div>
 
-{/* <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div> */}
+<div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div>
     </nav>
   );
 }

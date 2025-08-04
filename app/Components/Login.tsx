@@ -28,10 +28,11 @@ else alert ('Invailed credentials')
   <div className="flex items-center gap-2">
     <p className="w-20">ID:</p>
     <input
+     
     onChange={(e)=> setId(e.target.value)}
       type="text"
       placeholder="mzco.creative"
-      className="flex-1 outline-none"
+      className="flex-1 bg-[#131313] px-2 py-0.5 outline-none"
     />
   </div>
 
@@ -41,7 +42,7 @@ else alert ('Invailed credentials')
 onChange={(e)=> setPassword(e.target.value)}
       type="password"
       placeholder="Wv123@deR2"
-      className="flex-1 outline-none"
+      className="flex-1 outline-none bg-[#131313] px-2 py-0.5"
     />
   </div>
 <a>I don&apos;t have an account</a>

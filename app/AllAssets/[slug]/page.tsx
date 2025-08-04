@@ -46,7 +46,7 @@ const slug = productpath[productpath.length - 1]
             </div>
          </div>
          <div className='details'>
-          {product.sections.map((section , index)=>{
+          {product?.sections.map((section , index)=>{
             return <div key={index}>
               <h4 className='w-screen  lg:w-[30vw] bg-[#1d1d1d] my-2 px-3'> {section.title}</h4>
               <div className='px-2'>{section.content.map((el , i)=>{

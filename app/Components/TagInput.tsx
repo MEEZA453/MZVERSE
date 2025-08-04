@@ -29,7 +29,7 @@ function TagInput({ hastags, setHastags, error }: TagInputProps) {
       <div className='flex items-center px-2 gap-2'>
         <input
           type="text"
-          className={`w-full px-2 py-2 ${error ? 'border border-red-600' : ''}`}
+          className={`w-full px-2 py-2  bg-[#212020] ${error ? 'border border-red-600' : ''}`}
           placeholder="eg: texture"
           onChange={(e) => setInputTag(e.target.value)}
           value={inputTag}

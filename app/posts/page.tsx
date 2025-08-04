@@ -4,6 +4,7 @@ import {useRouter} from 'next/navigation'
 import {users} from '../lib/DummyUser'
 import JoinCommunityInput from '../Components/JoinCommunity'
 import Login from '../Components/Login'
+import Image from 'next/image'
 import { useShowInput } from '../Context/ShowInputContext'
 export default function Posts(){
     const router = useRouter()
@@ -34,11 +35,11 @@ const handleProfileClick = (userId:string)=>{
           return <div  key={i} className="group relative flex flex-col  items-center justify-center lg:p-4 p-2 border-r border-b border-[#4d4d4d] h-4 lg:h-90 min-h-[200px]">
               <div onClick={()=> handleProfileClick(p.userId)} className='flex cursor-pointer gap-1 lg:gap-2 items-center absolute top-2 left-1'>
 
-         <img  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
+         <Image height = {100} width = {100} alt = 'dfd'  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
                 <h3 className='opacity-[0.66]'>{p.userId}</h3>
             </div>
 
-            <img className=' w-[70%]  mb-2 lg:mb-4 lg:w-[55%]'
+            <Image height = {300} width = {300} alt = 'dfd' className=' w-[70%]  mb-2 lg:mb-4 lg:w-[55%]'
             //  onClick={()=> { window.location.href = window.location.origin+'/'+ p.userId+'/Gallary'}}
               src={p.images[0]}/></div>
         })}

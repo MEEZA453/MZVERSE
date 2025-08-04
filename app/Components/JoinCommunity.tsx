@@ -14,7 +14,7 @@ export default function JoinCommunityInput ({setShowSignupInput}:MasterNavberPro
     <input
       type="text"
       placeholder="youremail@gmail.com"
-      className="flex-1 outline-none"
+      className="flex-1 bg-[#131313] px-2 py-0.5 outline-none"
     />
   </div>
 
@@ -23,7 +23,7 @@ export default function JoinCommunityInput ({setShowSignupInput}:MasterNavberPro
     <input
       type="text"
       placeholder="@mzco.creative"
-      className="flex-1 outline-none"
+      className="flex-1  bg-[#131313] px-2 py-0.5 outline-none"
     />
   </div>
 
@@ -32,7 +32,7 @@ export default function JoinCommunityInput ({setShowSignupInput}:MasterNavberPro
     <input
       type="password"
       placeholder="Wv123@deR2"
-      className="flex-1 outline-none"
+      className="flex-1 bg-[#131313] px-2 py-0.5  outline-none"
     />
   </div>
 

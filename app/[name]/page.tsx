@@ -6,7 +6,7 @@ import Loading from '../Components/loading'
 import { users } from '../lib/DummyUser'
 import {useAuth } from '../Context/AuthContext'
 import { IoMenuOutline } from "react-icons/io5";
-
+import Image from 'next/image'
 export default function Account() {
 const {logout} = useAuth()
   const currentPath = usePathname()
@@ -29,10 +29,10 @@ const handleClick = (path: string): void => {
       </div>
 
       <div className='profile relative flex flex-col h-90 border-b border-[#4d4d4d] gap-3 mt-10 items-center justify-center w-screen'>
-        <img
+        <Image height = {300} width = {300}
           className='h-40 w-40 rounded-full bg-[#dadada] object-cover'
           src='/image.png'
-          alt='profile'
+          alt ='profile' 
         />
         <h4>{user?.name}</h4>
         <div className='flex gap-1'>
@@ -73,7 +73,7 @@ const handleClick = (path: string): void => {
             key={index}
             className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-10 lg:h-90 min-h-[220px]"
           >
-            <img src={product.images[0]} className=" w-[70%] mb-4 lg:w-[55%]" />
+            <Image height = {300} width = {300} alt = 'dfd' src={product.images[0]} className=" w-[70%] mb-4 lg:w-[55%]" />
             <div className="absolute  group-hover:-translate-y-7 duration-200 left-2 top-[88%]">
               <div className="flex items-center gap-2">
                 <h5>{product.name}</h5>

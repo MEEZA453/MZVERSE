@@ -152,10 +152,10 @@ router.push('/AllAssets')
         <aside className='flex flex-col items-center mt-14 top-2 overflow-y-auto'>
 <div className="name flex gap-2 relative w-full px-2">
     <div className="w-3/4"><h6>Name:</h6>
-<input  onChange={(e)=> setName(e.target.value)} className={`p-2 ${error.nameError ? 'border border-red-600':null} w-full`} placeholder="eg:Texture bundle"/>
+<input  onChange={(e)=> setName(e.target.value)} className={`p-2 ${error.nameError ? 'border border-red-600':null} w-full bg-[#212020]`} placeholder="eg:Texture bundle"/>
     </div>
 <div className="w-1/4"><h6>Amount:</h6>
-<input onChange={(e)=> setAmount(e.target.value)}  className={`p-2 ${error.amountError ? 'border border-red-600':null} w-full`}  placeholder="eg: $35"/>
+<input onChange={(e)=> setAmount(e.target.value)}  className={`p-2 ${error.amountError ? 'border border-red-600':null} w-full bg-[#212020]`}  placeholder="eg: $35"/>
     </div>
 
 </div>
@@ -178,7 +178,7 @@ router.push('/AllAssets')
 
      <div className="title-input  flex gap-1">
     <input
-      className={`mb-2 py-2  px-1 p-2 ${error.sectionsError[sectionIndex]?.title ? 'border border-red-600':null} w-full`} 
+      className={`mb-2 py-2 bg-[#212020] px-1 p-2 ${error.sectionsError[sectionIndex]?.title ? 'border border-red-600':null} w-full`} 
      value={section.title}
      onChange={(e) => {
          const updated = [...sections];
