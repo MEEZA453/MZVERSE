@@ -43,7 +43,7 @@ const handleFavClick = ()=>{
             className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
           >
             <div  className='flex px-1 py-0.5 items-center absolute top-2 rounded-[2px] bg-white/75  right-2'><MdOutlineAttachFile className='text-black   ' size={17}/><h6 className='text-black'>3</h6></div>
-            <button onClick={handleFavClick} className='absolute top-2 left-2' >{red ? <IoMdHeart className='text-red-600'/>:<IoMdHeartEmpty className='text-[#4d4d4d]' />}</button>
+            <button onClick={handleFavClick} className='absolute top-2 left-2' >{red ? <IoMdHeart size={22}className='text-red-600'/>:<IoMdHeartEmpty size={22} className='text-[#4d4d4d]' />}</button>
             {/* <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
 
           <Image  
