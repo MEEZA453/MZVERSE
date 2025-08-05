@@ -7,13 +7,19 @@ import {
   useEffect,
   ReactNode,
 } from 'react';
-
-import { users, type User } from '../lib/DummyUser';
 import { useRouter } from 'next/navigation';
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  token?: string;
+  // Add any other fields your API returns
+}
 
 interface AuthContextType {
   user: User | null;
-  login: (id: string, password: string) => boolean;
+  setUserData: (userData: User) => void;
   logout: () => void;
   profileLink: string;
   isLoggedIn: boolean;
@@ -26,7 +32,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [profileLink, setProfileLink] = useState('');
   const router = useRouter();
 
-  // Restore from localStorage
+  // Load from localStorage on first render
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     const storedLink = localStorage.getItem('profileLink');
@@ -38,24 +44,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const login = (id: string, password: string): boolean => {
-    const foundUser = users.find(
-      (u) => u.id === id && u.password === password
-    );
-
-    if (foundUser) {
-      setUser(foundUser);
-      const link = '/' + foundUser.id;
-      setProfileLink(link);
-      localStorage.setItem('user', JSON.stringify(foundUser));
-      localStorage.setItem('profileLink', link);
-+
-      // Redirect immediately
-      router.push(link);
-      return true;
-    }
-
-    return false;
+  const setUserData = (userData: User) => {
+    setUser(userData);
+    const link = '/' + userData.id;
+    setProfileLink(link);
+    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('profileLink', link);
+    router.push(link); // redirect to profile or dashboard
   };
 
   const logout = () => {
@@ -70,7 +65,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
-        login,
+        setUserData,
         logout,
         profileLink,
         isLoggedIn: !!user,

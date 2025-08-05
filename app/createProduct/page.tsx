@@ -10,12 +10,13 @@ import { postDesign } from "../store/actions/design";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { useRouter } from "next/navigation";
-
+import { MdOutlineAttachFile } from "react-icons/md";
 
 export default function CreateProduct() {
    const [name, setName] = useState("");
     const [headline, setHeadline] = useState("this is the fucking headline");
     const [amount, setAmount] = useState("");
+    const [url , setUrl ] = useState("")
     const [image, setSelectedImage] = useState([]);
     const [hastags, setHastags] = useState([]);
     const [sections, setSections] = useState([{ title: "", content: ["", ""] }]);
@@ -24,6 +25,7 @@ export default function CreateProduct() {
     type ErrorState = {
   nameError: boolean;
   amountError: boolean;
+  urlError : boolean;
   sectionsError: SectionError[];
   hastagsError : boolean;
   imagesError : boolean
@@ -31,6 +33,7 @@ export default function CreateProduct() {
 const [error, setError] = useState<ErrorState>({
   nameError: false,
   amountError: false,
+  urlError : false,
   sectionsError: [],
   hastagsError : false,
   imagesError : false
@@ -41,6 +44,8 @@ const dispatch = useDispatch<AppDispatch>();
     //   dispatch(getDesign(1)); // Fetch first page; extend if you awant all pages
     // }, [dispatch]);
   
+
+
     const addSections = () => setSections([...sections, { title: "", content: [] }]);
   const addFaq = ()=> setFaq([...faq , {q : '' , a : ''}])
   const deleteFaq = ()=> {
@@ -100,6 +105,7 @@ const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
   const newErrors: ErrorState = {
     nameError: name.trim() === "",
     amountError: amount.trim() === "",
+    urlError : url.trim() === "",
     sectionsError: sectionError,
     hastagsError : hastags.length < 2,
     imagesError : image.length < 1
@@ -121,11 +127,12 @@ console.log(error)
 
   const formData = new FormData();
   formData.append("name", name);
-  formData.append("headline", headline);
+formData.append("url" , url)
   formData.append("amount", amount);
   image.forEach((file) => formData.append("images", file));
   formData.append("sections", JSON.stringify(sections));
   formData.append("hastags", JSON.stringify(hastags));
+  console.log(formData)
 dispatch(postDesign(formData));
 router.push('/AllAssets')
 };
@@ -158,6 +165,16 @@ router.push('/AllAssets')
 <input onChange={(e)=> setAmount(e.target.value)}  className={`p-2 ${error.amountError ? 'border border-red-600':null} w-full bg-[#212020]`}  placeholder="eg: $35"/>
     </div>
 
+</div>
+
+<div className="link w-full px-2 mt-2 flex">
+  <div className="flex rounded-l-[2px] items-center justify-center h-full w-10 p-2.5 border-r border-black bg-[#222222]">
+<MdOutlineAttachFile />
+
+  </div>
+  <input type="url" size ={20} placeholder="eg:valid link of your file (google drive)"  
+  onChange={(e)=>setUrl(e.target.value)}  
+      className={`mb-2 py-2 bg-[#212020] px-2 p-2 ${error.urlError?  'border border-red-600':null} w-full`}/>
 </div>
           <div className='details'>
        

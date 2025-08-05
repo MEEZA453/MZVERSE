@@ -5,8 +5,7 @@ import {useRouter , usePathname} from 'next/navigation';
 import Image from 'next/image';
 import {Product} from '../types/Product';
 import {useState} from 'react'
-import { PiHeartLight } from "react-icons/pi";
-import { GoHeartFill } from "react-icons/go";
+
 import Login from '../Components/Login'
 import JoinCommunityInput from '../Components/JoinCommunity';
 import Loading from '../Components/loading'
@@ -25,9 +24,7 @@ export default function AllAssets() {
   const handleClick = (path : string):void=>{
     router.push(currentPath + '/'+path)
   }
-const handleFavClick = ()=>{
-  setRed(!red )
-}
+
 
   return (
     <div className='w-screen'>

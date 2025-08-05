@@ -3,17 +3,16 @@
 import { usePathname, useRouter } from 'next/navigation'
 import { useRef, useState } from 'react'
 import Loading from '../Components/loading'
-import { users } from '../lib/DummyUser'
+
 import {useAuth } from '../Context/AuthContext'
 import { IoMenuOutline } from "react-icons/io5";
 import Image from 'next/image'
 export default function Account() {
-const {logout} = useAuth()
+const {logout , user} = useAuth()
   const currentPath = usePathname()
 
   const router = useRouter()
   const userPath = currentPath.split('/').pop()
-  const user = users.find((el) => el.id === userPath)
 
   const [activeIndex, setActiveIndex] = useState(0)
   const tabs = ['Assets', 'Favourait', 'About']
@@ -63,7 +62,7 @@ const handleClick = (path: string): void => {
 
   <div className='assets w-screen h-90'>
       <div className='lg:grid-cols-5 grid-cols-2 grid'>
-        {user.assets.map((product, index) => (
+        {user?.assets?.map((product, index) => (
           <div
           onClick={()=>handleClick(product.name)}
             key={index}
@@ -84,7 +83,7 @@ const handleClick = (path: string): void => {
       </div> 
   </div>
   <div className='posts w-screen lg:grid-cols-5 grid-cols-2 grid '>
-    {user.post.map((p , i)=>{
+    {user?.post?.map((p , i)=>{
       return <div key={i}  className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-10 lg:h-90 min-h-[220px]"><img onClick={()=>router.push(`${user.id}/Gallary`)} className=' w-[70%] mb-4 lg:w-[55%]' src={p.images[0]}/></div>
     })}
   </div>
