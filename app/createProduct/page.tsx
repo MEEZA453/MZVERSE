@@ -12,6 +12,7 @@ import { AppDispatch } from "../store/store";
 import { useRouter } from "next/navigation";
 import { MdOutlineAttachFile } from "react-icons/md";
 import { useAuth } from "../Context/AuthContext";
+import ButtonLoader from "../Components/ButtonLoader";
 
 export default function CreateProduct() {
    const [name, setName] = useState("");
@@ -23,6 +24,7 @@ export default function CreateProduct() {
     const [sections, setSections] = useState([{ title: "", content: ["", ""] }]);
     const [faq , setFaq] = useState([{q : '' , a : ''} ,{q : '' , a : ''}])
     const router = useRouter()
+    const [loading , setLoading] = useState (false)
     const {user} = useAuth()
 
     type ErrorState = {
@@ -143,10 +145,13 @@ try {
     const parsedUser = JSON.parse(user);
     const token = parsedUser.token;
     console.log(token);
+    setLoading(true)
     dispatch(postDesign(formData , token));
+    setLoading(false)
     router.push('/AllAssets')
   }
 } catch (err) {
+  setLoading(false)
   console.log('Invalid JSON in localStorage', err);
 }
 };
@@ -157,7 +162,7 @@ try {
          
               <div className=" bg-[#1d1d1d] w-full py-2  z-[100] flex fixed top-0 px-3 justify-between items-center">
                 <img src='/logo.png' className="w-8 rounded-xl object-cover"/>
-                <button type="submit" className=" text-white border px-2.5 py-0.5 rounded-full">Share product</button>
+                <button type="submit" className=" text-white flex w-31 h-8 items-center jusify-center border px-2.5 py-0.5 rounded-full">{loading ?<ButtonLoader/>:'Share product'}</button>
 
             </div>  
 

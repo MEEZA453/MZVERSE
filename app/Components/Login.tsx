@@ -2,7 +2,9 @@
 
 import { RxCross2 } from "react-icons/rx";
 import { useState } from 'react';
+import ButtonLoader from "./ButtonLoader";
 import { useDispatch } from 'react-redux';
+import {motion} from 'framer-motion'
 import { useAuth } from "../Context/AuthContext";
 import { useRouter } from 'next/navigation';
 import { login } from '../store/actions/auth'; // ⬅️ Assuming this is your Redux login action
@@ -18,33 +20,40 @@ const {setUserData
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-
+const [loading , setLoading] = useState(false)
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (id.trim() === '' || password.trim().length < 6) {
-      setErrorMessage('Please enter a valid ID and password (min 6 chars).');
+      setErrorMessage('Enter a valid ID and password.');
       return;
     }
 
     try {
+      setLoading(true)
       const response = await dispatch(login({ id, password }) as any);
 
       if (response?.token) {
         console.log(response)
         setUserData(response)
+        setLoading(false)
         setShowLoginInput(false)
         // router.push('/' + id);
       } else {
         setErrorMessage('Invalid credentials');
       }
     } catch (err: any) {
+      setLoading(false)
       setErrorMessage(err.message|| 'Login failed');
+            setErrorMessage(err)
+      setTimeout(()=>{
+setErrorMessage('')
+      },2000)
     }
   };
 
   return (
-    <div className="lg:w-94 w-80 flex-col flex justify-between relative top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 px-2 py-1 pb-2 rounded h-46 bg-[#252525]">
+    <motion.div  initial ={{y : 50 , opacity : 0}} animate = {{y : 0 , opacity : 1}} transition={{duration : 0.2 , ease   : 'easeInOut'}} exit = {{y : -50 , opacity : 0}} className="lg:w-94 w-80 flex-col flex justify-between relative top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 px-2 py-1 pb-2 rounded h-46 bg-[#252525]">
       <div className="flex justify-between items-center w-full">
         <h6 className="ml-18">Be a part of the community.</h6>
         <RxCross2 onClick={() => setShowLoginInput(false)} />
@@ -77,12 +86,12 @@ const {setUserData
 
         <a>I don&apos;t have an account</a>
 
-        <div className="text-right">
-          <button type="submit" className="px-2 bg-white text-black text-[15px] rounded-[2px]">
-            Login
+        <div className="absolute bottom-2 right-2">
+           <button type="submit" className="px-2 w-18 flex items-center justify-center  h-5.5 text-center bg-white text-black text-[14px] rounded-[2px]">
+            {loading ? <ButtonLoader/> : 'Register' }
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }

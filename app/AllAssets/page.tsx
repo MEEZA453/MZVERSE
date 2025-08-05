@@ -14,6 +14,7 @@ import { MdOutlineAttachFile } from "react-icons/md";
 
 import { useAuth } from '../Context/AuthContext';
 import { HiOutlineLinkSlash } from 'react-icons/hi2';
+import { AnimatePresence } from 'framer-motion';
 export default function AllAssets() {
   const currentPath  = usePathname();
   const showCreateProduct = true;
@@ -30,8 +31,8 @@ export default function AllAssets() {
     <div className='w-screen'>
       <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
      
-      {showLoginInput ? <div className='z-[999] fixed  -translate-y-20  bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
-      {showSignupInput ? <div className='z-[999] fixed flex -translate-y-20 items-center justify-center   bg-black/70 h-screen w-screen '><JoinCommunityInput setShowSignupInput={setShowSignupInput}/></div>:null}
+     <AnimatePresence mode='wait'> {showLoginInput ? <div className='z-[999] fixed  -translate-y-20  bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}</AnimatePresence>
+      <AnimatePresence mode='wait'>{showSignupInput ? <div className='z-[999] fixed flex -translate-y-20 items-center justify-center   bg-black/70 h-screen w-screen '><JoinCommunityInput setShowSignupInput={setShowSignupInput}/></div>:null}</AnimatePresence>
    {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>
         {data?.map((product, index) => (
           <div

@@ -2,12 +2,17 @@ import { useState } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { useDispatch } from "react-redux";
 import { register } from "../store/actions/auth";
+import {motion} from 'framer-motion'
+import { useShowInput } from "../Context/ShowInputContext";
+import ButtonLoader from "./ButtonLoader";
 interface MasterNavberProps {
   setShowSignupInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function JoinCommunityInput({ setShowSignupInput }: MasterNavberProps) {
+export default function JoinCommunityInput({ setShowSignupInput, }: MasterNavberProps) {
   const [errorMessage , setErrorMessage] = useState("")
+  const {setShowLoginInput} = useShowInput()
+  const [loading , setLoading] =  useState(false)
   const [user, setUser] = useState({
     name: "",
     id: "",
@@ -41,6 +46,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (Object.values(newError).some((e) => e)) return;
 
     try {
+      setLoading  (true)
      const response =  await dispatch(
         register({
           name: user.name,
@@ -49,16 +55,22 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         }) as any 
       );
 console.log(response)
-
+setLoading(false)
+setShowSignupInput(false)
+// setShowLoginInput(true)
     } catch (err) {
       setErrorMessage(err)
+      setTimeout(()=>{
+setErrorMessage('')
+      },2000)
+      setLoading(false)
       console.error("Registration error:", err);
     }
   };
 
 
   return (
-    <div className="lg:w-100 w-80 flex-col flex justify-between px-2 py-1 pb-2 rounded h-54 bg-[#252525]">
+    <motion.div initial ={{y : 50 , opacity : 0}} animate = {{y : 0 , opacity : 1}} transition={{duration : 0.2 , ease   : 'easeInOut'}} exit={{y : -50  , opacity : 0}} className="lg:w-100 w-80 flex-col flex justify-between px-2 py-1 pb-2 rounded h-54 bg-[#252525]">
       <div className="flex justify-between items-center w-full">
         <h6 className="ml-18">Be a part of the community.</h6>
         <RxCross2 onClick={() => setShowSignupInput(false)} />
@@ -115,11 +127,11 @@ console.log(response)
 
         <div className="flex justify-between pl-22">
           <p style={{ color: 'red' }}>{errorMessage}</p>
-          <button type="submit" className="px-2 bg-white text-black text-[14px] rounded-[2px]">
-            Register
+          <button type="submit" className="px-2 w-18 flex items-center justify-center  h-5.5 text-center bg-white text-black text-[14px] rounded-[2px]">
+            {loading ? <ButtonLoader/> : 'Register' }
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }
