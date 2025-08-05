@@ -11,6 +11,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { useRouter } from "next/navigation";
 import { MdOutlineAttachFile } from "react-icons/md";
+import { useAuth } from "../Context/AuthContext";
 
 export default function CreateProduct() {
    const [name, setName] = useState("");
@@ -22,6 +23,8 @@ export default function CreateProduct() {
     const [sections, setSections] = useState([{ title: "", content: ["", ""] }]);
     const [faq , setFaq] = useState([{q : '' , a : ''} ,{q : '' , a : ''}])
     const router = useRouter()
+    const {user} = useAuth()
+
     type ErrorState = {
   nameError: boolean;
   amountError: boolean;
@@ -119,6 +122,8 @@ console.log(error)
 
   if (
     newErrors.nameError ||
+    newErrors.urlError ||
+    newErrors.imagesError ||
     newErrors.amountError ||
     hasSectionErrors
   ) {
@@ -127,14 +132,23 @@ console.log(error)
 
   const formData = new FormData();
   formData.append("name", name);
-formData.append("url" , url)
+formData.append("driveLink" , url)
   formData.append("amount", amount);
   image.forEach((file) => formData.append("images", file));
   formData.append("sections", JSON.stringify(sections));
   formData.append("hastags", JSON.stringify(hastags));
-  console.log(formData)
-dispatch(postDesign(formData));
-router.push('/AllAssets')
+try {
+  const user = localStorage.getItem('user');
+  if (user) {
+    const parsedUser = JSON.parse(user);
+    const token = parsedUser.token;
+    console.log(token);
+    dispatch(postDesign(formData , token));
+    router.push('/AllAssets')
+  }
+} catch (err) {
+  console.log('Invalid JSON in localStorage', err);
+}
 };
 
 

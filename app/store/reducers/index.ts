@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import design from './design';
 import cart from './cart';
 import auth from './auth'
+import getProductOfUser from './getProductOfUser';
 
 const rootReducer = combineReducers({
   design,
   cart,
-  auth
+  auth, 
+  getProductOfUser
 });
 
 export type RootState = ReturnType<typeof rootReducer>; // ✅ Type for useSelector

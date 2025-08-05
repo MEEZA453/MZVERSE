@@ -2,10 +2,10 @@ import * as api from '../../api'
 import {Product } from '../../types/Product'
 import { AppDispatch } from '../store';
 
-export const postDesign = (post : FormData) => async (dispatch : AppDispatch) => {
+export const postDesign = (post : FormData , token : string) => async (dispatch : AppDispatch) => {
     try {
       console.log('Post data being sent:', post);  // Log the post data to check if it's formatted correctly
-      const { data } = await api.postDesign(post); 
+      const { data } = await api.postDesign(post , token); 
       dispatch({ type: 'POST_PRODUCT', payload: data });
     } catch (error) {
       console.log('Error in action:', error.message); // Log the error message

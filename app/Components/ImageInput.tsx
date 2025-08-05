@@ -30,7 +30,7 @@ const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     <div className="w-screen lg:w-[70vw] flex mt-10  items-center justify-center border-r border-[#4d4d4d] mb-4  h-full min-h-[40vw]">
       <div>
 {      selectedImage.length === 0 ?  <div className="image-input items-center flex flex-col gap-5">
-        <div className={`${error ? 'text-red-600' : 'text-[#6d6d6d]'}`}>{error ? 'Put atleast one image': 'Drag your images here'}</div>
+        <p style={{color : error ? 'red': '#dadada'}}>{error ? 'Put atleast one image': 'Drag your images here'}</p>
           <div>
             {/* Hidden file input */}
             <input

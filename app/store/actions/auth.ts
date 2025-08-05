@@ -1,5 +1,20 @@
 import * as api from '../../api';
 import { AppDispatch } from '../store';
+
+
+export const getProductById = (id: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: 'GET_PRODUCT_REQUEST' });
+
+    const { data } = await api.getProductById(id);
+
+    dispatch({ type: 'GET_PRODUCT_SUCCESS', payload: data });
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    dispatch({ type: 'GET_PRODUCT_FAIL', payload: errMsg });
+  }
+};
+
 export const register = (user: { name: string; id: string; password: string }) => 
   async (dispatch: AppDispatch) => {
     try {

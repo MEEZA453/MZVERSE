@@ -3,9 +3,9 @@ import styled from 'styled-components';
 
 const Loader = () => {
   return (
-    <StyledWrapper className='h-screen w-screen flex items-center justify-center'>
+    <StyledWrapper className=' h-60 w-screen flex items-center justify-center'>
       <svg viewBox="25 25 50 50">
-        <circle r={20} cy={50} cx={50} />
+        <circle r={10} cy={50} cx={50} />
       </svg>
     </StyledWrapper>
   );
