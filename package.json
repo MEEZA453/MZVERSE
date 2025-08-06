@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-oauth/google": "^0.12.2",
     "@reduxjs/toolkit": "^2.8.2",
     "@types/react-redux": "^7.1.34",
     "axios": "^1.11.0",
     "framer-motion": "^12.23.11",
+    "jwt-decode": "^4.0.0",
     "next": "15.4.4",
     "react": "19.1.0",
     "react-dom": "19.1.0",

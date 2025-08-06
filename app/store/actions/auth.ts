@@ -15,6 +15,22 @@ export const getProductById = (id: string) => async (dispatch: AppDispatch) => {
   }
 };
 
+export const googleLoginAction = (token: string) => async (dispatch: AppDispatch) => {
+  try {
+    const { data } = await api.googleLogin(token);
+
+    dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', payload: data });
+
+    // Optionally store in localStorage
+    localStorage.setItem('profile', JSON.stringify(data));
+
+    return data;
+  } catch (error: any) {
+    const errorMessage = error.response?.data?.message || error.message;
+    dispatch({ type: 'GOOGLE_LOGIN_FAIL', payload: errorMessage });
+    throw new Error(errorMessage);
+  }
+};
 export const register = (user: { name: string; id: string; password: string }) => 
   async (dispatch: AppDispatch) => {
     try {

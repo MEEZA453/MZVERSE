@@ -1,12 +1,13 @@
 import axios from 'axios' 
-const url = 'https://meeza-in-8.onrender.com/' 
-//  const url  = 'http://localhost:8080/'
+// const url = 'https://meeza-in-8.onrender.com/' 
+ const url  = 'http://localhost:8080/'
 export const registerUser = (user) =>
   axios.post(`${url}user/register`, user);
 export const getProductById = (id)=> axios.get(`${url}user/getProductById/${id}`)
 export const loginUser = (user) =>
   axios.post(`${url}user/login`, user);
-
+export const googleLogin = (token) =>
+  axios.post(`${url}user/google-login`,  {token} );
 export const postDesign = (newPost, token) => {
   return axios.post(`${url}post`, newPost, {
     headers: {

@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ReduxProvider } from "./store/Provider"; // ✅ still allowed to import .js
 import { AuthProvider } from "./Context/AuthContext";
 import { ShowInputProvider } from "./Context/ShowInputContext";
@@ -35,6 +36,7 @@ export default function RootLayout({
       >
         <ReduxProvider>
 
+<GoogleOAuthProvider clientId="286568333858-u0lo291u1qchomf2dpgsdsnr7gpje11m.apps.googleusercontent.com">
           <ShowInputProvider>
           <NotificationProvider>
 
@@ -45,6 +47,7 @@ export default function RootLayout({
           </AuthProvider>
           </NotificationProvider>
           </ShowInputProvider>
+</GoogleOAuthProvider>
         </ReduxProvider>
       </body>
     </html>
