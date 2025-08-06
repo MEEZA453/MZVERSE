@@ -3,7 +3,7 @@ import "./globals.css";
 import { ReduxProvider } from "./store/Provider"; // ✅ still allowed to import .js
 import { AuthProvider } from "./Context/AuthContext";
 import { ShowInputProvider } from "./Context/ShowInputContext";
-
+ import { NotificationProvider } from "./Context/Notification";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -34,13 +34,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-black text-white`}
       >
         <ReduxProvider>
+
           <ShowInputProvider>
+          <NotificationProvider>
 
           <AuthProvider>
             
 
           {children}
           </AuthProvider>
+          </NotificationProvider>
           </ShowInputProvider>
         </ReduxProvider>
       </body>

@@ -5,6 +5,7 @@ import { register } from "../store/actions/auth";
 import {motion} from 'framer-motion'
 import { useShowInput } from "../Context/ShowInputContext";
 import ButtonLoader from "./ButtonLoader";
+import { useNotification } from "../Context/Notification";
 interface MasterNavberProps {
   setShowSignupInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -13,6 +14,7 @@ export default function JoinCommunityInput({ setShowSignupInput, }: MasterNavber
   const [errorMessage , setErrorMessage] = useState("")
   const {setShowLoginInput} = useShowInput()
   const [loading , setLoading] =  useState(false)
+  const {setNotification} = useNotification()
   const [user, setUser] = useState({
     name: "",
     id: "",
@@ -57,6 +59,7 @@ const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 console.log(response)
 setLoading(false)
 setShowSignupInput(false)
+setNotification('accountCreated')
 // setShowLoginInput(true)
     } catch (err) {
       setErrorMessage(err)

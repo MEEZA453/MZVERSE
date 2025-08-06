@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
-
+import Notification from '../Components/Notification'
 import { AppDispatch } from '../store/store'
 import  Loading from '../Components/loading'
 import {useAuth } from '../Context/AuthContext'
@@ -30,6 +30,7 @@ const handleClick = (path: string): void => {
 console.log(product)
   return (
     <div className='w-screen overflow-hidden'>
+      <Notification/>
       <div className='absolute w-screen flex justify-between px-2 top-2 '>
       <h4 >{user?.id}</h4>
 <IoMenuOutline onClick={()=>logout()} className='  text-white  rounded-[2px]'  size={24}/>

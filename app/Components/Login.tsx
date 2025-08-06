@@ -8,12 +8,14 @@ import {motion} from 'framer-motion'
 import { useAuth } from "../Context/AuthContext";
 import { useRouter } from 'next/navigation';
 import { login } from '../store/actions/auth'; // ⬅️ Assuming this is your Redux login action
+import { useNotification } from "../Context/Notification";
 interface MasterNavberProps {
   setShowLoginInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Login({ setShowLoginInput }: MasterNavberProps) {
   const router = useRouter();
+  const {setNotification} = useNotification()
   const dispatch = useDispatch();
 const {setUserData
 } = useAuth()
@@ -38,6 +40,8 @@ const [loading , setLoading] = useState(false)
         setUserData(response)
         setLoading(false)
         setShowLoginInput(false)
+setNotification('loggedIn')
+
         // router.push('/' + id);
       } else {
         setErrorMessage('Invalid credentials');
@@ -81,7 +85,7 @@ setErrorMessage('')
         </div>
 
         {errorMessage && (
-          <p  style={{color : 'red'}}className=" text-sm pl-20">{errorMessage}</p>
+          <p  style={{color : 'red'}}className=" text-sm pl-20">--</p>
         )}
 
         <a>I don&apos;t have an account</a>

@@ -5,7 +5,7 @@ import {useRouter , usePathname} from 'next/navigation';
 import Image from 'next/image';
 import {Product} from '../types/Product';
 import {useState} from 'react'
-
+import Notification from '../Components/Notification';
 import Login from '../Components/Login'
 import JoinCommunityInput from '../Components/JoinCommunity';
 import Loading from '../Components/loading'
@@ -29,6 +29,7 @@ export default function AllAssets() {
 
   return (
     <div className='w-screen'>
+      <Notification/>
       <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
      
      <AnimatePresence mode='wait'> {showLoginInput ? <div className='z-[999] fixed  -translate-y-20  bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}</AnimatePresence>

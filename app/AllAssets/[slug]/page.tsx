@@ -13,8 +13,11 @@ import { GoHeartFill } from "react-icons/go";
 import Login from '../../Components/Login';
 import { useShowInput } from '../../Context/ShowInputContext';
 import { useState } from 'react';
+import Notification from '../../Components/Notification';
+import { useNotification } from '../../Context/Notification';
 export default function ProductPage() {
 const pathname = usePathname()
+const {setNotification , notification} = useNotification()
 const productpath = pathname.split('/');
 const [red ,setRed ] = useState(false)
 const {setShowLoginInput , setShowSignupInput , showLoginInput , showSignupInput} = useShowInput()
@@ -23,11 +26,12 @@ const slug = productpath[productpath.length - 1]
   const product = data.find((item) => item._id === slug);
  const handleFavClick = ()=>{
   setRed(!red )
+  setNotification('addToFav')
 }
   return (
     <div className='w-screen h-screen'>
 
-  
+  <Notification/>
        <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
       {showLoginInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
       {
@@ -46,7 +50,7 @@ const slug = productpath[productpath.length - 1]
   alt='fdfdf'  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
                 <h3 className='opacity-[0.66]'>meeza_29</h3>
             </div> 
-<button onClick={handleFavClick} className='' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#e3e3e3]' />}</button> 
+<button onClick={handleFavClick}   className='' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#e3e3e3]' />}</button> 
 
 </div>
 <div  style={{ height: `${product.image.length * 50 + 50}vh` }}>
@@ -59,7 +63,7 @@ const slug = productpath[productpath.length - 1]
             </div>
             <div className='buttons px-1 relative flex flex-col items-center gap-1'>
               <button className='buy w-full h-7 bg-black text- rounded pb-1'>Buy now</button>
-              <button className='buy w-full h-7 border rounded-full border-black pb-1 text-black'>Add to cart</button>
+              <button  className='buy w-full h-7 border rounded-full border-black pb-1 text-black'>View Profile</button>
 
             </div>
          </div>
