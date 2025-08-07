@@ -41,10 +41,10 @@ export default function SignIn() {
 // })
   return (
     <div className="h-screen w-screen bg-[#030303] flex">
-      
+{/*       
       {typeof window !== 'undefined' && window.innerWidth > 640 ? (
         <div className="h-screen w-[70vw] border-r border-[#4d4d4d]"></div>
-      ) : null}
+      ) : null} */}
 
       <Image className="w-8 absolute left-2 top-2 rounded-xl" src={'/logo.png'} width={50} height={50} alt="log"/>
 
@@ -88,7 +88,6 @@ export default function SignIn() {
             className={`flex-1 w-full mb-2 bg-[#131313] ${error ? 'border border-red-600/50' : ''} px-2 py-1 outline-none`}
           />
 
-          <p style={{ color: 'red' }}>{errorMessage}</p>
 
           <button
             type="submit"
@@ -101,6 +100,8 @@ export default function SignIn() {
             <h2>No account ?</h2><a style={{ fontSize: 13, lineHeight: -0.2 }}>Signup</a>
           </div>
         </form>
+          <p className = 'absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2' style={{ color: 'red' }}>{errorMessage}</p>
+
       </div>
     </div>
   )

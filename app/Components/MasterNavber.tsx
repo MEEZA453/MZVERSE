@@ -95,14 +95,16 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
                       
           
  </div><button className=" text-white border px-2.5 py-0.5 rounded"onClick={()=> router.push('/createProduct')} ref={dynamicButtonRef}>Create item</button></div>
-          :<div className='flex gap-2 items-center'>
-              <button className='border border-white px-2 rounded-[4px] py-0.5 text-[15px] text-white ' onClick={()=> setShowSignupInput(true)} ref={dynamicButtonRef}>Sign up</button>
-            <button className='border bg-white px-2 py-0.5 text-[15px] text-black rounded-[3px]' onClick={()=> setShowLoginInput(true)} ref={dynamicButtonRef}>Login</button>
-        
-          </div>}
+          :null
+        }
                   </div>
       </div>
 
     </nav>
   );
 }
+  // <div className='flex gap-2 items-center'>
+  //             <button className='border border-white px-2 rounded-[4px] py-0.5 text-[15px] text-white ' onClick={()=> setShowSignupInput(true)} ref={dynamicButtonRef}>Sign up</button>
+  //           <button className='border bg-white px-2 py-0.5 text-[15px] text-black rounded-[3px]' onClick={()=> setShowLoginInput(true)} ref={dynamicButtonRef}>Login</button>
+        
+  //         </div>

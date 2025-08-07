@@ -1,5 +1,4 @@
 'use client'
-
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useRef, useState } from 'react'
 import Notification from '../Components/Notification'
@@ -9,18 +8,50 @@ import {useAuth } from '../Context/AuthContext'
 import { useDispatch  ,useSelector } from 'react-redux'
 import { IoMenuOutline } from "react-icons/io5";
 import Image from 'next/image'
-import { getProductById } from '../store/actions/auth'
+import { getFavorites } from '../store/actions/fav'
+import { getProductById  , getUserByHandle} from '../store/actions/auth'
+import { MdOutlineAttachFile } from "react-icons/md";
+
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
-const {logout , user} = useAuth()
-  const currentPath = usePathname()
-
+const {logout} = useAuth()
+const pathname = usePathname();
+const userHandle = pathname.split('/').pop();
+const [token , setToken] = useState('')
+    
   const router = useRouter()
-  const userPath = currentPath.split('/').pop()
-  console.log(userPath)
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const profile = localStorage.getItem('profile')
+      if (profile) {
+        const parsedUser = JSON.parse(profile)
+        setToken(parsedUser.token)
+      }
+    }
+  }, [])
+   useEffect(() => {
+    if (token) {
+      dispatch(getFavorites(token));
+    }
+  }, [dispatch, token]);
+  const { favourites } = useSelector((state: any) => state.favourites);
+
+console.log( 'fav list is ',favourites)
+
+
 useEffect(()=>{
-  dispatch(getProductById(userPath))
-},[dispatch])
+ dispatch(getProductById(userHandle))
+},[userHandle])
+useEffect(()=>{
+  if (userHandle) dispatch(getUserByHandle(userHandle));
+  }, [userHandle]);
+
+
+
+const { user } = useSelector((state: any) => state.auth);
+
+console.log(user);
 const { product, loading, error } = useSelector((state: any) => state.getProductOfUser || {});
   const [activeIndex, setActiveIndex] = useState(0)
   const tabs = ['Assets', 'Favourait', 'About']
@@ -32,14 +63,14 @@ console.log(product)
     <div className='w-screen overflow-hidden'>
       <Notification/>
       <div className='absolute w-screen flex justify-between px-2 top-2 '>
-      <h4 >{user?.id}</h4>
+      <h4 >{user?.handle}</h4>
 <IoMenuOutline onClick={()=>logout()} className='  text-white  rounded-[2px]'  size={24}/>
       </div>
 
       <div className='profile relative flex flex-col h-90 border-b border-[#4d4d4d] gap-3 mt-10 items-center justify-center w-screen'>
         <Image height = {300} width = {300}
           className='h-40 w-40 rounded-full bg-[#dadada] object-cover'
-          src='/image.png'
+          src={user?.profile || '/image.png'}
           alt ='profile' 
         />
         <h4>{user?.name}</h4>
@@ -71,31 +102,102 @@ console.log(product)
 
   <div className='assets w-screen h-90'>
      <div className='lg:grid-cols-5 grid-cols-2 grid'>
-       {product?.map((prdct : any, index : number) => (
-          <div
-          onClick={()=>handleClick(prdct?._id)}
-            key={index}
-            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-10 lg:h-90 min-h-[220px]"
-          >
-            <Image height = {300} width = {300} alt = 'dfd' src={prdct?.image[0]} className=" w-[70%] mb-4 lg:w-[55%]" />
-            <div className="absolute  group-hover:-translate-y-7 duration-200 left-2 top-[88%]">
-              <div className="flex items-center gap-2">
-                <h5>{prdct.name}</h5>
-                 <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>$25</label>
-              </div>
-              <p className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {prdct.headline} 
-              </p>
-            </div>
-          </div>
-        ))} 
+    {product?.map((product:any, index : number) => (
+             <div
+           
+               key={index}
+               className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
+             >
+               <div  className='flex px-1 py-0.5 items-center absolute top-2 rounded-[2px] bg-white/75  right-2'><MdOutlineAttachFile className='text-black   ' size={17}/><h6 className='text-black'>3</h6></div>
+               {/* <button onClick={handleFavClick} className='absolute top-2 left-2' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#4d4d4d]' />}</button> */}
+               {/* <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
+   
+             <Image  
+     height={300}
+     width={300}
+     alt='fdfdf'  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
+                   <h3 className='opacity-[0.66]'>meeza_29</h3>
+               </div> */}
+   
+   {product.image && product.image.length > 0 ? (
+     <Image
+       onClick={()=>handleClick(product._id)}
+       height={300}
+       width={300}
+       alt="dff"
+       src={product.image[0]}
+       className="w-[55%] lg:mb-4 lg:w-[55%]"
+       priority
+     />
+   ) : null}
+   
+               <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
+                 <div className="flex items-center gap-2">
+                   <h6 className=''>{product.name}  </h6>
+                    {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+                 </div>
+                 <div className='flex gap-1'>
+                   {product?.hastags?.map((h , i)=>{
+                     return  <p key={i} className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                   #{h} 
+                 </p>
+                   })}
+                 </div>
+                
+               </div>
+             </div>
+           ))}
       </div> 
   </div>
-  {/* <div className='posts w-screen lg:grid-cols-5 grid-cols-2 grid '>
-    {user?.post?.map((p , i)=>{
-      return <div key={i}  className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-10 lg:h-90 min-h-[220px]"><img onClick={()=>router.push(`${user.id}/Gallary`)} className=' w-[70%] mb-4 lg:w-[55%]' src={p.images[0]}/></div>
-    })}
-  </div> */}
+<div className='assets w-screen h-90'>
+     <div className='lg:grid-cols-5 grid-cols-2 grid'>
+    {favourites?.map((product:any, index : number) => (
+             <div
+           
+               key={index}
+               className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
+             >
+               <div  className='flex px-1 py-0.5 items-center absolute top-2 rounded-[2px] bg-white/75  right-2'><MdOutlineAttachFile className='text-black   ' size={17}/><h6 className='text-black'>3</h6></div>
+               {/* <button onClick={handleFavClick} className='absolute top-2 left-2' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#4d4d4d]' />}</button> */}
+               {/* <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
+   
+             <Image  
+     height={300}
+     width={300}
+     alt='fdfdf'  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
+                   <h3 className='opacity-[0.66]'>meeza_29</h3>
+               </div> */}
+   
+   {product.image && product.image.length > 0 ? (
+     <Image
+       onClick={()=>handleClick(product._id)}
+       height={300}
+       width={300}
+       alt="dff"
+       src={product.image[0]}
+       className="w-[55%] lg:mb-4 lg:w-[55%]"
+       priority
+     />
+   ) : null}
+   
+               <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
+                 <div className="flex items-center gap-2">
+                   <h6 className=''>{product.name}  </h6>
+                    {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+                 </div>
+                 <div className='flex gap-1'>
+                   {product?.hastags?.map((h:string , i:number)=>{
+                     return  <p key={i} className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                   #{h} 
+                 </p>
+                   })}
+                 </div>
+                
+               </div>
+             </div>
+           ))}
+      </div> 
+  </div>
 
   <div className='About w-screen h-90'></div>
 

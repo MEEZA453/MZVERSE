@@ -140,7 +140,7 @@ formData.append("driveLink" , url)
   formData.append("sections", JSON.stringify(sections));
   formData.append("hastags", JSON.stringify(hastags));
 try {
-  const user = localStorage.getItem('user');
+  const user = localStorage.getItem('profile');
   if (user) {
     const parsedUser = JSON.parse(user);
     const token = parsedUser.token;

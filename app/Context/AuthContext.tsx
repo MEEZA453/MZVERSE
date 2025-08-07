@@ -10,7 +10,8 @@ import {
 import { useRouter } from 'next/navigation';
 
 export interface User {
-  id: string;
+  profile : string,
+  handle : string
   name: string;
   email: string;
   token?: string;
@@ -34,21 +35,21 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   // Load from localStorage on first render
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
+    const storedUser = localStorage.getItem('profile');
     const storedLink = localStorage.getItem('profileLink');
 
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
-      setProfileLink(storedLink || '/' + parsedUser.id);
+      setProfileLink(storedLink || '/' + parsedUser.handle);
     }
   }, []);
 
   const setUserData = (userData: User) => {
     setUser(userData);
-    const link = '/' + userData.id;
+    const link = '/' + userData.handle;
     setProfileLink(link);
-    localStorage.setItem('user', JSON.stringify(userData));
+    localStorage.setItem('profile', JSON.stringify(userData));
     localStorage.setItem('profileLink', link);
     router.push(link); // redirect to profile or dashboard
   };
@@ -56,9 +57,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     setUser(null);
     setProfileLink('');
-    localStorage.removeItem('user');
+    localStorage.removeItem('profile');
     localStorage.removeItem('profileLink');
-    router.push('/');
+    router.push('/signup');
   };
 
   return (

@@ -2,11 +2,30 @@ import * as api from '../../api';
 import { AppDispatch } from '../store';
 
 
-export const getProductById = (id: string) => async (dispatch: AppDispatch) => {
+export const getUserByHandle = (handle: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: 'GET_USER_BY_HANDLE_REQUEST' });
+
+    const { data } = await api.getUserByHandle(handle);
+
+    dispatch({
+      type: 'GET_USER_BY_HANDLE_SUCCESS',
+      payload: data,
+    });
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    dispatch({
+      type: 'GET_USER_BY_HANDLE_FAIL',
+      payload: errMsg,
+    });
+  }
+};
+
+export const getProductById = (handle: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: 'GET_PRODUCT_REQUEST' });
 
-    const { data } = await api.getProductById(id);
+    const { data } = await api.getProductById(handle);
 
     dispatch({ type: 'GET_PRODUCT_SUCCESS', payload: data });
   } catch (error: any) {
@@ -31,6 +50,47 @@ export const googleLoginAction = (token: string) => async (dispatch: AppDispatch
     throw new Error(errorMessage);
   }
 };
+export const updateProfileAction = (
+  userId: string,
+  formData: FormData,
+  token : string,
+) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: 'UPDATE_PROFILE_REQUEST' })
+
+    const { data } = await api.updateUserProfile(userId, formData , token)
+
+    dispatch({ type: 'UPDATE_PROFILE_SUCCESS', payload: data })
+
+    return data
+  } catch (error: any) {
+    const errorMsg = error.response?.data?.message || error.message
+    dispatch({ type: 'UPDATE_PROFILE_FAIL', payload: errorMsg })
+    throw new Error(errorMsg)
+  }
+}
+
+export const setHandleAction = (userId: string, handle: string, token: string) => 
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch({ type: 'SET_HANDLE_REQUEST' });
+
+      const { data } = await api.setUserHandle(userId, handle, token);
+
+      dispatch({ type: 'SET_HANDLE_SUCCESS', payload: data.user });
+
+      // Update localStorage with new handle
+      const stored = JSON.parse(localStorage.getItem('profile') || '{}');
+      const updatedProfile = { ...stored, handle: data.user.handle };
+      localStorage.setItem('profile', JSON.stringify(updatedProfile));
+
+      return data.user;
+    } catch (error: any) {
+      const message = error.response?.data?.message || error.message;
+      dispatch({ type: 'SET_HANDLE_FAIL', payload: message });
+      throw new Error(message);
+    }
+  };
 export const register = (user: { name: string; id: string; password: string }) => 
   async (dispatch: AppDispatch) => {
     try {

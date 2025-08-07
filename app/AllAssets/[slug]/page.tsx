@@ -12,20 +12,50 @@ import { PiHeartLight } from "react-icons/pi";
 import { GoHeartFill } from "react-icons/go";
 import Login from '../../Components/Login';
 import { useShowInput } from '../../Context/ShowInputContext';
-import { useState } from 'react';
+import { useState  , useEffect} from 'react';
 import Notification from '../../Components/Notification';
 import { useNotification } from '../../Context/Notification';
+import { addToFavorites , removeFromFavorites } from '../../store/actions/fav';
+import { useDispatch , useSelector} from 'react-redux';
+import { AppDispatch } from '../../store/store';
 export default function ProductPage() {
 const pathname = usePathname()
+
+
 const {setNotification , notification} = useNotification()
 const productpath = pathname.split('/');
+const [token , setToken] = useState('')
 const [red ,setRed ] = useState(false)
 const {setShowLoginInput , setShowSignupInput , showLoginInput , showSignupInput} = useShowInput()
 const slug = productpath[productpath.length - 1]
+const favourites = useSelector((state: any) => state.favourites.favourites);
+console.log('slug fav', favourites);
   const { data , loading}: { data: Product[] ; loading : boolean } = useAssets();
   const product = data.find((item) => item._id === slug);
+
+   useEffect(() => {
+     if (typeof window !== 'undefined') {
+       const profile = localStorage.getItem('profile')
+       if (profile) {
+         const parsedUser = JSON.parse(profile)
+         setToken(parsedUser.token)
+       }
+     }
+   }, [])
+const dispatch = useDispatch<AppDispatch>();
+  const isFavorited = false
+
  const handleFavClick = ()=>{
   setRed(!red )
+
+    if (!token) return;
+ if (!token) return;
+
+    if (isFavorited) {
+      dispatch(removeFromFavorites(product._id, token));
+    } else {
+      dispatch(addToFavorites(product._id, token));
+    }
   setNotification('addToFav')
 }
   return (

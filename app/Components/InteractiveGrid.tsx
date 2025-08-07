@@ -66,10 +66,7 @@ useEffect(() => {
       <div className="absolute w-screen h-80 bg-gradient-to-t from-black to-[#00000000] bottom-0 z-[10]"></div>
       <div className="absolute w-screen h-80 bg-gradient-to-b from-black to-[#00000000] top-0 z-[10]"></div>
 
-      <div className="bg-black/60 h-screen w-screen  px-3 z-[10] absolute flex flex-col gap-2 items-center max-sm:items-start justify-center ">
-      <h1 >A Design achive for visual thinking.</h1>
-      <button className='bg-white text-black text-[16px] rounded-[2px] px-2 py-1' onClick={()=>router.push('/AllAssets')}>Join now</button>
-      </div>
+
       <div
         ref={bgRef}
         className="w-[140vw] grid lg:grid-cols-10  grid-cols-4 -translate-x-[20vw] -translate-y-[20vh] max-sm:-translate-y-[40vh] max-sm:-translate-x-[40vw]  transition-transform duration-100"
