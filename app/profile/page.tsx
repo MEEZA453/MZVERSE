@@ -2,18 +2,26 @@
 
 import Image from "next/image"
 import ButtonLoader from "../Components/ButtonLoader"
-import { useState } from "react"
+import { useState   , useEffect} from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { updateProfileAction } from "../store/actions/auth"
 import { useRouter } from "next/navigation"
 
 export default function Profile() {
   const dispatch = useDispatch()
-const storedUser = localStorage.getItem('profile');
-const user = storedUser ? JSON.parse(storedUser) : null;
-    const token = user?.token;
+  const [token , setToken ] = useState  ('')
+  const [user , setUser] = useState(null)
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const profile = localStorage.getItem('profile')
+      if (profile) {
+        const parsedUser = JSON.parse(profile)
+        setToken(parsedUser.token)
+        setUser(user)
+      }
+    }
+  }, [])
 
-console.log(user);
 const router = useRouter()
   const [displayName, setDisplayName] = useState("")
   const [website, setWebsite] = useState("")
