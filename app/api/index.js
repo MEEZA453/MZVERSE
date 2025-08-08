@@ -1,6 +1,6 @@
 import axios from 'axios' 
-const url = 'https://meeza-in-8.onrender.com/' 
-//  const url  = 'http://localhost:8080/'
+// const url = 'https://meeza-in-8.onrender.com/' 
+ const url  = 'http://localhost:8080/'
 export const registerUser = (user) =>
   axios.post(`${url}user/register`, user);
 export const getProductById = (handle)=> axios.get(`${url}user/getProductById/${handle}`)
@@ -54,7 +54,15 @@ export const removeFromFavorites = (designId, token) =>
     headers: { Authorization: `Bearer ${token}` }
   });
 
-export const getFavorites = (token) =>
-  axios.get(`${url}fav/favorites`, {
-    headers: { Authorization: `Bearer ${token}` }
-  });
+// export const getFavorites = (token) =>
+//   axios.get(`${url}fav/favorites`, {
+//     headers: { Authorization: `Bearer ${token}` }
+//   });
+
+export const getFavoritesByHandle = (token, handle) =>
+axios.get(`${url}fav/favoritesByHandle/${handle}`, {
+  headers: { Authorization: `Bearer ${token}` }
+});
+
+  
+

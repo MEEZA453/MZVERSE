@@ -61,7 +61,7 @@ export const updateProfileAction = (
     const { data } = await api.updateUserProfile(userId, formData , token)
 
     dispatch({ type: 'UPDATE_PROFILE_SUCCESS', payload: data })
-
+// localStorage.setItem('profile', JSON.stringify(data.user));
     return data
   } catch (error: any) {
     const errorMsg = error.response?.data?.message || error.message
