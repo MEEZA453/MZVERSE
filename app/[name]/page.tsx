@@ -79,7 +79,7 @@ console.log(product)
  
         <div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
           {tabs.map((tab , index)=>{
-            return     <button  onClick={() => setActiveIndex(index)}  className={`border ${index === activeIndex ? 'text-black bg-white': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab}</button>
+            return     <button  key={index} onClick={() => setActiveIndex(index)}  className={`border ${index === activeIndex ? 'text-black bg-white': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab}</button>
           })}
      
         </div>
