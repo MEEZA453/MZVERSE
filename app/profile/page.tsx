@@ -17,11 +17,11 @@ export default function Profile() {
       if (profile) {
         const parsedUser = JSON.parse(profile)
         setToken(parsedUser.token)
-        setUser(user)
+        setUser(parsedUser)
       }
     }
   }, [])
-
+console.log(user)
 const router = useRouter()
   const [displayName, setDisplayName] = useState("")
   const [website, setWebsite] = useState("")
@@ -65,7 +65,7 @@ const router = useRouter()
       setErrorMessage(error.message)
     } finally {
       setLoading(false)
-      window.location.href = window.location.origin +'/AllAssets';
+      // window.location.href = window.location.origin +'/AllAssets';
     }
   }
 
