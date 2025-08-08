@@ -65,7 +65,7 @@ const router = useRouter()
       setErrorMessage(error.message)
     } finally {
       setLoading(false)
-      // window.location.href = window.location.origin +'/AllAssets';
+      window.location.href = window.location.origin +'/AllAssets';
     }
   }
 
@@ -96,7 +96,7 @@ const router = useRouter()
           </div>
 
           <div className="mb-2">
-            <h3>Display name</h3>
+            <h3 >Display name</h3>
             <input
               type="text"
               value={displayName}

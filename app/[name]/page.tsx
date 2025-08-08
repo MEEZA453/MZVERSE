@@ -63,18 +63,21 @@ console.log(product)
     <div className='w-screen overflow-hidden'>
       <Notification/>
       <div className='absolute w-screen flex justify-between px-2 top-2 '>
-      <h4 >{user?.handle}</h4>
+      <h5 > </h5>
+
 <IoMenuOutline onClick={()=>logout()} className='  text-white  rounded-[2px]'  size={24}/>
       </div>
-
+{loading ? <Loading/> : <div> 
       <div className='profile relative flex flex-col h-90 border-b border-[#4d4d4d] gap-3 mt-10 items-center justify-center w-screen'>
         <Image height = {300} width = {300}
-          className='h-40 w-40 rounded-full bg-[#dadada] object-cover'
+          className='h-24 w-24 rounded-full bg-[#dadada] object-cover'
           src={user?.profile || '/image.png'}
           alt ='profile' 
         />
-        <h4>{user?.name}</h4>
-        <div className='flex gap-1'>
+        {/* <h5 style={{fontSize : '17px', lineHeight : -1 ,marginTop : 4}}>{user?.name}</h5> */}
+      {/* <p  style={{lineHeight : -0.3}}>{user?.bio}</p> */}
+ 
+        <div className='flex gap-1 mt-2'>
           <button className='border rounded text-[14px] px-4 py-0.5'>Instagram</button>
           <button className='bg-white text-black text-[14px] px-4 py-0.5 rounded'>Hire now</button>
         </div>
@@ -149,7 +152,7 @@ console.log(product)
            ))}
       </div> 
   </div>
-<div className='assets w-screen h-90'>
+<div className='fav w-screen h-90'>
      <div className='lg:grid-cols-5 grid-cols-2 grid'>
     {favourites?.map((product:any, index : number) => (
              <div
@@ -157,7 +160,8 @@ console.log(product)
                key={index}
                className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
              >
-               <div  className='flex px-1 py-0.5 items-center absolute top-2 rounded-[2px] bg-white/75  right-2'><MdOutlineAttachFile className='text-black   ' size={17}/><h6 className='text-black'>3</h6></div>
+               
+               
                {/* <button onClick={handleFavClick} className='absolute top-2 left-2' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#4d4d4d]' />}</button> */}
                {/* <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
    
@@ -182,7 +186,7 @@ console.log(product)
    
                <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
                  <div className="flex items-center gap-2">
-                   <h6 className=''>{product.name}  </h6>
+                   {/* <h6 className=''>{product.name}  </h6> */}
                     {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
                  </div>
                  <div className='flex gap-1'>
@@ -202,7 +206,7 @@ console.log(product)
   <div className='About w-screen h-90'></div>
 
 </div>: <Loading/> }
-
+</div>}
 
     </div>
   )
