@@ -17,7 +17,7 @@ export default function MasterNavber({setShowLoginInput , setShowSignupInput}:Ma
   const router = useRouter();
 
   
-  const {isLoggedIn , profileLink} = useAuth();
+  const {isLoggedIn , profileLink , user} = useAuth();
   console.log(profileLink)
   const currentPath = usePathname();
 const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
@@ -84,17 +84,18 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
         <div className="flex gap-3 items-center lg:gap-6 lg:mr-4">
           <div className="search mt-0.5 relative">
       
-            <IoSearchOutline
+            {/* <IoSearchOutline
             
-              size={18}
-            />
+              size={20}
+            /> */}
           </div>
           {/* <h6>[ 10 ]</h6> */}
           {isLoggedIn? <div className='flex  gap-2 lg:gap-4'><div className='flex gap-2'>
-                      <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src='/image.png'/>
+            <button className=" text-white border px-2.5 py-0.5 rounded"onClick={()=> router.push('/createProduct')} ref={dynamicButtonRef}>Create item</button>
+                      <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src={user.profile}/>
                       
           
- </div><button className=" text-white border px-2.5 py-0.5 rounded"onClick={()=> router.push('/createProduct')} ref={dynamicButtonRef}>Create item</button></div>
+ </div></div>
           :null
         }
                   </div>

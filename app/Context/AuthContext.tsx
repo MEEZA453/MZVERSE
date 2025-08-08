@@ -33,17 +33,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [profileLink, setProfileLink] = useState('');
   const router = useRouter();
 
-  // Load from localStorage on first render
-  useEffect(() => {
-    const storedUser = localStorage.getItem('profile');
-    const storedLink = localStorage.getItem('profileLink');
-
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      setUser(parsedUser);
-      setProfileLink(storedLink || '/' + parsedUser.handle);
+    useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const profile = localStorage.getItem('profile')
+      if (profile) {
+        const parsedUser = JSON.parse(profile)
+        setUser(parsedUser)
+        setProfileLink(parsedUser.handle)
+      }
     }
-  }, []);
+  }, [])
+  // Load from localStorage on first render
+
 
   const setUserData = (userData: User) => {
     setUser(userData);

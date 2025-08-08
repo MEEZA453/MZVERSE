@@ -53,7 +53,7 @@ const { user } = useSelector((state: any) => state.auth);
 
 console.log(user);
 const { product, loading, error } = useSelector((state: any) => state.getProductOfUser || {});
-  const [activeIndex, setActiveIndex] = useState(0)
+  const [activeIndex, setActiveIndex] = useState(1)
   const tabs = ['Store', 'Moodboard']
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
@@ -74,12 +74,12 @@ console.log(product)
           src={user?.profile || '/image.png'}
           alt ='profile' 
         />
-      <h5   style={{lineHeight : -0.3}}>@{user?.handle}</h5>
+      <p   style={{lineHeight : -0.3}}>@{user?.handle}</p>
         {/* <p style={{fontSize : '16px', lineHeight : -1}}>{user?.bio}</p> */}
  
-        <div className='flex gap-1 mt-2 px-5 w-screen'>
+        <div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
           {tabs.map((tab , index)=>{
-            return     <button  onClick={() => setActiveIndex(index)}  className={`border ${index === activeIndex ? 'text-black bg-white': 'text-white'}  rounded text-[14px] w-full py-0.5`}>{tab}</button>
+            return     <button  onClick={() => setActiveIndex(index)}  className={`border ${index === activeIndex ? 'text-black bg-white': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab}</button>
           })}
      
         </div>
