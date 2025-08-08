@@ -18,7 +18,7 @@ export const postDesign = (newPost, token) => {
 };
 export const setUserHandle = (userId, handle, token) =>
   axios.post(
-    'http://localhost:8080/user/handle',
+  `${url}/handle`,
     { userId, handle },
     {
       headers: {
