@@ -2,6 +2,48 @@ import * as api from '../../api';
 import { AppDispatch } from '../store';
 
 
+
+export const sendEmailOtpAction = (email: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: 'SEND_OTP_REQUEST' })
+    const { data } = await api.sendEmailOtp(email)
+    dispatch({ type: 'SEND_OTP_SUCCESS', payload: data })
+    return data
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message
+    dispatch({ type: 'SEND_OTP_FAIL', payload: errMsg })
+    throw new Error(errMsg)
+  }
+}
+
+export const verifyEmailOtpAction = (payload: { email: string, otp: string }) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: 'VERIFY_OTP_REQUEST' })
+    const { data } = await api.verifyEmailOtp(payload)
+
+    // Server should return user object + token (same shape as google login)
+    dispatch({ type: 'EMAIL_LOGIN_SUCCESS', payload: data })
+    localStorage.setItem('profile', JSON.stringify(data))
+    return data
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message
+    dispatch({ type: 'VERIFY_OTP_FAIL', payload: errMsg })
+    throw new Error(errMsg)
+  }
+}
+
+export const resendEmailOtpAction = (email: string) => async (dispatch: AppDispatch) => {
+  try {
+    await api.resendOtp(email)
+    dispatch({ type: 'RESEND_OTP_SUCCESS' })
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message
+    dispatch({ type: 'RESEND_OTP_FAIL', payload: errMsg })
+    throw new Error(errMsg)
+  }
+}
+
+
 export const getUserByHandle = (handle: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: 'GET_USER_BY_HANDLE_REQUEST' });

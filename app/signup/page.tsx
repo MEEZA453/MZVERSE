@@ -1,17 +1,18 @@
+// app/(yourpages)/signin/page.tsx or components/SignIn.tsx (TSX)
 'use client'
 
 import { useState } from "react"
 import ButtonLoader from "../Components/ButtonLoader"
 import Image from "next/image"
 import { useDispatch } from "react-redux"
-import { googleLoginAction } from "../store/actions/auth"
+import { googleLoginAction, sendEmailOtpAction } from "../store/actions/auth"
 import { useRouter } from "next/navigation"
 import { AppDispatch } from "../store/store"
-import { useGoogleLogin , GoogleLogin} from '@react-oauth/google'
+import { GoogleLogin } from '@react-oauth/google'
 
 export default function SignIn() {
   const dispatch = useDispatch<AppDispatch>();
-  const router = useRouter()  
+  const router = useRouter()
 
   const [errorMessage, setErrorMessage] = useState("")
   const [loading, setLoading] = useState(false)
@@ -29,26 +30,31 @@ export default function SignIn() {
       setLoading(false)
     }
   }
-// const login = useGoogleLogin({
-//   onSuccess: async (tokenResponse) => {
-//     if (tokenResponse.access_token) {
-//       await handleGoogleLogin(tokenResponse.access_token)
-//     }
-//   },
-//   onError: () => {
-//     setErrorMessage('Google login failed')
-//   },
-// })
+
+  // Send OTP to the provided email
+  const handleSendOtp = async () => {
+    setErrorMessage('')
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      setError(true)
+      setErrorMessage('Please enter a valid email')
+      return
+    }
+    try {
+      setLoading(true)
+      await dispatch(sendEmailOtpAction(email))
+      // navigate to otp page with email query param
+      router.push(`/otp?email=${encodeURIComponent(email)}`)
+    } catch (err: any) {
+      setErrorMessage(err.message || 'Failed to send OTP')
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="h-screen w-screen bg-[#030303] flex">
-{/*       
-      {typeof window !== 'undefined' && window.innerWidth > 640 ? (
-        <div className="h-screen w-[70vw] border-r border-[#4d4d4d]"></div>
-      ) : null} */}
-
       <Image className="w-8 absolute left-2 top-2 rounded-xl" src={'/logo.png'} width={50} height={50} alt="log"/>
 
-       
       <div className="h-screen flex items-center flex-col gap-10 justify-center login w-full">
         <form className="lg:w-[28%] relative w-[80%]" onSubmit={(e) => e.preventDefault()}>
           <h2 className="mb-2 ml-23 lg:ml-19">Please sign in to continue</h2>
@@ -57,7 +63,6 @@ export default function SignIn() {
           <button
             id="google"
             type="button"
-          
             className="px-2 o google mb-4 w-full flex items-center justify-center h-7 text-center bg-[#131313] text-black text-[14px] rounded-[2px]"
           >
             {loading ? (
@@ -66,11 +71,13 @@ export default function SignIn() {
               <Image src='/google.webp' className='w-4 object-cover' height={50} width={50} alt='google'/>
             )}
           </button>
-   <div className="w-full opacity-0 absolute top-3">
+
+          {/* Invisible GoogleLogin to get credential */}
+          <div className="w-full opacity-0 absolute top-3">
             <GoogleLogin
               onSuccess={(response) => {
-                if (response.credential) {
-                  handleGoogleLogin(response.credential)
+                if ((response as any).credential) {
+                  handleGoogleLogin((response as any).credential)
                 }
               }}
               onError={() => {
@@ -78,30 +85,30 @@ export default function SignIn() {
               }}
             />
           </div>
-          {/* Optional email input (only use if you really want user to confirm email) */}
+
+          {/* Email input */}
           <input
-            type="text"
+            type="email"
             name="id"
             value={email}
-            placeholder="Enter you email address.."
-            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email address.."
+            onChange={(e) => { setEmail(e.target.value); setError(false) }}
             className={`flex-1 w-full mb-2 bg-[#131313] ${error ? 'border border-red-600/50' : ''} px-2 py-1 outline-none`}
           />
 
-
           <button
-            type="submit"
+            type="button"
+            onClick={handleSendOtp}
             className="px-2 w-full flex items-center justify-center h-6 text-center bg-white text-black text-[14px] rounded-[2px]"
           >
-            {loading ? <ButtonLoader /> : 'Connect'}
+            {loading ? <ButtonLoader /> : 'Connect (email OTP)'}
           </button>
 
           <div className="flex gap-1 mt-2 items-center">
             <h2>No account ?</h2><a style={{ fontSize: 13, lineHeight: -0.2 }}>Signup</a>
           </div>
         </form>
-          <p className = 'absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2' style={{ color: 'red' }}>{errorMessage}</p>
-
+        <p className = 'absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2' style={{ color: 'red' }}>{errorMessage}</p>
       </div>
     </div>
   )

@@ -34,6 +34,18 @@ export const updateUserProfile = (userId, profileData , token) =>
     })
 
     export const getUserByHandle = (handle)=>axios.get(`${url}user/${handle}`)
+
+
+export const sendEmailOtp = (email) =>
+  axios.post(`${url}user/send-otp`, { email })
+
+export const verifyEmailOtp = (payload) =>
+  axios.post(`${url}user/verify-otp`, payload)
+
+// optional: resend endpoint
+export const resendOtp = (email) =>
+  axios.post(`${url}user/resend-otp`, { email })
+
 export const deleteDesign = (id) => axios.delete(`${url}delete/${id}`);
 export const getDesign = (page = 1 , limit = 6)=> axios.get(`${url}allProducts` , page , limit )
 export const createOrder = (items)=> axios.post(`${url}payment/create-order` , items)

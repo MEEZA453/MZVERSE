@@ -56,6 +56,21 @@ const authReducer = (state = initialState, action: AnyAction): AuthState => {
 
     case 'LOGOUT':
       return { ...state, user: null, error: null };
+// frontend: store/reducers/authReducer.ts (update switch)
+case 'SEND_OTP_REQUEST':
+case 'VERIFY_OTP_REQUEST':
+  return { ...state } // add loading flags if desired
+
+case 'SEND_OTP_SUCCESS':
+  // payload could contain info like { email, expiresIn }
+  return { ...state, error: null }
+
+case 'EMAIL_LOGIN_SUCCESS': // when OTP verified
+  return { ...state, user: action.payload, error: null }
+
+case 'SEND_OTP_FAIL':
+case 'VERIFY_OTP_FAIL':
+  return { ...state, error: action.payload }
 
     default:
       return state;
