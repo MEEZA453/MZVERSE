@@ -101,7 +101,7 @@ export default function SignIn() {
             onClick={handleSendOtp}
             className="px-2 w-full flex items-center justify-center h-6 text-center bg-white text-black text-[14px] rounded-[2px]"
           >
-            {loading ? <ButtonLoader /> : 'Connect (email OTP)'}
+            {loading ? <ButtonLoader /> : 'Connect'}
           </button>
 
           <div className="flex gap-1 mt-2 items-center">
