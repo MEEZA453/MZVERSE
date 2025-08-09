@@ -11,7 +11,7 @@ import { LuPenLine } from "react-icons/lu";
 import Image from "next/image"
 import { useAuth } from "../Context/AuthContext"
 export default function OtpPage() {
-  const {user} =  useAuth()
+  // const {user} =  useAuth()
   const params = useSearchParams()
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
@@ -65,8 +65,8 @@ export default function OtpPage() {
     try {
       setLoading(true)
       await dispatch(verifyEmailOtpAction({ email, otp }))
-      user.handle ? router.push('/profile'): router.push('/handle')
-     
+      // user.handle ? router.push('/profile'): router.push('/handle')
+     router.push('/handle')
     } catch (err: any) {
       setErrorMsg(err.message || 'OTP verification failed')
     } finally {
