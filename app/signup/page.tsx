@@ -56,8 +56,8 @@ export default function SignIn() {
       <Image className="w-8 absolute left-2 top-2 rounded-xl" src={'/logo.png'} width={50} height={50} alt="log"/>
 
       <div className="h-screen flex items-center flex-col gap-10 justify-center login w-full">
+          <h2 className="">Please sign in to continue</h2>
         <form className="lg:w-[28%] relative w-[80%]" onSubmit={(e) => e.preventDefault()}>
-          <h2 className="mb-2 ml-23 lg:ml-19">Please sign in to continue</h2>
 
           {/* 🔥 Custom Google Button */}
           <button

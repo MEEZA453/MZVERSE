@@ -7,6 +7,7 @@ export const sendEmailOtpAction = (email: string) => async (dispatch: AppDispatc
   try {
     dispatch({ type: 'SEND_OTP_REQUEST' })
     const { data } = await api.sendEmailOtp(email)
+    console.log(data)
     dispatch({ type: 'SEND_OTP_SUCCESS', payload: data })
     return data
   } catch (error: any) {
