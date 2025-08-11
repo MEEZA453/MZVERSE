@@ -69,7 +69,7 @@ const dispatch = useDispatch<AppDispatch>();
 
 <section className=''>
 
-        <ProductImages images = {product.image}/>
+        <ProductImages images = {product?.image}/>
 </section>
 <div className='absolute top-16 left-3 flex justify-between z-[999] w-[92vw]  lg:w-[68vw]'>
  <div  className='flex gap-[2px] lg:gap-2 items-center  '>
@@ -83,13 +83,13 @@ const dispatch = useDispatch<AppDispatch>();
 <button onClick={handleFavClick}   className='' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#e3e3e3]' />}</button> 
 
 </div>
-<div  style={{ height: `${product.image.length * 50 + 50}vh` }}>
+<div  style={{ height: `${product?.image.length * 50 + 50}vh` }}>
 
         <aside  className='flex flex-col items-center  sticky top-2 overflow-y-auto   lg:mt-4'>
 
          <div className='pricing flex flex-col justify-between pb-4 relative bg-white h-40 rounded w-[96%] '>
             <div className='name flex gap-1 px-2 items-center'>
-            <h4 className='text-black'>{product.name}</h4> <label className='bg-[#000000]  text-white leading-5 text-[14px] px-1.5'>${product.amount}</label>
+            <h4 className='text-black'>{product?.name}</h4> <label className='bg-[#000000]  text-white leading-5 text-[14px] px-1.5'>${product?.amount}</label>
             </div>
             <div className='buttons px-1 relative flex flex-col items-center gap-1'>
               <button className='buy w-full h-7 bg-black text- rounded pb-1'>Buy now</button>
@@ -111,7 +111,7 @@ const dispatch = useDispatch<AppDispatch>();
           <h4 className='bg-[#1d1d1d] my-2 px-3 w-screen lg:w-[30vw]'>Tags</h4>
           <div className='flex px-3 gap-2'>
 
-          {product.hastags.map((el , i)=>{
+          {product?.hastags.map((el , i)=>{
             return <label key={i} className='text-[14px] bg-[#4d4d4d] text-[#dadada] px-2'>#{el}</label>
             
           })}

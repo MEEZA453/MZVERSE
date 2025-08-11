@@ -96,6 +96,7 @@ type SectionError = {
 
 
 const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  console.log(image)
   event.preventDefault();
 
   const sectionError: SectionError[] = sections.map((section) => {
@@ -136,7 +137,7 @@ console.log(error)
   formData.append("name", name);
 formData.append("driveLink" , url)
   formData.append("amount", amount);
-  image.forEach((file) => formData.append("images", file));
+    image.forEach((file) => formData.append("images", file));
   formData.append("sections", JSON.stringify(sections));
   formData.append("hastags", JSON.stringify(hastags));
 try {

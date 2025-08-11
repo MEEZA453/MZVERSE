@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { verifyEmailOtpAction, resendEmailOtpAction } from "../store/actions/auth"
 import { AppDispatch } from "../store/store"
-import ButtonLoader from "../Components/ButtonLoader"
+import ButtonLoader from "./ButtonLoader"
 import { LuPenLine } from "react-icons/lu";
 import { Suspense } from "react";
 import Image from "next/image"

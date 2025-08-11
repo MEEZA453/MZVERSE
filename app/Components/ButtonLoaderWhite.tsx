@@ -2,7 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const ButtonLoader = () => {
+const ButtonLoaderWhite = () => {
   return (
     <StyledWrapper className=' flex items-center justify-center'>
       <svg viewBox="25 25 50 50">
@@ -21,7 +21,7 @@ const StyledWrapper = styled.div`
 
   circle {
    fill: none;
-   stroke: hsl(0, 0%, 0%);
+   stroke: hsl(0, 0%, 100%);
    stroke-width: 1;
    stroke-dasharray: 1, 200;
    stroke-dashoffset: 0;
@@ -51,4 +51,4 @@ const StyledWrapper = styled.div`
    }
   }`;
 
-export default ButtonLoader;
+export default ButtonLoaderWhite;

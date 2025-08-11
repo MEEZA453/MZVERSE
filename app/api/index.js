@@ -1,6 +1,6 @@
 import axios from 'axios' 
-const url = 'https://meeza-in-8.onrender.com/' 
-//  const url  = 'http://localhost:8080/'
+// const url = 'https://meeza-in-8.onrender.com/' 
+ const url  = 'http://localhost:8080/'
 export const registerUser = (user) =>
   axios.post(`${url}user/register`, user);
 export const getProductById = (handle)=> axios.get(`${url}user/getProductById/${handle}`)
@@ -76,5 +76,33 @@ axios.get(`${url}fav/favoritesByHandle/${handle}`, {
   headers: { Authorization: `Bearer ${token}` }
 });
 
-  
+
+export const createPost = (newPost, token) => {
+  return axios.post(`${url}post/createPost`, newPost, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
+
+// Get All Posts
+export const getPosts = () => axios.get(`${url}post`);
+
+// Get Post By ID
+export const getPostById = (id) => axios.get(`${url}post/${id}`);
+
+// Vote on Post
+export const getVotesByPost = (postId) => axios.get(`${url}post/${postId}/votes`);
+
+// Get votes by a user
+export const getVotesByUser = (userId) => axios.get(`${url}user/${userId}/votes`);
+
+// Get all votes (admin / analytics)
+export const getAllVotes = () => axios.get(`${url}votes`);
+
+// Delete current user's vote for a post
+export const deleteVote = (postId, token) => axios.delete(`${url}post/${postId}/vote`, {
+  headers: { Authorization: `Bearer ${token}` }
+});
 
