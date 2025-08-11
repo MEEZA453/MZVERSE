@@ -31,6 +31,7 @@ export const getPostsAction = () => async (dispatch: AppDispatch) => {
 
 // Fetch Single Post
 export const getPostByIdAction = (id: string) => async (dispatch: AppDispatch) => {
+
   try {
     dispatch({ type: 'FETCH_POST_REQUEST' });
     const { data } = await api.getPostById(id);

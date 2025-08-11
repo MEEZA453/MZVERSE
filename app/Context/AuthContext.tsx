@@ -24,6 +24,7 @@ interface AuthContextType {
   logout: () => void;
   profileLink: string;
   isLoggedIn: boolean;
+  token : string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profileLink, setProfileLink] = useState('');
   const router = useRouter();
-
+const [token , setToken] = useState('')
     useEffect(() => {
     if (typeof window !== 'undefined') {
       const profile = localStorage.getItem('profile')
@@ -48,6 +49,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const setUserData = (userData: User) => {
     setUser(userData);
+    setToken(userData.token)
     const link = '/' + userData.handle;
     setProfileLink(link);
     localStorage.setItem('profile', JSON.stringify(userData));
@@ -67,6 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
+        token,
         setUserData,
         logout,
         profileLink,

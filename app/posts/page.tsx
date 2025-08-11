@@ -1,48 +1,80 @@
 'use client'
-import MasterNavber from '../Components/MasterNavber'
-import {useRouter} from 'next/navigation'
-import {users} from '../lib/DummyUser'
-import JoinCommunityInput from '../Components/JoinCommunity'
-import Login from '../Components/Login'
-import Image from 'next/image'
-import { useShowInput } from '../Context/ShowInputContext'
-export default function Posts(){
-    const router = useRouter()
-    const {showLoginInput , setShowLoginInput , setShowSignupInput , showSignupInput} = useShowInput()
-   const allPosts = users.flatMap(user => user.post.map(post => ({
-    
-    ...post,
-    userId: user.id,
-    userName: user.name,
-    userProfile: user.profile
-  })))
-const handleProfileClick = (userId:string)=>{
-    window.location.href = window.location.origin+'/'+userId
-}
-    return <div>
-            <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
+import MasterNavber from '../Components/MasterNavber';
+import { useAssets } from '../Context/AllAssetsContext';
+import {useRouter , usePathname} from 'next/navigation';
+import Image from 'next/image';
+import {Product} from '../types/Product';
+import {useState , useEffect} from 'react'
+import Notification from '../Components/Notification';
+import Loading from '../Components/loading'
+import { useDispatch  ,useSelector } from 'react-redux'
+import { MdOutlineAttachFile } from "react-icons/md";
+import { AppDispatch } from '../store/store'
+import { useAuth } from '../Context/AuthContext';
+import { getPostsAction } from '../store/actions/post';
+export default function AllPosts() {
+  const currentPath  = usePathname();
 
-    {showSignupInput ? <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999]">
-<JoinCommunityInput setShowSignupInput={setShowSignupInput}/>
-</div>: null}
- {showLoginInput ? <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999]">
-<Login setShowLoginInput={setShowLoginInput}/>
-</div>: null}
+const dispatch = useDispatch<AppDispatch>();
+  const router = useRouter();
+  const [red , setRed ] = useState(false)
+    const [data , setData] = useState([])
+  const { posts , loading} = useSelector((state: any) => state.posts);
 
-                <div  className='grid grid-cols-3 lg:grid-cols-5'>
+  useEffect(()=>{
+   dispatch(getPostsAction())
+  },[dispatch])
+  const handleClick = (path : string):void=>{
+    router.push(currentPath + '/'+path)
+  }
+  const {token } = useAuth()
 
-      {allPosts.map((p , i)=>{  
-          return <div  key={i} className="group relative flex flex-col  items-center justify-center lg:p-4 p-2 border-r border-b border-[#4d4d4d] h-4 lg:h-90 min-h-[200px]">
-              <div onClick={()=> handleProfileClick(p.userId)} className='flex cursor-pointer gap-1 lg:gap-2 items-center absolute top-2 left-1'>
+  return (
+    <div className='w-screen'>
+      <Notification/>
+      <MasterNavber />
+     
 
-         <Image height = {100} width = {100} alt = 'dfd'  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
-                <h3 className='opacity-[0.66]'>{p.userId}</h3>
+   {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>
+        {posts?.map((post:any, index:number) => (
+          <div
+        
+            key={index}
+            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
+          >
+          
+
+{post.images && post.images.length > 0 ? (
+  <Image
+    onClick={()=>handleClick(post._id)}
+    height={300}
+    width={300}
+    alt="dff"
+    src={post.images[0]}
+    className="w-[55%] lg:mb-4 lg:w-[55%]"
+    priority
+  />
+) : null}
+
+            <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
+              <div className="flex items-center gap-2">
+             
+                 {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+              </div>
+              <div className='flex gap-1'>
+                {post?.hastags?.map((h , i)=>{
+                  return  <p key={i} className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                #{h} 
+              </p>
+                })}
+              </div>
+             
             </div>
+          </div>
+        ))}
+      </div> : <Loading/>}
+<div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div>
 
-            <Image height = {300} width = {300} alt = 'dfd' className=' w-[70%]  mb-2 lg:mb-4 lg:w-[55%]'
-            //  onClick={()=> { window.location.href = window.location.origin+'/'+ p.userId+'/Gallary'}}
-              src={p.images[0]}/></div>
-        })}
-        </div>
     </div>
+  );
 }

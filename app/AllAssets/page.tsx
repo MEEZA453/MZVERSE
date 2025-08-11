@@ -6,19 +6,14 @@ import Image from 'next/image';
 import {Product} from '../types/Product';
 import {useState} from 'react'
 import Notification from '../Components/Notification';
-import Login from '../Components/Login'
-import JoinCommunityInput from '../Components/JoinCommunity';
 import Loading from '../Components/loading'
-import { useShowInput } from '../Context/ShowInputContext';
+
 import { MdOutlineAttachFile } from "react-icons/md";
 
-import { useAuth } from '../Context/AuthContext';
-import { HiOutlineLinkSlash } from 'react-icons/hi2';
-import { AnimatePresence } from 'framer-motion';
 export default function AllAssets() {
   const currentPath  = usePathname();
-  const showCreateProduct = true;
-  const {showLoginInput , setShowLoginInput  , setShowSignupInput , showSignupInput } = useShowInput()
+
+
   const router = useRouter();
   const [red , setRed ] = useState(false)
   const { data , loading }: { data: Product[] , loading : boolean } = useAssets();
@@ -30,10 +25,9 @@ export default function AllAssets() {
   return (
     <div className='w-screen'>
       <Notification/>
-      <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
+      <MasterNavber />
      
-     <AnimatePresence mode='wait'> {showLoginInput ? <div className='z-[999] fixed  -translate-y-20  bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}</AnimatePresence>
-      <AnimatePresence mode='wait'>{showSignupInput ? <div className='z-[999] fixed flex -translate-y-20 items-center justify-center   bg-black/70 h-screen w-screen '><JoinCommunityInput setShowSignupInput={setShowSignupInput}/></div>:null}</AnimatePresence>
+
    {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>
         {data?.map((product, index) => (
           <div
