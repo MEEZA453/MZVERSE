@@ -15,6 +15,18 @@ export const createPostAction = (formData: FormData, token: string) => async (di
   }
 };
 
+export const deletePostAction = (id: string, token: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: 'DELETE_POST_REQUEST' });
+    await api.deletePost(id, token); // Call API
+    dispatch({ type: 'DELETE_POST_SUCCESS', payload: id });
+    return id;
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    dispatch({ type: 'DELETE_POST_FAIL', payload: errMsg });
+    throw new Error(errMsg);
+  }
+}
 // Fetch All Posts
 export const getPostsAction = () => async (dispatch: AppDispatch) => {
   try {

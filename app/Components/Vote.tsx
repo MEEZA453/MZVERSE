@@ -50,7 +50,7 @@ setLoading(true)
 
 {fieldOfVote?.map((vote , i)=>{
 
-return  <div  className='flex gap-0.5 flex-col'>
+return  <div key={i} className='flex gap-0.5 flex-col'>
     <div className='w-full flex justify-between'>   <h3  className='text-black leading-[-10px]'>
         {vote}
             </h3>

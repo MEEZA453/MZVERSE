@@ -37,6 +37,20 @@ const posts = (state = initialState, action: AnyAction): PostState => {
     case 'FETCH_POST_SUCCESS':
       return { ...state, loading: false, post: action.payload };
 
+case 'DELETE_POST_REQUEST':
+  return { ...state, loading: true, error: null };
+
+case 'DELETE_POST_SUCCESS':
+  return {
+    ...state,
+    loading: false,
+    posts: state.posts.filter((p) => p._id !== action.payload),
+    post: state.post && state.post._id === action.payload ? null : state.post
+  };
+
+case 'DELETE_POST_FAIL':
+  return { ...state, loading: false, error: action.payload };
+
     case 'VOTE_POST_SUCCESS':
       return {
         ...state,

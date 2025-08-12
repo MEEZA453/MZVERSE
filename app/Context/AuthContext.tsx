@@ -10,12 +10,12 @@ import {
 import { useRouter } from 'next/navigation';
 
 export interface User {
-  profile : string,
-  handle : string
+  _id:string;
+  profile: string;
+  handle: string;
   name: string;
   email: string;
-  token?: string;
-  // Add any other fields your API returns
+  token?: string; // optional because it may be missing from API
 }
 
 interface AuthContextType {
@@ -24,7 +24,7 @@ interface AuthContextType {
   logout: () => void;
   profileLink: string;
   isLoggedIn: boolean;
-  token : string;
+  token: string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,24 +32,25 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profileLink, setProfileLink] = useState('');
+  const [token, setToken] = useState('');
   const router = useRouter();
-const [token , setToken] = useState('')
-    useEffect(() => {
+
+  // ✅ Load from localStorage on first render
+  useEffect(() => {
     if (typeof window !== 'undefined') {
-      const profile = localStorage.getItem('profile')
+      const profile = localStorage.getItem('profile');
       if (profile) {
-        const parsedUser = JSON.parse(profile)
-        setUser(parsedUser)
-        setProfileLink(parsedUser.handle)
+        const parsedUser = JSON.parse(profile) as User;
+        setUser(parsedUser);
+        setProfileLink(parsedUser.handle);
+        setToken(parsedUser.token || ''); // ✅ Restore token
       }
     }
-  }, [])
-  // Load from localStorage on first render
-
+  }, []);
 
   const setUserData = (userData: User) => {
     setUser(userData);
-    setToken(userData.token)
+    setToken(userData.token || '');
     const link = '/' + userData.handle;
     setProfileLink(link);
     localStorage.setItem('profile', JSON.stringify(userData));
@@ -60,6 +61,7 @@ const [token , setToken] = useState('')
   const logout = () => {
     setUser(null);
     setProfileLink('');
+    setToken('');
     localStorage.removeItem('profile');
     localStorage.removeItem('profileLink');
     router.push('/signup');

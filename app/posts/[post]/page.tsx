@@ -11,13 +11,17 @@ import ProductImages from '../../Components/ProductImages'
 import Vote from '../../Components/Vote'
 import { useAuth } from '../../Context/AuthContext'
 import { getVotesByPost } from '../../api'
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import PostMenu from '../../Components/PostMenu'
+
 export default function Post() {
     const dispatch = useDispatch<AppDispatch>()
-    const { post, loading , votes } = useSelector((state: RootState) => state.posts)
+    const { post, loading , votes } = useSelector((state: any) => state.posts)
     const [openIndex , setOpenIndex] = useState(0)
     const [currentIndex ,setCurrentIndex] = useState(0)
+    const [isMenu , setIsMenu]  = useState(false)
     const postId = usePathname().split('/')[2]
-    const {user} = useAuth()
+    const {user ,token} = useAuth()
     const router  = useRouter()
 console.log(votes)
     useEffect(() => {
@@ -26,22 +30,28 @@ console.log(votes)
         dispatch(fetchVotesByPostAction(postId))
     }, [dispatch, postId])
     
-const existingVote = post?.votes?.find(v => v.user._id === user._id);
-console.log(post)
+    console.log(token)
+const existingVote = post?.votes?.find(v => v.user._id === user?._id);
+
     return (
         <div>
+            {post?.createdBy?.handle === user?.handle ?<div>
+
+            <button className='top-16 left-3 z-100   lg:left-10 absolute' onClick={()=> setIsMenu(true)}><HiOutlineDotsVertical color='white' /></button>
+         {  isMenu ?  <PostMenu token={token?token:''} postId = {postId}/>:null}
+            </div>:null}
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token}/>
             <MasterNavber/>
             {!loading ?<div className='lg:flex'>
             <ProductImages images={post?.images}/>
 
     
-     <div className='w-full '>
+     <div onClick={()=>setIsMenu(false)} className='w-full '>
           <h6  className='mb-3 px-2'>Score:</h6>
         <div className='w-full '>
 
 {post?.voteFields?.map((field : any ,index : number)=>{
-    return <div className='score px-2 mb-1'>
+    return <div key={index} className='score px-2 mb-1'>
               
                 <div className=''>
                 <div className='overall w-full h-6 flex items-center justify-between  relative'>
@@ -68,7 +78,7 @@ console.log(post)
 <div className='tabs  mt-6'>
     <div className='flex px-3 gap-7'>
 {['Community members' , 'Others'].map((el , i)=>{
-    return <h6 style={{opacity :currentIndex === i ? 1 : 0.66}} typeof='button' onClick={()=> setCurrentIndex(i)}>{el}</h6>
+    return <h6 key={i} style={{opacity :currentIndex === i ? 1 : 0.66}} typeof='button' onClick={()=> setCurrentIndex(i)}>{el}</h6>
 })}
 </div>
 <div className='w-full border-t  border-[#4d4d4d] h-1.5 caro'>
@@ -89,7 +99,7 @@ console.log(post)
     </div>
     <div>
    {votes.map((vote , i)=>{
-    return  <div onClick={()=> setOpenIndex(i)} key={i} className={`vote duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-40': 'h-10' }`}>
+    return  <div  onClick={()=> setOpenIndex(i)} key={i} className={`vote duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-40': 'h-10' }`}>
   <div className='w-full pt-1 overview flex pr-8 justify-between'>
 <div className='vote flex  items-center gap-20.5'>
     <div className='profile  flex items-center gap-1'>

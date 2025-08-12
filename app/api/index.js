@@ -91,7 +91,11 @@ export const getPosts = () => axios.get(`${url}post`);
 
 // Get Post By ID
 export const getPostById = (id) => axios.get(`${url}post/${id}`);
-
+export const deletePost = (id , token )=>axios.delete(`${url}post/deletePost/${id}`,{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
 // Vote on Post
 export const getVotesByPost = (postId) => axios.get(`${url}post/${postId}/votes`);
 

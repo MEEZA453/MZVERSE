@@ -5,9 +5,10 @@ import { useEffect, useState , useRef }  from 'react';
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { GoPlus } from "react-icons/go";
-
+import { GoPlusCircle } from "react-icons/go";
+import CreateMenu from './CreateMenu';
 import { useAuth } from '../Context/AuthContext';
-
+import Image from 'next/image';
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
   setShowSignupInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -18,7 +19,7 @@ export default function MasterNavber({setShowLoginInput , setShowSignupInput}:Ma
 
   
   const {isLoggedIn , profileLink , user} = useAuth();
-  console.log(profileLink)
+ const [openCreate , setOpenCreate] = useState(false)
   const currentPath = usePathname();
 const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   const outerMenu: { name: string; path: string }[] = [
@@ -56,7 +57,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
 // }
 // },[])
   return (
-    <nav className="w-screen  overflow-hidden">
+    <nav  className="w-screen  overflow-hidden">
 
       <div className="top  w-screen border-[#4d4d4d] flex justify-between items-center h-10 px-1 lg:px-2">
         {/* <img src="/logo.png" className="w-6 lg:w-7" /> */}
@@ -90,9 +91,11 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
             /> */}
           </div>
           {/* <h6>[ 10 ]</h6> */}
-          {isLoggedIn? <div className='flex  gap-2 lg:gap-4'><div className='flex gap-2'>
-            <button className=" text-white border px-2.5 py-0.5 rounded"onClick={()=> router.push('/createProduct')} ref={dynamicButtonRef}>Create item</button>
-                      <img onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src={user.profile}/>
+          {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>
+            <button style={{rotate : openCreate ? '45deg' : '0deg'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
+
+            {openCreate ? <CreateMenu/>:null}
+                      <Image height = {100} width ={100} alt ="profile" onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src={user.profile}/>
                       
           
  </div></div>
