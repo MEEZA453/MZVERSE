@@ -13,7 +13,7 @@ import { useAuth } from '../../Context/AuthContext'
 import { getVotesByPost } from '../../api'
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import PostMenu from '../../Components/PostMenu'
-
+import ImageShower from '../../Components/ImageShower'
 export default function Post() {
     const dispatch = useDispatch<AppDispatch>()
     const { post, loading , votes } = useSelector((state: any) => state.posts)
@@ -43,8 +43,8 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token}/>
             <MasterNavber/>
             {!loading ?<div className='lg:flex'>
-            <ProductImages images={post?.images}/>
-
+        {/* <ProductImages images={post?.images}/> */}
+<ImageShower images = {post?.images}/>
     
      <div onClick={()=>setIsMenu(false)} className='w-full '>
           <h6  className='mb-3 px-2'>Score:</h6>
@@ -93,20 +93,20 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 <div  style={{transform : `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
     <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>
-    <div className='gap-50 mb-4 flex'>
+    <div className='gap-36 lg:gap-50 mb-4 flex'>
         <p>Origin</p>
         <p>Passion</p>
     </div>
     <div>
    {votes.map((vote , i)=>{
-    return  <div  onClick={()=> setOpenIndex(i)} key={i} className={`vote duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-40': 'h-10' }`}>
-  <div className='w-full pt-1 overview flex pr-8 justify-between'>
-<div className='vote flex  items-center gap-20.5'>
-    <div className='profile  flex items-center gap-1'>
+    return  <div  onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded px-2 pt-2 duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-40': 'h-10' }`}>
+  <div className='w-full pt-1 overview flex  lg:pr-8 justify-between'>
+<div className='vote flex  items-center gap-15 lg:gap-20.5'>
+    <div className='profile w-30  flex items-center gap-1'>
         <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote.user.profile || '/image.png'} className = 'h-8 w-8 rounded-full object-cover'/>
-        <h6>@{vote.user.handle}</h6>
+        <h3 >@{vote.user.handle}</h3>
     </div>
-    <h6>Designer</h6>
+    <h3 >Designer</h3>
 </div>
 <h6>8</h6>
 </div>

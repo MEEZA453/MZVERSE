@@ -36,7 +36,7 @@ setLoading(true)
     dispatch(votePostAction(postId, votes, token));
     setLoading(false)
 };
-    return <div typeof='button' onClick={()=>setIsOpen(true)} className={` duration-500 ease-in-out bg-[#dadada] flex items-center justify-center fixed z-100 bottom-5   ${isOpen ?`  rounded $ ${isMobile ? ' -translate-x-1/2 h-80 left-1/2 w-[95%]':'w-100 h-80 right-5'}`: `${isMobile ? 'w-[95%] rounded-[3px] h-7 -translate-x-1/2 left-1/2':'w-13 h-13  rounded-[30px] right-0 '}  `}`}>
+    return <div  onClick={()=>setIsOpen(true)} className={` duration-500 ease-in-out bg-[#dadada] flex items-center justify-center fixed z-100 bottom-5   ${isOpen ?`  rounded $ ${isMobile ? ' -translate-x-1/2 h-80 left-1/2 w-[95%]':'w-100 h-80 right-5'}`: `${isMobile ? 'w-[95%] rounded-[3px] h-7 -translate-x-1/2 left-1/2':'w-13 h-13  rounded-[30px] right-0 '}  `}`}>
     
     <div>{isOpen ?<motion.form initial={{opacity : 0 }}
     animate = {{opacity : 1}}
