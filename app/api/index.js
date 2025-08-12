@@ -105,4 +105,10 @@ export const getAllVotes = () => axios.get(`${url}votes`);
 export const deleteVote = (postId, token) => axios.delete(`${url}post/${postId}/vote`, {
   headers: { Authorization: `Bearer ${token}` }
 });
+export const votePost = (postId, voteData, token) =>
+  axios.post(`${url}post/${postId}/vote`, voteData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 

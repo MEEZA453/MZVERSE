@@ -1,41 +1,47 @@
 'use client'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { usePathname } from 'next/navigation'
-import { getPostByIdAction } from '../../store/actions/post'
+import { usePathname, useRouter } from 'next/navigation'
+import { fetchVotesByPostAction, getPostByIdAction } from '../../store/actions/post'
 import { AppDispatch, RootState } from '../../store/store'
 import MasterNavber from '../../Components/MasterNavber'
 import Loading from '../../Components/loading'
 import Image from 'next/image'
 import ProductImages from '../../Components/ProductImages'
+import Vote from '../../Components/Vote'
+import { useAuth } from '../../Context/AuthContext'
+import { getVotesByPost } from '../../api'
 export default function Post() {
     const dispatch = useDispatch<AppDispatch>()
-    const { post, loading } = useSelector((state: RootState) => state.posts)
+    const { post, loading , votes } = useSelector((state: RootState) => state.posts)
     const [openIndex , setOpenIndex] = useState(0)
     const [currentIndex ,setCurrentIndex] = useState(0)
     const postId = usePathname().split('/')[2]
-
+    const {user} = useAuth()
+    const router  = useRouter()
+console.log(votes)
     useEffect(() => {
         console.log('calling API for postId:', postId)
         dispatch(getPostByIdAction(postId))
+        dispatch(fetchVotesByPostAction(postId))
     }, [dispatch, postId])
-
-    console.log(post)
-
+    
+const existingVote = post?.votes?.find(v => v.user._id === user._id);
+console.log(post)
     return (
         <div>
+<Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token}/>
             <MasterNavber/>
             {!loading ?<div className='lg:flex'>
             <ProductImages images={post?.images}/>
 
-
     
      <div className='w-full '>
-          <h6  className='mb-3'>Score:</h6>
+          <h6  className='mb-3 px-2'>Score:</h6>
         <div className='w-full '>
 
 {post?.voteFields?.map((field : any ,index : number)=>{
-    return <div className='score mb-1'>
+    return <div className='score px-2 mb-1'>
               
                 <div className=''>
                 <div className='overall w-full h-6 flex items-center justify-between  relative'>
@@ -51,7 +57,7 @@ export default function Post() {
             <div className='score'>
                 
                       <div className=''>
-                <div className='overall w-full h-6 flex items-center justify-between  relative'>
+                <div className='overall px-2 w-full h-6 flex items-center justify-between  relative'>
                     <h3  style={{color : 'black'}} className='z-10 ml-2'>Overall</h3>
                     <h3 >45%</h3>
                     <div className='ber w-[56%] h-full bg-white absolute top-0'></div>
@@ -60,7 +66,7 @@ export default function Post() {
             </div>
         </div>
 <div className='tabs  mt-6'>
-    <div className='flex gap-7'>
+    <div className='flex px-3 gap-7'>
 {['Community members' , 'Others'].map((el , i)=>{
     return <h6 style={{opacity :currentIndex === i ? 1 : 0.66}} typeof='button' onClick={()=> setCurrentIndex(i)}>{el}</h6>
 })}
@@ -73,22 +79,22 @@ export default function Post() {
 </div>
 
 
-<div className='votes mt-4  relative w-[30vw] h-[60vh] overflow-x-hidden overflow-y-scroll'>
-<div  style={{transform : `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[60vw]  flex'>
-    <div className='h-100 w-[30vw] community-votes  '>
+<div className='votes mt-4 border-b border-[#4d4d4d] relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll'>
+<div  style={{transform : `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
+    <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>
     <div className='gap-50 mb-4 flex'>
         <p>Origin</p>
         <p>Passion</p>
     </div>
     <div>
-   {Array.from({length : 10}).map((_ , i)=>{
+   {votes.map((vote , i)=>{
     return  <div onClick={()=> setOpenIndex(i)} key={i} className={`vote duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-40': 'h-10' }`}>
   <div className='w-full pt-1 overview flex pr-8 justify-between'>
 <div className='vote flex  items-center gap-20.5'>
     <div className='profile  flex items-center gap-1'>
-        <Image height = {40} width = {40} alt  = 'profile pic' src='/image.png' className = 'h-8 w-8 rounded-full object-cover'/>
-        <h6>@madybymeeza</h6>
+        <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote.user.profile || '/image.png'} className = 'h-8 w-8 rounded-full object-cover'/>
+        <h6>@{vote.user.handle}</h6>
     </div>
     <h6>Designer</h6>
 </div>
@@ -96,13 +102,24 @@ export default function Post() {
 </div>
 
 <div style={{opacity : openIndex === i ? 1 : 0}} className='details duration-300 delay-200 mt-2 px-10 w-full '>
-  {post?.voteFields?.map((el , i)=>{
-    return <div className='justify-between w-full flex'>
-        <p className='mb-1'>{el}</p>
-        <p>7.5</p>
+
+<div className='justify-between w-full flex'>
+        <p className='mb-1'>Creativity:</p>
+        <p>{vote.creativity}</p>
     </div>
-  })}
-  <div className='w-full flex justify-between'><h3>Overall</h3><h3>8.8</h3></div>
+<div className='justify-between w-full flex'>
+        <p className='mb-1'>Aesthetics:</p>
+        <p>{vote.aesthetics}</p>
+    </div>
+<div className='justify-between w-full flex'>
+        <p className='mb-1'>Composition:</p>
+        <p>{vote.composition}</p>
+    </div>
+<div className='justify-between w-full flex'>
+        <p className='mb-1'>Emotion:</p>
+        <p>{vote.emotion}</p>
+    </div>
+  <div className='w-full flex justify-between'><h3>Overall</h3><h3>{8.8}</h3></div>
 </div>
   
  </div>

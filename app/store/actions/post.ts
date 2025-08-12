@@ -44,6 +44,24 @@ export const getPostByIdAction = (id: string) => async (dispatch: AppDispatch) =
   }
 };
 
+export const votePostAction = (postId: string, voteData: any, token: string) => 
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch({ type: "VOTE_POST_REQUEST" });
+
+      const { data } = await api.votePost(postId, voteData, token);
+
+      dispatch({ type: "VOTE_POST_SUCCESS", payload: data });
+
+      return data;
+    } catch (error: any) {
+      const errMsg = error.response?.data?.message || error.message;
+      dispatch({ type: "VOTE_POST_FAIL", payload: errMsg });
+      throw new Error(errMsg);
+    }
+};
+
+
 // Vote on Post
 export const fetchVotesByPostAction = (postId: string) => async (dispatch: AppDispatch) => {
   try {
