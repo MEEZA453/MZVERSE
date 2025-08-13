@@ -30,17 +30,17 @@ const dispatch = useDispatch<AppDispatch>();
   const {token } = useAuth()
 
   return (
-    <div className='w-screen'>
+    <div className='w-screen px-2'>
       <Notification/>
       <MasterNavber />
      
 
-   {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>
+   {   !loading ? <div className='lg:grid-cols-5  border-l border-[#4d4d4d] pl-1 grid-cols-2 grid'>
         {posts?.map((post:any, index:number) => (
           <div
         
             key={index}
-            className=" relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
+            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
           >
           <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div>
           
@@ -52,7 +52,7 @@ const dispatch = useDispatch<AppDispatch>();
     width={300}
     alt="dff"
     src={post.images[0]}
-    className="w-[70%] lg:mb-4 lg:w-[55%]"
+    className="w-[75%] lg:mb-4 lg:w-[55%]"
     priority
   />
 ) : null}

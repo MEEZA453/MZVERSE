@@ -5,7 +5,7 @@ import { getFavoritesByHandle } from '../store/actions/fav';
 import Image from 'next/image';
 import Loading from '../Components/loading'
 import { AppDispatch } from '../store/store';
-export default function Favourites(){
+export default function Crafts(){
     const [token , setToken] = useState('')
     const dispatch = useDispatch<AppDispatch>();
 const  handle = usePathname().split('/')[1]
@@ -21,7 +21,7 @@ const  handle = usePathname().split('/')[1]
 
 
    useEffect(() => {
-    console.log('called')
+
     if (token) {
       dispatch(getFavoritesByHandle(token , handle));
     }
@@ -32,7 +32,7 @@ const  handle = usePathname().split('/')[1]
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
-    return <div className='fav border-l border-[#4d4d4d] w-screen h-full'>
+    return <div className=' border-l border-[#4d4d4d] w-[100vw] h-full'>
     { !loading?<div className='lg:grid-cols-5 grid-cols-2 grid'>
     {favourites?.map((product:any, index : number) => (
              <div
