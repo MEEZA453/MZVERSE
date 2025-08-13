@@ -6,6 +6,7 @@ import { createPostAction } from "../store/actions/post";
 import { useRouter } from "next/navigation";
 import ImageInput from "../Components/ImageInput";
 import ButtonLoaderWhite from "../Components/ButtonLoaderWhite";
+import ButtonLoader from "../Components/ButtonLoader";
 
 
 type ErrorState = {
@@ -112,19 +113,15 @@ const toggleVoteField = (field: string) => {
     
     <div className="">
 
-    <form onSubmit={formSubmit} className="lg:flex">
-             <div className=" bg-[#1d1d1d] w-full py-2  z-[100] flex fixed top-0 px-3 justify-between items-center">
-                <img src='/logo.png' className="w-8 rounded-xl object-cover"/>
-                <button type="submit" className=" text-white flex w-25 h-8 items-center justify-center border px-2.5 py-0.5 rounded-full">{loading ?<ButtonLoaderWhite/>:'Share craft'}</button>
-
-            </div>  
+    <form onSubmit={formSubmit} className="lg:flex px-2">
+         
             <section className=''>
              <ImageInput  error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />
      
       </section>
       <div className="w-full  lg:mt-20">
-
-<div className="w-full px-2 gap-1  grid grid-cols-2">
+<h6 className="mb-1">Field of judgement:</h6>
+<div className="w-full gap-1  grid grid-cols-2">
   {["creativity", "aesthetics", "composition", "emotion"].map(field => (
     <div  
     className="h-20 px-2 py-1 border-[#2c2b2b] border rounded "
@@ -136,25 +133,26 @@ const toggleVoteField = (field: string) => {
        color: selectedVoteFields.includes(field) ? "black" : "white"
     }}
     >
-      <h6 >
+      <h5  >
 
       {field}
-      </h6>
+      </h5>
     </div>
   ))}
 </div>
-<div className="mt-2 px-2">
+<p style={{fontSize : '13px'}} className="mt-0.5 w-90">This field of judgement determine in how many bases other artiest can judge you.</p>
+<div className="mt-2 ">
   <h6>name:</h6>
       <input
         type="text"
         name="name"
         
         value={formData.name}
-        className={`p-2  border-[#2c2b2b] border ${error.nameError ?  'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
+        className={`py-2  border-[#2c2b2b] border ${error.nameError ?  'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
         onChange={handleChange}
         />
         </div>
-<div className="mt-2 px-2">
+<div className="mt-2 ">
   <h6>Catagory:</h6>
    <input
   type="text"
@@ -166,7 +164,7 @@ const toggleVoteField = (field: string) => {
 />
 </div>
 
-<div className="mt-2 px-2">
+<div className="mt-2 ">
   <h6>Description:</h6>
       <textarea
         name="description"
@@ -178,9 +176,9 @@ const toggleVoteField = (field: string) => {
 </div>
   
 
-
-  
+     <button type="submit" className=" text-black flex w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ?<ButtonLoader/>:'Share'}</button>
   </div>
+
     </form>
         </div>
   );

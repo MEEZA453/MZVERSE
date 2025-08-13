@@ -4,7 +4,7 @@ export default function ImageShower ({images = []}){
    <div className="flex w-[300vw]">
 
 {images?.map((img : string , i : number)=>{
-    return      <div key={i} className="h-full w-[100vw] flex items-center justify-center"> <Image src={img} height = {400} width = {300} alt = 'image' className = 'w-[80%]'/>
+    return      <div key={i} className="h-fit w-[100vw] flex items-center justify-center"> <Image src={img} height = {400} width = {300} alt = 'image' className = 'w-[70%]'/>
 
         </div>
 })}

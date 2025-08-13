@@ -14,6 +14,21 @@ import { getVotesByPost } from '../../api'
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import PostMenu from '../../Components/PostMenu'
 import ImageShower from '../../Components/ImageShower'
+import {motion} from 'framer-motion'
+
+
+type AveragesType = {
+  aesthetics: number;
+  composition: number;
+  creativity: number;
+  emotion: number;
+};
+const defaultAverages: AveragesType = {
+  aesthetics: 0,
+  composition: 0,
+  creativity: 0,
+  emotion: 0,
+};
 export default function Post() {
     const dispatch = useDispatch<AppDispatch>()
     const { post, loading , votes } = useSelector((state: any) => state.posts)
@@ -24,12 +39,25 @@ export default function Post() {
     const {user ,token} = useAuth()
     const router  = useRouter()
 
+
+
     useEffect(() => {
         console.log('calling API for postId:', postId)
         dispatch(getPostByIdAction(postId))
         dispatch(fetchVotesByPostAction(postId))
     }, [dispatch, postId])
     
+const averages = post?.voteFields?.reduce((acc, category) => {
+  const total = votes.reduce((sum, vote) => sum + vote[category], 0);
+  acc[category] = parseFloat((total / votes.length).toFixed(2));
+  return acc;
+}, {});
+// const values = Object.values(averages as AveragesType); // [8.37, 8.57, 7.37, 8.57]
+// const totalAverage = (
+//   values.reduce((sum, val) => sum + val, 0) / values.length
+// ).toFixed(1);
+
+// console.log(totalAverage)
 
 const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 
@@ -56,24 +84,21 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
                 <div className=''>
                 <div className='overall w-full h-6 flex items-center justify-between  relative'>
                     <h3   className='z-10 ml-2'>{field}:</h3>
-                    <h3 >45%</h3>
-                    <div className='ber w-[56%] h-full bg-[#1d1d1d] absolute top-0'></div>
+                    <h3 >{averages[field]}</h3>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10)-5}%`}} transition={{duration : 1 , ease : 'linear'}} className='ber h-full bg-[#1d1d1d] absolute top-0'></motion.div>
                 </div>
                 </div>
             </div>
             
+
+
 })}
 
-            <div className='score'>
-                
-                      <div className=''>
-                <div className='overall px-2 w-full h-6 flex items-center justify-between  relative'>
-                    <h3  style={{color : 'black'}} className='z-10 ml-2'>Overall</h3>
-                    <h3 >45%</h3>
-                    <div className='ber w-[56%] h-full bg-white absolute top-0'></div>
+             <div className='score w-full h-6 flex items-center px-2 justify-between  relative'>
+                    <h3   className='z-10 text-black ml-2'>Score:</h3>
+                    <h3 >10</h3>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${70-5}%`}} transition={{duration : 1 , ease : 'linear'}} className='ber h-full bg-[#dadada] absolute top-0'></motion.div>
                 </div>
-                </div>
-            </div>
         </div>
 <div className='tabs  mt-6'>
     <div className='flex px-3 gap-7'>
@@ -108,28 +133,24 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
     </div>
     <h3 >Designer</h3>
 </div>
-<h6>8</h6>
+<h6>  {(
+        post?.voteFields?.reduce((sum, field) => sum + (vote[field] || 0), 0) / post.voteFields.length
+      ).toFixed(1)} </h6>
 </div>
 
-<div style={{opacity : openIndex === i ? 1 : 0}} className='details duration-300 delay-200 mt-2 px-10 w-full '>
 
-<div className='justify-between w-full flex'>
-        <p className='mb-1'>Creativity:</p>
-        <p>{vote.creativity}</p>
+
+<div style={{opacity : openIndex === i ? 1 : 0}} className='details duration-300 delay-200 mt-2 px-10 w-full '>
+{post?.voteFields?.map((el ,i)=>{
+    return <div key={i} className='justify-between w-full flex'>
+        <p className='mb-1'>{el}:</p>
+        <p>{vote[el]}</p>
     </div>
-<div className='justify-between w-full flex'>
-        <p className='mb-1'>Aesthetics:</p>
-        <p>{vote.aesthetics}</p>
-    </div>
-<div className='justify-between w-full flex'>
-        <p className='mb-1'>Composition:</p>
-        <p>{vote.composition}</p>
-    </div>
-<div className='justify-between w-full flex'>
-        <p className='mb-1'>Emotion:</p>
-        <p>{vote.emotion}</p>
-    </div>
-  <div className='w-full flex justify-between'><h3>Overall</h3><h3>{8.8}</h3></div>
+})}
+
+  <div className='w-full flex justify-between'><h3>Overall</h3><h3>  {(
+        post.voteFields.reduce((sum, field) => sum + (vote[field] || 0), 0) / post.voteFields.length
+      ).toFixed(1)}</h3></div>
 </div>
   
  </div>
