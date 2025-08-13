@@ -28,14 +28,16 @@ export default function AllAssets() {
       <MasterNavber />
      
 
-   {   !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid'>
+   {   !loading ? <div className='lg:grid-cols-5  grid-cols-2 px-2 grid'>
         {data?.map((product, index) => (
+          <div>
           <div
         
-            key={index}
-            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
+            key={index} 
+            className="group relative flex flex-col items-center  justify-center  border-b border-r border-[#4d4d4d] h-60 pb-3 lg:h-90 min-h-[220px]"
           >
-            <div  className='flex px-1 py-0.5 items-center absolute top-2 rounded-[2px]  right-2'><MdOutlineAttachFile className='text-white   ' size={17}/></div>
+          <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div>
+
             {/* <button onClick={handleFavClick} className='absolute top-2 left-2' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#4d4d4d]' />}</button> */}
             {/* <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
 
@@ -53,25 +55,30 @@ export default function AllAssets() {
     width={300}
     alt="dff"
     src={product.image[0]}
-    className="w-[55%] lg:mb-4 lg:w-[55%]"
+    className="w-[75%] lg:mb-4 lg:w-[55%]"
     priority
   />
 ) : null}
 
-            <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
-              <div className="flex items-center gap-2">
-                <h6 className=''>{product.name}  </h6>
+           
+     
+           <div className="  group-hover:-translate-y-5 absolute pb-2  flex justify-between items-center w-full pr-3 z-100 bottom-0 left-1 duration-200 ">
+              <div className="flex items-center  gap-1">
+                  <Image  
+  height={300}
+  width={300}
+  alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
+    <div>
+                <h3 className=''>{product.name}  </h3>
+                <p style={{fontSize : '13px'}} className=''>@madyby  </p>
+
+
+    </div>
                  {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
               </div>
-              <div className='flex gap-1'>
-                {product?.hastags?.map((h , i)=>{
-                  return  <p key={i} className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                #{h} 
-              </p>
-                })}
-              </div>
-             
+              <h6 >${product.amount}</h6>
             </div>
+                 </div>
           </div>
         ))}
       </div> : <Loading/>}

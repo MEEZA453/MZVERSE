@@ -12,7 +12,7 @@ import { useRouter } from "next/navigation";
 
 export default function Home(){
   const {isLoggedIn} = useAuth()
-  const router = useRouter()
+  const router = useRouter();
   const {setNotification} = useNotification()
 const {showLoginInput , showSignupInput ,setShowLoginInput , setShowSignupInput}  = useShowInput()
 useEffect(()=>{
