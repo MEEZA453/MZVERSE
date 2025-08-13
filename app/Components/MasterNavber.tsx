@@ -21,9 +21,9 @@ export default function MasterNavber({setShowLoginInput , setShowSignupInput}:Ma
   const {isLoggedIn , profileLink , user} = useAuth();
  const [openCreate , setOpenCreate] = useState(false)
   const currentPath = usePathname();
+  const [activeIndex ,setActiveIndex]  = useState(1)
 const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   const outerMenu: { name: string; path: string }[] = [
-    { name: 'Home', path: '/' },
     { name: 'Store', path: '/AllAssets' },
     { name: 'Gallary', path: '/posts' },
   ];
@@ -59,18 +59,20 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   return (
     <nav  className="w-screen  overflow-hidden">
 
-      <div className="top  w-screen border-[#4d4d4d] flex justify-between items-center h-10 px-1 lg:px-2">
-        {/* <img src="/logo.png" className="w-6 lg:w-7" /> */}
+      <div className="  w-screen border-[#4d4d4d] flex justify-between items-center h-10 px-1 lg:px-2">
+        
         <div>
         </div>
       </div>
 
       <div className="px-2 top-2 fixed z-[999] lg:px-3 bottom  border-[#4d4d4d] h-10 flex w-screen justify-between items-center">
-        <div className="flex gap-3 lg:gap-6">
+<button onClick={()=>router.push('/')}><img src="/logo.png" className="w-8 rounded-xl lg:w-7" /></button>
+
+        {/* <div className="flex gap-1 fixed top-15 left-1/2 -translate-x-1/2 lg:gap-6">
           {outerMenu.map((el, i) => (
-            <h6 onClick={()=> router.push(el.path)} key={i}>{el.name}</h6>
+            <button   className={`border ${i === activeIndex ? 'text-black bg-white': 'text-white'}  rounded text-[14px] lg:w-60 w-[160px] py-0.5`} onClick={()=>{ setActiveIndex(i), router.push(el.path)}} key={i}>{el.name}</button>
           ))}
-        </div>
+        </div> */}
 
         {isLargeScreen ? (
           <div className="flex gap-6">

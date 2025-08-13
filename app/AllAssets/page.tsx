@@ -35,7 +35,7 @@ export default function AllAssets() {
             key={index}
             className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
           >
-            <div  className='flex px-1 py-0.5 items-center absolute top-2 rounded-[2px] bg-white/75  right-2'><MdOutlineAttachFile className='text-black   ' size={17}/><h6 className='text-black'>3</h6></div>
+            <div  className='flex px-1 py-0.5 items-center absolute top-2 rounded-[2px]  right-2'><MdOutlineAttachFile className='text-white   ' size={17}/></div>
             {/* <button onClick={handleFavClick} className='absolute top-2 left-2' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#4d4d4d]' />}</button> */}
             {/* <div  className='flex gap-[2px] lg:gap-2 items-center absolute top-2 left-1'>
 

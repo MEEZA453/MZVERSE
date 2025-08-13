@@ -23,14 +23,14 @@ export default function Post() {
     const postId = usePathname().split('/')[2]
     const {user ,token} = useAuth()
     const router  = useRouter()
-console.log(votes)
+
     useEffect(() => {
         console.log('calling API for postId:', postId)
         dispatch(getPostByIdAction(postId))
         dispatch(fetchVotesByPostAction(postId))
     }, [dispatch, postId])
     
-    console.log(token)
+
 const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 
     return (
@@ -40,13 +40,13 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
             <button className='top-16 left-3 z-100   lg:left-10 absolute' onClick={()=> setIsMenu(true)}><HiOutlineDotsVertical color='white' /></button>
          {  isMenu ?  <PostMenu token={token?token:''} postId = {postId}/>:null}
             </div>:null}
-<Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token}/>
             <MasterNavber/>
             {!loading ?<div className='lg:flex'>
+<Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token}/>
         {/* <ProductImages images={post?.images}/> */}
-<ImageShower images = {post?.images}/>
+{window.innerWidth >640 ? <ProductImages images = {post?.images}/>:<ImageShower images = {post?.images}/>}
     
-     <div onClick={()=>setIsMenu(false)} className='w-full '>
+     <div onClick={()=>setIsMenu(false)} className='w-full mb-20 '>
           <h6  className='mb-3 px-2'>Score:</h6>
         <div className='w-full '>
 
@@ -93,7 +93,7 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 <div  style={{transform : `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
     <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>
-    <div className='gap-36 lg:gap-50 mb-4 flex'>
+    <div className='gap-35 lg:gap-50 mb-4 flex'>
         <p>Origin</p>
         <p>Passion</p>
     </div>
@@ -101,7 +101,7 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
    {votes.map((vote , i)=>{
     return  <div  onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded px-2 pt-2 duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-40': 'h-10' }`}>
   <div className='w-full pt-1 overview flex  lg:pr-8 justify-between'>
-<div className='vote flex  items-center gap-15 lg:gap-20.5'>
+<div className='vote flex  items-center gap-12 lg:gap-20.5'>
     <div className='profile w-30  flex items-center gap-1'>
         <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote.user.profile || '/image.png'} className = 'h-8 w-8 rounded-full object-cover'/>
         <h3 >@{vote.user.handle}</h3>
@@ -142,7 +142,7 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 </div>
 </div>
 
-<div className='other-detais px-2 mt-10'>
+<div className='other-detais  px-2 mt-10'>
     <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h6>madeby:</h6><h6>{post?.createdBy?.handle}</h6></div>
     <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h6>posted:</h6><h6>{post?.createdAt}</h6></div>
     <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h6>typeof:</h6><h6>{post?.category}</h6></div>

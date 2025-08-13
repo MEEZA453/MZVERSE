@@ -19,7 +19,7 @@ useEffect(()=>{
 setNotification('joinCommunity')
 },[])
 const handleClick = ()=>{
-    window.location.href = isLoggedIn ?  window.location.origin +'/AllAssets':window.location.origin +'/signup';
+    window.location.href = isLoggedIn ?  window.location.origin +'/posts':window.location.origin +'/signup';
 }
   return <div>
     <Notification/>

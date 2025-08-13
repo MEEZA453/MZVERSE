@@ -51,7 +51,7 @@ const dispatch = useDispatch<AppDispatch>();
     width={300}
     alt="dff"
     src={post.images[0]}
-    className="w-[55%] lg:mb-4 lg:w-[55%]"
+    className="w-[70%] lg:mb-4 lg:w-[55%]"
     priority
   />
 ) : null}

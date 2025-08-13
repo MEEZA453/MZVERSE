@@ -26,7 +26,7 @@ const posts = (state = initialState, action: AnyAction): PostState => {
     case 'FETCH_POSTS_REQUEST':
     case 'FETCH_POST_REQUEST':
     case 'VOTE_POST_REQUEST':
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, post :null,votes : [], error: null };
 
     case 'CREATE_POST_SUCCESS':
       return { ...state, loading: false, posts: [action.payload, ...state.posts] };

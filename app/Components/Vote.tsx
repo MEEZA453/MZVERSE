@@ -12,7 +12,10 @@ import { votePostAction } from '../store/actions/post';
     const [isOpen , setIsOpen]  = useState(false);
     const dispatch = useDispatch<AppDispatch>()
     const [loading , setLoading] = useState(false)
-const [ isMobile , setIsMobile ] = useState(false)
+const [isMobile, setIsMobile] = useState(
+  typeof window !== "undefined" ? window.innerWidth <= 640 : false
+);
+
 
 useEffect(()=>{
 
@@ -36,7 +39,7 @@ setLoading(true)
     dispatch(votePostAction(postId, votes, token));
     setLoading(false)
 };
-    return <div  onClick={()=>setIsOpen(true)} className={` duration-500 ease-in-out bg-[#dadada] flex items-center justify-center fixed z-100 bottom-5   ${isOpen ?`  rounded $ ${isMobile ? ' -translate-x-1/2 h-80 left-1/2 w-[95%]':'w-100 h-80 right-5'}`: `${isMobile ? 'w-[95%] rounded-[3px] h-7 -translate-x-1/2 left-1/2':'w-13 h-13  rounded-[30px] right-0 '}  `}`}>
+    return <div  onClick={()=>setIsOpen(true)} className={` duration-500  bg-[#dadada] flex items-center justify-center fixed z-100 bottom-5  ${isOpen ?`  rounded $ ${isMobile ? ' -translate-x-1/2 h-80 left-1/2 w-[95%]':'w-100 h-80 right-5'}`: `${isMobile ? 'w-[95%] rounded-[3px] h-7 -translate-x-1/2 left-1/2':'w-13 h-13  rounded-[30px] right-0 '}  `}`}>
     
     <div>{isOpen ?<motion.form initial={{opacity : 0 }}
     animate = {{opacity : 1}}
@@ -66,7 +69,9 @@ onChange={(e) => handleChange(vote, Number(e.target.value))}
 
 <input type='text' placeholder='Comment..' style={{color: 'black' , opacity : 1, borderRadius : '6px'}}className='w-full px-2  mt-2 rounded-[10px] bg-white h-20 text-white'/>
     <button type='submit' className='bg-black text-[14px] px-3 py-1 rounded-[3px] mt-2 flex items-center justify-center h-7 w-full'>{loading ? <ButtonLoaderWhite/> : 'Submit'}</button>
-    </motion.form> :<button className='text-black'>{isMobile ? 'Vote now' : <MdHowToVote size = {21}color='black'/>}</button>}
+    </motion.form> :<motion.button initial={{opacity : 0 }}
+    animate = {{opacity : 1}}
+    transition = {{duration :0.5 , delay : 0.5}} className='text-black'>{isMobile ? 'Vote now' : <MdHowToVote size = {21}color='black'/>}</motion.button>}
     <div className='w-full flex justify-end'>
 
     </div>
