@@ -149,7 +149,7 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 })}
 
   <div className='w-full flex justify-between'><h3>Overall</h3><h3>  {(
-        post.voteFields.reduce((sum, field) => sum + (vote[field] || 0), 0) / post.voteFields.length
+        post.voteFields.reduce((sum, field) => sum + (vote[field] || 0), 0) / post?.voteFields?.length
       ).toFixed(1)}</h3></div>
 </div>
   
