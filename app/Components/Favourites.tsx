@@ -39,6 +39,7 @@ const handleClick = (path: string): void => {
                key={index}
                className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
              >
+          <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div>
                
                
                {/* <button onClick={handleFavClick} className='absolute top-2 left-2' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#4d4d4d]' />}</button> */}
@@ -58,25 +59,27 @@ const handleClick = (path: string): void => {
        width={300}
        alt="dff"
        src={product.image[0]}
-       className="w-[55%] lg:mb-4 lg:w-[55%]"
+       className="w-[55%] lg:mb-4 lg:w-[75%]"
        priority
      />
    ) : null}
    
-               <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
-                 <div className="flex items-center gap-2">
-                   {/* <h6 className=''>{product.name}  </h6> */}
-                    {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
-                 </div>
-                 <div className='flex gap-1'>
-                   {product?.hastags?.map((h:string , i:number)=>{
-                     return  <p key={i} className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                   #{h} 
-                 </p>
-                   })}
-                 </div>
-                
-               </div>
+                <div className=" absolute pb-2  flex justify-between items-center w-full pr-3 z-100 bottom-0 left-1 duration-200 ">
+                             <div className="flex items-center  gap-1">
+                                 <Image  
+                 height={300}
+                 width={300}
+                 alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
+                   <div>
+                               <h3 className=''>{product.name}  </h3>
+                               <p style={{fontSize : '13px'}} className=''>@madyby  </p>
+               
+               
+                   </div>
+                                {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+                             </div>
+                             <h6 >${product.amount}</h6>
+                           </div>
              </div>
            ))}
       </div> 

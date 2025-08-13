@@ -34,7 +34,7 @@ export default function AllAssets() {
           <div
         
             key={index} 
-            className="group relative flex flex-col items-center  justify-center  border-b border-r border-[#4d4d4d] h-60 pb-3 lg:h-90 min-h-[220px]"
+            className=" relative flex flex-col items-center  justify-center  border-b border-r border-[#4d4d4d] h-60 pb-3 lg:h-90 min-h-[220px]"
           >
           <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div>
 
@@ -62,7 +62,7 @@ export default function AllAssets() {
 
            
      
-           <div className="  group-hover:-translate-y-5 absolute pb-2  flex justify-between items-center w-full pr-3 z-100 bottom-0 left-1 duration-200 ">
+           <div className=" absolute pb-2  flex justify-between items-center w-full pr-3 z-100 bottom-0 left-1 duration-200 ">
               <div className="flex items-center  gap-1">
                   <Image  
   height={300}

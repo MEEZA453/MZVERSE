@@ -98,7 +98,7 @@ console.log(product)
 
        <div className='flex gap-2 mt-10'>
         {tabs.map((tab  , i)=>{
-          return <button onClick={()=>setActiveIndex(i)} className={`px-2 py-0.5 ${activeIndex === i ? 'bg-white text-black':'bg-[#2d2d2d] text-white'} rounded-full text-[13px]`} key={i}>{tab}</button>
+          return <button onClick={()=>setActiveIndex(i)} className={`px-2 py-0.5 ${activeIndex === i ? 'bg-white text-black':'bg-[#2d2d2d] text-white'} flex items-center justify-center rounded-full text-[13px]`} key={i}>{tab}</button>
         })}
        </div>
 

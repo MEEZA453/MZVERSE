@@ -40,8 +40,9 @@ const dispatch = useDispatch<AppDispatch>();
           <div
         
             key={index}
-            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
+            className=" relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
           >
+          <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div>
           
 
 {post.images && post.images.length > 0 ? (
@@ -56,20 +57,22 @@ const dispatch = useDispatch<AppDispatch>();
   />
 ) : null}
 
-            <div className="absolute  group-hover:-translate-y-5 duration-200 left-2 top-[88%]">
-              <div className="flex items-center gap-2">
-             
-                 {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+            <div className="   absolute pb-2  flex justify-between items-center w-full pr-3 z-100 bottom-0 left-1 duration-200 ">
+                        <div className="flex items-center  gap-1">
+                          <button onClick={()=>router.push('/'+post?.createdBy?.handle)}><Image  
+            height={300}
+            width={300}
+            alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src={post.createdBy.profile}/></button>  
+              <div>
+                          <h3 className='mt-2'>{post.name}  </h3>
+                          <p style={{fontSize : '12px'}} className=''>@{post?.createdBy?.handle}  </p>
+          
+          
               </div>
-              <div className='flex gap-1'>
-                {post?.hastags?.map((h , i)=>{
-                  return  <p key={i} className="w-[70%] opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                #{h} 
-              </p>
-                })}
-              </div>
-             
-            </div>
+                           {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+                        </div>
+                        
+                      </div>
           </div>
         ))}
       </div> : <Loading/>}
