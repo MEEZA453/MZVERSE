@@ -30,10 +30,10 @@ export default function AllAssets() {
 
    {   !loading ? <div className='lg:grid-cols-5  grid-cols-2 px-2 grid'>
         {data?.map((product, index) => (
-          <div>
+          <div   key={index} >
           <div
         
-            key={index} 
+          
             className=" relative flex flex-col items-center  justify-center  border-b border-r border-[#4d4d4d] h-60 pb-3 lg:h-90 min-h-[220px]"
           >
           <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div>
