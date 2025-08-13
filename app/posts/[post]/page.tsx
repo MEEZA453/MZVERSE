@@ -34,6 +34,7 @@ export default function Post() {
     const { post, loading , votes } = useSelector((state: any) => state.posts)
     const [openIndex , setOpenIndex] = useState(0)
     const [currentIndex ,setCurrentIndex] = useState(0)
+    const [totalAvg , setTotalAvg] = useState(0)
     const [isMenu , setIsMenu]  = useState(false)
     const postId = usePathname().split('/')[2]
     const {user ,token} = useAuth()
@@ -52,13 +53,20 @@ const averages = post?.voteFields?.reduce((acc, category) => {
   acc[category] = parseFloat((total / votes.length).toFixed(2));
   return acc;
 }, {});
-// const values = Object.values(averages as AveragesType); // [8.37, 8.57, 7.37, 8.57]
-// const totalAverage = (
-//   values.reduce((sum, val) => sum + val, 0) / values.length
-// ).toFixed(1);
 
-// console.log(totalAverage)
+useEffect(() => {
+  if (averages) {
+    const values = Object.values(averages).filter(v => typeof v === "number");
+    if (values.length > 0) {
+      const totalAverage = values.reduce((sum, val) => sum + val, 0) / values.length;
+      setTotalAvg(parseFloat(totalAverage.toFixed(1)));
+    } else {
+      setTotalAvg(0); // or keep previous value
+    }
+  }
+}, [averages]);
 
+console.log(totalAvg)
 const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 
     return (
@@ -96,7 +104,7 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 
              <div className='score w-full h-6 flex items-center px-2 justify-between  relative'>
                     <h3   className='z-10 text-black ml-2'>Score:</h3>
-                    <h3 >10</h3>
+                    <h3 >{totalAvg}</h3>
                     <motion.div     initial={{width : 0}} animate = {{width : `${70-5}%`}} transition={{duration : 1 , ease : 'linear'}} className='ber h-full bg-[#dadada] absolute top-0'></motion.div>
                 </div>
         </div>

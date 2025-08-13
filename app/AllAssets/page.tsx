@@ -23,12 +23,12 @@ export default function AllAssets() {
 
 
   return (
-    <div className='w-screen'>
+    <div className='w-screen px-2 '>
       <Notification/>
       <MasterNavber />
      
 
-   {   !loading ? <div className='lg:grid-cols-5  grid-cols-2 px-2 grid'>
+   {   !loading ? <div className='lg:grid-cols-5 border-l border-[#4d4d4d] grid-cols-2  grid'>
         {data?.map((product, index) => (
           <div   key={index} >
           <div

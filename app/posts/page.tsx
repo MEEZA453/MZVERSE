@@ -35,7 +35,7 @@ const dispatch = useDispatch<AppDispatch>();
       <MasterNavber />
      
 
-   {   !loading ? <div className='lg:grid-cols-5  border-l border-[#4d4d4d] pl-1 grid-cols-2 grid'>
+   {   !loading ? <div className='lg:grid-cols-5  border-l border-[#4d4d4d]  grid-cols-2 grid'>
         {posts?.map((post:any, index:number) => (
           <div
         
