@@ -12,9 +12,9 @@ const {logout} = useAuth()
 const router = useRouter()
    
       
-      return <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen absolute top-0 left-0 bg-black/50">
+      return <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen fixed z-[999] bottom-0 left-0 bg-black/50">
       <div onClick={()=>setProfileMenu(false)} className="w-screen h-screen "></div>
-      <motion.div  initial = {{y : 160}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#0d0d0d] absolute  z-[99999] bottom-0 py-6 flex   flex-col items-center justify-center w-screen  ">
+      <motion.div  initial = {{y : 160}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#0d0d0d] fixed  z-[99999] bottom-0 py-6 flex   flex-col items-center justify-center w-screen  ">
   <button
       onClick={()=>router.push('/profile')}
       className=" text-white border-b border-[#4d4d4d] w-full text-[14px] px-3 py-1 flex items-center justify-center gap-1"

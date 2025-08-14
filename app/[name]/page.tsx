@@ -17,6 +17,7 @@ import { FiInstagram } from 'react-icons/fi'
 import ProfileMenu from '../Components/ProfileMenu'
 import Store from '../Components/Store'
 import Crafts from '../Components/Crafts'
+import { AnimatePresence } from 'framer-motion'
 
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
@@ -65,14 +66,14 @@ console.log(user);
   return (
     <div className='w-screen  overflow-hidden'>
       <Notification/>
-
+ <AnimatePresence>{ profileMenu ?<ProfileMenu setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 {loading ? <Loading/> : <div> 
       <div className='profile relative flex  relative flex-col h-90 border-b  border-[#4d4d4d]  gap-3 mt-10 items-center justify-center w-screen'>
               <div className='absolute  flex-col gap-4 flex justify-between px-2 lg:right-[38vw] top-1 right-4 '>
 <button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px]'>...</button>
 <button onClick={()=>user?.instagram}><FiInstagram/></button>
       </div>
-      { profileMenu ?<ProfileMenu setProfileMenu = {setProfileMenu}/>:null}
+     
         <Image height = {300} width = {300}
           className='h-24 w-24 rounded-full bg-[#dadada] object-cover'
           src={user?.profile || '/image.png'}
