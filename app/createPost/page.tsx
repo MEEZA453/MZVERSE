@@ -120,7 +120,7 @@ const toggleVoteField = (field: string) => {
      
       </section>
       <div className="w-full  lg:mt-20">
-<h6 className="mb-1">Field of judgement:</h6>
+<h3 className="mb-3">Field of judgement:</h3>
 <div className="w-full gap-1  grid grid-cols-2">
   {["creativity", "aesthetics", "composition", "emotion"].map(field => (
     <div  
@@ -142,21 +142,21 @@ const toggleVoteField = (field: string) => {
 </div>
 <p style={{fontSize : '13px'}} className="mt-1 w-80">This field of judgement determine in how many bases other artiest can judge you.</p>
 <div className="mt-2 ">
-  <h6>name:</h6>
+  <h3>name:</h3>
       <input
         type="text"
         name="name"
         
         value={formData.name}
-        className={`py-2  border-[#2c2b2b] border ${error.nameError ?  'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
+        className={`py-1 mt-1  border-[#2c2b2b] border ${error.nameError ?  'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
         onChange={handleChange}
         />
         </div>
 <div className="mt-2 ">
-  <h6>Catagory:</h6>
+  <h3>Catagory:</h3>
    <input
   type="text"
-          className={`p-2  border-[#2c2b2b] border ${error.catagoryError ? 'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
+          className={`py-1 mt-1  border-[#2c2b2b] border ${error.catagoryError ? 'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
   name="category" // ✅ must match formData key
   placeholder="Design / poster design"
   value={formData.category}
@@ -165,10 +165,10 @@ const toggleVoteField = (field: string) => {
 </div>
 
 <div className="mt-2 ">
-  <h6>Description:</h6>
+  <h3>Description:</h3>
       <textarea
         name="description"
-                className={`p-2  border-[#2c2b2b] border rounded-[2px] w-full bg-[#101010]`}
+                className={`py-1 mt-1  border-[#2c2b2b] border rounded-[2px] w-full bg-[#101010]`}
         placeholder="Description"
         value={formData.description}
         onChange={handleChange}
@@ -176,7 +176,7 @@ const toggleVoteField = (field: string) => {
 </div>
   
 
-     <button type="submit" className=" text-black flex w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ?<ButtonLoader/>:'Share'}</button>
+     <button type="submit" className=" text-black flex mb-8 w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ?<ButtonLoader/>:'Share'}</button>
   </div>
 
     </form>
