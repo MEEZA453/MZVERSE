@@ -7,7 +7,7 @@ export default function CreateMenu({setOpenCreate}){
 const router = useRouter()
    
       
-      return <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen fixed top-0 bottom-0 bg-black/50">
+      return <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen fixed left-0 bottom-0 bg-black/50">
       <div onClick={()=>setOpenCreate(false)} className="w-screen h-screen "></div>
       <motion.div  initial = {{y : 160}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#0d0d0d] fixed  z-[99999] bottom-0 py-6 flex  flex-col items-center justify-center  w-screen  ">
   <button

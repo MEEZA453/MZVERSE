@@ -14,7 +14,7 @@ export default function PosterOfTheDay(){
     useEffect(()=>{
      dispatch(getPostsAction())   
     } ,[dispatch ])
-    return <div className="flex mt-2  w-screen overflow-y-scroll ">
+    return <div className="flex my-2  w-screen overflow-y-scroll ">
      {   !loading ? <div className='flex gap-2'>
         {posts?.map((post:any, index:number) => (
           <div key={index}>
