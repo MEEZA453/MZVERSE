@@ -99,7 +99,7 @@ export default function AllAssets() {
           </div>
         ))}
       </div> : <Loading/>}
-<div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div>
+
 
     </div>
   );

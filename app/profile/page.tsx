@@ -65,7 +65,7 @@ const router = useRouter()
       setErrorMessage(error.message)
     } finally {
       setLoading(false)
-      window.location.href = window.location.origin +'/AllAssets';
+      window.location.href = window.location.origin +'/feed';
     }
   }
 
