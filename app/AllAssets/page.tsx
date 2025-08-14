@@ -86,8 +86,8 @@ export default function AllAssets() {
   width={300}
   alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
     <div>
-                <h3 className=''>{product.name}  </h3>
-                <p style={{fontSize : '13px'}} className=''>@madyby  </p>
+                <h3 style={{fontSize:'13px'}} className=''>{product.name}  </h3>
+                <p style={{fontSize : '11px'}} className=''>@madyby  </p>
 
 
     </div>
