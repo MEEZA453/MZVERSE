@@ -1,21 +1,30 @@
 import { useRouter } from "next/navigation"
 import { FiEdit3 } from "react-icons/fi";
 import { AiFillProduct } from "react-icons/ai";
-export default function CreateMenu(){
+import {motion , AnimatePresence} from 'framer-motion'
+export default function CreateMenu({setOpenCreate}){
 
 const router = useRouter()
-    return  <div className="bg-[#1d1d1d] absolute  z-[9999] top-8 right-18 rounded-[2px]  h-fit w-40">
+   
+      
+      return <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen absolute top-0 left-0 bg-black/50">
+      <div onClick={()=>setOpenCreate(false)} className="w-screen h-screen "></div>
+      <motion.div  initial = {{y : 160}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#1d1d1d] absolute  z-[99999] bottom-0 py-6 flex rounded-t-[10px] border border-[#4d4d4d] flex-col items-center justify-center  w-screen  ">
   <button
       onClick={()=>router.push('/createPost')}
-      className=" text-white border-b border-[#4d4d4d] w-full text-[14px] px-3 py-1 flex items-center justify-left gap-1"
-    >
-     <FiEdit3 color="white" size={19}/> Create post 
+      className=" text-white w-full  px-3 py-2  border-b border-[#4d4d4d]  gap-1"
+      >
+  <div className=" gap-1 flex items-center justify-center w-full"><h5 >Share your work</h5><FiEdit3/></div>
+  <p style={{fontSize : '13px' , opacity : 0.80}} className="">Post your design other artiest can judge according <br/> to selected field of judgement</p>
     </button>
       <button
       onClick={()=>router.push('/createProduct')}
-      className="text-white text-[14px]  px-3 py-1 flex items-center justify-left gap-1"
-    >
-     <AiFillProduct color="white" size={19}/> Create product 
+      className="text-white   px-3 py-1  items-center justify-left gap-1"
+      >
+ <div className=" gap-1 flex items-center justify-center w-full"><h5 >Post product</h5><AiFillProduct/></div>
+  <p style={{fontSize : '13px' , opacity : 0.80}} className="">Sell or post your assets, earn money for free.</p>
     </button>
-    </div>
+    </motion.div>
+      </motion.div>
+      
 }

@@ -9,6 +9,7 @@ import { GoPlusCircle } from "react-icons/go";
 import CreateMenu from './CreateMenu';
 import { useAuth } from '../Context/AuthContext';
 import Image from 'next/image';
+import { AnimatePresence } from 'framer-motion';
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
   setShowSignupInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -59,13 +60,13 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   return (
     <nav  className="w-screen  overflow-hidden">
 
-      <div className="  w-screen border-[#4d4d4d] flex justify-between items-center h-10 px-1 lg:px-2">
+      <div className="  w-screen border-[#4d4d4d] flex justify-between items-center px-1 lg:px-2">
         
         <div>
         </div>
       </div>
 
-      <div className="px-2 top-2 fixed z-[999] lg:px-3 bottom  border-[#4d4d4d] h-10 flex w-screen justify-between items-center">
+      <div className="px-2 top-2 fixed z-[999] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
 <button onClick={()=>router.push('/')}><img src="/logo.png" className="w-8 rounded-xl lg:w-7" /></button>
 
         {/* <div className="flex gap-1 fixed top-15 left-1/2 -translate-x-1/2 lg:gap-6">
@@ -96,7 +97,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
           {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>
             <button style={{rotate : openCreate ? '45deg' : '0deg'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
 
-            {openCreate ? <CreateMenu/>:null}
+           <AnimatePresence> {openCreate &&<CreateMenu setOpenCreate = {setOpenCreate}/>}</AnimatePresence>
                       <Image height = {100} width ={100} alt ="profile" onClick={()=>router.push(profileLink)} className='w-8 h-8 rounded-full full object-cover' src={user.profile}/>
                       
           
