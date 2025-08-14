@@ -4,31 +4,48 @@ import { useAssets } from '../Context/AllAssetsContext';
 import {useRouter , usePathname} from 'next/navigation';
 import Image from 'next/image';
 import {Product} from '../types/Product';
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
 import Notification from '../Components/Notification';
 import Loading from '../Components/loading'
 
 import { MdOutlineAttachFile } from "react-icons/md";
+import { AppDispatch } from '../store/store';
+import { useDispatch } from 'react-redux';
+import { getDesign } from '../store/actions/design';
+import { useSelector } from 'react-redux';
 
 export default function AllAssets() {
   const currentPath  = usePathname();
 
-
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
   const [red , setRed ] = useState(false)
-  const { data , loading }: { data: Product[] , loading : boolean } = useAssets();
+
   const handleClick = (path : string):void=>{
     router.push(currentPath + '/'+path)
   }
 
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+          setLoading(false);
+    const fetchData = async () => {
+      await dispatch(getDesign(9 , 10));
+   
+    };
+
+    fetchData();
+  }, [dispatch]);
+
+  const data = useSelector((state: any) => state.design);
 
   return (
     <div className='w-screen px-2 '>
-      <Notification/>
-      <MasterNavber />
+      {/* <Notification/>
+      <MasterNavber /> */}
      
 
-   {   !loading ? <div className='lg:grid-cols-5 border-l border-[#4d4d4d] grid-cols-2  grid'>
+   {   !loading ? <div className='lg:grid-cols-5 border-l  border-[#4d4d4d] grid-cols-2  grid'>
         {data?.map((product, index) => (
           <div   key={index} >
           <div
@@ -55,7 +72,7 @@ export default function AllAssets() {
     width={300}
     alt="dff"
     src={product.image[0]}
-    className="w-[75%] lg:mb-4 lg:w-[55%]"
+    className="w-[60%] lg:mb-4 lg:w-[55%]"
     priority
   />
 ) : null}

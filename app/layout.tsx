@@ -1,10 +1,10 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { ReduxProvider } from "./store/Provider"; // ✅ still allowed to import .js
 import { AuthProvider } from "./Context/AuthContext";
 import { ShowInputProvider } from "./Context/ShowInputContext";
- import { NotificationProvider } from "./Context/Notification";
+import { NotificationProvider } from "./Context/Notification";
+import { Geist, Geist_Mono, Inter } from "next/font/google";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],

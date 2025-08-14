@@ -6,7 +6,7 @@ export default function PostCard({post}){
       const currentPath  = usePathname  ();
       const router = useRouter()
     const handleClick = (path : string):void=>{
-        router.push(currentPath + '/'+path)
+        router.push(`/posts/${path}`)
       }
     return        <div > <div
         

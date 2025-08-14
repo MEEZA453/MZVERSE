@@ -31,8 +31,8 @@ const dispatch = useDispatch<AppDispatch>();
 
   return (
     <div className='w-screen px-4 '>
-      <Notification/>
-      <MasterNavber />
+      {/* <Notification/> */}
+      {/* <MasterNavber /> */}
      
 
    {   !loading ? <div className='lg:grid-cols-5 gap-2  grid-cols-2 grid'>

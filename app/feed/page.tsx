@@ -5,19 +5,20 @@ import PhotographyOfTheDay from "../Components/PhotographyOfTheDay";
 import PosterOfTheDay from "../Components/PosterOfTheDay";
 import AllPosts from "../posts/page";
 import { useState } from "react";
+import AllAssets from "../AllAssets/page";
 export  default function Feed (){
     const router =  useRouter()
     const [activeIndex ,setActiveIndex] = useState(0)
-    const tabs = [{name : 'All' , origin : ()=>router.push('/feed')} , {name : 'Posts' , origin : ()=>router.push('/posts')}, {name : 'Store' , origin : ()=>router.push('AllAssets')}]
+    const tabs = [{name : 'All' , origin : ()=>router.push('/feed')} , {name : 'Posts' , origin : ()=>router.push('/posts')}, {name : 'Store' , origin : ()=>router.push('/AllAssets')}]
      const photo = [{name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur1.jpg']},
 {name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur2.jpg']},
 {name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur3.jpg']},
 {name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur4.jpg']},
 ]
     return <div> 
-        <MasterNavber/>
+        {/* <MasterNavber/> */}
         <div className="sticky top-10 z-[9999]">
-        <div className=" left-1/2 w-screen mt-20 justify-center items-center flex px-2 gap-1">
+        <div className=" left-1/2 w-screen  justify-center items-center flex px-2 gap-1">
 {
     tabs.map((tab, index : number)=>{
        return       <button onClick={()=> setActiveIndex(index)} key={index} className={`rounded-full ${activeIndex  === index ? 'bg-white text-black': 'bg-[#1d1d1d]  text-white'}  px-3 text-[14px] py-0.5`}>{tab.name}</button>
@@ -25,15 +26,19 @@ export  default function Feed (){
     })
 }        </div>
 </div>
-<div>
-
+{activeIndex === 0 && <div>
         <PhotographyOfTheDay p={photo[0]}/>
 
          <PosterOfTheDay/>
         <PhotographyOfTheDay p={photo[1]}/>
          <PosterOfTheDay/>
-</div>
+<AllPosts/>
 
+</div>}
+{ activeIndex === 1 && <AllPosts/>
+}
+{ activeIndex === 2 && <AllAssets/>
+}
        {/* <DesignerOfTheDay/> */}
         {/* <AllPosts/> */}
     </div>
