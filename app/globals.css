@@ -30,7 +30,12 @@ input[type='range']::-webkit-slider-thumb {
 }
 }
 
-
+.progressive-blur {
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%);
+}
 .font-inter {
   font-family: var(--font-inter), sans-serif;
 }

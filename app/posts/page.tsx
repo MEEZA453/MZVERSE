@@ -12,6 +12,7 @@ import { MdOutlineAttachFile } from "react-icons/md";
 import { AppDispatch } from '../store/store'
 import { useAuth } from '../Context/AuthContext';
 import { getPostsAction } from '../store/actions/post';
+import BlurEffect from 'react-progressive-blur';
 export default function AllPosts() {
   const currentPath  = usePathname();
 
@@ -30,19 +31,19 @@ const dispatch = useDispatch<AppDispatch>();
   const {token } = useAuth()
 
   return (
-    <div className='w-screen px-2'>
+    <div className='w-screen px-4 '>
       <Notification/>
       <MasterNavber />
      
 
-   {   !loading ? <div className='lg:grid-cols-5  border-l border-[#4d4d4d]  grid-cols-2 grid'>
+   {   !loading ? <div className='lg:grid-cols-5 gap-2  grid-cols-2 grid'>
         {posts?.map((post:any, index:number) => (
-          <div
+         <div> <div
         
             key={index}
-            className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
+            className="group relative flex flex-col items-center justify-center p-4  bg-[#0d0d0d] border-[#1d1d1d] border rounded h-32 pb-3 lg:h-90 min-h-[220px]"
           >
-          <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div>
+          {/* <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div> */}
           
 
 {post.images && post.images.length > 0 ? (
@@ -57,7 +58,9 @@ const dispatch = useDispatch<AppDispatch>();
   />
 ) : null}
 
-            <div className="   absolute pb-2  flex justify-between items-center w-full pr-3 z-100 bottom-0 left-1 duration-200 ">
+           
+          </div>
+           <div className="     flex justify-between items-center w-full pr-3 z-100  duration-200 ">
                         <div className="flex items-center  gap-1">
                           <button onClick={()=>router.push('/'+post?.createdBy?.handle)}><Image  
             height={300}
@@ -76,8 +79,8 @@ const dispatch = useDispatch<AppDispatch>();
           </div>
         ))}
       </div> : <Loading/>}
-<div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div>
-
+<div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0">  </div>
+ 
     </div>
   );
 }
