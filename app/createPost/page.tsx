@@ -140,7 +140,7 @@ const toggleVoteField = (field: string) => {
     </div>
   ))}
 </div>
-<p style={{fontSize : '13px'}} className="mt-0.5 w-90">This field of judgement determine in how many bases other artiest can judge you.</p>
+<p style={{fontSize : '13px'}} className="mt-1 w-80">This field of judgement determine in how many bases other artiest can judge you.</p>
 <div className="mt-2 ">
   <h6>name:</h6>
       <input

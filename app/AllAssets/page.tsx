@@ -22,7 +22,7 @@ export default function AllAssets() {
   const [red , setRed ] = useState(false)
 
   const handleClick = (path : string):void=>{
-    router.push(currentPath + '/'+path)
+    router.push('AllAssets'+ '/'+path)
   }
 
   const dispatch: AppDispatch = useDispatch();

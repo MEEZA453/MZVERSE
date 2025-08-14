@@ -11,7 +11,7 @@ export default function PostCard({post}){
     return        <div > <div
         
             
-            className="group relative flex flex-col items-center justify-center p-4  bg-[#0d0d0d] border-[#1d1d1d] border rounded h-60 w-[45vw] pb-3 lg:h-90 min-h-[220px]"
+            className="group relative flex flex-col items-center justify-center p-4  bg-[#0d0d0d] border-[#1d1d1d] border rounded h-30 w-[45vw] pb-3 lg:h-90 min-h-[200px]"
           >
           {/* <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div> */}
           
