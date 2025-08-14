@@ -72,7 +72,7 @@ console.log(user);
 <button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px]'>...</button>
 <button onClick={()=>user?.instagram}><FiInstagram/></button>
       </div>
-      { profileMenu ?<ProfileMenu/>:null}
+      { profileMenu ?<ProfileMenu setProfileMenu = {setProfileMenu}/>:null}
         <Image height = {300} width = {300}
           className='h-24 w-24 rounded-full bg-[#dadada] object-cover'
           src={user?.profile || '/image.png'}
