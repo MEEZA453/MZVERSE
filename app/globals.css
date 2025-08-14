@@ -60,7 +60,7 @@ a {
 }
 h4 {
   font-family: var(--font-inter), sans-serif;
-  letter-spacing : -1px;
+ 
   font-weight: 300;
   font-size: 22px;
 }
