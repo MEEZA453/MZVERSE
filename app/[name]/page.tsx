@@ -63,7 +63,7 @@ console.log(user);
   const tabs = ['Store' , 'Moodboard' , 'Crafts']
 
   return (
-    <div className='w-screen overflow-hidden'>
+    <div className='w-screen  overflow-hidden'>
       <Notification/>
 
 {loading ? <Loading/> : <div> 
