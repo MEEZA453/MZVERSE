@@ -21,14 +21,14 @@ const  handle = usePathname().split('/')[1]
 
 
    useEffect(() => {
-    console.log('called')
+  
     if (token) {
       dispatch(getFavoritesByHandle(token , handle));
     }
   }, [dispatch, handle , token]);
 
   const { favourites , loading} = useSelector((state: any) => state.favourites)
-  console.log(favourites)
+console.log(favourites)
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
@@ -38,7 +38,7 @@ const handleClick = (path: string): void => {
              <div
            
                key={index}
-               className="group relative flex flex-col items-center justify-center p-4 border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
+               className="group relative flex flex-col items-center justify-center p-4 border-t border-r border-b border-[#4d4d4d] h-32 pb-3 lg:h-90 min-h-[220px]"
              >
                
                

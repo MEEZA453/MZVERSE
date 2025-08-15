@@ -45,11 +45,11 @@ export const resendEmailOtpAction = (email: string) => async (dispatch: AppDispa
 }
 
 
-export const getUserByHandle = (handle: string) => async (dispatch: AppDispatch) => {
+export const getUserByHandle = (handle: string , token : string) => async (dispatch: AppDispatch) => {
+
   try {
     dispatch({ type: 'GET_USER_BY_HANDLE_REQUEST' });
-
-    const { data } = await api.getUserByHandle(handle);
+    const { data } = await api.getUserByHandle(handle , token);
 
     dispatch({
       type: 'GET_USER_BY_HANDLE_SUCCESS',

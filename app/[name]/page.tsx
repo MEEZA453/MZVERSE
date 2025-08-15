@@ -38,29 +38,33 @@ const [profileMenu , setProfileMenu] = useState(false)
     }
   }, [])
 
-  
+
   //  useEffect(() => {
   //   if (token) {
   //     dispatch(getFavorites(token));
   //   }
-  // }, [dispatch, token]);
 
 
+useEffect(() => {
+  if (userHandle && token) {
+    dispatch(getUserByHandle(userHandle, token));
+  }
+}, [userHandle, token]);
 
-useEffect(()=>{
-  if (userHandle) dispatch(getUserByHandle(userHandle));
-  }, [userHandle]);
+  
+  const { user ,  loading  } = useSelector((state: any) => state.auth);
 
 
-
-const { user , loading } = useSelector((state: any) => state.auth);
-
-console.log(user);
 
   const [activeIndex, setActiveIndex] = useState(1)
-  const buttons = [{name : 'Edit profile', origin : ()=> window.location.href = window.location.origin + '/'+ 'profile'},
+  const buttonsOfAuthor = [{name : 'Edit profile', origin : ()=> window.location.href = window.location.origin + '/'+ 'profile'},
     {name : 'Performance', origin : ()=> window.location.href = window.location.origin + '/'+ 'statistic'}
   ]
+
+    const buttonsOfNonAuthor= [{name : 'Follow', origin : ()=> window.location.href = window.location.origin + '/'+ 'profile'},
+    {name : 'Performance', origin : ()=> window.location.href = window.location.origin + '/'+ 'statistic'}
+  ]
+
   const tabs = ['Store' , 'Moodboard' , 'Crafts']
 
   return (
@@ -68,30 +72,35 @@ console.log(user);
       <Notification/>
  <AnimatePresence>{ profileMenu ?<ProfileMenu setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 {loading ? <Loading/> : <div> 
-      <div className='profile relative flex  relative flex-col h-90 border-b  border-[#4d4d4d]  gap-3 mt-10 items-center justify-center w-screen'>
+      <div className='profile relative flex  relative flex-col h-90   gap-3 mt-10 items-center justify-center w-screen'>
               <div className='absolute  flex-col gap-4 flex justify-between px-2 lg:right-[38vw] top-1 right-4 '>
-<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px]'>...</button>
+{user?.isUser&&<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px]'>...</button>}
 <button onClick={()=>user?.instagram}><FiInstagram/></button>
       </div>
      
         <Image height = {300} width = {300}
           className='h-24 w-24 rounded-full bg-[#dadada] object-cover'
-          src={user?.profile || '/image.png'}
+          src={user?.user?.profile || '/image.png'}
           alt ='profile' 
         />
         <div className='flex items-center flex-col gap-0.5'>
-          <h6>{user?.name}</h6>
-      <p   style={{lineHeight : -0.3}}>@{user?.handle}</p>
+          <h6>{user?.user?.name}</h6>
+      <p   style={{lineHeight : -0.3}}>@{user?.user?.handle}</p>
 
         </div>
-        <p  style={{fontSize : '13px', lineHeight : -1}}>{user?.bio}</p>
+        <p  style={{fontSize : '13px', lineHeight : -1}}>{user?.user?.bio}</p>
  
-        <div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
-          {buttons.map((tab , index)=>{
+        { user?.isUser?<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
+          { buttonsOfAuthor.map((tab , index)=>{
             return     <button  key={index} onClick={() => tab.origin()} className={`border  flex items-center justify-center  ${index === 1 ? 'bg-white text-black': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab.name}</button>
           })}
      
-        </div>
+        </div>:<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
+          { buttonsOfNonAuthor.map((tab , index)=>{
+            return     <button  key={index} onClick={() => tab.origin()} className={`border  flex items-center justify-center  ${index === 0 ? 'bg-white text-black': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab.name}</button>
+          })}
+     
+        </div>}
 
        <div className='flex gap-2 mt-10'>
         {tabs.map((tab  , i)=>{

@@ -1,6 +1,6 @@
 import axios from 'axios' 
-const url = 'https://meeza-in-8.onrender.com/' 
-//  const url  = 'http://localhost:8080/'
+// const url = 'https://meeza-in-8.onrender.com/' 
+ const url  = 'http://localhost:8080/'
 export const registerUser = (user) =>
   axios.post(`${url}user/register`, user);
 export const getProductById = (handle)=> axios.get(`${url}user/getProductById/${handle}`)
@@ -33,7 +33,11 @@ export const updateUserProfile = (userId, profileData , token) =>
       },
     })
 
-    export const getUserByHandle = (handle)=>axios.get(`${url}user/${handle}`)
+export const getUserByHandle = (handle, token) =>
+  axios.get(`${url}user/${handle}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
 
 
 export const sendEmailOtp = (email) =>
@@ -84,13 +88,15 @@ export const createPost = (newPost, token) => {
       'Content-Type': 'multipart/form-data'
     }
   });
-};
+};  
 
 // Get All Posts
 export const getPosts = () => axios.get(`${url}post`);
 
 // Get Post By ID
 export const getPostById = (id) => axios.get(`${url}post/${id}`);
+export const getPostsByHandle = (id) => axios.get(`${url}post/postByHandle/${id}`);
+
 export const deletePost = (id , token )=>axios.delete(`${url}post/deletePost/${id}`,{
     headers: {
       Authorization: `Bearer ${token}`,

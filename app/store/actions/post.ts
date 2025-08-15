@@ -55,7 +55,19 @@ export const getPostByIdAction = (id: string) => async (dispatch: AppDispatch) =
     throw new Error(errMsg);
   }
 };
+export const getPostsByHandleAction = (handle: string) => async (dispatch: AppDispatch) => {
 
+  try {
+    dispatch({ type: 'FETCH_POSTS_REQUEST' });
+    const { data } = await api.getPostsByHandle(handle);
+    dispatch({ type: 'FETCH_POSTS_SUCCESS', payload: data });
+    return data;
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    dispatch({ type: 'FETCH_POSTS_FAIL', payload: errMsg });
+    throw new Error(errMsg);
+  }
+};
 export const votePostAction = (postId: string, voteData: any, token: string) => 
   async (dispatch: AppDispatch) => {
     try {

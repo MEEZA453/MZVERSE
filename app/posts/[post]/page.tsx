@@ -15,7 +15,11 @@ import { HiOutlineDotsVertical } from "react-icons/hi";
 import PostMenu from '../../Components/PostMenu'
 import ImageShower from '../../Components/ImageShower'
 import {motion} from 'framer-motion'
-
+import { GoHeartFill } from 'react-icons/go'
+import { PiHeartLight } from 'react-icons/pi'
+import { addToFavorites, removeFromFavorites } from '../../store/actions/fav'
+import { useNotification } from '../../Context/Notification'
+import Notification from '../../Components/Notification'
 
 type AveragesType = {
   aesthetics: number;
@@ -39,8 +43,8 @@ export default function Post() {
     const postId = usePathname().split('/')[2]
     const {user ,token} = useAuth()
     const router  = useRouter()
-
-
+    const [red , setRed ] = useState(false)
+const {setNotification , notification} = useNotification()
 
     useEffect(() => {
         console.log('calling API for postId:', postId)
@@ -66,16 +70,32 @@ useEffect(() => {
   }
 }, [averages]);
 
-console.log(totalAvg)
-const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 
+const existingVote = post?.votes?.find(v => v.user._id === user?._id);
+ const handleFavClick = ()=>{
+  setRed(!red )
+
+    if (!token) return;
+ if (!token) return;
+
+    if (red) {
+      dispatch(removeFromFavorites(post._id, token));
+    } else {
+      dispatch(addToFavorites(post._id, token));
+    }
+  setNotification('addToFav')
+}
     return (
         <div>
+          <button onClick={handleFavClick}   className='absolute  top-100 right-5' >{red ? <GoHeartFill size={21}className='text-red-600'/>:<PiHeartLight size={21} className='text-[#e3e3e3] ' />}</button> 
+          
             {post?.createdBy?.handle === user?.handle ?<div>
 
-            <button className='top-16 left-3 z-100   lg:left-10 absolute' onClick={()=> setIsMenu(true)}><HiOutlineDotsVertical color='white' /></button>
+        
          {  isMenu ?  <PostMenu token={token?token:''} postId = {postId}/>:null}
             </div>:null}
+
+          <Notification/>
             <MasterNavber/>
             {!loading ?<div className='lg:flex'>
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token}/>
