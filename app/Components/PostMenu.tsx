@@ -17,7 +17,7 @@ const [moodboard , setMoodboard ] = useState(true)
       if (!token) return;
    if (!token) return;
   
-      if (moodboard) {
+      if (!moodboard) {
         dispatch(removeFromFavorites(postId, token));
       } else {
         dispatch(addToFavorites(postId, token));

@@ -1,6 +1,29 @@
 import axios from 'axios' 
 const url = 'https://meeza-in-8.onrender.com/' 
 //  const url  = 'http://localhost:8080/'
+// 
+
+// Follow a user
+export const followUser = (targetId, token) =>
+  axios.post(`${url}user/follow/${targetId}`, {}, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+// Unfollow a user
+export const unfollowUser = (targetId, token) =>
+  axios.post(`${url}user/unfollow/${targetId}`, {}, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+// Get followers by handle
+export const getFollowers = (handle) =>
+  axios.get(`${url}user/${handle}/followers`);
+
+// Get following by handle
+export const getFollowing = (handle) =>
+  axios.get(`${url}user/${handle}/following`);
+
+
 export const registerUser = (user) =>
   axios.post(`${url}user/register`, user);
 export const getProductById = (handle)=> axios.get(`${url}user/getProductById/${handle}`)

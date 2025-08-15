@@ -15,7 +15,9 @@ export interface User {
   handle: string;
   name: string;
   email: string;
-  token?: string; // optional because it may be missing from API
+  token?: string;
+ 
+   // optional because it may be missing from API
 }
 
 interface AuthContextType {
@@ -25,6 +27,8 @@ interface AuthContextType {
   profileLink: string;
   isLoggedIn: boolean;
   token: string;
+  handle : string;
+   authorId : string;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -71,7 +75,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
+        handle:  user?.handle,
         token,
+        authorId: user?._id,
         setUserData,
         logout,
         profileLink,

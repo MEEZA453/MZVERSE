@@ -18,16 +18,18 @@ import ProfileMenu from '../Components/ProfileMenu'
 import Store from '../Components/Store'
 import Crafts from '../Components/Crafts'
 import { AnimatePresence } from 'framer-motion'
-
+import { followUser, getFollowingByHandle } from '../store/actions/follow'
+import { unfollowUser } from '../store/actions/follow'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
-const {logout} = useAuth()
+const {profileLink ,  authorId , handle} = useAuth()
 const pathname = usePathname();
 const userHandle = pathname.split('/').pop();
 const [token , setToken] = useState('')
 const [profileMenu , setProfileMenu] = useState(false) 
+  const [activeIndex, setActiveIndex] = useState(2)
+const [follow  , setFollow] =  useState(false)  
   const router = useRouter()
-
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const profile = localStorage.getItem('profile')
@@ -53,15 +55,36 @@ useEffect(() => {
 
   
   const { user ,  loading  } = useSelector((state: any) => state.auth);
+//  const { following } = useSelector((state : any) => state.follow);
+//  console.log( 'following  is',following)
+// const isFollowing = following.includes(authorId);
+// console.log(isFollowing)
+// useEffect(() => {
+//   if (handle) {
+    
+//     dispatch(getFollowingByHandle(handle));
+//   }
+// }, [handle]);
+
+  const handleFollowClick = ()=>{
+    setFollow(!follow)
+    // console.log(handle)
+    // console.log(following)
+    if(!follow){
+// console.log(' is user already following' , isFollowing)
+      dispatch(followUser(user?.user?._id , token))
+    }else{
+      dispatch(unfollowUser(user?.user?._id , token))
+    }
+  }
 
 
 
-  const [activeIndex, setActiveIndex] = useState(2)
   const buttonsOfAuthor = [{name : 'Edit profile', origin : ()=> window.location.href = window.location.origin + '/'+ 'profile'},
     {name : 'Performance', origin : ()=> window.location.href = window.location.origin + '/'+ 'statistic'}
   ]
 
-    const buttonsOfNonAuthor= [{name : 'Follow', origin : ()=> window.location.href = window.location.origin + '/'+ 'profile'},
+    const buttonsOfNonAuthor= [{name : 'Follow', func : handleFollowClick},
     {name : 'Performance', origin : ()=> window.location.href = window.location.origin + '/'+ 'statistic'}
   ]
 
@@ -96,10 +119,8 @@ useEffect(() => {
           })}
      
         </div>:<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
-          { buttonsOfNonAuthor.map((tab , index)=>{
-            return     <button  key={index} onClick={() => tab.origin()} className={`border  flex items-center justify-center  ${index === 0 ? 'bg-white text-black': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab.name}</button>
-          })}
-     
+         <button   onClick={handleFollowClick} className={`border  flex items-center justify-center  ${!follow ? 'bg-white text-black': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{!follow ? 'Follow' : 'Unfollow'}</button>
+           <button   onClick={handleFollowClick} className={`border  flex items-center justify-center text-white  rounded text-[14px] lg:w-60 w-full py-0.5`}>Share profile</button>
         </div>}
 
        <div className='flex gap-2 mt-10'>
