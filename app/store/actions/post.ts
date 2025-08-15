@@ -58,13 +58,13 @@ export const getPostByIdAction = (id: string) => async (dispatch: AppDispatch) =
 export const getPostsByHandleAction = (handle: string) => async (dispatch: AppDispatch) => {
 
   try {
-    dispatch({ type: 'FETCH_POSTS_REQUEST' });
+    dispatch({ type: 'FETCH_POSTS_BY_HANDLE_REQUEST' });
     const { data } = await api.getPostsByHandle(handle);
-    dispatch({ type: 'FETCH_POSTS_SUCCESS', payload: data });
+    dispatch({ type: 'FETCH_POSTS_BY_HANDLE_SUCCESS', payload: data });
     return data;
   } catch (error: any) {
     const errMsg = error.response?.data?.message || error.message;
-    dispatch({ type: 'FETCH_POSTS_FAIL', payload: errMsg });
+    dispatch({ type: 'FETCH_POSTS_BY_HANDLE_FAIL', payload: errMsg });
     throw new Error(errMsg);
   }
 };

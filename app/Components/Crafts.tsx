@@ -28,15 +28,15 @@ const  handle = usePathname().split('/')[1]
     }
   }, [dispatch, handle , token]);
 
-  const { posts , loading} = useSelector((state: any) => state.posts)
-
+  const { postsOfUser , loading} = useSelector((state: any) => state.posts)
+console.log(postsOfUser)
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
-    return <div className='  w-[100vw] h-full'>{posts?.length > 0 ?<div>
+    return <div className='  w-[100vw] h-full'>{postsOfUser?.length > 0 ?<div>
 
     { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-2 mb-10 grid'>
-    {posts?.map((post:any, index : number) => (
+    {postsOfUser?.map((post:any, index : number) => (
       <div key={index}>
               <PostCard post={post}/>
              </div>
