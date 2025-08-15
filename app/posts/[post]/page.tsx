@@ -35,7 +35,6 @@ const defaultAverages: AveragesType = {
 };
 export default function Post() {
     const dispatch = useDispatch<AppDispatch>()
-    const { post, loading , votes } = useSelector((state: any) => state.posts)
     const [openIndex , setOpenIndex] = useState(0)
     const [currentIndex ,setCurrentIndex] = useState(0)
     const [totalAvg , setTotalAvg] = useState(0)
@@ -44,19 +43,22 @@ export default function Post() {
     const {user ,token} = useAuth()
     const router  = useRouter()
     const [red , setRed ] = useState(false)
-const {setNotification , notification} = useNotification()
-
+    const {setNotification , notification} = useNotification()
+    const [isAuthor , setAuthor] = useState(false)
+    const { post, loading , votes } = useSelector((state: any) => state.posts)
     useEffect(() => {
-        console.log('calling API for postId:', postId)
+      console.log('calling API for postId:', postId)
         dispatch(getPostByIdAction(postId))
         dispatch(fetchVotesByPostAction(postId))
     }, [dispatch, postId])
     
+
 const averages = post?.voteFields?.reduce((acc, category) => {
   const total = votes.reduce((sum, vote) => sum + vote[category], 0);
   acc[category] = parseFloat((total / votes.length).toFixed(2));
   return acc;
 }, {});
+
 
 useEffect(() => {
   if (averages) {
@@ -70,36 +72,28 @@ useEffect(() => {
   }
 }, [averages]);
 
+useEffect(()=>{
+user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
+},[])
 
 const existingVote = post?.votes?.find(v => v.user._id === user?._id);
- const handleFavClick = ()=>{
-  setRed(!red )
 
-    if (!token) return;
- if (!token) return;
-
-    if (red) {
-      dispatch(removeFromFavorites(post._id, token));
-    } else {
-      dispatch(addToFavorites(post._id, token));
-    }
-  setNotification('addToFav')
-}
     return (
         <div>
            
             {post?.createdBy?.handle === user?.handle ?<div>
 
         
-        <AnimatePresence>{  isMenu ?  <PostMenu setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:null}</AnimatePresence> 
             </div>:null}
 
           <Notification/>
             <MasterNavber/>
             {!loading ?<div className='lg:flex'>
-              <button className='absolute top-14 left-5 text-white' onClick={()=> setIsMenu(true)}><HiOutlineDotsVertical/></button>
+              <button className='absolute z-[999] top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
+              
+        <AnimatePresence>{  isMenu ?  <PostMenu isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
            
-<Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token}/>
+<Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
         {/* <ProductImages images={post?.images}/> */}
 {window.innerWidth >640 ? <ProductImages images = {post?.images}/>:<ImageShower images = {post?.images}/>}
     

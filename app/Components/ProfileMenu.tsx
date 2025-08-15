@@ -31,8 +31,14 @@ const router = useRouter()
       onClick={()=>router.push('/createProduct')}
       className="text-white text-[14.5px]  w-full  px-3 py-1 flex items-center justify-center gap-1"
     >
-     Copy ID
-    </button>  <button
+    Following list
+    </button> 
+     <button
+      onClick={()=>router.push('/createProduct')}
+      className="text-white text-[14.5px]  w-full  px-3 py-1 flex items-center justify-center gap-1"
+    >
+    My followers
+    </button> <button
       onClick={()=> logout()}
       className="text-red-600 text-[14.5px]  px-3 py-1 flex items-center justify-left gap-1"
     >
