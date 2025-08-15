@@ -56,7 +56,7 @@ useEffect(() => {
 
 
 
-  const [activeIndex, setActiveIndex] = useState(1)
+  const [activeIndex, setActiveIndex] = useState(2)
   const buttonsOfAuthor = [{name : 'Edit profile', origin : ()=> window.location.href = window.location.origin + '/'+ 'profile'},
     {name : 'Performance', origin : ()=> window.location.href = window.location.origin + '/'+ 'statistic'}
   ]

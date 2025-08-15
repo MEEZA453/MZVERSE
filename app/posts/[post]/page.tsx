@@ -14,7 +14,7 @@ import { getVotesByPost } from '../../api'
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import PostMenu from '../../Components/PostMenu'
 import ImageShower from '../../Components/ImageShower'
-import {motion} from 'framer-motion'
+import {AnimatePresence, motion} from 'framer-motion'
 import { GoHeartFill } from 'react-icons/go'
 import { PiHeartLight } from 'react-icons/pi'
 import { addToFavorites, removeFromFavorites } from '../../store/actions/fav'
@@ -87,17 +87,18 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 }
     return (
         <div>
-          <button onClick={handleFavClick}   className='absolute  top-100 right-5' >{red ? <GoHeartFill size={21}className='text-red-600'/>:<PiHeartLight size={21} className='text-[#e3e3e3] ' />}</button> 
-          
+           
             {post?.createdBy?.handle === user?.handle ?<div>
 
         
-         {  isMenu ?  <PostMenu token={token?token:''} postId = {postId}/>:null}
+        <AnimatePresence>{  isMenu ?  <PostMenu setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:null}</AnimatePresence> 
             </div>:null}
 
           <Notification/>
             <MasterNavber/>
             {!loading ?<div className='lg:flex'>
+              <button className='absolute top-14 left-5 text-white' onClick={()=> setIsMenu(true)}><HiOutlineDotsVertical/></button>
+           
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token}/>
         {/* <ProductImages images={post?.images}/> */}
 {window.innerWidth >640 ? <ProductImages images = {post?.images}/>:<ImageShower images = {post?.images}/>}
