@@ -11,7 +11,7 @@ import { RxCross2 } from "react-icons/rx";
 import { FiEdit3 } from "react-icons/fi";
 import MobileImageInput from "../Components/MobileImageInput";
 import {AnimatePresence, motion} from 'framer-motion'
-
+import CategorySelect from "../Components/CatagoryInput";
 type ErrorState = {
   nameError: boolean;
 catagoryError : boolean;
@@ -223,7 +223,7 @@ const deleteField = (i: number) => {
   onChange={handleChange}
 />
 </div>
-
+<CategorySelect formData = { formData} setFormData = {setFormData} error = {error}/>
 <div className="mt-2 ">
   <h3>Description:</h3>
       <textarea
