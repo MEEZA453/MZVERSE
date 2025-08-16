@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { createPostAction } from "../store/actions/post";
@@ -7,7 +7,10 @@ import { useRouter } from "next/navigation";
 import ImageInput from "../Components/ImageInput";
 import ButtonLoaderWhite from "../Components/ButtonLoaderWhite";
 import ButtonLoader from "../Components/ButtonLoader";
-
+import { RxCross2 } from "react-icons/rx";
+import { FiEdit3 } from "react-icons/fi";
+import MobileImageInput from "../Components/MobileImageInput";
+import {AnimatePresence, motion} from 'framer-motion'
 
 type ErrorState = {
   nameError: boolean;
@@ -22,6 +25,7 @@ const CreatePost: React.FC = () => {
   const router = useRouter();
       const [image, setSelectedImage] = useState([]);
       const [selectedVoteFields, setSelectedVoteFields] = useState<string[]>([]);
+      console.log(selectedVoteFields)
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -30,7 +34,8 @@ const CreatePost: React.FC = () => {
 
    
   });
-
+const [isFullImage  , setFullImage] = useState(false)
+const [isShowVoteField ,  setShowVoteField] = useState(false)
   const [error, setError] = useState<ErrorState>({
     nameError: false,
 
@@ -39,7 +44,13 @@ const CreatePost: React.FC = () => {
 
 
   });
+  const [isMobile, setIsMobile] = useState(false);
 
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth <= 640);
+    }
+  }, []);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (
@@ -54,6 +65,9 @@ const toggleVoteField = (field: string) => {
   setSelectedVoteFields(prev =>
     prev.includes(field) ? prev.filter(f => f !== field) : [...prev, field]
   );
+};
+const deleteField = (i: number) => {
+  setSelectedVoteFields(prev => prev.filter((_, index) => index !== i));
 };
   const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     console.log(formData , image)
@@ -96,7 +110,7 @@ const toggleVoteField = (field: string) => {
         dispatch(createPostAction(payload, token))
           .then(() => {
             setLoading(false);
-            router.push("/AllAssets");
+            router.push("/feed");
           })
           .catch((err) => {
             setLoading(false);
@@ -109,38 +123,82 @@ const toggleVoteField = (field: string) => {
     }
   };
 
+
+
+
   return (
-    
+    <>
+
+
     <div className="">
 
     <form onSubmit={formSubmit} className="lg:flex px-2">
          
             <section className=''>
-             <ImageInput  error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />
-     
+        
+            {!isMobile ? <ImageInput  error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage}/> : <MobileImageInput  isFullImage = {isFullImage} setFullImage = {setFullImage} error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />}
+    <div className="w-">
+
+</div>
       </section>
       <div className="w-full  lg:mt-20">
-<h3 className="mb-3">Field of judgement:</h3>
-<div className="w-full gap-1  grid grid-cols-2">
+      
+{/* <h3 className="mb-3">Field of judgement:</h3> */}
+<div style={{opacity : isShowVoteField  ? 0.6 : 0}} className="absolute pointer-events-none duration-300 h-screen w-screen top-0 z-[909] bg-black"></div>
+<div className="judgements absolute top-1/2 left-1/2 w-[95%] z-[999] -translate-x-1/2">
+
+ <AnimatePresence>{isShowVoteField &&  <motion.div  initial = {{y : 60 , opacity : 0}} exit={{ y: 60 , opacity : 0}}
+    animate  = {{y  : 0 , opacity : 1}}
+    transition = {{ duration : 0.2 }} className="w-full gap-1 relative  px-2  border-[#1c1b1b] border bg-[#1d1d1d]  flex rounded-[4px] pt-10 pb-2 grid grid-cols-1">
+  <button type="button"  onClick={()=>setShowVoteField (false)}> < RxCross2  className = 'text-right  absolute top-2 right-2'/></button>
+
+
   {["creativity", "aesthetics", "composition", "emotion"].map(field => (
     <div  
-    className="h-20 px-2 py-1 border-[#2c2b2b] border rounded "
- typeof="button"
+   
+    className="h-fit  px-2 py-1  text-center  rounded-[2px] "
+    typeof="button" 
     key={field}
     onClick={() => toggleVoteField(field)}
     style={{
-      background: selectedVoteFields.includes(field) ? "white" : "#101010",
-       color: selectedVoteFields.includes(field) ? "black" : "white"
+      background: selectedVoteFields.includes(field) ? "white" : "#0d0d0d",
+      color: selectedVoteFields.includes(field) ? "black" : "white"
     }}
     >
-      <h5  >
+      <h6   >
 
       {field}
-      </h5>
+      </h6>
     </div>
   ))}
+
+
+</motion.div>}</AnimatePresence> 
 </div>
-<p style={{fontSize : '13px'}} className="mt-1 w-80">This field of judgement determine in how many bases other artiest can judge you.</p>
+
+<div className="mt-2 ">
+  <div className=""></div>
+  <button type="button"  onClick={()=>setShowVoteField(true)} className="flex w-full justify-between  gap-1 text-[14px] items-center">Judgement on:<FiEdit3 className="mt-1"/></button>
+      <div   className={`py-1 mt-1 h-8 flex gap-1 items-center  px-1 border-[#2c2b2b] border ${error.nameError ?  'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}>
+      {selectedVoteFields.map((vote  ,i)=>{
+        return   <div
+                    key={i}
+                    className="bg-[#2d2d2d] flex items-center text-black rounded px-1.5"
+                  >
+                    <label className='text-[13.5px] bg-[#2d2d2d] px-1 text-[#dadada]'>
+                    {vote}
+                    </label>
+                    <RxCross2 type="button" 
+                      onClick={() => deleteField(i)}
+                      color="white"
+                      className="cursor-pointer"
+                    />
+                  </div>
+      })}
+      
+       
+        </div>
+        </div>
 <div className="mt-2 ">
   <h3>name:</h3>
       <input
@@ -152,11 +210,13 @@ const toggleVoteField = (field: string) => {
         onChange={handleChange}
         />
         </div>
+
+        
 <div className="mt-2 ">
   <h3>Catagory:</h3>
    <input
   type="text"
-          className={`py-1 mt-1  border-[#2c2b2b] border ${error.catagoryError ? 'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
+  className={`py-1 mt-1  border-[#2c2b2b] border ${error.catagoryError ? 'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
   name="category" // ✅ must match formData key
   placeholder="Design / poster design"
   value={formData.category}
@@ -168,7 +228,7 @@ const toggleVoteField = (field: string) => {
   <h3>Description:</h3>
       <textarea
         name="description"
-                className={`py-1 mt-1  border-[#2c2b2b] border rounded-[2px] w-full bg-[#101010]`}
+        className={`py-1 mt-1  border-[#2c2b2b] border rounded-[2px] w-full bg-[#101010]`}
         placeholder="Description"
         value={formData.description}
         onChange={handleChange}
@@ -181,6 +241,7 @@ const toggleVoteField = (field: string) => {
 
     </form>
         </div>
+        </>
   );
 };
 
