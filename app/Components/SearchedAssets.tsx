@@ -9,7 +9,7 @@ console.log(assetResult)
     return <div>{loading ?<Loading/>:<div className="w-full">
 
         {assetResult?.results?.map((asset , index)=>{
-            return <div key={index} className="w-full flex justify-start px-2">
+            return <div  onClick={()=>router.push(`/AllAssets/${asset?._id}`)} key={index} className="w-full flex justify-start px-2">
             <div className="px-2 justify-between w-full mt-2 items-center flex">
                 <div className="flex gap-2 items-center justify-center">
                     <div className="h-10 w-10 bg-[#1d1d1d] flex items-center justify-center">

@@ -13,11 +13,11 @@ console.log(userResult)
     return <div className="w-full">
        { loading ? <Loading/>:<div  className="w-full  justify-start px-2">
             {userResult.map((user , index )=>{
-                return <div key={index}> <div className="flex items-center overflow-y-scroll  gap-1">
-                                      <button onClick={()=>router.push('/')}><Image  
+                return <div key={index}> <div onClick={()=>router.push(`/${user?.handle}`)}  className="flex items-center overflow-y-scroll  gap-1">
+                                      <Image  
                         height={300}
                         width={300}
-                        alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src={user?.profile}/></button>  
+                        alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src={user?.profile}/>  
                           <div>
                                       <h3 className='mt-2'>{user?.name}  </h3>
                                       <p style={{fontSize : '12px'}} className=''>@{user?.handle}  </p>
