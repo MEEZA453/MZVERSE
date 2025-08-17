@@ -206,7 +206,7 @@ const deleteField = (i: number) => {
 </div>
   
 
-     <button type="submit" className=" text-black flex mb-8 w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ?<ButtonLoader/>:'Share'}</button>
+     <button type="submit" className=" text-black flex mb-8 mt-4 w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ?<ButtonLoader/>:'Share'}</button>
   </div>
 
     </form>

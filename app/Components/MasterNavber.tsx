@@ -10,6 +10,7 @@ import CreateMenu from './CreateMenu';
 import { useAuth } from '../Context/AuthContext';
 import Image from 'next/image';
 import { AnimatePresence } from 'framer-motion';
+import Search from './Search';
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
   setShowSignupInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -22,7 +23,8 @@ export default function MasterNavber({setShowLoginInput , setShowSignupInput}:Ma
   const {isLoggedIn , profileLink , user} = useAuth();
  const [openCreate , setOpenCreate] = useState(false)
   const currentPath = usePathname();
-  const [activeIndex ,setActiveIndex]  = useState(1)
+  const [search ,setSearch] = useState(false)
+   const [activeIndex ,setActiveIndex]  = useState(1)
 const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   const outerMenu: { name: string; path: string }[] = [
     { name: 'Store', path: '/AllAssets' },
@@ -88,10 +90,14 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
         <div className="flex gap-3 items-center lg:gap-6 lg:mr-4">
           <div className="search mt-0.5 relative">
       
-            {/* <IoSearchOutline
+          <button onClick={()=>setSearch(true)}>
+            <IoSearchOutline
             
-              size={20}
-            /> */}
+            size={20}
+            /> 
+  {search && <Search setSearch = {setSearch} />}
+
+            </button> 
           </div>
           {/* <h6>[ 10 ]</h6> */}
           {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>
