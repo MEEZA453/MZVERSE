@@ -96,19 +96,7 @@ export default function CategorySelect({ formData, setFormData, error }: any) {
         initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }}
          className="absolute top-0 z-[999] left-0 mt-1 w-full bg-[#1a1a1a] border border-[#2c2b2b] rounded-md max-h-64 overflow-y-auto">
           {/* Search Input */}
-          <div className="flex items-center px-2 sticky top-0 bg-[#101010] border-b border-[#2c2b2b]">
-<IoSearchOutline className=""
-            color="#8d8d8d"
-              size={19}
-            />
-          <input
-            type="text"
-            placeholder=" Search category..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full p-2 outline-none text-sm"
-            />
-            </div>
+         
 
           {/* Panel: Parents OR Subcategories */}
           {!selectedParent ? (

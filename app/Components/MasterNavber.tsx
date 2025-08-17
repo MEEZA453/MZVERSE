@@ -68,14 +68,14 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
         </div>
       </div>
 
-      <div className="px-2 top-2 fixed z-[999] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
+      <div className="top-2 fixed z-[999] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
 <button onClick={()=>router.push('/')}><img src="/logo.png" className="w-8 rounded-xl lg:w-7" /></button>
 
         {/* <div className="flex gap-1 fixed top-15 left-1/2 -translate-x-1/2 lg:gap-6">
           {outerMenu.map((el, i) => (
             <button   className={`border ${i === activeIndex ? 'text-black bg-white': 'text-white'}  rounded text-[14px] lg:w-60 w-[160px] py-0.5`} onClick={()=>{ setActiveIndex(i), router.push(el.path)}} key={i}>{el.name}</button>
-          ))}
-        </div> */}
+            ))}
+            </div> */}
 
         {isLargeScreen ? (
           <div className="flex gap-6">
@@ -86,6 +86,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
             ))}
           </div>
         ) : null}
+            {search && <Search setSearch = {setSearch} />}
 
         <div className="flex gap-3 items-center lg:gap-6 lg:mr-4">
           <div className="search mt-0.5 relative">
@@ -95,9 +96,9 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
             
             size={20}
             /> 
-  {search && <Search setSearch = {setSearch} />}
 
             </button> 
+
           </div>
           {/* <h6>[ 10 ]</h6> */}
           {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>

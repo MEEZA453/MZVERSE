@@ -11,7 +11,28 @@ export const postDesign = (post : FormData , token : string) => async (dispatch 
       console.log('Error in action:', error.message); // Log the error message
     }
   };
+export const searchAssets = (
+  query: string, 
+  page: number = 1, 
+  limit: number = 10
+) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: 'SEARCH_ASSETS_REQUEST' });
 
+    const { data } = await api.searchAssets(query, page, limit);
+
+    dispatch({ 
+      type: 'SEARCH_ASSETS_SUCCESS', 
+      payload: data 
+    });
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    dispatch({
+      type: 'SEARCH_ASSETS_FAIL',
+      payload: errMsg,
+    });
+  }
+};
   export const getDesign = (page : number , limit : number)=> async(dispatch : any) =>{
     try {
       const { data } = await api.getDesign(page , limit);

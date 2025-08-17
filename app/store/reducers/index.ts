@@ -6,6 +6,7 @@ import getProductOfUser from './getProductOfUser';
 import favourites from './fav';
 import posts from './post'
 import follow from './follow'
+import search from './search'
 const rootReducer = combineReducers({
   design,
   cart,
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   getProductOfUser,
   favourites,
   posts,
-  follow
+  follow,
+  search
 });
 
 export type RootState = ReturnType<typeof rootReducer>; // ✅ Type for useSelector

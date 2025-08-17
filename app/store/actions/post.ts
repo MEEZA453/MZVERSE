@@ -14,7 +14,27 @@ export const createPostAction = (formData: FormData, token: string) => async (di
     throw new Error(errMsg);
   }
 };
+export const searchPostsAction = (query: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: 'SEARCH_POSTS_REQUEST' });
 
+    const { data } = await api.searchPosts(query);
+
+    dispatch({
+      type: 'SEARCH_POSTS_SUCCESS',
+      payload: data, // assuming API returns an array of posts
+    });
+
+    return data;
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    dispatch({
+      type: 'SEARCH_POSTS_FAIL',
+      payload: errMsg,
+    });
+    throw new Error(errMsg);
+  }
+};
 export const deletePostAction = (id: string, token: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: 'DELETE_POST_REQUEST' });

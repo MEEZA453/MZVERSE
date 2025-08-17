@@ -2,7 +2,42 @@ import * as api from '../../api';
 import { AppDispatch } from '../store';
 
 
+export const getUserByHandle = (handle: string , token : string) => async (dispatch: AppDispatch) => {
 
+  try {
+    dispatch({ type: 'GET_USER_BY_HANDLE_REQUEST' });
+    const { data } = await api.getUserByHandle(handle , token);
+
+    dispatch({
+      type: 'GET_USER_BY_HANDLE_SUCCESS',
+      payload: data,
+    });
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    dispatch({
+      type: 'GET_USER_BY_HANDLE_FAIL',
+      payload: errMsg,
+    });
+  }
+};
+export const searchUsers = (query: string, token: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: 'SEARCH_USERS_REQUEST' });
+
+    const { data } = await api.searchUsers(query, token);
+
+    dispatch({
+      type: 'SEARCH_USERS_SUCCESS',
+      payload: data, // assuming `data` contains an array of users
+    });
+  } catch (error: any) {
+    const errMsg = error.response?.data?.message || error.message;
+    dispatch({
+      type: 'SEARCH_USERS_FAIL',
+      payload: errMsg,
+    });
+  }
+};
 export const sendEmailOtpAction = (email: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: 'SEND_OTP_REQUEST' })
@@ -45,24 +80,6 @@ export const resendEmailOtpAction = (email: string) => async (dispatch: AppDispa
 }
 
 
-export const getUserByHandle = (handle: string , token : string) => async (dispatch: AppDispatch) => {
-
-  try {
-    dispatch({ type: 'GET_USER_BY_HANDLE_REQUEST' });
-    const { data } = await api.getUserByHandle(handle , token);
-
-    dispatch({
-      type: 'GET_USER_BY_HANDLE_SUCCESS',
-      payload: data,
-    });
-  } catch (error: any) {
-    const errMsg = error.response?.data?.message || error.message;
-    dispatch({
-      type: 'GET_USER_BY_HANDLE_FAIL',
-      payload: errMsg,
-    });
-  }
-};
 
 export const getProductById = (handle: string) => async (dispatch: AppDispatch) => {
   try {

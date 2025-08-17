@@ -17,7 +17,7 @@ export  default function Feed (){
 ]
     return <div> 
         {/* <MasterNavber/> */}
-        <div className="sticky top-10 z-[9999]">
+        <div className="sticky top-10 z-[100]">
         <div className=" left-1/2 w-screen  justify-center items-center flex px-2 gap-1">
 {
     tabs.map((tab, index : number)=>{
@@ -41,6 +41,6 @@ export  default function Feed (){
 }
        {/* <DesignerOfTheDay/> */}
         {/* <AllPosts/> */}
-        <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[900] top-0"></div>
+        <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[50] top-0"></div>
     </div>
 }

@@ -61,6 +61,17 @@ export const getUserByHandle = (handle, token) =>
     headers: { Authorization: `Bearer ${token}` }
   });
 
+// search featre
+export const searchUsers = (query, token) =>
+  axios.get(`${url}user/search/users?query=${query}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+export const searchAssets = (query, page, limit) =>
+  axios.get(`${url}search/designs`, {
+    params: { query, page, limit }
+  });
+export const searchPosts = (query) =>
+  axios.get(`${url}post/search/posts?query=${query}`);
 
 
 export const sendEmailOtp = (email) =>
