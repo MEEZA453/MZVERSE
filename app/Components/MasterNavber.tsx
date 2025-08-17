@@ -69,7 +69,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
       </div>
 
       <div className="top-2 fixed z-[999] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
-<button onClick={()=>router.push('/')}><img src="/logo.png" className="w-8 rounded-xl lg:w-7" /></button>
+<button onClick={()=>router.push('/')}><Image alt='logo' width={100} height={100} src="/logo.png" className="w-8 ml-2 rounded-xl lg:w-7" /></button>
 
         {/* <div className="flex gap-1 fixed top-15 left-1/2 -translate-x-1/2 lg:gap-6">
           {outerMenu.map((el, i) => (
@@ -88,11 +88,11 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
         ) : null}
             {search && <Search setSearch = {setSearch} />}
 
-        <div className="flex gap-3 items-center lg:gap-6 lg:mr-4">
+        <div className="flex gap-3 mr-2 items-center lg:gap-6 lg:mr-4">
           <div className="search mt-0.5 relative">
       
           <button onClick={()=>setSearch(true)}>
-            <IoSearchOutline
+            <IoSearchOutline className='mt-1'
             
             size={20}
             /> 
