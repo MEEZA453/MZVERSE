@@ -12,6 +12,7 @@ import { FiEdit3 } from "react-icons/fi";
 import MobileImageInput from "../Components/MobileImageInput";
 import {AnimatePresence, motion} from 'framer-motion'
 import CategorySelect from "../Components/CatagoryInput";
+import VoteFieldSelector from "../Components/VoteFieldSelector";
 type ErrorState = {
   nameError: boolean;
 catagoryError : boolean;
@@ -130,7 +131,7 @@ const deleteField = (i: number) => {
     <>
 
 
-    <div className="">
+    <div className="h-screen w-screen relative overflow-hidden">
 
     <form onSubmit={formSubmit} className="lg:flex px-2">
          
@@ -145,60 +146,36 @@ const deleteField = (i: number) => {
       
 {/* <h3 className="mb-3">Field of judgement:</h3> */}
 <div style={{opacity : isShowVoteField  ? 0.6 : 0}} className="absolute pointer-events-none duration-300 h-screen w-screen top-0 z-[909] bg-black"></div>
-<div className="judgements absolute top-1/2 left-1/2 w-[95%] z-[999] -translate-x-1/2">
 
- <AnimatePresence>{isShowVoteField &&  <motion.div  initial = {{y : 60 , opacity : 0}} exit={{ y: 60 , opacity : 0}}
+
+<button type="button"  onClick={()=>setShowVoteField(true)} className="flex w-full mb-1   gap-1 text-[14px] items-center">Judgement on<FiEdit3 className="mt-1"/></button>
+
+        <div className="judgements">
+
+<motion.div  initial = {{y : 60 , opacity : 0}} exit={{ y: 60 , opacity : 0}}
     animate  = {{y  : 0 , opacity : 1}}
-    transition = {{ duration : 0.2 }} className="w-full gap-1 relative  px-2  border-[#1c1b1b] border bg-[#1d1d1d]  flex rounded-[4px] pt-10 pb-2 grid grid-cols-1">
-  <button type="button"  onClick={()=>setShowVoteField (false)}> < RxCross2  className = 'text-right  absolute top-2 right-2'/></button>
+    transition = {{ duration : 0.2 }} className="w-full gap-1 relative  px-2  border-[#1c1b1b] border flex rounded-[4px] pt-5 pb-2 flex">
+  
 
 
-  {["creativity", "aesthetics", "composition", "emotion"].map(field => (
-    <div  
-   
-    className="h-fit  px-2 py-1  text-center  rounded-[2px] "
-    typeof="button" 
-    key={field}
-    onClick={() => toggleVoteField(field)}
-    style={{
-      background: selectedVoteFields.includes(field) ? "white" : "#0d0d0d",
-      color: selectedVoteFields.includes(field) ? "black" : "white"
-    }}
-    >
-      <h6   >
-
-      {field}
-      </h6>
-    </div>
+  {["Creativity", "aesthetics", "composition", "emotion"].map((field , i) => (
+    <button onClick={()=>toggleVoteField(field)}
+                    key={i}
+                    type="button"
+                    className={`text-[13.5px] bg-[#2d2d2d] px-1 text-[#dadada] flex items-center  ${
+                  selectedVoteFields.includes(field)
+                    ? "bg-white text-black"
+                    : "bg-[#0d0d0d] text-white hover:bg-[#2a2a2a]"
+                } text-black rounded px-1.5`}
+                  >
+                   {field}
+                  
+                  </button>
   ))}
 
 
-</motion.div>}</AnimatePresence> 
+</motion.div>
 </div>
-
-<div className="mt-2 ">
-  <div className=""></div>
-  <button type="button"  onClick={()=>setShowVoteField(true)} className="flex w-full justify-between  gap-1 text-[14px] items-center">Judgement on:<FiEdit3 className="mt-1"/></button>
-      <div   className={`py-1 mt-1 h-8 flex gap-1 items-center  px-1 border-[#2c2b2b] border ${error.nameError ?  'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}>
-      {selectedVoteFields.map((vote  ,i)=>{
-        return   <div
-                    key={i}
-                    className="bg-[#2d2d2d] flex items-center text-black rounded px-1.5"
-                  >
-                    <label className='text-[13.5px] bg-[#2d2d2d] px-1 text-[#dadada]'>
-                    {vote}
-                    </label>
-                    <RxCross2 type="button" 
-                      onClick={() => deleteField(i)}
-                      color="white"
-                      className="cursor-pointer"
-                    />
-                  </div>
-      })}
-      
-       
-        </div>
-        </div>
 <div className="mt-2 ">
   <h3>name:</h3>
       <input
@@ -212,18 +189,11 @@ const deleteField = (i: number) => {
         </div>
 
         
-<div className="mt-2 ">
-  <h3>Catagory:</h3>
-   <input
-  type="text"
-  className={`py-1 mt-1  border-[#2c2b2b] border ${error.catagoryError ? 'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
-  name="category" // ✅ must match formData key
-  placeholder="Design / poster design"
-  value={formData.category}
-  onChange={handleChange}
-/>
-</div>
+
+
+
 <CategorySelect formData = { formData} setFormData = {setFormData} error = {error}/>
+
 <div className="mt-2 ">
   <h3>Description:</h3>
       <textarea

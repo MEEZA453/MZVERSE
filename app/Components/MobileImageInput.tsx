@@ -2,7 +2,7 @@
 import React, { useState, ChangeEvent, useEffect } from "react";
 import Image from "next/image";
 import { IoResizeSharp } from "react-icons/io5";
-import { GoScreenFull } from "react-icons/go";
+import { GoPlusCircle, GoScreenFull } from "react-icons/go";
 import { RxExitFullScreen } from "react-icons/rx";
 
 type ImageInputProps = {
@@ -50,9 +50,9 @@ export default function MobileImageInput({ error, selectedImage, setSelectedImag
             />
             <label
               htmlFor="upload-button"
-              className="inline-block cursor-pointer px-2 py-1 bg-white text-black font-medium rounded-lg transition duration-200"
+           
             >
-              Upload Images
+              <GoPlusCircle color="white" size={22}/>
             </label>
           </div>
         </div>
