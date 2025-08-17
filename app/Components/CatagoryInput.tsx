@@ -96,8 +96,7 @@ export default function CategorySelect({ formData, setFormData, error }: any) {
         initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }}
          className="absolute top-0 z-[999] left-0 mt-1 w-full bg-[#1a1a1a] border border-[#2c2b2b] rounded-md max-h-64 overflow-y-auto">
           {/* Search Input */}
-         
-
+<input type="text" placeholder=" Search category..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full p-2 outline-none text-sm" />
           {/* Panel: Parents OR Subcategories */}
           {!selectedParent ? (
             // ---- Parent List ----

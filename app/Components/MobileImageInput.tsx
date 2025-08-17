@@ -39,9 +39,9 @@ export default function MobileImageInput({
   }, [selectedImage]);
 
   return (
-    <div className="mt-6">
+    <div className="mt-6 mb-6">
       {/* Grid of images */}
-      <div className="grid grid-cols-3 items-center mb-10 justify-center gap-3 min:h-60 h-full border border-[#2d2d2d] rounded-[6px] p-3">
+      <div className="grid grid-cols-3 items-center mb-1 justify-center gap-3 min:h-60 h-full border border-[#2d2d2d] rounded-[6px] p-3">
         {previewURLs.map((url, i) => (
           <div key={i} className="relative group h-28 border border-[#1d1d1d] rounded overflow-hidden">
             <Image
@@ -84,7 +84,7 @@ export default function MobileImageInput({
 
       {/* Error message */}
       {error && (
-        <p className="text-sm text-red-500 mt-2">Please upload at least one image.</p>
+        <p className="px-2" style={{color : 'red' , fontSize : '13px'}}>Please upload at least 1 image.</p>
       )}
 
       {/* Tip Section */}

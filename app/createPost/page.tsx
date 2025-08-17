@@ -17,6 +17,7 @@ type ErrorState = {
   nameError: boolean;
 catagoryError : boolean;
   imagesError: boolean;
+  fieldError : boolean;
 
 };
 
@@ -39,7 +40,7 @@ const [isFullImage  , setFullImage] = useState(false)
 const [isShowVoteField ,  setShowVoteField] = useState(false)
   const [error, setError] = useState<ErrorState>({
     nameError: false,
-
+    fieldError : false,
     imagesError: false,
     catagoryError : false,
 
@@ -80,6 +81,7 @@ const deleteField = (i: number) => {
       nameError: formData.name.trim() === "",
      catagoryError : formData.category.trim()=== '',
       imagesError: image.length < 1,
+      fieldError : selectedVoteFields.length < 1
   
     };
 
@@ -90,6 +92,7 @@ const deleteField = (i: number) => {
     if (
       newErrors.nameError ||
       newErrors.imagesError ||
+      newErrors.catagoryError ||
  console.log('error')
     ) {
       return;
@@ -145,20 +148,18 @@ const deleteField = (i: number) => {
       <div className="w-full  lg:mt-20">
       
 {/* <h3 className="mb-3">Field of judgement:</h3> */}
-<div style={{opacity : isShowVoteField  ? 0.6 : 0}} className="absolute pointer-events-none duration-300 h-screen w-screen top-0 z-[909] bg-black"></div>
 
 
-<button type="button"  onClick={()=>setShowVoteField(true)} className="flex w-full mb-1   gap-1 text-[14px] items-center">Judgement on<FiEdit3 className="mt-1"/></button>
+
+<div   className="flex w-full mb-1   gap-1 text-[14px] items-center">Judgement on<FiEdit3 className="mt-1"/></div>
 
         <div className="judgements">
 
-<motion.div  initial = {{y : 60 , opacity : 0}} exit={{ y: 60 , opacity : 0}}
-    animate  = {{y  : 0 , opacity : 1}}
-    transition = {{ duration : 0.2 }} className="w-full gap-1 relative  px-2  border-[#1c1b1b] border flex rounded-[4px] pt-5 pb-2 flex">
+<div  className="w-full gap-1 relative  px-2  border-[#1c1b1b] border flex rounded-[4px] pt-5 pb-2 flex">
   
 
 
-  {["Creativity", "aesthetics", "composition", "emotion"].map((field , i) => (
+  {["creativity", "aesthetics", "composition", "emotion"].map((field , i) => (
     <button onClick={()=>toggleVoteField(field)}
                     key={i}
                     type="button"
@@ -173,8 +174,8 @@ const deleteField = (i: number) => {
                   </button>
   ))}
 
-
-</motion.div>
+</div>
+{error.fieldError && <p className="px-2" style={{color : 'red' , fontSize : '13px'}}>Select atleast 1 field</p>}
 </div>
 <div className="mt-2 ">
   <h3>name:</h3>

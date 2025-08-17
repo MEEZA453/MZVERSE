@@ -42,27 +42,20 @@ const initialState: SearchState = {
 
 const search = (state = initialState, action: AnyAction): SearchState => {
   switch (action.type) {
-    // USERS
     case "SEARCH_USERS_REQUEST":
-      return { ...state, loading: true, error: null };
-    case "SEARCH_USERS_SUCCESS":
-      return { ...state, loading: false, userResult: action.payload };
-    case "SEARCH_USERS_FAIL":
-      return { ...state, loading: false, error: action.payload };
-
-    // POSTS
     case "SEARCH_POSTS_REQUEST":
-      return { ...state, loading: true, error: null };
-    case "SEARCH_POSTS_SUCCESS":
-      return { ...state, loading: false, postResult: action.payload };
-    case "SEARCH_POSTS_FAIL":
-      return { ...state, loading: false, error: action.payload };
-
-    // ASSETS
     case "SEARCH_ASSETS_REQUEST":
       return { ...state, loading: true, error: null };
+
+    case "SEARCH_USERS_SUCCESS":
+      return { ...state, loading: false, userResult: action.payload };
+    case "SEARCH_POSTS_SUCCESS":
+      return { ...state, loading: false, postResult: action.payload };
     case "SEARCH_ASSETS_SUCCESS":
       return { ...state, loading: false, assetResult: action.payload };
+
+    case "SEARCH_USERS_FAIL":
+    case "SEARCH_POSTS_FAIL":
     case "SEARCH_ASSETS_FAIL":
       return { ...state, loading: false, error: action.payload };
 

@@ -1,11 +1,12 @@
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useSelector } from "react-redux"
+import Loading from "./loading"
 export default function SearchedAssets(){
     const router = useRouter()
- const {assetResult} = useSelector((state : any)  => state.search)
+ const {assetResult , loading} = useSelector((state : any)  => state.search)
 console.log(assetResult)
-    return <div className="w-full">
+    return <div>{loading ?<Loading/>:<div className="w-full">
 
         {assetResult?.results?.map((asset , index)=>{
             return <div key={index} className="w-full flex justify-start px-2">
@@ -20,5 +21,5 @@ console.log(assetResult)
         </div>
         })}
         
-    </div>
+    </div>}</div>
 }

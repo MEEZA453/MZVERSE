@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Loader = () => {
+const Loading = () => {
   return (
     <StyledWrapper className=' h-60 w-screen flex items-center justify-center'>
       <svg viewBox="25 25 50 50">
@@ -50,4 +50,4 @@ const StyledWrapper = styled.div`
    }
   }`;
 
-export default Loader;
+export default Loading;

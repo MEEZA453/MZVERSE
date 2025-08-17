@@ -74,6 +74,19 @@ export const searchPosts = (query) =>
   axios.get(`${url}post/search/posts?query=${query}`);
 
 
+export const getDefaultUsers = ( token) =>
+  axios.get(`${url}user/defaultSearch`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+export const getDefaultPosts = (limit = 10) =>
+  axios.get(`${url}post/defaultSearch`, {
+    params: { limit }
+  });
+
+export const getDefaultAssets = (page , limit ) =>
+  axios.get(`${url}defaultSearch` , page , limit );
+
+
 export const sendEmailOtp = (email) =>
   axios.post(`${url}user/send-otp`, { email })
 

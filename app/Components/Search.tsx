@@ -1,3 +1,4 @@
+'use client'
 import {motion} from 'framer-motion'
 import { useEffect, useState } from 'react';
 import { IoSearchOutline } from 'react-icons/io5'
@@ -11,6 +12,7 @@ import { useAuth } from '../Context/AuthContext';
 import { searchPostsAction } from '../store/actions/post';
 import { searchAssets } from '../store/actions/design';
 import { useSelector } from 'react-redux';
+import { getDefaultAssets, getDefaultPosts, getDefaultUsers } from '../store/actions/search';
 export default function Search({setSearch}){
     const searchTabs = ['Creators' , 'posts' , 'Assets'];
     const [selectedIndex , setSelectedIndex] = useState(0)
@@ -20,24 +22,36 @@ export default function Search({setSearch}){
   const dispatch = useDispatch<AppDispatch>()
 
 useEffect(() => {
-    if (!query.trim()) return; // don’t search empty query
-
-    const handler = setTimeout(() => {
+  const handler = setTimeout(() => {
+    if (!query.trim()) {
+      // 🔹 Fetch default results if query is empty
       if (selectedIndex === 0) {
-        dispatch(searchUsers(query , token)); // 🔹 search creators
+        dispatch(getDefaultUsers(token)); // e.g. top users
       } else if (selectedIndex === 1) {
-        dispatch(searchPostsAction(query)); // 🔹 search posts
+        dispatch(getDefaultPosts()); // e.g. trending posts
       } else if (selectedIndex === 2) {
-        dispatch(searchAssets(query , 1 , 20)); // 🔹 search assets
+        dispatch(getDefaultAssets(1, 20)); // e.g. recent assets
       }
-    }, 400); // 400ms debounce
-    return () => {
-      clearTimeout(handler); // cleanup
-    };
-  }, [query, selectedIndex, dispatch]);
+    } else {
+      // 🔹 Perform search normally
+      if (selectedIndex === 0) {
+        dispatch(searchUsers(query, token));
+      } else if (selectedIndex === 1) {
+        dispatch(searchPostsAction(query));
+      } else if (selectedIndex === 2) {
+        dispatch(searchAssets(query, 1, 20));
+      }
+    }
+  }, 400);
+
+  return () => {
+    clearTimeout(handler);
+  };
+}, [query, selectedIndex, dispatch, token]);
+
        return     <div>
 
-      <motion.div   initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }} className="h-100 fixed  top-0 z-[999] overflow-y-scroll left-0 w-screen bg-[#101010]">
+      <motion.div   initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }} className="h-110 fixed  top-0 z-[999] overflow-y-scroll left-0 w-screen bg-[#101010]">
              <div className="flex items-center z-[999] px-2 sticky top-0  bg-[#101010] ">
 <IoSearchOutline className=""
             color="#8d8d8d"
@@ -49,10 +63,10 @@ useEffect(() => {
             placeholder=" Search.."
            
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full p-2 outline-none text-sm"
+            className="w-full p-4 outline-none text-sm"
             />
             </div>
-            <div className='w-screen'>
+            <div className='w-screen '>
             <div className='flex justify-between w-full px-7  mt-2 border-b border-[#2c2b2b] pb-1 items-center'>
                 {searchTabs.map((el , index)=>{
                     return <button style={{fontSize : '14px'}} onClick={()=>setSelectedIndex(index)} className={`${index === selectedIndex ? 'opacity-100': 'opacity-60'}`} key={index}>{el}</button>

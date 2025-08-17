@@ -5,12 +5,13 @@ import { useRouter } from "next/navigation"
 import { useAuth } from "../Context/AuthContext"
 import { AppDispatch } from "../store/store"
 import { searchUsers } from "../store/actions/auth"
+import Loading  from './loading'
 export default function SearchedCreators(){
     const router = useRouter()
-const {userResult} = useSelector((state : any)  => state.search)
+const {userResult , loading} = useSelector((state : any)  => state.search)
 console.log(userResult)
     return <div className="w-full">
-        <div  className="w-full  justify-start px-2">
+       { loading ? <Loading/>:<div  className="w-full  justify-start px-2">
             {userResult.map((user , index )=>{
                 return <div key={index}> <div className="flex items-center overflow-y-scroll  gap-1">
                                       <button onClick={()=>router.push('/')}><Image  
@@ -27,6 +28,6 @@ console.log(userResult)
                                     </div></div>
             })}
             
-        </div>
+        </div>}
     </div>
 }
