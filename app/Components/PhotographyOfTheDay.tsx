@@ -8,7 +8,7 @@ const router = useRouter()
 // {name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur3.jpg']},
 // {name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur4.jpg']},
 ]
-    return <div className="px-4 mt-2">
+    return <div className="px-4 my-5">
 <div  className="">
             <Image src = {p.images[0]} height = {300} width  = {300} alt = 'photo' className ='w-full mb-2 h-90 rounded object-cover'/>
               <div className="     flex justify-between items-center w-full pr-3 z-100  duration-200 ">

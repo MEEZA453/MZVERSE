@@ -132,7 +132,7 @@ useEffect(() => {
            <button   onClick={handleFollowClick} className={`border  flex items-center justify-center text-white  rounded text-[14px] lg:w-60 w-full py-0.5`}>Share profile</button>
         </div>}
 
-       <div className='flex gap-2 mt-10 w-screen overflow-x-scroll hide-scrollbar px-3'>
+       <div className='flex gap-2 mt-10  overflow-x-scroll hide-scrollbar px-3'>
         {tabs.map((tab  , i)=>{
           return <button onClick={()=>setActiveIndex(i)} className={`px-2 py-0.5 ${activeIndex === i ? 'bg-white text-black':'bg-[#2d2d2d] text-white'} flex items-center justify-center rounded-full text-[13px]`} key={i}>{tab}</button>
         })}

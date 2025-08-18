@@ -62,6 +62,7 @@ const dispatch = useDispatch<AppDispatch>();
 const handleDeleteClick = ()=>{
     console.log('clicked',postId)
     dispatch(deletePostAction(postId , token))
+router.back()
 }
     return  <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen z-[999] fixed left-0 bottom-0 bg-black/50">
       <div onClick={()=>setIsMenu(false)} className="w-screen h-screen "></div>

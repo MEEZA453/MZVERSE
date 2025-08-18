@@ -21,7 +21,7 @@ export default function PosterOfTheDay(){
    
      const {highlight , loading} = useSelector((state: any) => state.highlight)
      const reoderedHighlight = [...highlight].reverse()
-    return <div className="flex my-2 py-2 hide-scrollber w-screen overflow-y-scroll ">
+    return <div className="flex my-2 py-2 hide-scrollbar w-screen overflow-y-scroll ">
       
      {   !loading ? <div className='flex gap-2'>
         {reoderedHighlight?.map((post:any, index:number) => (

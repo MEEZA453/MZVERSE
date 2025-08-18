@@ -31,7 +31,7 @@ export  default function Feed (){
         <PromotionOfTheDay/>
          <PosterOfTheDay/>
 
-        <PhotographyOfTheDay p={photo[0]}/>
+        <PhotographyOfTheDay p={photo[2]}/>
 
 
          
