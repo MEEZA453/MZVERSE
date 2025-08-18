@@ -20,9 +20,11 @@ import Crafts from '../Components/Crafts'
 import { AnimatePresence } from 'framer-motion'
 import { followUser, getFollowingByHandle } from '../store/actions/follow'
 import { unfollowUser } from '../store/actions/follow'
+import HighlightControl from '../Components/HighlightControl'
+import Promotion from '../Components/Promotion'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
-const {profileLink ,  authorId , handle} = useAuth()
+const {profileLink ,  authorId , handle , role} = useAuth()
 const pathname = usePathname();
 const userHandle = pathname.split('/').pop();
 const [token , setToken] = useState('')
@@ -88,7 +90,14 @@ useEffect(() => {
     {name : 'Performance', origin : ()=> window.location.href = window.location.origin + '/'+ 'statistic'}
   ]
 
-  const tabs = ['Store' , 'Moodboard' , 'Crafts']
+  const tabs = ['Store' , 'Moodboard' , 'Crafts' ]
+  const isDev = true
+
+
+    if(role === 'dev'){
+    tabs.push('Highlight')
+    tabs.push('promotion')
+  }
 
   return (
     <div className='w-screen  overflow-hidden'>
@@ -123,7 +132,7 @@ useEffect(() => {
            <button   onClick={handleFollowClick} className={`border  flex items-center justify-center text-white  rounded text-[14px] lg:w-60 w-full py-0.5`}>Share profile</button>
         </div>}
 
-       <div className='flex gap-2 mt-10'>
+       <div className='flex gap-2 mt-10 w-screen overflow-x-scroll hide-scrollbar px-3'>
         {tabs.map((tab  , i)=>{
           return <button onClick={()=>setActiveIndex(i)} className={`px-2 py-0.5 ${activeIndex === i ? 'bg-white text-black':'bg-[#2d2d2d] text-white'} flex items-center justify-center rounded-full text-[13px]`} key={i}>{tab}</button>
         })}
@@ -133,11 +142,14 @@ useEffect(() => {
     
       </div>
 
-{ !loading ? <div className='w-[300vw] flex duration-500' style={{transform :`translate(${-activeIndex*100}vw)`}}>
+{ !loading ? <div className={`${isDev ? 'w-[500vw]':'w-[300vw]'} flex duration-500`}style={{transform :`translate(${-activeIndex*100}vw)`}}>
 
  <Store/>
  <Favourites/>
 <Crafts/>
+{isDev&&<HighlightControl/>}
+{isDev&&<Promotion/>}
+
  
 
 </div>: <Loading/> }

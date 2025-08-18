@@ -1,12 +1,13 @@
 import {useEffect , useState} from 'react'
 import { usePathname } from 'next/navigation';
 import {useDispatch , useSelector } from 'react-redux'
+import { getFavoritesByHandle } from '../store/actions/fav';
 import Image from 'next/image';
 import Loading from '../Components/loading'
 import { AppDispatch } from '../store/store';
-import { getPostsByHandleAction } from '../store/actions/post';
 import PostCard from './PostCard';
-export default function Crafts(){
+import { getHighlight } from '../store/actions/Highlight';
+export default function HighlightControl(){
     const [token , setToken] = useState('')
     const dispatch = useDispatch<AppDispatch>();
 const  handle = usePathname().split('/')[1]
@@ -19,30 +20,29 @@ const  handle = usePathname().split('/')[1]
       }
     }
   }, [])
-  
+
 
    useEffect(() => {
-
+  
     if (token) {
-      dispatch(getPostsByHandleAction( handle));
+      dispatch(getHighlight(token));
     }
   }, [dispatch, handle , token]);
 
-  const { postsOfUser , loading} = useSelector((state: any) => state.posts)
-console.log(postsOfUser)
+  const {highlight , loading} = useSelector((state: any) => state.highlight)
+  
+const reoderedHighlight = [...highlight].reverse()
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
-    return <div className='  w-[100vw] h-full'>{postsOfUser?.length > 0 ?<div>
-
-    { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-3  mb-10 grid'>
-    {postsOfUser?.map((post:any, index : number) => (
-      <div key={index}>
-              <PostCard post={post}/>
-             </div>
-
-))}
+    return <div className='fav border-l px-3  border-[#4d4d4d] w-screen h-full'>
+    { !loading?<div className='lg:grid-cols-5 grid-cols-2 grid'>
+    {reoderedHighlight?.map((post:any, index : number) => (
+      <div  key={index}>
+        <PostCard post={post}/>
+      </div>
+            
+           ))}
       </div> : <Loading/> }
-</div>:<p className='w-screen mt-10 text-center'>{` You have'nt craft anything yet.`}</p>}
   </div>
 }

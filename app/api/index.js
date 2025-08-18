@@ -1,7 +1,7 @@
 import axios from 'axios' 
 const url = 'https://meeza-in-8.onrender.com/' 
 //  const url  = 'http://localhost:8080/'
-// 
+
 
 // Follow a user
 export const followUser = (targetId, token) =>
@@ -117,15 +117,47 @@ export const removeFromFavorites = (designId, token) =>
     headers: { Authorization: `Bearer ${token}` }
   });
 
-// export const getFavorites = (token) =>
-//   axios.get(`${url}fav/favorites`, {
-//     headers: { Authorization: `Bearer ${token}` }
-//   });
 
 export const getFavoritesByHandle = (token, handle) =>
 axios.get(`${url}fav/favoritesByHandle/${handle}`, {
   headers: { Authorization: `Bearer ${token}` }
 });
+
+
+export const addToHighlight = (designId , token) =>
+  axios.post(`${url}highlight/add`, { designId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+export const removeFromHighlight = (designId, token) =>
+  axios.post(`${url}highlight/remove`, { designId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+
+export const getHighlight = (token) =>
+axios.get(`${url}highlight/getHighlight`, {
+  headers: { Authorization: `Bearer ${token}` }
+});
+
+
+
+export const addToPromotion = (designId , token) =>
+  axios.post(`${url}promotion/add`, { designId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+export const removeFromPromotion = (designId, token) =>
+  axios.post(`${url}promotion/remove`, { designId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+
+export const getPromotion = (token) =>
+axios.get(`${url}promotion/getPromotion`, {
+  headers: { Authorization: `Bearer ${token}` }
+});
+
 
 
 export const createPost = (newPost, token) => {

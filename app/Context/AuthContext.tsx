@@ -16,7 +16,7 @@ export interface User {
   name: string;
   email: string;
   token?: string;
- 
+ role : string
    // optional because it may be missing from API
 }
 
@@ -27,6 +27,7 @@ interface AuthContextType {
   profileLink: string;
   isLoggedIn: boolean;
   token: string;
+  role :string;
   handle : string;
    authorId : string;
 }
@@ -77,6 +78,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         user,
         handle:  user?.handle,
         token,
+        role : user?.role,
         authorId: user?._id,
         setUserData,
         logout,

@@ -40,7 +40,7 @@ export default function Post() {
     const [totalAvg , setTotalAvg] = useState(0)
     const [isMenu , setIsMenu]  = useState(false)
     const postId = usePathname().split('/')[2]
-    const {user ,token} = useAuth()
+    const {user ,token , role} = useAuth()
     const router  = useRouter()
     const [red , setRed ] = useState(false)
     const {setNotification , notification} = useNotification()
@@ -91,7 +91,7 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
             {!loading ?<div className='lg:flex'>
               <button className='absolute z-[999] top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
               
-        <AnimatePresence>{  isMenu ?  <PostMenu isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
+        <AnimatePresence>{  isMenu ?  <PostMenu role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
            
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
         {/* <ProductImages images={post?.images}/> */}

@@ -7,17 +7,24 @@ import { getPostsAction } from "../store/actions/post";
 import { useAuth } from "../Context/AuthContext";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
+import { getHighlight } from "../store/actions/Highlight";
 export default function PosterOfTheDay(){
     const dispatch = useDispatch<AppDispatch>()
-    const {posts , loading} = useSelector((state : any)=> state.posts)
+
     const {token} = useAuth()
-    useEffect(()=>{
-     dispatch(getPostsAction())   
-    } ,[dispatch ])
-    return <div className="flex my-2 py-2 w-screen overflow-y-scroll ">
+      useEffect(() => {
+     
+       if (token) {
+         dispatch(getHighlight(token));
+       }
+     }, [dispatch , token]);
+   
+     const {highlight , loading} = useSelector((state: any) => state.highlight)
+     const reoderedHighlight = [...highlight].reverse()
+    return <div className="flex my-2 py-2 hide-scrollber w-screen overflow-y-scroll ">
       
      {   !loading ? <div className='flex gap-2'>
-        {posts?.map((post:any, index:number) => (
+        {reoderedHighlight?.map((post:any, index:number) => (
           <div key={index}>
   <PostCard post = {post}/>
   </div>

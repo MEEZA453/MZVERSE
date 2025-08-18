@@ -8,8 +8,12 @@ import { useAuth } from "../Context/AuthContext";
  import {motion} from 'framer-motion'
 import { useRouter } from "next/navigation";
 import { addToFavorites, removeFromFavorites } from "../store/actions/fav";
-export default function PostMenu({ setIsMenu , postId , token  ,isAuthor}){
+import { removeFromHighlight  ,   addToHighlight } from "../store/actions/Highlight";
+import { addToPromotion, removeFromPromotion } from "../store/actions/Promotion";
+export default function PostMenu({ setIsMenu , postId , token  ,isAuthor , role}){
 const [moodboard , setMoodboard ] = useState(true)
+const [highlighted , setHighlight] = useState(false)
+const [promoted , setPromoted] = useState(false)
    const addToMoodBoard = ()=>{
     console.log('cliecked')
     setMoodboard(!moodboard )
@@ -24,6 +28,35 @@ const [moodboard , setMoodboard ] = useState(true)
       }
 
   }
+    const handleHighlight = ()=>{
+    console.log('cliecked')
+    setHighlight(!highlighted )
+
+      if (!token) return;
+   if (!token) return;
+  
+      if (highlighted) {
+        dispatch(removeFromHighlight(postId, token));
+      } else {
+        dispatch(addToHighlight(postId, token));
+      }
+
+  }
+      const handlePromote = ()=>{
+    console.log('cliecked')
+    setPromoted(!promoted  )
+
+      if (!token) return;
+   if (!token) return;
+  
+      if (promoted) {
+        dispatch(removeFromPromotion(postId, token));
+      } else {
+        dispatch(addToPromotion(postId, token));
+      }
+
+  }
+  const [devMenu , setDevMenu]  = useState(false)
 const router = useRouter()
 const dispatch = useDispatch<AppDispatch>();
 const handleDeleteClick = ()=>{
@@ -39,12 +72,26 @@ const handleDeleteClick = ()=>{
     >
     {moodboard ? 'Add to moodboard':'Remove from moodboard'}
     </button>
+{role === 'dev' && <button
+      onClick={handleHighlight }
+      className ="text-white text-[14px]  px-3 py-1 flex items-center justify-center gap-1"
+    >
+    {!highlighted ? 'Add to Highlight':'Remove from highlight  '}
+    </button>}
+    {role === 'dev' && <button
+      onClick={handlePromote }
+      className ="text-white text-[14px]  px-3 py-1 flex items-center justify-center gap-1"
+    >
+    {!promoted ? 'Add to Promotion':'Remove from Promotion  '}
+    </button>}
  {isAuthor&& <button
       onClick={()=>handleDeleteClick()}
       className="text-white text-[14px]  px-3 py-1 flex items-center justify-center gap-1"
     >
       Edit post
     </button>}
+
+    
 { isAuthor && <button
       onClick={()=>handleDeleteClick()}
       className="text-red-500 w-full text-[14px] px-3 py-1 flex items-center justify-center gap-1"
@@ -52,6 +99,7 @@ const handleDeleteClick = ()=>{
       Delete post 
     </button>
     }
+
     </motion.div>
       </motion.div>
 }
