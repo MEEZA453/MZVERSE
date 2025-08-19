@@ -32,8 +32,8 @@ export default function PromotionOfTheDay() {
 
     setProgress(0) // reset progress bar
 
-    const duration = 2000 // 2s per story
-    const step = 20 // update every 20ms
+    const duration = 5000 // 2s per story
+    const step = 50 // update every 20ms
     const increment = (step / duration) * 100
 
     const progressInterval = setInterval(() => {
@@ -55,10 +55,11 @@ export default function PromotionOfTheDay() {
 
   if (!reoderedPromotion || reoderedPromotion.length === 0) return null
 
-  return (
-    <div className="px-4 mt-2 relative">
+  return (<div>
+
+    {reoderedPromotion.length > 0 && <div className="px-4 mt-2 relative">
       {/* Progress bar */}
-<div className="absolute top-0 left-0 w-full flex gap-1 px-4">
+{reoderedPromotion.length > 1 && <div className="absolute top-0 left-0 w-full flex gap-1 px-4">
   {reoderedPromotion.map((_, i) => (
     <div
       key={i}
@@ -74,7 +75,7 @@ export default function PromotionOfTheDay() {
       ) : null}
     </div>
   ))}
-</div>
+</div>}
 
       <div>
         <Image
@@ -82,36 +83,17 @@ export default function PromotionOfTheDay() {
           height={300}
           width={300}
           alt="photo"
-          className="w-full mb-2 h-90 rounded object-cover"
+          className="w-full mb-1 h-90 rounded object-cover"
         />
 
-        <div className="flex justify-between items-center w-full pr-3 z-100 duration-200">
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() =>
-                router.push("/" + reoderedPromotion[inViewIndex]?.createdBy?.handle)
-              }
-            >
-              <Image
-                height={300}
-                width={300}
-                alt="profile"
-                className="h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover"
-                src={reoderedPromotion[inViewIndex]?.createdBy?.profile}
-              />
-            </button>
-            <div>
-              <h3 className="mt-2">{reoderedPromotion[inViewIndex]?.createdBy?.name}</h3>
-              <p style={{ fontSize: "12px" }}>
-                @{reoderedPromotion[inViewIndex]?.createdBy?.handle}
-              </p>
-            </div>
-          </div>
-          <label className="text-[11px] absolute bottom-7 right-4 bg-white/50 px-1.5  text-black backdrop-blur-xl rounded-[4px]">
+        <div className="flex justify-end items-center w-full z-100 duration-200">
+          
+          <label className="text-[11px]  mb-4  bg-white/50 px-1.5  text-black backdrop-blur-xl rounded-[4px]">
             Promoted
           </label>
         </div>
       </div>
+  </div>}
     </div>
   )
 }

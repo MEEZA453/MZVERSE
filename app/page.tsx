@@ -15,9 +15,7 @@ export default function Home(){
   const router = useRouter();
   const {setNotification} = useNotification()
 const {showLoginInput , showSignupInput ,setShowLoginInput , setShowSignupInput}  = useShowInput()
-useEffect(()=>{
-setNotification('joinCommunity')
-},[])
+
 const handleClick = ()=>{
     window.location.href = isLoggedIn ?  window.location.origin +'/feed':window.location.origin +'/signup';
 }

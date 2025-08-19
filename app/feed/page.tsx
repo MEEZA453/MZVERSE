@@ -28,10 +28,10 @@ export  default function Feed (){
 }        </div>
 </div>
 {activeIndex === 0 && <div>
-        <PromotionOfTheDay/>
-         <PosterOfTheDay/>
-
         <PhotographyOfTheDay p={photo[2]}/>
+         <PosterOfTheDay/>
+        <PromotionOfTheDay/>
+
 
 
          
@@ -44,6 +44,6 @@ export  default function Feed (){
 }
        {/* <DesignerOfTheDay/> */}
         {/* <AllPosts/> */}
-        <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-[#00000050] to-[#00000000] z-[50] top-0"></div>
+        <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-[#000000] to-[#00000000] z-[50] top-0"></div>
     </div>
 }
