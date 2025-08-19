@@ -113,22 +113,29 @@ export const googleLoginAction = (token: string) => async (dispatch: AppDispatch
 export const updateProfileAction = (
   userId: string,
   formData: FormData,
-  token : string,
+  token: string,
 ) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: 'UPDATE_PROFILE_REQUEST' })
 
-    const { data } = await api.updateUserProfile(userId, formData , token)
-
+    const { data } = await api.updateUserProfile(userId, formData, token)
     dispatch({ type: 'UPDATE_PROFILE_SUCCESS', payload: data })
-// localStorage.setItem('profile', JSON.stringify(data.user));
-    return data
+
+    // ✅ Merge old localStorage data with new user fields
+    const oldProfile = JSON.parse(localStorage.getItem('profile') || '{}')
+    const updatedUser = { ...oldProfile, ...data.user }
+
+    localStorage.setItem('profile', JSON.stringify(updatedUser))
+    console.log('🔄 merged user data', updatedUser)
+
+    return updatedUser
   } catch (error: any) {
     const errorMsg = error.response?.data?.message || error.message
     dispatch({ type: 'UPDATE_PROFILE_FAIL', payload: errorMsg })
     throw new Error(errorMsg)
   }
 }
+
 
 export const setHandleAction = (userId: string, handle: string, token: string) => 
   async (dispatch: AppDispatch) => {

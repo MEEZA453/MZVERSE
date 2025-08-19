@@ -26,7 +26,7 @@ useEffect(()=>{
 
 
   const [votes, setVotes] = useState<Record<string, number>>({});
-  console.log(votes)
+
   const handleChange = (vote:string, value:number) => {
   setVotes(prev => ({
     ...prev,

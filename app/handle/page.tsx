@@ -58,7 +58,7 @@ const validateHandle = () => {
       setLoading(true)
       setError(false)
       await dispatch<any>(setHandleAction(user._id, handle, user.token))
-      router.push('/profile')
+      window.location.href = window.location.origin + '/profile'
     } catch (err: any) {
       setError(true)
       setErrorMessage(err.message)

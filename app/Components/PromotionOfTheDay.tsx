@@ -69,7 +69,7 @@ export default function PromotionOfTheDay() {
           reoderedPromotion.map((promo: any, index: number) => (
             <div key={index} className="flex-shrink-0 w-[80vw] mb-4 snap-center relative">
               <Image
-                src={promo.images[0]}
+                src={promo?.images[0]}
                 height={300}
                 width={300}
                 alt="promo"
@@ -82,11 +82,11 @@ export default function PromotionOfTheDay() {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() =>
-                      router.push("/" + promo.createdBy?.handle)
+                      router.push("/" + promo?.createdBy?.handle)
                     }
                   >
                     <Image
-                      src={promo.createdBy?.profile}
+                      src={promo?.createdBy?.profile}
                       alt="profile"
                       width={100}
                       height={100}
@@ -95,7 +95,7 @@ export default function PromotionOfTheDay() {
                   </button>
                   <div>
                     <h3 className="">{promo?.name}</h3>
-                    <p style={{fontSize : '12px'}} className="">@{promo.createdBy?.handle}</p>
+                    <p style={{fontSize : '12px'}} className="">@{promo?.createdBy?.handle}</p>
                   </div>
                 </div>
               

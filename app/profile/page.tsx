@@ -40,13 +40,14 @@ export default function Profile() {
       setPreview(URL.createObjectURL(file))
     }
   }
-
+console.log(user)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-  if (!user) {
+  if (!user || !user._id || !user.token) {
     setErrorMessage("You must be logged in to update your profile.")
     return
   }
+
 
   if (!displayName.trim()) {
     setErrorMessage("Display name is required.")
