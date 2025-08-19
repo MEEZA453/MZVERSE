@@ -58,7 +58,7 @@ export default function PromotionOfTheDay() {
     <div className="relative my-2 py-2">
       <div
         ref={carouselRef}
-        className="flex gap-4 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory px-4"
+        className="flex gap-3 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory px-4"
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
@@ -66,7 +66,7 @@ export default function PromotionOfTheDay() {
       >
         {!loading &&
           reoderedPromotion.map((promo: any, index: number) => (
-            <div key={index} className="flex-shrink-0 w-[80vw] snap-center relative">
+            <div key={index} className="flex-shrink-0 w-[80vw] mb-4 snap-center relative">
               <Image
                 src={promo.images[0]}
                 height={300}
@@ -78,7 +78,7 @@ export default function PromotionOfTheDay() {
 
               <div className="flex justify-between items-center w-full z-[99] absolute top-2 left-2 pr-3">
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
                   <button
                     onClick={() =>
                       router.push("/" + promo.createdBy?.handle)
@@ -93,7 +93,7 @@ export default function PromotionOfTheDay() {
                     />
                   </button>
                   <div>
-                    <h3 className="">{promo.createdBy?.name}</h3>
+                    <h3 className="">{promo?.name}</h3>
                     <p className="">@{promo.createdBy?.handle}</p>
                   </div>
                 </div>
