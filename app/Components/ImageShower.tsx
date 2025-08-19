@@ -45,7 +45,7 @@ export default function ImageShower({ images = [] }) {
               alt={`image-${i}`}
               width={300}
               height={400}
-              className="w-full h-full object-cover"
+              className="w-full  object-cover"
             />
           </div>
         ))}

@@ -1,16 +1,21 @@
 'use client'
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { useEffect, useState, useMemo } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { useAuth } from "../Context/AuthContext"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../store/store"
 import { getPromotion } from "../store/actions/Promotion"
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 
 export default function PromotionOfTheDay() {
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const { token } = useAuth()
+  const carouselRef = useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
 
   useEffect(() => {
     if (token) {
@@ -18,82 +23,88 @@ export default function PromotionOfTheDay() {
     }
   }, [dispatch, token])
 
-  const [inViewIndex, setInViewIndex] = useState(0)
-  const [progress, setProgress] = useState(0) // progress for bar
-
   const { promotion, loading } = useSelector((state: any) => state.promotion)
-
-  // Memoize reversed array so useEffect doesn't reset unnecessarily
   const reoderedPromotion = useMemo(() => [...promotion].reverse(), [promotion])
 
-  // Story cycle (2s each)
-  useEffect(() => {
-    if (!reoderedPromotion || reoderedPromotion.length === 0) return
+  // Drag-to-scroll handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true)
+    setStartX(e.pageX - (carouselRef.current?.offsetLeft || 0))
+    setScrollLeft(carouselRef.current?.scrollLeft || 0)
+  }
 
-    setProgress(0) // reset progress bar
+  const handleMouseLeave = () => setIsDragging(false)
+  const handleMouseUp = () => setIsDragging(false)
 
-    const duration = 5000 // 2s per story
-    const step = 50 // update every 20ms
-    const increment = (step / duration) * 100
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !carouselRef.current) return
+    e.preventDefault()
+    const x = e.pageX - carouselRef.current.offsetLeft
+    const walk = (x - startX) * 2
+    carouselRef.current.scrollLeft = scrollLeft - walk
+  }
 
-    const progressInterval = setInterval(() => {
-      setProgress(prev => Math.min(prev + increment, 100))
-    }, step)
-
-    const storyInterval = setInterval(() => {
-      setInViewIndex(prevIndex =>
-        prevIndex === reoderedPromotion.length - 1 ? 0 : prevIndex + 1
-      )
-      setProgress(0)
-    }, duration)
-
-    return () => {
-      clearInterval(storyInterval)
-      clearInterval(progressInterval)
-    }
-  }, [reoderedPromotion])
+  // Arrow navigation
+  const scrollToPromotion = (direction: 'left' | 'right') => {
+    if (!carouselRef.current) return
+    const width = window.innerWidth * 0.8 // approximate card width
+    const scrollAmount = direction === 'left' ? -width : width
+    carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
+  }
 
   if (!reoderedPromotion || reoderedPromotion.length === 0) return null
 
-  return (<div>
+  return (
+    <div className="relative my-2 py-2">
+      <div
+        ref={carouselRef}
+        className="flex gap-4 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory px-4"
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+      >
+        {!loading &&
+          reoderedPromotion.map((promo: any, index: number) => (
+            <div key={index} className="flex-shrink-0 w-[80vw] snap-center relative">
+              <Image
+                src={promo.images[0]}
+                height={300}
+                width={300}
+                alt="promo"
+                className="w-full h-[22rem] object-cover rounded"
+              />
+        <div className="absolute pointer-events-none w-full h-80 bg-gradient-to-b from-[#00000050] to-[#00000000] z-[50] top-0"></div>
 
-    {reoderedPromotion.length > 0 && <div className="px-4 mt-2 relative">
-      {/* Progress bar */}
-{reoderedPromotion.length > 1 && <div className="absolute top-0 left-0 w-full flex gap-1 px-4">
-  {reoderedPromotion.map((_, i) => (
-    <div
-      key={i}
-      className="h-[2px] bg-gray-500/40 flex-1 rounded overflow-hidden"
-    >
-      {i === inViewIndex ? (
-        <div
-          className="h-full bg-white"
-          style={{ width: `${progress}%` }}
-        />
-      ) : i < inViewIndex ? (
-        <div className="h-full bg-white w-full" />
-      ) : null}
-    </div>
-  ))}
-</div>}
+              <div className="flex justify-between items-center w-full z-[99] absolute top-2 left-2 pr-3">
 
-      <div>
-        <Image
-          src={reoderedPromotion[inViewIndex]?.images[0]}
-          height={300}
-          width={300}
-          alt="photo"
-          className="w-full mb-1 h-90 rounded object-cover"
-        />
-
-        <div className="flex justify-end items-center w-full z-100 duration-200">
-          
-          <label className="text-[11px]  mb-4  bg-white/50 px-1.5  text-black backdrop-blur-xl rounded-[4px]">
-            Promoted
-          </label>
-        </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() =>
+                      router.push("/" + promo.createdBy?.handle)
+                    }
+                  >
+                    <Image
+                      src={promo.createdBy?.profile}
+                      alt="profile"
+                      width={100}
+                      height={100}
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
+                  </button>
+                  <div>
+                    <h3 className="">{promo.createdBy?.name}</h3>
+                    <p className="">@{promo.createdBy?.handle}</p>
+                  </div>
+                </div>
+              
+              </div>
+            </div>
+          ))}
       </div>
-  </div>}
+
+      {/* Left arrow */}
+     
     </div>
   )
 }
