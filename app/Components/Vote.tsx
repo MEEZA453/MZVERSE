@@ -71,7 +71,7 @@ onChange={(e) => handleChange(vote, Number(e.target.value))}
 })}
 
 <input type='text' placeholder='Comment..' style={{color: 'black' , opacity : 1, borderRadius : '6px'}}className='w-full px-2  mt-2 rounded-[10px] bg-white h-20 text-white'/>
-    <button style={{ opacity: Object.keys(votes).length === 0 ? 0.5 : 1 }} type='submit' className='bg-black text-[14px] px-3 py-1 rounded-[3px] mt-2 flex items-center justify-center h-7 w-full'>{loading ? <ButtonLoaderWhite/> : 'Submit'}</button>
+    <button style={{ opacity: Object.keys(votes).length < fieldOfVote.length ? 0.5 : 1 }} type='submit' className='bg-black text-[14px] px-3 py-1 rounded-[3px] mt-2 flex items-center justify-center h-7 w-full'>{loading ? <ButtonLoaderWhite/> : 'Submit'}</button>
     </motion.form> :<motion.button initial={{opacity : 0 }}
     animate = {{opacity : 1}}
     transition = {{duration :0.5 , delay : 0.5}} className='text-black'>{isMobile ? 'Vote now' : <MdHowToVote size = {21}color='black'/>}</motion.button>}

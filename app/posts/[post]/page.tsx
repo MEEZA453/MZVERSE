@@ -60,7 +60,7 @@ const averages = post?.voteFields?.reduce((acc, category) => {
   return acc;
 }, {});
 
-
+console.log(averages)
 useEffect(() => {
   if (averages) {
     const values = Object.values(averages).filter(v => typeof v === "number");
@@ -131,14 +131,14 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
                     <motion.div     initial={{width : 0}} animate = {{width : `${70-5}%`}} transition={{duration : 1 , ease : 'linear'}} className='ber h-full bg-[#dadada] absolute top-0'></motion.div>
                 </div>
         </div>}
-{votes.length > 1 && <div className='tabs  mt-6'>
-    <div className='flex px-3 gap-7'>
-{['Community members' , 'Others'].map((el , i)=>{
-    return <button key={i} style={{opacity :currentIndex === i ? 1 : 0.66}}  onClick={()=> setCurrentIndex(i)}>{el}</button>
+{votes.length > 0 && <div className='tabs  mt-6'>
+    <div className='flex px-3 gap-12'>
+{['Creators' , 'Judges'].map((el , i)=>{
+    return <button className='text-[14px]' key={i} style={{opacity :currentIndex === i ? 1 : 0.66}}  onClick={()=> setCurrentIndex(i)}>{el}</button>
 })}
 </div>
-<div className='w-full border-t  border-[#4d4d4d] h-1.5 caro'>
-    <div style={{transform : `translate(${currentIndex*174}px)` }} className='bg-white duration-300 w-20 h-full
+<div className='w-full border-t mt-[2px]  border-[#4d4d4d] h-1.5 caro'>
+    <div style={{transform : !isMobile ?`translate(${currentIndex*174}px)`:`translate(${currentIndex*103}px)` }} className='bg-white duration-300 translate-x-[13px] w-12 h-[3px] rounded-full
     '></div>
     </div>
 
@@ -146,7 +146,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
 
 {votes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div className='votes mt-4 border-b border-[#4d4d4d] relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll'>
-<div  style={{transform : `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
+<div  style={{transform : isMobile ? `translate(-${currentIndex*100}vw)`: `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
     <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>
     <div className='gap-35 lg:gap-50 mb-4 flex'>
@@ -189,15 +189,15 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 </div>
 </div>
     </div>
-    <div className='h-50 w-[30vw] bg-[#353535]'></div>
+    <div className={`h-50 ${isMobile ? 'w-screen':'w-[30vw]'}`}> <p className='mt-10  text-center'>No vote available</p></div>
 
 </div>
 </div>}
 
 <div className='other-detais  px-2 mt-10'>
-    <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h6>madeby:</h6><h6>{post?.createdBy?.handle}</h6></div>
-    <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h6>posted:</h6><h6>{post?.createdAt}</h6></div>
-    <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h6>typeof:</h6><h6>{post?.category}</h6></div>
+    <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h3 >madeby:</h3><h6>{post?.createdBy?.handle}</h6></div>
+    <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h3 >posted:</h3><h6>{post?.createdAt}</h6></div>
+    <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h3 >typeof:</h3><h6>{post?.category}</h6></div>
 
 </div>
 
