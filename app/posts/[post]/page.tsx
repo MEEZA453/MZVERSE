@@ -45,6 +45,7 @@ export default function Post() {
     const [red , setRed ] = useState(false)
     const {setNotification , notification} = useNotification()
     const [isAuthor , setAuthor] = useState(false)
+    const [isMobile  ,setIsMobile] = useState(false)
     const { post, loading , votes } = useSelector((state: any) => state.posts)
     useEffect(() => {
       console.log('calling API for postId:', postId)
@@ -73,6 +74,13 @@ useEffect(() => {
 }, [averages]);
 
 useEffect(()=>{
+
+    window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
+
+},[])
+
+
+useEffect(()=>{
 user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
 },[user,post])
 
@@ -95,7 +103,7 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
            
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
         {/* <ProductImages images={post?.images}/> */}
-{window.innerWidth >640 ? <ProductImages images = {post?.images}/>:<ImageShower images = {post?.images}/>}
+{!isMobile? <ProductImages images = {post?.images}/>:<ImageShower images = {post?.images}/>}
     
      <div onClick={()=>setIsMenu(false)} className='w-full mb-20 '>
           <h6  className='mb-3 px-2'>Score:</h6>
@@ -151,8 +159,8 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
   <div className='w-full pt-1 overview flex  lg:pr-8 justify-between'>
 <div className='vote flex  items-center gap-12 lg:gap-20.5'>
     <div className='profile w-30  flex items-center gap-1'>
-        <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote.user.profile || '/image.png'} className = 'h-8 w-8 rounded-full object-cover'/>
-        <h3 >@{vote.user.handle}</h3>
+        <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote?.user?.profile || '/image.png'} className = 'h-8 w-8 rounded-full object-cover'/>
+        <h3 >@{vote?.user?.handle}</h3>
     </div>
     <h3 >Designer</h3>
 </div>

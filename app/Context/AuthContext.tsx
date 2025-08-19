@@ -14,6 +14,9 @@ export interface User {
   profile: string;
   handle: string;
   name: string;
+  website : string;
+  bio : string;
+  instagram : string;
   email: string;
   token?: string;
  role : string

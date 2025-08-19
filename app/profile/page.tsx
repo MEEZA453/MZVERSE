@@ -2,39 +2,37 @@
 
 import Image from "next/image"
 import ButtonLoader from "../Components/ButtonLoader"
-import { useState   , useEffect} from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useState, useEffect } from "react"
+import { useDispatch } from "react-redux"
 import { updateProfileAction } from "../store/actions/auth"
 import { useRouter } from "next/navigation"
+import { useAuth } from "../Context/AuthContext"
 
 export default function Profile() {
   const dispatch = useDispatch()
-  const [token , setToken ] = useState  ('')
-  const [user , setUser] = useState(null)
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const profile = localStorage.getItem('profile')
-      if (profile) {
-        const parsedUser = JSON.parse(profile)
-        setToken(parsedUser.token)
-        setUser(parsedUser)
-      }
-    }
-  }, [])
-console.log(user)
-const router = useRouter()
+  const router = useRouter()
+  const { user } = useAuth() // current logged-in user
+
   const [displayName, setDisplayName] = useState("")
   const [website, setWebsite] = useState("")
   const [instagram, setInstagram] = useState("")
   const [bio, setBio] = useState("")
   const [image, setImage] = useState<File | null>(null)
   const [preview, setPreview] = useState("/image.png")
-  
   const [errorMessage, setErrorMessage] = useState("")
   const [loading, setLoading] = useState(false)
-  
-  const error = false
-  
+
+  // Populate form with user data on page load
+  useEffect(() => {
+    if (user) {
+      setDisplayName(user.name || "") 
+      setWebsite(user.website || "")
+      setInstagram(user.instagram || "")
+      setBio(user.bio || "")
+      setPreview(user.profile || "/image.png") // user's profile image
+    }
+  }, [user])
+
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (file) {
@@ -42,120 +40,114 @@ const router = useRouter()
       setPreview(URL.createObjectURL(file))
     }
   }
-  
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    
     if (!displayName.trim()) {
       setErrorMessage("Display name is required.")
       return
     }
-    
+
     const formData = new FormData()
     formData.append("displayName", displayName)
     formData.append("website", website)
     formData.append("instagram", instagram)
     formData.append("bio", bio)
     if (image) formData.append("image", image)
+
     try {
       setLoading(true)
-      await dispatch(updateProfileAction(user?._id, formData , token) as any)
+      await dispatch(updateProfileAction(user._id, formData, user.token) as any)
       setErrorMessage("")
+      router.push("/feed") // redirect after update
     } catch (error: any) {
       setErrorMessage(error.message)
     } finally {
       setLoading(false)
-      window.location.href = window.location.origin +'/feed';
     }
   }
 
   return (
-    <div className="h-screen w-screen bg-[#030303] flex">
-      {/* {typeof window !== 'undefined' && window.innerWidth > 640 ? (
-        <div className="h-screen w-[70vw] border-r border-[#4d4d4d]"></div>
-      ) : null} */}
+    <div className="h-screen w-screen bg-[#030303] flex items-center justify-center">
+      <form onSubmit={handleSubmit} className="lg:w-[34%] w-[90%] flex flex-col gap-4">
 
-      <Image className="w-8 absolute left-2 top-2 rounded-xl" src={'/logo.png'} width={50} height={50} alt="log" />
+        {/* Profile Image */}
+        <div className="flex flex-col items-center gap-2">
+          <Image
+            src={preview}
+            className="h-25 w-25 rounded-full object-cover"
+            height={100}
+            width={100}
+            alt="profile"
+          />
+          <input
+            type="file"
+            id="upload-button"
+            name="image"
+            accept="image/*"
+            onChange={handleImageChange}
+            className="hidden"
+          />
+          <label style={{fontFamily : 'inter',letterSpacing : 0.1}} htmlFor="upload-button" className="text-[14px] mr-1.5 cursor-pointer">Upload</label>
+        </div>
 
-      <div className="h-screen flex items-center flex-col gap-10 justify-center login w-full">
-        <form onSubmit={handleSubmit} className="lg:w-[34%] w-[80%]">
+        {/* Display Name */}
+        <div>
+          <h3>Display name</h3>
+          <input
+            type="text"
+            value={displayName}
+            onChange={(e) => setDisplayName(e.target.value)}
+            className="w-full rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
+          />
+        </div>
 
-          <div className="image flex flex-col items-center gap-2">
-            <Image src={preview} className="h-25 w-25 rounded-full object-cover" height={100} width={100} alt="profile" />
+        {/* Website */}
+        <div>
+          <h3>Website (Optional)</h3>
+          <input
+            type="text"
+            value={website}
+            onChange={(e) => setWebsite(e.target.value)}
+            placeholder="https://"
+            className="w-full rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
+          />
+        </div>
 
-            <input
-              type="file"
-              id="upload-button"
-              name="image"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-            />
+        {/* Instagram */}
+        <div>
+          <h3>Instagram handle (Optional)</h3>
+          <input
+            type="text"
+            value={instagram}
+            onChange={(e) => setInstagram(e.target.value)}
+            placeholder="@"
+            className="w-full rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
+          />
+        </div>
 
-            <label htmlFor="upload-button">Upload</label>
-          </div>
+        {/* Bio */}
+        <div>
+          <h3>Bio (Optional)</h3>
+          <input
+            type="text"
+            value={bio}
+            onChange={(e) => setBio(e.target.value)}
+            maxLength={50}
+            className="w-full rounded-[3px] bg-[#131313] px-2 mb-1 py-1 outline-none"
+          />
+          <p className="text-right text-xs">50 character maximum</p>
+        </div>
 
-          <div className="mb-2">
-            <h3 >Display name</h3>
-            <input
-              type="text"
-              value={displayName}
-              onChange={(e) => setDisplayName(e.target.value)}
-              placeholder=""
-              className={`flex-1 w-full bg-[#131313] mb-0.5 ${error ? 'border border-red-600/50' : ''} px-2 py-1 outline-none`}
-            />
-          </div>
+        {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
 
-          <div>
-            <h3 className="mb-1">Website (Optional)</h3>
-            <input
-              type="text"
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-              placeholder="https://"
-              className={`flex-1 w-full mb-2 bg-[#131313] ${error ? 'border border-red-600/50' : ''} px-2 py-1 outline-none`}
-            />
-          </div>
-
-          <div>
-            <h3 className="mb-1">Instagram handle (Optional)</h3>
-            <input
-              type="text"
-              value={instagram}
-              onChange={(e) => setInstagram(e.target.value)}
-              placeholder="@"
-              className={`flex-1 w-full mb-2 bg-[#131313] ${error ? 'border border-red-600/50' : ''} px-2 py-1 outline-none`}
-            />
-          </div>
-
-          <div className="mb-2">
-            <h3 className="mb-1">Bio (Optional)</h3>
-            <input
-              type="text"
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-              placeholder=""
-              maxLength={50}
-              className={`flex-1 w-full text-right bg-[#131313] ${error ? 'border border-red-600/50' : ''} px-2 py-1 outline-none`}
-            />
-            <h2 className="text-right">50 character at maximum</h2>
-          </div>
-
-          <p className = 'absolute bottom-[20%] left-1/2 -translate-x-1/2 -translate-y-1/2' style={{ color: 'red' }}>{errorMessage}</p>
-
-          <button
-            type="submit"
-            className="px-2 w-full flex items-center justify-center h-6 text-center bg-white text-black text-[14px] rounded-[2px]"
-          >
-            {loading ? <ButtonLoader /> : 'Continue'}
-          </button>
-
-          <div className="flex gap-1 mt-2 items-center">
-            <h2>No account ?</h2>
-            <a style={{ fontSize: 13, lineHeight: -0.2 }}>Signup</a>
-          </div>
-        </form>
-      </div>
+        <button
+          type="submit"
+          className="px-2 w-full flex items-center justify-center h-7 bg-white text-black rounded-[2px]"
+        >
+          {loading ? <ButtonLoader /> : "Continue"}
+        </button>
+      </form>
     </div>
   )
 }

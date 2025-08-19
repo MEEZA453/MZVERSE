@@ -56,35 +56,70 @@ useEffect(() => {
 }, [userHandle, token]);
 
   
-  const { user ,  loading  } = useSelector((state: any) => state.auth);
-//  const { following } = useSelector((state : any) => state.follow);
-//  console.log( 'following  is',following)
-// const isFollowing = following.includes(authorId);
-// console.log(isFollowing)
-// useEffect(() => {
-//   if (handle) {
-    
-//     dispatch(getFollowingByHandle(handle));
-//   }
-// }, [handle]);
+  const { user, loading } = useSelector((state: any) => state.auth);
+const { following } = useSelector((state: any) => state.follow);
 
-  const handleFollowClick = ()=>{
-    setFollow(!follow)
-    // console.log(handle)
-    // console.log(following)
-    if(!follow){
-// console.log(' is user already following' , isFollowing)
-      dispatch(followUser(user?.user?._id , token))
-    }else{
-      dispatch(unfollowUser(user?.user?._id , token))
+// Compute if current viewed user is followed
+const viewedUserId = user?.user?._id; // ID of the user being viewed
+const isFollowing = following.includes(viewedUserId);
+console.log('is already follow', isFollowing);
+
+// Fetch following list for logged-in user
+useEffect(() => {
+  if (handle && token) {
+    dispatch(getFollowingByHandle(handle));
+  }
+}, [handle, token]);
+
+// Handle follow/unfollow click
+const handleFollowClick = () => {
+  if (!viewedUserId) return;
+
+  if (isFollowing) {
+    dispatch(unfollowUser(viewedUserId, token));
+  } else {
+    dispatch(followUser(viewedUserId, token));
+  }
+};
+
+const buttonsOfAuthor = [
+  {
+    name: 'Edit profile',
+    origin: () => window.location.href = window.location.origin + '/profile'
+  },
+  {
+    name: 'Share profile',
+    origin: async () => {
+      if (!user?.user?.handle) {
+        alert("Profile link not available yet");
+        return;
+      }
+
+      const profileLink = window.location.origin + '/' + user.user.handle;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: `${user.user.name}'s Profile`,
+            text: `Check out this profile!`,
+            url: profileLink,
+          });
+        } catch (err) {
+          console.log('Error sharing:', err);
+        }
+      } else {
+        try {
+          await navigator.clipboard.writeText(profileLink);
+          alert('Profile link copied to clipboard!');
+        } catch (err) {
+          alert('Failed to copy link.');
+        }
+      }
     }
   }
+];
 
 
-
-  const buttonsOfAuthor = [{name : 'Edit profile', origin : ()=> window.location.href = window.location.origin + '/'+ 'profile'},
-    {name : 'Performance', origin : ()=> window.location.href = window.location.origin + '/'+ 'statistic'}
-  ]
 
     const buttonsOfNonAuthor= [{name : 'Follow', func : handleFollowClick},
     {name : 'Performance', origin : ()=> window.location.href = window.location.origin + '/'+ 'statistic'}
@@ -124,11 +159,11 @@ useEffect(() => {
  
         { user?.isUser?<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
           { buttonsOfAuthor.map((tab , index)=>{
-            return     <button  key={index} onClick={() => tab.origin()} className={`border  flex items-center justify-center  ${index === 1 ? 'bg-white text-black': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab.name}</button>
+            return     <button  key={index} onClick={() => tab.origin()} className={`border  flex items-center justify-center   rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab.name}</button>
           })}
      
         </div>:<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
-         <button   onClick={handleFollowClick} className={`border  flex items-center justify-center  ${!follow ? 'bg-white text-black': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{!follow ? 'Follow' : 'Unfollow'}</button>
+         <button   onClick={handleFollowClick} className={`border  flex items-center justify-center  ${!isFollowing ? 'bg-white text-black': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{!isFollowing ? 'Follow' : 'Unfollow'}</button>
            <button   onClick={handleFollowClick} className={`border  flex items-center justify-center text-white  rounded text-[14px] lg:w-60 w-full py-0.5`}>Share profile</button>
         </div>}
 

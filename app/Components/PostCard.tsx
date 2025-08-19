@@ -16,7 +16,7 @@ export default function PostCard({post}){
           {/* <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div> */}
           
 
-{post.images && post.images.length > 0 ? (
+{post?.images && post?.images?.length > 0 ? (
   <Image
     onClick={()=>handleClick(post?._id)}
     height={300}

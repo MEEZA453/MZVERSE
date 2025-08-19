@@ -30,6 +30,7 @@ export  default function Feed (){
 {activeIndex === 0 && <div>
         <PhotographyOfTheDay p={photo[2]}/>
          <PosterOfTheDay/>
+        
         <PromotionOfTheDay/>
 
 

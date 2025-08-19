@@ -56,6 +56,7 @@ export default function PromotionOfTheDay() {
 
   return (
     <div className="relative my-2 py-2">
+      
       <div
         ref={carouselRef}
         className="flex gap-3 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory px-4"
@@ -74,7 +75,7 @@ export default function PromotionOfTheDay() {
                 alt="promo"
                 className="w-full h-[22rem] object-cover rounded"
               />
-        <div className="absolute pointer-events-none w-full h-80 bg-gradient-to-b from-[#00000050] to-[#00000000] z-[50] top-0"></div>
+        <div className="absolute pointer-events-none w-full h-80 bg-gradient-to-b from-[#00000080] to-[#00000000] z-[50] top-0"></div>
 
               <div className="flex justify-between items-center w-full z-[99] absolute top-2 left-2 pr-3">
 
@@ -94,7 +95,7 @@ export default function PromotionOfTheDay() {
                   </button>
                   <div>
                     <h3 className="">{promo?.name}</h3>
-                    <p className="">@{promo.createdBy?.handle}</p>
+                    <p style={{fontSize : '12px'}} className="">@{promo.createdBy?.handle}</p>
                   </div>
                 </div>
               

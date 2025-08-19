@@ -33,7 +33,7 @@ console.log(postsOfUser)
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
-    return <div className='  w-[100vw] h-full'>{postsOfUser?.length > 0 ?<div>
+    return <div>{loading ? <Loading/>: <div className='  w-[100vw] h-full'>{postsOfUser?.length > 0 ?<div>
 
     { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-3  mb-10 grid'>
     {postsOfUser?.map((post:any, index : number) => (
@@ -44,5 +44,5 @@ const handleClick = (path: string): void => {
 ))}
       </div> : <Loading/> }
 </div>:<p className='w-screen mt-10 text-center'>{` You have'nt craft anything yet.`}</p>}
-  </div>
+  </div>}</div>
 }

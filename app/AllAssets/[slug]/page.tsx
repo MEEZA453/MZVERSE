@@ -18,6 +18,10 @@ import { useNotification } from '../../Context/Notification';
 import { addToFavorites , removeFromFavorites } from '../../store/actions/fav';
 import { useDispatch , useSelector} from 'react-redux';
 import { AppDispatch } from '../../store/store';
+import { HiOutlineDotsVertical } from 'react-icons/hi';
+import { AnimatePresence } from 'framer-motion';
+import ProductMenu from '../../Components/ProductMenu';
+import { useAuth } from '../../Context/AuthContext';
 export default function ProductPage() {
 const pathname = usePathname()
 
@@ -25,14 +29,15 @@ const pathname = usePathname()
 const {setNotification , notification} = useNotification()
 const productpath = pathname.split('/');
 const [token , setToken] = useState('')
+const {role  } = useAuth()
 const [red ,setRed ] = useState(false)
 const {setShowLoginInput , setShowSignupInput , showLoginInput , showSignupInput} = useShowInput()
 const slug = productpath[productpath.length - 1]
-const favourites = useSelector((state: any) => state.favourites.favourites);
-console.log('slug fav', favourites);
+const [isMenu , setIsMenu] = useState(false)
+
   const { data , loading}: { data: Product[] ; loading : boolean } = useAssets();
   const product = data.find((item) => item._id === slug);
-
+console.log(product)
    useEffect(() => {
      if (typeof window !== 'undefined') {
        const profile = localStorage.getItem('profile')
@@ -45,19 +50,7 @@ console.log('slug fav', favourites);
 const dispatch = useDispatch<AppDispatch>();
   const isFavorited = false
 
- const handleFavClick = ()=>{
-  setRed(!red )
 
-    if (!token) return;
- if (!token) return;
-
-    if (isFavorited) {
-      dispatch(removeFromFavorites(product._id, token));
-    } else {
-      dispatch(addToFavorites(product._id, token));
-    }
-  setNotification('addToFav')
-}
   return (
     <div className='w-screen h-screen'>
 
@@ -80,8 +73,11 @@ const dispatch = useDispatch<AppDispatch>();
   alt='fdfdf'  className='h-5 lg:h-6 w-5 lg:w-6 rounded-full items-center object-cover' src='/image.png'/>
                 <h3 className='opacity-[0.66]'>meeza_29</h3>
             </div> 
-<button onClick={handleFavClick}   className='' >{red ? <GoHeartFill size={18}className='text-red-600'/>:<PiHeartLight size={18} className='text-[#e3e3e3]' />}</button> 
+              <button className='absolute z-[999] top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
 
+              
+        <AnimatePresence>{  isMenu ?  <ProductMenu setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> 
+           
 </div>
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }}>
 

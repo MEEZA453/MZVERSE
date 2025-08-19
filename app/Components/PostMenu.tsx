@@ -1,7 +1,7 @@
 'use client'
 import { MdDelete } from "react-icons/md";
 import {useState , useEffect} from 'react'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { deletePostAction } from "../store/actions/post";
 import { useAuth } from "../Context/AuthContext";
@@ -11,23 +11,23 @@ import { addToFavorites, removeFromFavorites } from "../store/actions/fav";
 import { removeFromHighlight  ,   addToHighlight } from "../store/actions/Highlight";
 import { addToPromotion, removeFromPromotion } from "../store/actions/Promotion";
 export default function PostMenu({ setIsMenu , postId , token  ,isAuthor , role}){
-const [moodboard , setMoodboard ] = useState(true)
-const [highlighted , setHighlight] = useState(false)
-const [promoted , setPromoted] = useState(false)
-   const addToMoodBoard = ()=>{
-    console.log('cliecked')
-    setMoodboard(!moodboard )
-  console.log(moodboard)
-      if (!token) return;
-   if (!token) return;
-  
-      if (!moodboard) {
-        dispatch(removeFromFavorites(postId, token));
-      } else {
-        dispatch(addToFavorites(postId, token));
-      }
+  const [highlighted , setHighlight] = useState(false)
+  const [promoted , setPromoted] = useState(false)
+const { favourites } = useSelector((state: any) => state.favourites);
 
+// Check if the post is already in favorites
+const isFavorited = favourites.some((item: any) => item._id === postId);
+
+const addToMoodBoard = () => {
+  if (!token) return;
+
+  if (isFavorited) {
+    dispatch(removeFromFavorites(postId, token));
+  } else {
+    dispatch(addToFavorites(postId, token));
   }
+};
+
     const handleHighlight = ()=>{
     console.log('cliecked')
     setHighlight(!highlighted )
@@ -71,7 +71,7 @@ router.back()
       onClick={addToMoodBoard }
       className ="text-white text-[14px]  px-3 py-1 flex items-center justify-center gap-1"
     >
-    {moodboard ? 'Add to moodboard':'Remove from moodboard'}
+    {!isFavorited ? 'Add to moodboard':'Remove from moodboard'}
     </button>
 {role === 'dev' && <button
       onClick={handleHighlight }
