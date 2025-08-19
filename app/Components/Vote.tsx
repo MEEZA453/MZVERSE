@@ -26,6 +26,7 @@ useEffect(()=>{
 
 
   const [votes, setVotes] = useState<Record<string, number>>({});
+  console.log(votes)
   const handleChange = (vote:string, value:number) => {
   setVotes(prev => ({
     ...prev,
@@ -34,10 +35,12 @@ useEffect(()=>{
 };
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-setLoading(true)
+if(votes){setLoading(true)
     console.log('submitting' , postId , votes , token);
     dispatch(votePostAction(postId, votes, token));
-    setLoading(false)
+    setLoading(false)}else{
+        return
+    }
 };
     return <div  onClick={()=>setIsOpen(true)} className={` duration-500  bg-[#dadada] flex items-center justify-center fixed z-100 bottom-5  ${isOpen ?`  rounded $ ${isMobile ? ' -translate-x-1/2 h-80 left-1/2 w-[95%]':'w-100 h-80 right-5'}`: `${isMobile ? 'w-[95%] rounded-[3px] h-7 -translate-x-1/2 left-1/2':'w-13 h-13  rounded-[30px] right-0 '}  `}`}>
     
@@ -68,7 +71,7 @@ onChange={(e) => handleChange(vote, Number(e.target.value))}
 })}
 
 <input type='text' placeholder='Comment..' style={{color: 'black' , opacity : 1, borderRadius : '6px'}}className='w-full px-2  mt-2 rounded-[10px] bg-white h-20 text-white'/>
-    <button type='submit' className='bg-black text-[14px] px-3 py-1 rounded-[3px] mt-2 flex items-center justify-center h-7 w-full'>{loading ? <ButtonLoaderWhite/> : 'Submit'}</button>
+    <button style={{ opacity: Object.keys(votes).length === 0 ? 0.5 : 1 }} type='submit' className='bg-black text-[14px] px-3 py-1 rounded-[3px] mt-2 flex items-center justify-center h-7 w-full'>{loading ? <ButtonLoaderWhite/> : 'Submit'}</button>
     </motion.form> :<motion.button initial={{opacity : 0 }}
     animate = {{opacity : 1}}
     transition = {{duration :0.5 , delay : 0.5}} className='text-black'>{isMobile ? 'Vote now' : <MdHowToVote size = {21}color='black'/>}</motion.button>}

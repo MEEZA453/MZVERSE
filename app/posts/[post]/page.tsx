@@ -106,8 +106,8 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
 {!isMobile? <ProductImages images = {post?.images}/>:<ImageShower images = {post?.images}/>}
     
      <div onClick={()=>setIsMenu(false)} className='w-full mb-20 '>
-          <h6  className='mb-3 px-2'>Score:</h6>
-        <div className='w-full '>
+  
+       { votes.length > 0 && <div className='w-full '>
 
 {post?.voteFields?.map((field : any ,index : number)=>{
     return <div key={index} className='score px-2 mb-1'>
@@ -130,11 +130,11 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
                     <h3 >{totalAvg}</h3>
                     <motion.div     initial={{width : 0}} animate = {{width : `${70-5}%`}} transition={{duration : 1 , ease : 'linear'}} className='ber h-full bg-[#dadada] absolute top-0'></motion.div>
                 </div>
-        </div>
-<div className='tabs  mt-6'>
+        </div>}
+{votes.length > 1 && <div className='tabs  mt-6'>
     <div className='flex px-3 gap-7'>
 {['Community members' , 'Others'].map((el , i)=>{
-    return <h6 key={i} style={{opacity :currentIndex === i ? 1 : 0.66}} typeof='button' onClick={()=> setCurrentIndex(i)}>{el}</h6>
+    return <button key={i} style={{opacity :currentIndex === i ? 1 : 0.66}}  onClick={()=> setCurrentIndex(i)}>{el}</button>
 })}
 </div>
 <div className='w-full border-t  border-[#4d4d4d] h-1.5 caro'>
@@ -142,10 +142,10 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
     '></div>
     </div>
 
-</div>
+</div>}
 
 
-<div className='votes mt-4 border-b border-[#4d4d4d] relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll'>
+{votes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div className='votes mt-4 border-b border-[#4d4d4d] relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll'>
 <div  style={{transform : `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
     <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>
@@ -159,7 +159,7 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
   <div className='w-full pt-1 overview flex  lg:pr-8 justify-between'>
 <div className='vote flex  items-center gap-12 lg:gap-20.5'>
     <div className='profile w-30  flex items-center gap-1'>
-        <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote?.user?.profile || '/image.png'} className = 'h-8 w-8 rounded-full object-cover'/>
+        <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote?.user?.profile} className = 'h-8 w-8 rounded-full object-cover'/>
         <h3 >@{vote?.user?.handle}</h3>
     </div>
     <h3 >Designer</h3>
@@ -192,7 +192,7 @@ const existingVote = post?.votes?.find(v => v.user._id === user?._id);
     <div className='h-50 w-[30vw] bg-[#353535]'></div>
 
 </div>
-</div>
+</div>}
 
 <div className='other-detais  px-2 mt-10'>
     <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h6>madeby:</h6><h6>{post?.createdBy?.handle}</h6></div>
