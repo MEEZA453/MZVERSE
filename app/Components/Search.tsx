@@ -67,7 +67,7 @@ useEffect(() => {
             />
             </div>
             <div className='w-screen '>
-            <div className='flex justify-between w-full px-7 bg-[#101010] sticky top-4  mt-2 border-b border-[#2c2b2b] pb-1 items-center'>
+            <div className='flex justify-between w-full px-7 bg-[#101010] sticky top-0 pt-2  border-b border-[#2c2b2b] pb-1 items-center'>
                 {searchTabs.map((el , index)=>{
                     return <button style={{fontSize : '14px'}} onClick={()=>setSelectedIndex(index)} className={`${index === selectedIndex ? 'opacity-100': 'opacity-60'}`} key={index}>{el}</button>
                 })}

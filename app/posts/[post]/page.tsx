@@ -84,7 +84,7 @@ useEffect(()=>{
 user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
 },[user,post])
 
-const existingVote = post?.votes?.find(v => v.user._id === user?._id);
+const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
     return (
         <div>

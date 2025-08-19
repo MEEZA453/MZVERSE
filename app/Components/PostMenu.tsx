@@ -85,15 +85,15 @@ router.back()
     >
     {!promoted ? 'Add to Promotion':'Remove from Promotion  '}
     </button>}
- {isAuthor&& <button
+ {/* {isAuthor&& <button
       onClick={()=>handleDeleteClick()}
       className="text-white text-[14px]  px-3 py-1 flex items-center justify-center gap-1"
     >
       Edit post
     </button>}
 
-    
-{ isAuthor && <button
+     */}
+{ (isAuthor || role === 'dev') && <button
       onClick={()=>handleDeleteClick()}
       className="text-red-500 w-full text-[14px] px-3 py-1 flex items-center justify-center gap-1"
     >
