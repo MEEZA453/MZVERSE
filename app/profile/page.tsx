@@ -43,10 +43,16 @@ export default function Profile() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!displayName.trim()) {
-      setErrorMessage("Display name is required.")
-      return
-    }
+  if (!user) {
+    setErrorMessage("You must be logged in to update your profile.")
+    return
+  }
+
+  if (!displayName.trim()) {
+    setErrorMessage("Display name is required.")
+    return
+  }
+
 
     const formData = new FormData()
     formData.append("displayName", displayName)
@@ -57,7 +63,7 @@ export default function Profile() {
 
     try {
       setLoading(true)
-      await dispatch(updateProfileAction(user._id, formData, user.token) as any)
+      await dispatch(updateProfileAction(user._id, formData, user .token) as any)
       setErrorMessage("")
       router.push("/feed") // redirect after update
     } catch (error: any) {

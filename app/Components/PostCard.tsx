@@ -35,7 +35,7 @@ export default function PostCard({post}){
                           <button onClick={()=>router.push('/'+post?.createdBy?.handle)}><Image  
             height={300}
             width={300}
-            alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src={post?.createdBy?.profile}/></button>  
+            alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src={post?.createdBy?.profile || '/image.png'}/></button>  
               <div>
                           <h3 className='mt-2'>{post.name}  </h3>
                           <p style={{fontSize : '12px'}} className=''>@{post?.createdBy?.handle}  </p>

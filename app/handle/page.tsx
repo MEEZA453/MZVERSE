@@ -22,13 +22,22 @@ export default function Handle() {
   // Conditions
   const containsValidChars = /^[a-zA-Z0-9._]+$/.test(handle) // only allowed chars
   const noStartEndPeriod = !/^\./.test(handle) && !/\.$/.test(handle) // no start/end period
+  const maxLength = handle.length <= 12 // at most 30 chars (insta-like)
+  const allLowercase = handle === handle.toLowerCase() // must be lowercase
   const hasLetter = /[a-zA-Z]/.test(handle) // contains letter
   const minLength = handle.length >= 3 // at least 3 chars (insta-like)
-  const maxLength = handle.length <= 30 // at most 30 chars (insta-like)
-
-  const validateHandle = () => {
-    return containsValidChars && noStartEndPeriod && hasLetter && minLength && maxLength
+const validateHandle = () => {
+  if (handle) {
+    return (
+      containsValidChars &&
+      noStartEndPeriod &&
+      hasLetter &&
+      minLength &&
+      maxLength &&
+      allLowercase
+    )
   }
+}
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -111,7 +120,15 @@ export default function Handle() {
                 <FiCheck color="black" size={13} />
               </div>
             </div>
-
+<div className="flex w-full mt-1 justify-between">
+  <h2>Only lowercase letters</h2>
+  <div
+    className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
+    style={{ opacity: allLowercase ? 1 : 0.5 }}
+  >
+    <FiCheck color="black" size={13} />
+  </div>
+</div>
             <div className="flex w-full mt-1 justify-between">
               <h2>Contains at least one letter</h2>
               <div
@@ -133,7 +150,7 @@ export default function Handle() {
             </div>
 
             <div className="flex w-full mt-1 justify-between">
-              <h2>Maximum 30 characters</h2>
+              <h2>Maximum 12 characters</h2>
               <div
                 className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
                 style={{ opacity: maxLength ? 1 : 0.5 }}
