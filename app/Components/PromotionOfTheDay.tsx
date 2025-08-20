@@ -55,7 +55,7 @@ export default function PromotionOfTheDay() {
   if (!reoderedPromotion || reoderedPromotion.length === 0) return null
 
   return (
-    <div className="relative my-2 py-2">
+    <div className="relative lg:m-6 my-2 py-2">
       
       <div
         ref={carouselRef}
@@ -67,13 +67,13 @@ export default function PromotionOfTheDay() {
       >
         {!loading &&
           reoderedPromotion.map((promo: any, index: number) => (
-            <div key={index} className="flex-shrink-0 w-[80vw] mb-4 snap-center relative">
+            <div key={index} className="flex-shrink-0 w-[80vw] lg:w-[33.33vw]  mb-4 snap-center relative">
               <Image
                 src={promo?.images[0]}
-                height={300}
-                width={300}
+                height={1500}
+                width={1500}
                 alt="promo"
-                className="w-full h-[22rem] object-cover rounded"
+                className="w-full h-[22rem] lg:h-[40rem] object-cover rounded"
               />
         <div className="absolute pointer-events-none w-full h-80 bg-gradient-to-b from-[#00000080] to-[#00000000] z-[50] top-0"></div>
 

@@ -30,12 +30,12 @@ const dispatch = useDispatch<AppDispatch>();
   const {token } = useAuth()
 
   return (
-    <div className='w-screen px-4 '>
+    <div className='w-screen px-4 lg:px-22 '>
       {/* <Notification/> */}
       {/* <MasterNavber /> */}
      
 
-   {   !loading ? <div className='lg:grid-cols-5 gap-2  grid-cols-2 grid'>
+   {   !loading ? <div className='lg:grid-cols-5 lg:gap-5 gap-2   grid-cols-2 grid'>
         {posts?.map((post:any, index:number) => (
           <div key={index}>
   <PostCard post = {post}/>

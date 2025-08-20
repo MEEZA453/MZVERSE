@@ -28,7 +28,7 @@ export  default function Feed (){
 }        </div>
 </div>
 {activeIndex === 0 && <div>
-        <PhotographyOfTheDay p={photo[2]}/>
+        {/* <PhotographyOfTheDay p={photo[2]}/> */}
          <PosterOfTheDay/>
         
         <PromotionOfTheDay/>

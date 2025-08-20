@@ -35,7 +35,7 @@ const handleClick = (path: string): void => {
 };
     return <div>{loading ? <Loading/>: <div className='  w-[100vw] h-full'>{postsOfUser?.length > 0 ?<div>
 
-    { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-3  mb-10 grid'>
+    { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-3 lg:gap-5 lg:px-10  mb-10 grid'>
     {postsOfUser?.map((post:any, index : number) => (
       <div key={index}>
               <PostCard post={post}/>

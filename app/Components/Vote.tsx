@@ -42,7 +42,7 @@ if(votes){setLoading(true)
         return
     }
 };
-    return <div  onClick={()=>setIsOpen(true)} className={` duration-500  bg-[#dadada] flex items-center justify-center fixed z-100 bottom-5  ${isOpen ?`  rounded $ ${isMobile ? ' -translate-x-1/2 h-80 left-1/2 w-[95%]':'w-100 h-80 right-5'}`: `${isMobile ? 'w-[95%] rounded-[3px] h-7 -translate-x-1/2 left-1/2':'w-13 h-13  rounded-[30px] right-0 '}  `}`}>
+    return <div className='w-screen relative lg:w-[30vw] flex items-center  justify-center mt-10'><div  onClick={()=>setIsOpen(true)} className={` duration-500  bg-[#dadada] flex items-center justify-center w-[95%]  z-100 bottom-5  ${isOpen ?`  rounded  h-80  `: ` rounded-[3px] h-7 `}`}>
     
     <div>{isOpen ?<motion.form initial={{opacity : 0 }}
     animate = {{opacity : 1}}
@@ -52,7 +52,7 @@ if(votes){setLoading(true)
   e.stopPropagation();
   setIsOpen(false);
 }}><RxCross2
-          className=' close absolute right-2 top-2 text-black'/></button>
+          className=' close absolute right-5 top-2 text-black'/></button>
 
 {fieldOfVote?.map((vote , i)=>{
 
@@ -74,11 +74,11 @@ onChange={(e) => handleChange(vote, Number(e.target.value))}
     <button style={{ opacity: Object.keys(votes).length < fieldOfVote.length ? 0.5 : 1 }} type='submit' className='bg-black text-[14px] px-3 py-1 rounded-[3px] mt-2 flex items-center justify-center h-7 w-full'>{loading ? <ButtonLoaderWhite/> : 'Submit'}</button>
     </motion.form> :<motion.button initial={{opacity : 0 }}
     animate = {{opacity : 1}}
-    transition = {{duration :0.5 , delay : 0.5}} className='text-black'>{isMobile ? 'Vote now' : <MdHowToVote size = {21}color='black'/>}</motion.button>}
+    transition = {{duration :0.5 , delay : 0.5}} className='text-black w-full  text-center'>Vote now</motion.button>}
     <div className='w-full flex justify-end'>
 
     </div>
 
     </div>
-        </div>
+        </div></div>
     }

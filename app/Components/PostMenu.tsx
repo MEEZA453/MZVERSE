@@ -18,6 +18,9 @@ const { favourites } = useSelector((state: any) => state.favourites);
 // Check if the post is already in favorites
 const isFavorited = favourites.some((item: any) => item._id === postId);
 
+
+
+
 const addToMoodBoard = () => {
   if (!token) return;
 

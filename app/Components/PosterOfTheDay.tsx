@@ -23,7 +23,7 @@ export default function PosterOfTheDay(){
      const reoderedHighlight = [...highlight].reverse()
     return <div className="flex my-2 py-2 hide-scrollbar w-screen overflow-y-scroll ">
       
-     {   !loading ? <div className='flex gap-2'>
+     {   !loading ? <div className='flex gap-2 lg:gap-4'>
         {reoderedHighlight?.map((post:any, index:number) => (
           <div key={index}>
   <PostCard post = {post}/>

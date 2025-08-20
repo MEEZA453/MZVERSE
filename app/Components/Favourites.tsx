@@ -35,8 +35,8 @@ const reoderedFav = [...favourites].reverse()
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
-    return <div className='fav border-l border-[#4d4d4d] w-screen px-3 h-full'>
-    { !loading?<div className='lg:grid-cols-5 grid-cols-2 grid'>
+    return <div className='fav border-l border-[#4d4d4d]  w-screen px-3 h-full'>
+    { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-3 lg:gap-5 lg:px-10  mb-10 grid'>
     {reoderedFav?.map((post:any, index : number) => (
       <div  key={index}>
         <PostCard post={post}/>

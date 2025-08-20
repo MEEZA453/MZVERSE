@@ -36,7 +36,7 @@ const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
     return <div className='fav border-l px-3  border-[#4d4d4d] w-screen h-full'>
-    { !loading?<div className='lg:grid-cols-5 grid-cols-2 grid'>
+    { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-3 lg:gap-5 lg:px-10  mb-10 grid'>
     {reoderedHighlight?.map((post:any, index : number) => (
       <div  key={index}>
         <PostCard post={post}/>

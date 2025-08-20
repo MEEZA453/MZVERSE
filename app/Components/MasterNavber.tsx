@@ -77,15 +77,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
             ))}
             </div> */}
 
-        {isLargeScreen ? (
-          <div className="flex gap-6">
-            {innerMenu.map((el, i) => (
-              <h6 key={i} onClick={() => router.push(el.path)}>
-                {el.name}
-              </h6>
-            ))}
-          </div>
-        ) : null}
+      
             {search && <Search setSearch = {setSearch} />}
 
         <div className="flex gap-3 mr-2 items-center lg:gap-6 lg:mr-4">

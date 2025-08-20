@@ -87,7 +87,7 @@ user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
 const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
     return (
-        <div>
+        <div className='hide-scrollbar'>
            
             {post?.createdBy?.handle === user?.handle ?<div>
 
@@ -96,16 +96,15 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
           <Notification/>
             <MasterNavber/>
-            {!loading ?<div className='lg:flex'>
-              <button className='absolute z-[999] top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
+            {!loading ?<div className='lg:flex hide-scrollbar lg:h-screen lg:overflow-hidden'>
+              <button className='absolute z-[999]  top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
               
         <AnimatePresence>{  isMenu ?  <PostMenu role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
            
-<Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
         {/* <ProductImages images={post?.images}/> */}
-{!isMobile? <ProductImages images = {post?.images}/>:<ImageShower images = {post?.images}/>}
+<ImageShower images = {post?.images}/>
     
-     <div onClick={()=>setIsMenu(false)} className='w-full mb-20 '>
+     <div onClick={()=>setIsMenu(false)} className='w-full  mb-20 lg:mt-20 '>
   
        { votes.length > 0 && <div className='w-full '>
 
@@ -131,6 +130,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
                     <motion.div     initial={{width : 0}} animate = {{width : `${70-5}%`}} transition={{duration : 1 , ease : 'linear'}} className='ber h-full bg-[#dadada] absolute top-0'></motion.div>
                 </div>
         </div>}
+<Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
 {votes.length > 0 && <div className='tabs  mt-6'>
     <div className='flex px-3 gap-12'>
 {['Creators' , 'Judges'].map((el , i)=>{
@@ -145,7 +145,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 </div>}
 
 
-{votes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div className='votes mt-4 border-b border-[#4d4d4d] relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll'>
+{votes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div className='votes mt-4 border-b border-[#4d4d4d] relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll hide-scrollbar'>
 <div  style={{transform : isMobile ? `translate(-${currentIndex*100}vw)`: `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
     <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>
