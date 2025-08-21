@@ -83,7 +83,7 @@ export default function CategorySelect({ formData, setFormData, error }: any) {
         value={formData.category || ""}
         onClick={() => setOpen(!open)}
         className={`py-1 mt-1 border ${
-          error.catagoryError ? "border-red-600" : "border-[#2c2b2b]"
+          error.catagoryError ? "border-red-500/50" : "border-[#2c2b2b]"
         } rounded-[2px] w-full bg-[#101010] cursor-pointer`}
         placeholder="Select category..."
       />

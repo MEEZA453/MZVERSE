@@ -18,7 +18,12 @@ const { favourites } = useSelector((state: any) => state.favourites);
 // Check if the post is already in favorites
 const isFavorited = favourites.some((item: any) => item._id === postId);
 
+const [isMobile , setIsMobile] = useState(false)
+useEffect(()=>{
 
+    window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
+
+},[])
 
 
 const addToMoodBoard = () => {
@@ -69,22 +74,22 @@ router.back()
 }
     return  <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen z-[999] fixed left-0 bottom-0 bg-black/50">
       <div onClick={()=>setIsMenu(false)} className="w-screen h-screen "></div>
-      <motion.div  initial = {{y : 160}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#0d0d0d] fixed  z-200 bottom-1.5 py-4 -translate-x-1/2 left-1/2  flex  flex-col items-center justify-center  w-[96%] rounded-[6px]  ">
+      <motion.div  initial = {{y : isMobile?160 : 0}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : isMobile?160:0}} animate = {{y : 0}}  className="bg-[#0d0d0d] fixed lg:absolute lg:w-60 lg:top-16 lg:left-[2vw] lg:h-fit  z-200 bottom-1.5 py-4 max-sm:-translate-x-1/2 max-sm:left-1/2  flex  flex-col items-center justify-center  w-[96%] rounded-[6px]  ">
   <button
       onClick={addToMoodBoard }
-      className ="text-white text-[14px]  px-3 py-1 flex items-center justify-center gap-1"
+      className ="text-white text-[14px]  px-5 py-1  w-full lg:text-left gap-1"
     >
     {!isFavorited ? 'Add to moodboard':'Remove from moodboard'}
     </button>
 {role === 'dev' && <button
       onClick={handleHighlight }
-      className ="text-white text-[14px]  px-3 py-1 flex items-center justify-center gap-1"
+      className ="text-white text-[14px]  px-5 py-1  w-full lg:text-left gap-1"
     >
     {!highlighted ? 'Add to Highlight':'Remove from highlight  '}
     </button>}
     {role === 'dev' && <button
       onClick={handlePromote }
-      className ="text-white text-[14px]  px-3 py-1 flex items-center justify-center gap-1"
+      className ="text-white text-[14px]  px-5 py-1  w-full lg:text-left gap-1"
     >
     {!promoted ? 'Add to Promotion':'Remove from Promotion  '}
     </button>}
@@ -98,7 +103,7 @@ router.back()
      */}
 { (isAuthor || role === 'dev') && <button
       onClick={()=>handleDeleteClick()}
-      className="text-red-500 w-full text-[14px] px-3 py-1 flex items-center justify-center gap-1"
+      className="text-red-500 w-full text-[14px] px-5 py-1  w-full lg:text-left  gap-1"
     >
       Delete post 
     </button>

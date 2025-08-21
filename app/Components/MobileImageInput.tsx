@@ -39,17 +39,17 @@ export default function MobileImageInput({
   }, [selectedImage]);
 
   return (
-    <div className="mt-6 mb-6">
+    <div className="mt-4 mb-6">
       {/* Grid of images */}
-      <div className="grid grid-cols-3 items-center mb-1 justify-center gap-3 min:h-60 h-full border border-[#2d2d2d] rounded-[6px] p-3">
+      <div className={`grid grid-cols-3 bg-black items-center mx-4 mb-1 justify-center gap-3 min:h-60  lg:w-150 h-full border  rounded-[3px] p-3 ${error?'border-red-500/40':'border-[#1d1d1d]'}`}>
         {previewURLs.map((url, i) => (
-          <div key={i} className="relative group h-28 border border-[#1d1d1d] rounded overflow-hidden">
+          <div key={i} className="relative group h-28 lg:h-50 border border-[#1d1d1d] rounded overflow-hidden">
             <Image
               src={url}
               alt={`preview-${i}`}
               width={300}
               height={300}
-              className="object-cover w-[full] h-28"
+              className="object-cover w-full h-fit"
             />
             {/* Remove Button */}
             <button
@@ -63,9 +63,9 @@ export default function MobileImageInput({
         ))}
 
         {/* Add Button (always visible) */}
-        <div className={`h-28 ${selectedImage.length < 1 ? 'w-[90vw]': 'w-full  bg-[#0d0d0d] border-[#1d1d1d] border ' }  flex-col gap-2 flex rounded justify-center items-center `}>
+        <div className={`h-28 lg:h-50 ${selectedImage.length < 1 ? 'w-[90vw] lg:w-150': 'w-full  bg-[#0d0d0d] border-[#1d1d1d] border ' }  flex-col gap-2 flex rounded justify-center items-center `}>
 
-       <label className="flex  items-center justify-center border border-[#2d2d2d] border-dashed rounded-md h-32 cursor-pointer hover:bg-gray-100">
+       <label className="flex  items-center justify-center border border-[#2d2d2d] border-dashed rounded-md h-32 lg:h-50 cursor-pointer hover:bg-gray-100">
 
          <GoPlusCircle size={22}/>
           <input
@@ -83,9 +83,7 @@ export default function MobileImageInput({
       </div>
 
       {/* Error message */}
-      {error && (
-        <p className="px-2" style={{color : 'red' , fontSize : '13px'}}>Please upload at least 1 image.</p>
-      )}
+
 
       {/* Tip Section */}
     

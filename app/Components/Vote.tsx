@@ -35,14 +35,14 @@ useEffect(()=>{
 };
 const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-if(votes){setLoading(true)
+if(Object.keys(votes).length === fieldOfVote.length){setLoading(true)
     console.log('submitting' , postId , votes , token);
     dispatch(votePostAction(postId, votes, token));
     setLoading(false)}else{
         return
     }
 };
-    return <div className='w-screen relative lg:w-[30vw] flex items-center  justify-center mt-6'><div  onClick={()=>setIsOpen(true)} className={` duration-300   flex items-center justify-center w-[98%]  z-100 bottom-5  ${isOpen ?` bg-[#dadada]   h-[240px] py-8  `: ` rounded-[3px] h-7  bg-[#dadada]`}`}>
+    return <div className='w-screen relative lg:w-[30vw] flex items-center  justify-center mt-6'><div  onClick={()=>setIsOpen(true)} className={` duration-400   flex items-center justify-center w-[98%]  z-100 bottom-5  ${isOpen ?` bg-[#dadada]   h-[240px] py-8  `: ` rounded-[3px] h-7  bg-[#dadada]`}`}>
     
     <div>{isOpen ?<motion.form initial={{opacity : 0 }}
     animate = {{opacity : 1}}
@@ -52,7 +52,7 @@ if(votes){setLoading(true)
   e.stopPropagation();
   setIsOpen(false);
 }}><RxCross2
-          className=' close absolute right-5 top-2 text-black'/></button>
+          className=' close absolute right-2 top-2 text-black'/></button>
 
 {fieldOfVote?.map((vote , i)=>{
 

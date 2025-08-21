@@ -134,28 +134,39 @@ const deleteField = (i: number) => {
     <>
 
 
-    <div className="h-screen w-screen relative overflow-hidden">
+    <div className="h-screen w-screen lg:flex justify-center  relative overflow-hidden">
 
-    <form onSubmit={formSubmit} className="lg:flex px-2">
+    <form onSubmit={formSubmit} className="lg:flex lg:px-2  lg:gap-2 mt-10">
          
             <section className=''>
         
-            {!isMobile ? <ImageInput  error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage}/> : <MobileImageInput  isFullImage = {isFullImage} setFullImage = {setFullImage} error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />}
+<MobileImageInput  isFullImage = {isFullImage} setFullImage = {setFullImage} error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />
     <div className="w-">
 
 </div>
       </section>
-      <div className="w-full  lg:mt-20">
+      <div className="w-full lg:w-[30vw] min:w-[20vw] lg:border border-[#1d1d1d] lg:h-[60vh] px-4 pt-2 bg-black lg:mt-4">
       
 {/* <h3 className="mb-3">Field of judgement:</h3> */}
 
 
+<div className="mt-2 ">
+  <h3>name:</h3>
+      <input
+        type="text"
+        name="name"
+        
+        value={formData.name}
+        className={`py-1 mt-1  border-[#2c2b2b] border ${error.nameError ?  'border border-red-500/50':null} rounded-[2px] w-full bg-[#101010]`}
+        onChange={handleChange}
+        />
+        </div>
 
 <div   className="flex w-full mb-1   gap-1 text-[14px] items-center">Judgement on<FiEdit3 className="mt-1"/></div>
 
         <div className="judgements">
 
-<div  className="w-full gap-1 relative  px-2  border-[#1c1b1b] border flex rounded-[4px] pt-5 pb-2 flex">
+<div  className={`w-full gap-1 relative ${error.fieldError ? 'border-red-500/50':'border-[#1c1b1b]'}  px-2   border flex rounded-[4px] pt-5 pb-2 flex`}>
   
 
 
@@ -175,19 +186,8 @@ const deleteField = (i: number) => {
   ))}
 
 </div>
-{error.fieldError && <p className="px-2" style={{color : 'red' , fontSize : '13px'}}>Select atleast 1 field</p>}
+
 </div>
-<div className="mt-2 ">
-  <h3>name:</h3>
-      <input
-        type="text"
-        name="name"
-        
-        value={formData.name}
-        className={`py-1 mt-1  border-[#2c2b2b] border ${error.nameError ?  'border border-red-600':null} rounded-[2px] w-full bg-[#101010]`}
-        onChange={handleChange}
-        />
-        </div>
 
         
 
