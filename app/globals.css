@@ -12,7 +12,7 @@
 
   input[type='range']::-webkit-slider-runnable-track {
     height: 20px;
-
+    
     -webkit-appearance: none;
     background: #ffffff; /* unfilled color */
   }

@@ -8,6 +8,7 @@ import { useAuth } from "../Context/AuthContext";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { getHighlight } from "../store/actions/Highlight";
+import { SkeletonCard } from "./Skeleton/SkeletonCard";
 export default function PosterOfTheDay(){
     const dispatch = useDispatch<AppDispatch>()
 
@@ -29,6 +30,10 @@ export default function PosterOfTheDay(){
   <PostCard post = {post}/>
   </div>
         ))}
-      </div> : <Loading/>}
+      </div> : <div className="flex gap-2 lg:gap-4">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <SkeletonCard key={i} />
+      ))}
+    </div>}
     </div>
 }

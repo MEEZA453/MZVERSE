@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../store/store"
 import { getPromotion } from "../store/actions/Promotion"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
+import { SkeletonPromoCard } from "./Skeleton/SkeletonPromo"
 
 export default function PromotionOfTheDay() {
   const router = useRouter()
@@ -52,7 +53,6 @@ export default function PromotionOfTheDay() {
     carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
   }
 
-  if (!reoderedPromotion || reoderedPromotion.length === 0) return null
 
   return (
     <div className="relative lg:m-6 my-2 py-2">
@@ -65,7 +65,7 @@ export default function PromotionOfTheDay() {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
       >
-        {!loading &&
+        {!loading ?
           reoderedPromotion.map((promo: any, index: number) => (
             <div key={index} className="flex-shrink-0 w-[80vw] lg:w-[33.33vw]  mb-4 snap-center relative">
               <Image
@@ -102,7 +102,9 @@ export default function PromotionOfTheDay() {
               
               </div>
             </div>
-          ))}
+          )):(
+      Array.from({ length: 3 }).map((_, i) => <SkeletonPromoCard key={i} />)
+    )}
       </div>
 
       {/* Left arrow */}

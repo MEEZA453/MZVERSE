@@ -14,6 +14,7 @@ import { useAuth } from '../Context/AuthContext';
 import { getPostsAction } from '../store/actions/post';
 import BlurEffect from 'react-progressive-blur';
 import PostCard from '../Components/PostCard';
+import { SkeletonCard } from '../Components/Skeleton/SkeletonCard';
 export default function AllPosts() {
 
 
@@ -41,7 +42,11 @@ const dispatch = useDispatch<AppDispatch>();
   <PostCard post = {post}/>
   </div>
         ))}
-      </div> : <Loading/>}
+      </div> : <div className="lg:grid-cols-5 lg:gap-5 gap-1   grid-cols-2 grid">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>}
 
     </div>
   );

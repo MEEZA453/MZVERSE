@@ -6,6 +6,7 @@ import Loading from '../Components/loading'
 import { AppDispatch } from '../store/store';
 import { getPostsByHandleAction } from '../store/actions/post';
 import PostCard from './PostCard';
+import { SkeletonCard } from './Skeleton/SkeletonCard';
 export default function Crafts(){
     const [token , setToken] = useState('')
     const dispatch = useDispatch<AppDispatch>();
@@ -33,16 +34,20 @@ console.log(postsOfUser)
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
-    return <div>{loading ? <Loading/>: <div className='  w-[100vw] h-full'>{postsOfUser?.length > 0 ?<div>
+    return <div>{loading ?< div className="lg:grid-cols-5 grid-cols-2 px-3 gap-3 lg:gap-5 lg:px-5  mb-10 grid">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
+          </div>: <div className='  w-[100vw] h-full'>{postsOfUser?.length > 0 ?<div>
 
-    { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-3 lg:gap-5 lg:px-10  mb-10 grid'>
+    <div className='lg:grid-cols-5 grid-cols-2 px-3 lg:gap-5 lg:px-10  mb-10 grid'>
     {postsOfUser?.map((post:any, index : number) => (
       <div key={index}>
               <PostCard post={post}/>
              </div>
 
 ))}
-      </div> : <Loading/> }
+      </div> 
 </div>:<p className='w-screen mt-10 text-center'>{` You have'nt craft anything yet.`}</p>}
   </div>}</div>
 }
