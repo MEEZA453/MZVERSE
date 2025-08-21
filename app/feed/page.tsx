@@ -18,7 +18,7 @@ export  default function Feed (){
 ]
     return <div> 
         {/* <MasterNavber/> */}
-        <div className="sticky top-13 z-[100]">
+        <div className="sticky top-13 z-[999]">
         <div className=" left-1/2 w-screen  justify-center items-center flex px-2 mt-3 gap-1">
 {
     tabs.map((tab, index : number)=>{

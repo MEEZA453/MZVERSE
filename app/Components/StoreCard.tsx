@@ -52,7 +52,7 @@ const router = useRouter()
     </div>
                  {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
               </div>
-              <h6 >${product.amount}</h6>
+              <label className='text-black  px-1 text-[14px]  bg-[#dadada]/80 rounded-[3px]' >${product.amount}</label>
             </div>
                  </div>
 }
