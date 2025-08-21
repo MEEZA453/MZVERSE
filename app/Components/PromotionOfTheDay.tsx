@@ -69,6 +69,7 @@ export default function PromotionOfTheDay() {
           reoderedPromotion.map((promo: any, index: number) => (
             <div key={index} className="flex-shrink-0 w-[80vw] lg:w-[33.33vw]  mb-4 snap-center relative">
               <Image
+              onClick={()=>router.push('/posts/'+promo?._id)}
                 src={promo?.images[0]}
                 height={1500}
                 width={1500}

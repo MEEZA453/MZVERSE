@@ -157,7 +157,7 @@ const deleteField = (i: number) => {
         name="name"
         
         value={formData.name}
-        className={`py-1 mt-1  border-[#2c2b2b] border ${error.nameError ?  'border border-red-500/50':null} rounded-[2px] w-full bg-[#101010]`}
+        className={`py-1 mt-1 px-2 border-[#2c2b2b] border ${error.nameError ?  'border border-red-500/50':null} rounded-[2px] w-full bg-[#101010]`}
         onChange={handleChange}
         />
         </div>
@@ -178,7 +178,7 @@ const deleteField = (i: number) => {
                   selectedVoteFields.includes(field)
                     ? "bg-white text-black"
                     : "bg-[#0d0d0d] text-white hover:bg-[#2a2a2a]"
-                } text-black rounded px-1.5`}
+                } text-black rounded-[2px] px-1.5`}
                   >
                    {field}
                   

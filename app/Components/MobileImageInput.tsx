@@ -65,7 +65,7 @@ export default function MobileImageInput({
         {/* Add Button (always visible) */}
         <div className={`h-28 lg:h-50 ${selectedImage.length < 1 ? 'w-[90vw] lg:w-150': 'w-full  bg-[#0d0d0d] border-[#1d1d1d] border ' }  flex-col gap-2 flex rounded justify-center items-center `}>
 
-       <label className="flex  items-center justify-center border border-[#2d2d2d] border-dashed rounded-md h-32 lg:h-50 cursor-pointer hover:bg-gray-100">
+       <label className="flex  items-center justify-center  rounded-md h-32 lg:h-50 cursor-pointer ">
 
          <GoPlusCircle size={22}/>
           <input

@@ -78,7 +78,7 @@ export default function SignIn() {
           </button>
 
           {/* Invisible GoogleLogin to get credential */}
-          <div className="w-full opacity-0 absolute top-3">
+          <div className="w-full  opacity-0 absolute top-0">
             <GoogleLogin
               onSuccess={(response) => {
                 if ((response as any).credential) {
