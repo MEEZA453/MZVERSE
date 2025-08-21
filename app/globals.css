@@ -11,7 +11,7 @@
   }
 
   input[type='range']::-webkit-slider-runnable-track {
-    height: 10px;
+    height: 20px;
     -webkit-appearance: none;
     background: #ffffff; /* unfilled color */
   }
@@ -26,7 +26,7 @@ input[type='range']::-webkit-slider-thumb {
   background: rgb(0, 0, 0); /* thumb color */
   ; /* makes the ball visible */
   border-radius: 100%;
-  box-shadow: -200px 0 0 200px black; /* filled color */
+  box-shadow: -300px 0 0 300px black; /* filled color */
 }
 }
 .hide-scrollbar::-webkit-scrollbar {

@@ -42,7 +42,7 @@ if(votes){setLoading(true)
         return
     }
 };
-    return <div className='w-screen relative lg:w-[30vw] flex items-center  justify-center mt-10'><div  onClick={()=>setIsOpen(true)} className={` duration-500  bg-[#dadada] flex items-center justify-center w-[95%]  z-100 bottom-5  ${isOpen ?`  rounded  h-80  `: ` rounded-[3px] h-7 `}`}>
+    return <div className='w-screen relative lg:w-[30vw] flex items-center  justify-center mt-6'><div  onClick={()=>setIsOpen(true)} className={` duration-300   flex items-center justify-center w-[98%]  z-100 bottom-5  ${isOpen ?` bg-[#dadada]   h-[240px] py-8  `: ` rounded-[3px] h-7  bg-[#dadada]`}`}>
     
     <div>{isOpen ?<motion.form initial={{opacity : 0 }}
     animate = {{opacity : 1}}
@@ -66,11 +66,11 @@ return  <div key={i} className='flex gap-0.5 flex-col'>
 <input  min={0}
 onChange={(e) => handleChange(vote, Number(e.target.value))}
             max={100}
-            className='w-90 h-1.5 bg-black' type='range'/>
+            className='w-94 lg:w-[27vw] h-1.5 bg-black' type='range'/>
         </div>
 })}
 
-<input type='text' placeholder='Comment..' style={{color: 'black' , opacity : 1, borderRadius : '6px'}}className='w-full px-2  mt-2 rounded-[10px] bg-white h-20 text-white'/>
+{/* <input type='text' placeholder='Comment..' style={{color: 'black' , opacity : 1, borderRadius : '6px'}}className='w-full px-2  mt-2 rounded-[10px] bg-white h-20 text-white'/> */}
     <button style={{ opacity: Object.keys(votes).length < fieldOfVote.length ? 0.5 : 1 }} type='submit' className='bg-black text-[14px] px-3 py-1 rounded-[3px] mt-2 flex items-center justify-center h-7 w-full'>{loading ? <ButtonLoaderWhite/> : 'Submit'}</button>
     </motion.form> :<motion.button initial={{opacity : 0 }}
     animate = {{opacity : 1}}
