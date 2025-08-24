@@ -13,8 +13,8 @@ export function SkeletonPromoCard() {
           {/* Avatar */}
           <div className="h-8 w-8 rounded-full bg-[#1d1d1d] animate-pulse" />
           <div className="flex flex-col gap-1">
-            <div className="h-3 w-24 bg-[#1d1d1d]  animate-pulse" />
-            <div className="h-2 w-16 bg-[#1d1d1d]  animate-pulse" />
+            <div className="h-2.5 w-24 bg-[#1d1d1d]  animate-pulse" />
+            <div className="h-1.5 w-16 bg-[#1d1d1d]  animate-pulse" />
           </div>
         </div>
       </div>
