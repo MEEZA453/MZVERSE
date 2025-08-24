@@ -177,7 +177,7 @@ const buttonsOfAuthor = [
     
       </div>
 
-{ !loading ? <div className={`${isDev ? 'w-[500vw]':'w-[300vw] '} flex duration-500`}style={{transform :`translate(${-activeIndex*99.5}vw)`}}>
+{ !loading ? <div className={`${isDev ? 'w-[500vw]':'w-[300vw] '} flex duration-500`}style={{transform :`translate(${-activeIndex*100}vw)`}}>
 
  <Store/>
  <Favourites/>

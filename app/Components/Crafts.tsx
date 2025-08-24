@@ -34,15 +34,17 @@ console.log(postsOfUser)
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
-    return <div>{loading ?< div className="lg:grid-cols-5 grid-cols-2 px-3 gap-3 lg:gap-5 lg:px-5  mb-10 grid">
+    return <div>{loading ?< div className="lg:grid-cols-5 grid-cols-2 lg:px-10  px-3 w-screen  lg:gap-5 mb-10 grid">
             {Array.from({ length: 6 }).map((_, i) => (
-              <SkeletonCard key={i} />
+              <div className='flex items-center justify-center'  key={i}>
+              <SkeletonCard/>
+             </div>
             ))}
           </div>: <div className='  w-[100vw] h-full'>{postsOfUser?.length > 0 ?<div>
 
-    <div className='lg:grid-cols-5 grid-cols-2 px-3 lg:gap-5 lg:px-10  mb-10 grid'>
+    <div className='lg:grid-cols-5 grid-cols-2 lg:px-10  px-3  lg:gap-5 mb-10 grid'>
     {postsOfUser?.map((post:any, index : number) => (
-      <div key={index}>
+      <div className='flex items-center justify-center'  key={index}>
               <PostCard post={post}/>
              </div>
 

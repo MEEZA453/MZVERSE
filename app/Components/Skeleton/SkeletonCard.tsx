@@ -8,7 +8,7 @@ export function SkeletonCard() {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center w-full pr-3 mt-2">
+      <div className="flex justify-between items-center w-full  mt-2">
         <div className="flex items-center gap-2">
           {/* Avatar */}
           <div className="h-7 lg:h-7 w-7 lg:w-7 rounded-full items-center object-cover bg-[#1d1d1d] animate-pulse" />

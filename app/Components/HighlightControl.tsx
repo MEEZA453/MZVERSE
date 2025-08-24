@@ -38,7 +38,7 @@ const handleClick = (path: string): void => {
     return <div className='fav w-screen h-full'>
     { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-3 lg:gap-3  lg:px-10  mb-10 grid'>
     {reoderedHighlight?.map((post:any, index : number) => (
-      <div  key={index}>
+      <div  className='flex items-center justify-center'  key={index}>
         <PostCard post={post}/>
       </div>
             
