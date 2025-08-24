@@ -29,7 +29,7 @@ export default function SignIn() {
       window.location.href = '/feed' // existing user
       
     } else {
-          window.location.href = window.location.origin + '/handle'; // new user profile setup
+      router.push('/handle'); // new user profile setup
     }
     } catch (err: any) {
       setErrorMessage(err.message || 'Google login failed')

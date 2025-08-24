@@ -21,7 +21,7 @@ export default function Handle() {
   // const { user } = useSelector((state: any) => state.auth)
 
   const { user } = useAuth()
-
+console.log(user)
 
   // Conditions
   const containsValidChars = /^[a-zA-Z0-9._]+$/.test(handle) // only allowed chars

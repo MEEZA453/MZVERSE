@@ -7,7 +7,7 @@ import {
   useEffect,
   ReactNode,
 } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export interface User {
   _id:string;
@@ -42,7 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [profileLink, setProfileLink] = useState('');
   const [token, setToken] = useState('');
   const router = useRouter();
-
+ const pathname  = usePathname()
   // ✅ Load from localStorage on first render
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setToken(parsedUser.token || ''); // ✅ Restore token
       }
     }
-  }, [router]);
+  }, [pathname]);
 
   const setUserData = (userData: User) => {
     setUser(userData);

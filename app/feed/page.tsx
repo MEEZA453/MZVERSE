@@ -10,11 +10,7 @@ import AllAssets from "../AllAssets/page";
 import { useAuth } from "../Context/AuthContext";
 export  default function Feed (){
     const {user} = useAuth()
-useEffect(()=>{
-if(!user?.handle){
-    router.push('/handle')
-}
-},[])
+
     const router =  useRouter()
     const [activeIndex ,setActiveIndex] = useState(0)
     const tabs = [{name : 'Explore' , origin : ()=>router.push('/feed')} , {name : 'Posts' , origin : ()=>router.push('/posts')}, {name : 'Store' , origin : ()=>router.push('/AllAssets')}]
