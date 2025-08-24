@@ -89,14 +89,15 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     return (
         <div className='hide-scrollbar'>
            
-            {post?.createdBy?.handle === user?.handle ?<div>
-
-        
-            </div>:null}
+          
 
           <Notification/>
             <MasterNavber/>
-            {!loading ?<div className='lg:flex hide-scrollbar lg:h-screen lg:overflow-hidden'>
+            {!loading && post ?<div className='lg:flex hide-scrollbar lg:h-screen lg:overflow-hidden'>
+                {post?.createdBy?.handle === user?.handle ?<div>
+
+        
+            </div>:null}
               <button className='absolute z-[999]  top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
               
         <AnimatePresence>{  isMenu ?  <PostMenu role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 

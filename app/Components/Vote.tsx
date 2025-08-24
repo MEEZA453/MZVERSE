@@ -42,7 +42,7 @@ if(Object.keys(votes).length === fieldOfVote.length){setLoading(true)
         return
     }
 };
-    return <div className='w-screen relative lg:w-[30vw] flex items-center  justify-center mt-6'><div  onClick={()=>setIsOpen(true)} className={` duration-400   flex items-center justify-center w-[98%]  z-100 bottom-5  ${isOpen ?` bg-[#dadada]   h-[240px] py-8  `: ` rounded-[3px] h-7  bg-[#dadada]`}`}>
+    return <div className='w-screen relative lg:w-[30vw] flex items-center  justify-center mt-6'><div  onClick={()=>setIsOpen(true)} className={` duration-400   flex items-center justify-center w-[98%]  z-100 bottom-5  ${isOpen ?` bg-[#dadada] rounded   h-[240px] py-8  `: ` rounded-[3px] h-7  bg-[#dadada]`}`}>
     
     <div>{isOpen ?<motion.form initial={{opacity : 0 }}
     animate = {{opacity : 1}}
