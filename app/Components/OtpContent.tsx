@@ -68,9 +68,15 @@ export default function OtpPage() {
     }
     try {
       setLoading(true)
-      await dispatch(verifyEmailOtpAction({ email, otp }))
+      const result =  await dispatch(verifyEmailOtpAction({ email, otp }))
       // user.handle ? router.push('/profile'): router.push('/handle')
-     router.push('/handle')
+console.log(result )
+        
+         if (result?.isAlreadyUser) {
+        window.location.href = '/feed' // existing user
+      } else {
+        router.push('/handle'); // new user profile setup
+      }
     } catch (err: any) {
       setErrorMsg(err.message || 'OTP verification failed')
     } finally {

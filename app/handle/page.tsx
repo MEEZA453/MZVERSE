@@ -7,6 +7,7 @@ import ButtonLoader from '../Components/ButtonLoader'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { setHandleAction } from '../store/actions/auth'
+import { useAuth } from '../Context/AuthContext'
 
 export default function Handle() {
   const [errorMessage, setErrorMessage] = useState('')
@@ -17,7 +18,7 @@ export default function Handle() {
   const dispatch = useDispatch()
   const router = useRouter()
 
-  const { user } = useSelector((state: any) => state.auth)
+  const { user } = useAuth()
 
   // Conditions
   const containsValidChars = /^[a-zA-Z0-9._]+$/.test(handle) // only allowed chars
