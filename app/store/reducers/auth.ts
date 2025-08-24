@@ -52,7 +52,7 @@ const authReducer = (state = initialState, action: AnyAction): AuthState => {
     case 'LOGIN_FAIL':
       case 'GOOGLE_LOGIN_FAIL':
           case 'SET_HANDLE_FAIL':
-      return { ...state, user: null, error: action.payload };
+      return { ...state, error: action.payload };
 
     case 'LOGOUT':
       return { ...state, user: null, error: null };

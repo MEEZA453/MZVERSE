@@ -25,10 +25,11 @@ export default function SignIn() {
       setLoading(true)
       const result = await dispatch(googleLoginAction(token))
       
-       if (result?.isAlreadyUser) {
+       if (result?.isAlreadyUser && result?.handle ) {
       window.location.href = '/feed' // existing user
+      
     } else {
-      router.push('/handle'); // new user profile setup
+          window.location.href = window.location.origin + '/handle'; // new user profile setup
     }
     } catch (err: any) {
       setErrorMessage(err.message || 'Google login failed')

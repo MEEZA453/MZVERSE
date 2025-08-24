@@ -54,7 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setToken(parsedUser.token || ''); // ✅ Restore token
       }
     }
-  }, []);
+  }, [router]);
 
   const setUserData = (userData: User) => {
     setUser(userData);

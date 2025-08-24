@@ -18,7 +18,10 @@ export default function Handle() {
   const dispatch = useDispatch()
   const router = useRouter()
 
+  // const { user } = useSelector((state: any) => state.auth)
+
   const { user } = useAuth()
+
 
   // Conditions
   const containsValidChars = /^[a-zA-Z0-9._]+$/.test(handle) // only allowed chars
@@ -58,7 +61,7 @@ const validateHandle = () => {
     try {
       setLoading(true)
       setError(false)
-      await dispatch<any>(setHandleAction(user._id, handle, user.token))
+      await dispatch<any>(setHandleAction(user?._id, handle, user?.token))
       window.location.href = window.location.origin + '/profile'
     } catch (err: any) {
       setError(true)
