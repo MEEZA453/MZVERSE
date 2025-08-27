@@ -26,7 +26,7 @@ export default function SignIn() {
       const result = await dispatch(googleLoginAction(token))
       
        if (result?.isAlreadyUser && result?.handle ) {
-      window.location.href = '/feed' // existing user
+      window.location.href = '/' // existing user
       
     } else {
       router.push('/handle'); // new user profile setup

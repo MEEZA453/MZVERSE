@@ -1,38 +1,63 @@
 'use client'
-import MasterNavber from "./Components/MasterNavber";
-import InteractiveGrid from "./Components/InteractiveGrid"
-import Notification from "./Components/Notification";
-import JoinCommunityInput from "./Components/JoinCommunity";
-import Login from "./Components/Login";
-import {useEffect, useState} from 'react'
-import { useShowInput } from "./Context/ShowInputContext";
-import { useNotification } from "./Context/Notification";
-import { useAuth } from "./Context/AuthContext";
 import { useRouter } from "next/navigation";
+import MasterNavber from "./Components/MasterNavber";
+import PhotographyOfTheDay from "./Components/PhotographyOfTheDay";
+import PosterOfTheDay from "./Components/PosterOfTheDay"
+import PromotionOfTheDay from './Components/PromotionOfTheDay';
+import AllPosts from "./posts/page";
+import { useEffect, useState } from "react";
+import AllAssets from "./AllAssets/page";
+import { useAuth } from "./Context/AuthContext";
+export  default function Feed (){
+    const router =  useRouter()
+    const {user , loading} = useAuth()
+ useEffect(() => {
+    if (loading) return; // wait until user is loaded
+    if (!user) {
+      router.replace("/welcome"); // not logged in
+    } else if (!user.handle) {
+      router.replace("/handle"); // logged in but no handle
+    }
+  }, [user, loading, router]);
+    const [activeIndex ,setActiveIndex] = useState(0)
+    const tabs = [{name : 'Explore' , origin : ()=>router.push('/feed')} , {name : 'Posts' , origin : ()=>router.push('/posts')}, {name : 'Store' , origin : ()=>router.push('/AllAssets')}]
+     const photo = [{name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur1.jpg']},
+{name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur2.jpg']},
+{name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur3.jpg']},
+{name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur4.jpg']},
+]
+    return <div> 
 
-export default function Home(){
-  const {isLoggedIn} = useAuth()
-  const router = useRouter();
-  const {setNotification} = useNotification()
-const {showLoginInput , showSignupInput ,setShowLoginInput , setShowSignupInput}  = useShowInput()
+        <MasterNavber/>
+        <div className="sticky top-13 z-[910]">
+        <div className=" left-1/2 w-screen  justify-center items-center flex px-2 mt-3 gap-1">
+{
+    tabs.map((tab, index : number)=>{
+       return       <button onClick={()=> setActiveIndex(index)} key={index} className={`rounded-full ${activeIndex  === index ? 'bg-white text-black': 'bg-[#1d1d1d]  text-white'} items-center justify-center  px-3 text-[14px] py-0.5`}>{tab.name}</button>
+        
+    })
+}        </div>
+</div>
+{activeIndex === 0 && <div>
+        {/* <PhotographyOfTheDay p={photo[2]}/> */}
+         <PosterOfTheDay/>
+        
+        <PromotionOfTheDay/>
 
-const handleClick = ()=>{
-    window.location.href = isLoggedIn ?  window.location.origin +'/feed':window.location.origin +'/signup';
+
+
+         
+<AllPosts/>
+
+</div>}
+{ activeIndex === 1 && <AllPosts/>
 }
-  return <div>
-    <Notification/>
-    {showSignupInput ? <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999]">
-<JoinCommunityInput setShowSignupInput={setShowSignupInput}/>
-</div>: null}
-      <div className="bg-black/60 h-screen w-screen  px-3 z-[10] absolute flex flex-col gap-2 items-center max-sm:items-start justify-center ">
-      <h1 >A Design achive for visual thinking.</h1>
-      <button className='bg-white text-black text-[16px] rounded-[2px] px-2 py-1' onClick={handleClick}>Join now</button>
-      </div>
- {showLoginInput ? <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999]">
-<Login setShowLoginInput={setShowLoginInput}/>
-</div>: null}
-    <MasterNavber setShowLoginInput = {setShowLoginInput} setShowSignupInput = {setShowSignupInput}/>
-    <InteractiveGrid/>
-
-      </div>
+{ activeIndex === 2 && <AllAssets/>
 }
+       {/* <DesignerOfTheDay/> */}
+        {/* <AllPosts/> */}
+        <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-[#000000] to-[#00000000] z-[50] top-0"></div>
+    </div>
+}
+
+

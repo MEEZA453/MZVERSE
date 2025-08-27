@@ -36,7 +36,7 @@ const handleClick = (path: string): void => {
 };
     return <div>{loading ?< div className="lg:grid-cols-5 grid-cols-2 lg:px-10  px-3 w-screen  lg:gap-5 mb-10 grid">
             {Array.from({ length: 6 }).map((_, i) => (
-              <div className='flex items-center justify-center'  key={i}>
+              <div className=''  key={i}>
               <SkeletonCard/>
              </div>
             ))}

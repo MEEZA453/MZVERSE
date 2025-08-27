@@ -31,6 +31,7 @@ interface AuthContextType {
   isLoggedIn: boolean;
   token: string;
   role :string;
+  loading : boolean;
   handle : string;
    authorId : string;
 }
@@ -41,6 +42,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profileLink, setProfileLink] = useState('');
   const [token, setToken] = useState('');
+   const [loading, setLoading] = useState(true);
   const router = useRouter();
  const pathname  = usePathname()
   // ✅ Load from localStorage on first render
@@ -53,6 +55,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setProfileLink(parsedUser.handle);
         setToken(parsedUser.token || ''); // ✅ Restore token
       }
+      setLoading(false);
     }
   }, [pathname]);
 
@@ -79,6 +82,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     <AuthContext.Provider
       value={{
         user,
+          loading, 
         handle:  user?.handle,
         token,
         role : user?.role,

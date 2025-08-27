@@ -66,7 +66,7 @@ console.log(user)
       setLoading(true)
       await dispatch(updateProfileAction(user._id, formData, user .token) as any)
       setErrorMessage("")
-      router.push("/feed") // redirect after update
+      router.push("/") // redirect after update
     } catch (error: any) {
       setErrorMessage(error.message)
     } finally {
@@ -95,7 +95,7 @@ console.log(user)
             onChange={handleImageChange}
             className="hidden"
           />
-          <label style={{fontFamily : 'inter',letterSpacing : 0.1}} htmlFor="upload-button" className="text-[14px] mr-1.5 cursor-pointer">Upload</label>
+          <label style={{fontFamily : 'inter',letterSpacing : 0.1}} htmlFor="upload-button"  className="text-[14px] mr-1.5 cursor-pointer">Upload</label>
         </div>
 
         {/* Display Name */}
@@ -105,7 +105,7 @@ console.log(user)
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
+            className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
           />
         </div>
 
@@ -117,7 +117,7 @@ console.log(user)
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
             placeholder="https://"
-            className="w-full rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
+            className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
           />
         </div>
 
@@ -129,7 +129,7 @@ console.log(user)
             value={instagram}
             onChange={(e) => setInstagram(e.target.value)}
             placeholder="@"
-            className="w-full rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
+            className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
           />
         </div>
 
@@ -141,7 +141,7 @@ console.log(user)
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             maxLength={50}
-            className="w-full rounded-[3px] bg-[#131313] px-2 mb-1 py-1 outline-none"
+            className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 mb-1 py-1 outline-none"
           />
           <p className="text-right text-xs">50 character maximum</p>
         </div>
