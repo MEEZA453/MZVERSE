@@ -156,7 +156,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     </div>
     <div>
    {votes.map((vote , i)=>{
-    return  <div  onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded px-2 pt-2 duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-40': 'h-10' }`}>
+    return  <div  onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded px-2 duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-40': 'h-10' }`}>
   <div className='w-full pt-1 overview flex  lg:pr-8 justify-between'>
 <div className='vote flex  items-center gap-12 lg:gap-20.5'>
     <div className='profile w-30  flex items-center gap-1'>
