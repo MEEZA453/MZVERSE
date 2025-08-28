@@ -79,7 +79,7 @@ export default function SignIn() {
           </button>
 
           {/* Invisible GoogleLogin to get credential */}
-  <div className="absolute inset-0 w-full h-full">
+  <div className="absolute inset-0 w-[29vw] h-full">
     <GoogleLogin
       onSuccess={(response) => {
         if ((response as any).credential) {
