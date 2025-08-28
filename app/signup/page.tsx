@@ -79,19 +79,18 @@ export default function SignIn() {
           </button>
 
           {/* Invisible GoogleLogin to get credential */}
-          <div className="w-full  opacity-0 absolute top-0">
-            <GoogleLogin
-              onSuccess={(response) => {
-                if ((response as any).credential) {
-                  handleGoogleLogin((response as any).credential)
-                }
-              }}
-              onError={() => {
-                setErrorMessage('Google login failed')
-              }}
-            />
-          </div>
-
+  <div className="absolute inset-0 w-full h-full">
+    <GoogleLogin
+      onSuccess={(response) => {
+        if ((response as any).credential) {
+          handleGoogleLogin((response as any).credential)
+        }
+      }}
+      onError={() => {
+        setErrorMessage("Google login failed")
+      }}
+    />
+  </div>
           {/* Email input */}
           <input
             type="email"
