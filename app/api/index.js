@@ -1,6 +1,6 @@
 import axios from 'axios' 
-// const url = 'https://meeza-in-8.onrender.com/' 
- const url  = 'http://localhost:8080/'
+const url = 'https://meeza-in-8.onrender.com/' 
+//  const url  = 'http://localhost:8080/'
 
 
 // Follow a user
