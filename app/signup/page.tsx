@@ -1,4 +1,3 @@
-// app/(yourpages)/signin/page.tsx or components/SignIn.tsx (TSX)
 'use client'
 
 import { useState } from "react"
@@ -8,7 +7,7 @@ import { useDispatch } from "react-redux"
 import { googleLoginAction, sendEmailOtpAction } from "../store/actions/auth"
 import { useRouter } from "next/navigation"
 import { AppDispatch } from "../store/store"
-import { GoogleLogin } from '@react-oauth/google'
+import { useGoogleLogin } from "@react-oauth/google"
 
 export default function SignIn() {
   const dispatch = useDispatch<AppDispatch>();
@@ -19,39 +18,47 @@ export default function SignIn() {
   const [email, setEmail] = useState("")
   const [error, setError] = useState(false)
 
-  // Trigger Google login manually
-  const handleGoogleLogin = async (token: string) => {
+  // ✅ Custom Google login
+const login = useGoogleLogin({
+  flow: "auth-code", // <-- use auth-code instead of implicit
+  onSuccess: async (response) => {
+    console.log('Auth Code Response:', response); // response.code contains the auth code
     try {
-      setLoading(true)
-      const result = await dispatch(googleLoginAction(token))
-      
-       if (result?.isAlreadyUser && result?.handle ) {
-      window.location.href = '/' // existing user
-      
-    } else {
-      router.push('/handle'); // new user profile setup
-    }
-    } catch (err: any) {
-      setErrorMessage(err.message || 'Google login failed')
-      setLoading(false)
-    }
-  }
+      setLoading(true);
 
-  // Send OTP to the provided email
+      // Send the auth code to your backend
+      const result = await dispatch(googleLoginAction(response.code));
+
+      // Handle navigation
+      if (result?.isAlreadyUser && result?.handle) {
+        window.location.href = "/"; // existing user
+      } else {
+        router.push("/handle"); // new user setup
+      }
+    } catch (err: any) {
+      console.log(err);
+      setErrorMessage(err.message || "Google login failed");
+    } finally {
+      setLoading(false);
+    }
+  },
+  onError: () => setErrorMessage("Google login failed"),
+});
+
+  // ✅ Email OTP
   const handleSendOtp = async () => {
-    setErrorMessage('')
+    setErrorMessage("")
     if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
       setError(true)
-      setErrorMessage('Please enter a valid email')
+      setErrorMessage("Please enter a valid email")
       return
     }
     try {
       setLoading(true)
       await dispatch(sendEmailOtpAction(email))
-      // navigate to otp page with email query param
       router.push(`/otp?email=${encodeURIComponent(email)}`)
     } catch (err: any) {
-      setErrorMessage(err.message || 'Failed to send OTP')
+      setErrorMessage(err.message || "Failed to send OTP")
     } finally {
       setLoading(false)
     }
@@ -62,13 +69,14 @@ export default function SignIn() {
       <Image className="w-8 absolute left-2 top-2 rounded-xl" src={'/logo.png'} width={50} height={50} alt="log"/>
 
       <div className="h-screen flex items-center flex-col gap-10 justify-center login w-full">
-          <h2 className="">Please sign in to continue</h2>
+        <h2 className="">Please sign in to continue</h2>
         <form className="lg:w-[28%] relative w-[80%]" onSubmit={(e) => e.preventDefault()}>
 
           {/* 🔥 Custom Google Button */}
           <button
             id="google"
             type="button"
+            onClick={() => login()} // trigger Google login
             className="px-2 o google mb-4 w-full flex items-center justify-center h-7 text-center bg-[#131313] text-black text-[14px] rounded-[2px]"
           >
             {loading ? (
@@ -78,19 +86,6 @@ export default function SignIn() {
             )}
           </button>
 
-          {/* Invisible GoogleLogin to get credential */}
-  <div className="absolute inset-0 w-[29vw] h-full">
-    <GoogleLogin
-      onSuccess={(response) => {
-        if ((response as any).credential) {
-          handleGoogleLogin((response as any).credential)
-        }
-      }}
-      onError={() => {
-        setErrorMessage("Google login failed")
-      }}
-    />
-  </div>
           {/* Email input */}
           <input
             type="email"
@@ -113,7 +108,7 @@ export default function SignIn() {
             <h2>No account ?</h2><a style={{ fontSize: 13, lineHeight: -0.2 }}>Signup</a>
           </div>
         </form>
-        <p className = 'absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2' style={{ color: 'red' }}>{errorMessage}</p>
+        {errorMessage && <p className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red-500">{errorMessage}</p>}
       </div>
     </div>
   )

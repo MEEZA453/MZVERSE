@@ -94,13 +94,14 @@ export const getProductById = (handle: string) => async (dispatch: AppDispatch) 
   }
 };
 
-export const googleLoginAction = (token: string) => async (dispatch: AppDispatch) => {
+export const googleLoginAction = (authCode: string) => async (dispatch: AppDispatch) => {
   try {
-    const { data } = await api.googleLogin(token);
+    // Send the auth code to the backend
+    const { data } = await api.googleLogin(authCode);
 
     dispatch({ type: 'GOOGLE_LOGIN_SUCCESS', payload: data });
 
-    // Optionally store in localStorage
+    // Store user profile in localStorage
     localStorage.setItem('profile', JSON.stringify(data));
 
     return data;
