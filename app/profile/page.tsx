@@ -83,7 +83,7 @@ console.log(user)
         <div className="flex flex-col items-center gap-1">
           <Image
             src={preview}
-            className="h-32 w-32 rounded-full object-cover"
+            className="h-28 w-28 rounded-full object-cover"
             height={1000}
             width={1000}
             alt="profile"
@@ -117,7 +117,7 @@ console.log(user)
             type="text"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
-            placeholder="https://"
+            placeholder=""
             className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
           />
         </div>
@@ -139,12 +139,13 @@ console.log(user)
           <h3>Bio:</h3>
           <input
             type="text"
+            placeholder="Tell about yourself "
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             maxLength={50}
             className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 mb-1 py-1 outline-none"
           />
-          <p className="text-right text-xs">20 character maximum</p>
+
         </div>
 
         {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
