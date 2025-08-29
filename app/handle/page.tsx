@@ -83,7 +83,7 @@ const validateHandle = () => {
 
       <div className="h-screen flex items-center flex-col gap-10 justify-center login w-full">
         <form onSubmit={handleSubmit} className="lg:w-[40%] w-[90%]">
-          <h2 className="mb-6">Your handle is how other community members will see you.</h2>
+          <h5  className="mb-6 text-center">Claim your handle</h5>
 
           <input
             type="text"
@@ -106,7 +106,7 @@ const validateHandle = () => {
           {/* Rules checklist */}
           <div className="steps mt-4">
             <div className="flex w-full mt-1 justify-between">
-              <h2>Contains only letters, numbers, underscores and periods</h2>
+              <p>Contains only letters, numbers, underscores and periods</p>
               <div
                 className={`oporate bg-white rounded-full h-4 w-4 flex items-center justify-center`}
                 style={{ opacity: containsValidChars ? 1 : 0.5 }}
@@ -116,7 +116,7 @@ const validateHandle = () => {
             </div>
 
             <div className="flex w-full mt-1 justify-between">
-              <h2>Does not start or end with a period</h2>
+              <p>Does not start or end with a period</p>
               <div
                 className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
                 style={{ opacity: noStartEndPeriod ? 1 : 0.5 }}
@@ -125,7 +125,7 @@ const validateHandle = () => {
               </div>
             </div>
 <div className="flex w-full mt-1 justify-between">
-  <h2>Only lowercase letters</h2>
+  <p>Only lowercase letters</p>
   <div
     className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
     style={{ opacity: allLowercase ? 1 : 0.5 }}
@@ -134,7 +134,7 @@ const validateHandle = () => {
   </div>
 </div>
             <div className="flex w-full mt-1 justify-between">
-              <h2>Contains at least one letter</h2>
+              <p>Contains at least one letter</p>
               <div
                 className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
                 style={{ opacity: hasLetter ? 1 : 0.5 }}
@@ -144,7 +144,7 @@ const validateHandle = () => {
             </div>
 
             <div className="flex w-full mt-1 justify-between">
-              <h2>Minimum 3 characters</h2>
+              <p>Minimum 3 characters</p>
               <div
                 className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
                 style={{ opacity: minLength ? 1 : 0.5 }}
@@ -154,7 +154,7 @@ const validateHandle = () => {
             </div>
 
             <div className="flex w-full mt-1 justify-between">
-              <h2>Maximum 12 characters</h2>
+              <p>Maximum 12 characters</p>
               <div
                 className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
                 style={{ opacity: maxLength ? 1 : 0.5 }}

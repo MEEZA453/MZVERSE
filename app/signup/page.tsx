@@ -69,7 +69,7 @@ const login = useGoogleLogin({
       <Image className="w-8 absolute left-2 top-2 rounded-xl" src={'/logo.png'} width={50} height={50} alt="log"/>
 
       <div className="h-screen flex items-center flex-col gap-10 justify-center login w-full">
-        <h2 className="">Please sign in to continue</h2>
+        <h3 className="">Please sign in to continue</h3>
         <form className="lg:w-[28%] relative w-[80%]" onSubmit={(e) => e.preventDefault()}>
 
           {/* 🔥 Custom Google Button */}
@@ -104,9 +104,7 @@ const login = useGoogleLogin({
             {loading ? <ButtonLoader /> : 'Connect'}
           </button>
 
-          <div className="flex gap-1 mt-2 items-center">
-            <h2>No account ?</h2><a style={{ fontSize: 13, lineHeight: -0.2 }}>Signup</a>
-          </div>
+        
         </form>
         {errorMessage && <p className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red-500">{errorMessage}</p>}
       </div>

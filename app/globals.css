@@ -88,20 +88,15 @@ color : #a9a9a9
 }
 h3 {
   font-family: var(--font-inter), sans-serif;
-  font-weight: 300;
+  font-weight: 200;
   font-size: 14px;
   line-height: 2ch;
 
-}
 
-h2 {
-  font-family: var(--font-inter), sans-serif;
-  font-weight: 200;
-  font-size: 13px;
-  opacity: 0.66;
-  line-height: 2ch;
 
 }
+
+
 
 
 label {
@@ -124,6 +119,7 @@ input{
   font-weight: 200;
   font-size: 14px;
  letter-spacing: 0.4px;
+
 
   color: '#dadada';
 

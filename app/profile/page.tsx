@@ -76,15 +76,16 @@ console.log(user)
 
   return (
     <div className="h-screen w-screen bg-[#030303] flex items-center justify-center">
-      <form onSubmit={handleSubmit} className="lg:w-[34%] w-[90%] flex flex-col gap-4">
+      <h5 className="text-center absolute top-[15vh]">Configure your profile</h5>
+      <form onSubmit={handleSubmit} className="lg:w-[34%] w-[90%] flex flex-col gap-2">
 
         {/* Profile Image */}
-        <div className="flex flex-col items-center gap-2">
+        <div className="flex flex-col items-center gap-1">
           <Image
             src={preview}
-            className="h-25 w-25 rounded-full object-cover"
-            height={100}
-            width={100}
+            className="h-32 w-32 rounded-full object-cover"
+            height={1000}
+            width={1000}
             alt="profile"
           />
           <input
@@ -95,12 +96,12 @@ console.log(user)
             onChange={handleImageChange}
             className="hidden"
           />
-          <label style={{fontFamily : 'inter',letterSpacing : 0.1}} htmlFor="upload-button"  className="text-[14px] mr-1.5 cursor-pointer">Upload</label>
+          <label style={{fontWeight : 300,letterSpacing : 0.1}} htmlFor="upload-button"  className="text-[14px] mr-2 cursor-pointer">Upload</label>
         </div>
 
         {/* Display Name */}
         <div>
-          <h3>Display name</h3>
+          <h3>name:</h3>
           <input
             type="text"
             value={displayName}
@@ -111,7 +112,7 @@ console.log(user)
 
         {/* Website */}
         <div>
-          <h3>Website (Optional)</h3>
+          <h3>Website:</h3>
           <input
             type="text"
             value={website}
@@ -123,7 +124,7 @@ console.log(user)
 
         {/* Instagram */}
         <div>
-          <h3>Instagram handle (Optional)</h3>
+          <h3>Instagram:</h3>
           <input
             type="text"
             value={instagram}
@@ -135,7 +136,7 @@ console.log(user)
 
         {/* Bio */}
         <div>
-          <h3>Bio (Optional)</h3>
+          <h3>Bio:</h3>
           <input
             type="text"
             value={bio}
@@ -143,7 +144,7 @@ console.log(user)
             maxLength={50}
             className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 mb-1 py-1 outline-none"
           />
-          <p className="text-right text-xs">50 character maximum</p>
+          <p className="text-right text-xs">20 character maximum</p>
         </div>
 
         {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
