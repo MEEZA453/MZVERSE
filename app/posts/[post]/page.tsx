@@ -20,6 +20,7 @@ import { PiHeartLight } from 'react-icons/pi'
 import { addToFavorites, removeFromFavorites } from '../../store/actions/fav'
 import { useNotification } from '../../Context/Notification'
 import Notification from '../../Components/Notification'
+import VoteMenu from '../../Components/VoteMenu'
 
 type AveragesType = {
   aesthetics: number;
@@ -36,6 +37,7 @@ const defaultAverages: AveragesType = {
 export default function Post() {
     const dispatch = useDispatch<AppDispatch>()
     const [openIndex , setOpenIndex] = useState(0)
+    const [isVoteMenu , setVoteMenu] = useState(false)
     const [currentIndex ,setCurrentIndex] = useState(0)
     const [totalAvg , setTotalAvg] = useState(0)
     const [isMenu , setIsMenu]  = useState(false)
@@ -101,7 +103,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
               <button className='absolute z-[999]  top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
               
         <AnimatePresence>{  isMenu ?  <PostMenu role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
-           
+                   <AnimatePresence>{  isVoteMenu ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
         {/* <ProductImages images={post?.images}/> */}
 <ImageShower images = {post?.images}/>
     
@@ -150,14 +152,16 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <div  style={{transform : isMobile ? `translate(-${currentIndex*100}vw)`: `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
     <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>
-    <div className='gap-35 lg:gap-50 mb-4 flex'>
+    <div className='gap-35 lg:gap-43 mb-4 flex'>
         <p>Origin</p>
         <p>Passion</p>
     </div>
     <div>
    {votes.map((vote , i)=>{
-    return  <div  onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded px-2 duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-40': 'h-10' }`}>
-  <div className='w-full pt-1 overview flex  lg:pr-8 justify-between'>
+    return  <div   onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded relative px-2 duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-36': 'h-10' }`}>
+      
+
+  <div className='w-full pt-2  mt-2 overview flex pr-2  justify-between items-center'>
 <div className='vote flex  items-center gap-12 lg:gap-20.5'>
     <div className='profile w-30  flex items-center gap-1'>
         <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote?.user?.profile} className = 'h-8 w-8 rounded-full object-cover'/>
@@ -165,17 +169,17 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     </div>
     <h3 >Designer</h3>
 </div>
-<h6>  {(
+{ openIndex === i ?   <button onClick={()=>setVoteMenu(true)} style={{lineHeight : 0}} className='absolute  right-2 top-2'>...</button>:<h3  >  {(
         post?.voteFields?.reduce((sum, field) => sum + (vote[field] || 0), 0) / post?.voteFields?.length
-      ).toFixed(1)} </h6>
+      ).toFixed(1)} </h3>}
 </div>
 
 
 
-<div style={{opacity : openIndex === i ? 1 : 0}} className='details duration-300 delay-200 mt-2 px-10 w-full '>
+<div style={{opacity : openIndex === i ? 1 : 0}} className='details duration-300 delay-200 px-10 w-full '>
 {post?.voteFields?.map((el ,i)=>{
     return <div key={i} className='justify-between w-full flex'>
-        <p className='mb-1'>{el}:</p>
+        <p className='mb-0.5'>{el}:</p>
         <p>{vote[el]}</p>
     </div>
 })}
