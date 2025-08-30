@@ -22,6 +22,7 @@ import { followUser, getFollowingByHandle } from '../store/actions/follow'
 import { unfollowUser } from '../store/actions/follow'
 import HighlightControl from '../Components/HighlightControl'
 import Promotion from '../Components/Promotion'
+import ProfileMenuLg from '../Components/ProfileMenuLg'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
 const {profileLink ,  authorId , handle , role} = useAuth()
@@ -31,6 +32,7 @@ const [token , setToken] = useState('')
 const [profileMenu , setProfileMenu] = useState(false) 
   const [activeIndex, setActiveIndex] = useState(2)
 const [follow  , setFollow] =  useState(false)  
+const [isMobile , setIsMobile ] = useState(false)
   const router = useRouter()
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -41,7 +43,11 @@ const [follow  , setFollow] =  useState(false)
       }
     }
   }, [])
+useEffect(()=>{
 
+    window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
+
+},[])
 
   //  useEffect(() => {
   //   if (token) {
@@ -137,7 +143,7 @@ const buttonsOfAuthor = [
   return (
     <div className='w-screen  overflow-hidden'>
       <Notification/>
- <AnimatePresence>{ profileMenu ?<ProfileMenu setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
+ <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setProfileMenu = {setProfileMenu}/>: <ProfileMenuLg  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 {loading ? <Loading/> : <div> 
       <div className='profile relative flex  relative flex-col h-90   gap-3 mt-10 items-center justify-center w-screen'>
               <div className='absolute  flex-col gap-4 flex justify-between px-2 lg:right-[38vw] top-1 right-4 '>

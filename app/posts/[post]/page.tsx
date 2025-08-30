@@ -21,6 +21,8 @@ import { addToFavorites, removeFromFavorites } from '../../store/actions/fav'
 import { useNotification } from '../../Context/Notification'
 import Notification from '../../Components/Notification'
 import VoteMenu from '../../Components/VoteMenu'
+import VoteMenuLg from '../../Components/VoteMenuLg'
+import PostMenuLg from '../../Components/PostMenuLg'
 
 type AveragesType = {
   aesthetics: number;
@@ -75,12 +77,12 @@ useEffect(() => {
   }
 }, [averages]);
 
+
 useEffect(()=>{
 
     window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
 
 },[])
-
 
 useEffect(()=>{
 user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
@@ -100,10 +102,10 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
         
             </div>:null}
-              <button className='absolute z-[999]  top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
+              <button className='absolute z-[100]  top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
               
-        <AnimatePresence>{  isMenu ?  <PostMenu role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
-                   <AnimatePresence>{  isVoteMenu ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
+        <AnimatePresence>{  isMenu ? isMobile ? <PostMenu role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
+                   <AnimatePresence>{  isVoteMenu ? isMobile ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/> : <VoteMenuLg role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
         {/* <ProductImages images={post?.images}/> */}
 <ImageShower images = {post?.images}/>
     
