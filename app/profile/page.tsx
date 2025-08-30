@@ -117,7 +117,7 @@ console.log(user)
             type="text"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
-            placeholder="eg: Graphic designe5"
+            placeholder="eg: Designer"
             className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
           />
         </div>
@@ -129,6 +129,7 @@ console.log(user)
             type="text"
             value={instagram}
             onChange={(e) => setInstagram(e.target.value)}
+
             placeholder="@"
             className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
           />
@@ -138,6 +139,7 @@ console.log(user)
         <div>
           <h3>Bio:</h3>
           <input
+          
             type="text"
             placeholder="Tell about yourself "
             value={bio}
@@ -152,7 +154,7 @@ console.log(user)
 
         <button
           type="submit"
-          className="px-2 w-full flex items-center justify-center h-7 bg-white text-black rounded-[2px]"
+          className="px-2 w-full flex items-center justify-center h-6 bg-white mt-2 text-black rounded-[2px]"
         >
           {loading ? <ButtonLoader /> : "Continue"}
         </button>
