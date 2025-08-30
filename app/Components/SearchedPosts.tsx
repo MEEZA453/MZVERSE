@@ -12,7 +12,7 @@ return  <div key={index}  onClick={()=>router.push(`/posts/${post?._id}`)} class
             <div className="px-2 justify-between w-full mt-2 items-center flex">
                 <div className="flex gap-2 items-center justify-center">
                     <div className="h-10 w-10 bg-[#1d1d1d] flex items-center justify-center">
-                    <Image src={post?.images[0]} height={100} width={100}  alt="preview" className="h-9 w-fit rounded-[2px] object-cover"/></div>
+                    <Image src={post?.images[0] } height={100} width={100}  alt="preview" className="h-9 w-fit rounded-[2px] object-cover"/></div>
                     <h6>{post?.name}</h6>
                 </div>
                 
