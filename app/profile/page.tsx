@@ -83,7 +83,7 @@ console.log(user)
         <div className="flex flex-col items-center gap-1">
           <Image
             src={preview}
-            className="h-28 w-28 rounded-full object-cover"
+            className="h-25 w-25 rounded-full object-cover"
             height={1000}
             width={1000}
             alt="profile"
@@ -96,7 +96,7 @@ console.log(user)
             onChange={handleImageChange}
             className="hidden"
           />
-          <label style={{fontWeight : 300,letterSpacing : 0.1}} htmlFor="upload-button"  className="text-[14px] mr-2 cursor-pointer">Upload</label>
+          <label style={{fontWeight : 300,letterSpacing : 0.1}} htmlFor="upload-button"  className="text-[14px] mr-[5px] cursor-pointer">Upload</label>
         </div>
 
         {/* Display Name */}
@@ -112,12 +112,12 @@ console.log(user)
 
         {/* Website */}
         <div>
-          <h3>Website:</h3>
+          <h3>Passion:</h3>
           <input
             type="text"
             value={website}
             onChange={(e) => setWebsite(e.target.value)}
-            placeholder=""
+            placeholder="eg: Graphic designe5"
             className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
           />
         </div>
