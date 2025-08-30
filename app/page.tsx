@@ -26,11 +26,11 @@ export  default function Feed (){
 {name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur3.jpg']},
 {name : 'Surrelism collection', profile : '/image.png' , handle : 'suchguy' , images : ['/sur4.jpg']},
 ]
-    return <div> 
+    return <div className="hide-scrollbar h-full w-screen"> 
 
         <MasterNavber/>
         <div className="sticky top-13 z-[910]">
-        <div className=" left-1/2 w-screen  justify-center items-center flex px-2 mt-3 gap-1">
+        <div className=" left-1/2 w-screen justify-center items-center flex px-2 mt-3 gap-1">
 {
     tabs.map((tab, index : number)=>{
        return       <button onClick={()=> setActiveIndex(index)} key={index} className={`rounded-full ${activeIndex  === index ? 'bg-white text-black': 'bg-[#1d1d1d]  text-white'} items-center justify-center  px-3 text-[14px] py-0.5`}>{tab.name}</button>

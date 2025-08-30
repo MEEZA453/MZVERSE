@@ -85,13 +85,13 @@ router.back()
     </button>}
 
      */}
-     { (isAuthor || role === 'dev') && <button
+      <button
       onClick={()=>handleDeleteClick()}
       className=" w-full text-[15px] px-5 py-1  w-full lg:text-left  gap-1"
     >
       Reply 
     </button>
-    }
+    
 { (isAuthor || role === 'dev') && <button
       onClick={()=>handleDeleteClick()}
       className="text-red-500 w-full text-[15px] px-5 py-1  w-full lg:text-left  gap-1"
