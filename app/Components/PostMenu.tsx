@@ -74,30 +74,30 @@ router.back()
 }
     return  <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen z-[999] fixed left-0 bottom-0 bg-black/50">
       <div onClick={()=>setIsMenu(false)} className="w-screen h-screen "></div>
-      <motion.div  initial = {{y : 160 }} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#0d0d0d] fixed lg:absolute lg:w-60 lg:top-16 lg:left-[2vw] lg:h-fit  z-200 bottom-8 py-3 max-sm:-translate-x-1/2 max-sm:left-1/2  flex  flex-col items-center justify-center  w-[96%] rounded-[6px]  ">
+      <motion.div  initial = {{y : 160 }} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#151515] fixed lg:absolute lg:w-60 lg:top-16 lg:left-[2vw] lg:h-fit  z-200 bottom-8 py-4 max-sm:-translate-x-1/2 max-sm:left-1/2  flex  flex-col items-center justify-center  w-[96%] rounded-[6px]  ">
   <button
       onClick={addToMoodBoard }
-      className ="text-white text-[14px]  px-5 py-1  w-full lg:text-left gap-1"
+      className ="text-white text-[15px]  px-5 pb-1  w-full lg:text-left gap-1"
     >
     {!isFavorited ? 'Add to moodboard':'Remove from moodboard'}
     </button>
 
 { role === 'dev'&& <button
       onClick={handleHighlight }
-      className ="text-white text-[14px]  px-5 py-1  w-full lg:text-left gap-1"
+      className ="text-white text-[15px]  px-5 pb-1  w-full lg:text-left gap-1"
     >
     {!highlighted ? 'Add to highlight':'Remove from  highlight'}
     </button>}
 { role === 'dev'&& <button
       onClick={ handlePromote }
-      className ="text-white text-[14px]  px-5 py-1  w-full lg:text-left gap-1"
+      className ="text-white text-[15px]  px-5 pb-1  w-full lg:text-left gap-1"
     >
     {!promoted ? 'Add to promotion':'Remove from  promotion'}
     </button>}
 
 { (isAuthor || role === 'dev') && <button
       onClick={()=>handleDeleteClick()}
-      className="text-red-500 w-full text-[14px] px-5 py-1  w-full lg:text-left  gap-1"
+      className="text-red-500 w-full text-[15px] px-5   w-full lg:text-left  gap-1"
     >
       Delete post 
     </button>

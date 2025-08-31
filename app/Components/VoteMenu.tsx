@@ -47,7 +47,7 @@ router.back()
 }
     return  <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen z-[999] fixed left-0 bottom-0 bg-black/50">
       <div onClick={()=>setVoteMenu(false)} className="w-screen h-screen "></div>
-      <motion.div  initial = {{y : 160 }} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#0d0d0d] fixed  z-200  bottom-8 lg:bottom-4 py-3 -translate-x-1/2 left-1/2  flex  flex-col items-center justify-center lg:w-80 w-[96%] rounded-[6px]  ">
+      <motion.div  initial = {{y : 160 }} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#151515] fixed  z-200  bottom-4 lg:bottom-4 py-4 -translate-x-1/2 left-1/2  flex  flex-col items-center justify-center lg:w-80 w-[96%] rounded-[6px]  ">
 
 
  {/* {isAuthor&& <button
@@ -60,14 +60,14 @@ router.back()
      */}
       <button
 
-      className="  text-[15px] px-5   lg:text-left  gap-1"
+      className="  text-[15px] px-5  pb-1 lg:text-left  gap-1"
     >
       Reply 
     </button>
     
 { (isAuthor || role === 'dev') && <button
 
-      className="text-red-500 text-[15px] px-5 py-1 lg:text-left  gap-1"
+      className="text-red-500 text-[15px] px-5  lg:text-left  gap-1"
     >
       Delete 
     </button>
