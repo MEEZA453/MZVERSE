@@ -43,10 +43,24 @@ useEffect(()=>{
       className="text-white text-[14.5px]   px-3 py-0.5 flex  gap-1"
     >
     My followers
-    </button> <button
+    </button>
+      <button
+      onClick={()=>router.push('/handle')}
+      className="text-white text-[14.5px]    px-3 py-0.5 flex  gap-1"
+    >
+    Claim a new handle
+    </button>
+        <button
+
+      className="text-white text-[14.5px]    px-3 py-0.5 flex  gap-1"
+    >
+    Request for judge
+    </button>
+     <button
       onClick={()=> logout()}
       className="text-red-600 text-[14.5px]  px-3 py-0.5  flex  gap-1"
     >
+
     Logout 
     </button>
     </div>
