@@ -45,7 +45,7 @@ router.back()
 }
     return  <div className="h-screen w-screen">
         <div className="h-screen w-screen fixed top-0 left-0 z-[700] " onClick  = {()=>setIsMenu(false)}></div>
-      <div className="bg-[#0d0d0d]  absolute w-60 top-16 left-[2vw] h-fit  z-900 bottom-1.5 py-3   flex  flex-col items-center justify-center  rounded-[6px]  ">
+      <div className="bg-[#0d0d0d]  absolute w-60 top-18 left-[56vw] h-fit  z-900 bottom-1.5 py-3   flex  flex-col items-center justify-center  rounded-[6px]  ">
   <button
       onClick={addToMoodBoard }
       className ="text-white text-[15px]  px-5 py-1  w-full lg:text-left gap-1"

@@ -23,6 +23,7 @@ import Notification from '../../Components/Notification'
 import VoteMenu from '../../Components/VoteMenu'
 import VoteMenuLg from '../../Components/VoteMenuLg'
 import PostMenuLg from '../../Components/PostMenuLg'
+import { IoIosArrowBack } from 'react-icons/io'
 
 type AveragesType = {
   aesthetics: number;
@@ -102,7 +103,15 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
         
             </div>:null}
-              <button className='absolute z-[100]  top-14 left-5 text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>
+            <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[100] top-14 '>
+              <div className='flex gap-1 items-center justify-center'>
+              <button onClick={()=> router.back()}>
+                <IoIosArrowBack size={20} />
+                
+                </button>
+              <h4 >{post?.name}</h4></div>
+    
+              <button className=' text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button></div>
               
         <AnimatePresence>{  isMenu ? isMobile ? <PostMenu role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
                    <AnimatePresence>{  isVoteMenu ? isMobile ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/> : <VoteMenuLg role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
@@ -166,8 +175,8 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
   <div className='w-full pt-2  mt-2 overview flex pr-2  justify-between items-center'>
 <div className='vote flex  items-center gap-12 lg:gap-20.5'>
     <div className='profile w-30  flex items-center gap-1'>
-        <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote?.user?.profile} className = 'h-8 w-8 rounded-full object-cover'/>
-        <h3 >@{vote?.user?.handle}</h3>
+        <Image onClick={()=> router.push(`/${vote.user.handle}`)} height = {100} width = {100} alt  = 'profile pic' src={vote?.user?.profile || '/image.png'} className = 'h-8 w-8 rounded-full object-cover'/>
+        <h3 >@{vote?.user?.handle || 'unknowuser'}</h3>
     </div>
     <h3 >Designer</h3>
 </div>

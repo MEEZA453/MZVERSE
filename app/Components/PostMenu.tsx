@@ -8,6 +8,8 @@ import { useAuth } from "../Context/AuthContext";
  import {motion} from 'framer-motion'
 import { useRouter } from "next/navigation";
 import { addToFavorites, removeFromFavorites } from "../store/actions/fav";
+import { addToPromotion, removeFromPromotion } from "../store/actions/Promotion";
+import { addToHighlight, removeFromHighlight } from "../store/actions/Highlight";
 export default function PostMenu({ setIsMenu , postId , token  ,isAuthor , role}){
   const [highlighted , setHighlight] = useState(false)
   const [promoted , setPromoted] = useState(false)
@@ -34,7 +36,34 @@ const addToMoodBoard = () => {
   }
 };
 
+    const handleHighlight = ()=>{
+    console.log('cliecked')
+    setHighlight(!highlighted )
 
+      if (!token) return;
+   if (!token) return;
+  
+      if (highlighted) {
+        dispatch(removeFromHighlight(postId, token));
+      } else {
+        dispatch(addToHighlight(postId, token));
+      }
+
+  }
+      const handlePromote = ()=>{
+    console.log('cliecked')
+    setPromoted(!promoted  )
+
+      if (!token) return;
+   if (!token) return;
+  
+      if (promoted) {
+        dispatch(removeFromPromotion(postId, token));
+      } else {
+        dispatch(addToPromotion(postId, token));
+      }
+
+  }
 
 const router = useRouter()
 const dispatch = useDispatch<AppDispatch>();
@@ -53,7 +82,18 @@ router.back()
     {!isFavorited ? 'Add to moodboard':'Remove from moodboard'}
     </button>
 
-
+{ role === 'dev'&& <button
+      onClick={handleHighlight }
+      className ="text-white text-[14px]  px-5 py-1  w-full lg:text-left gap-1"
+    >
+    {!highlighted ? 'Add to highlight':'Remove from  highlight'}
+    </button>}
+{ role === 'dev'&& <button
+      onClick={ handlePromote }
+      className ="text-white text-[14px]  px-5 py-1  w-full lg:text-left gap-1"
+    >
+    {!promoted ? 'Add to promotion':'Remove from  promotion'}
+    </button>}
 
 { (isAuthor || role === 'dev') && <button
       onClick={()=>handleDeleteClick()}
