@@ -7,6 +7,8 @@ import { AppDispatch } from '../store/store';
 import { getPostsByHandleAction } from '../store/actions/post';
 import PostCard from './PostCard';
 import { SkeletonCard } from './Skeleton/SkeletonCard';
+import MyPostCard from './MyPostCard';
+import { SkeletonMyPostCard } from './Skeleton/SkeletomMyPostCard';
 export default function Crafts(){
     const [token , setToken] = useState('')
     const dispatch = useDispatch<AppDispatch>();
@@ -37,7 +39,7 @@ const handleClick = (path: string): void => {
     return <div>{loading ?< div className="lg:grid-cols-5 grid-cols-2 lg:px-10  px-3 w-screen  lg:gap-5 mb-10 grid">
             {Array.from({ length: 6 }).map((_, i) => (
               <div className=''  key={i}>
-              <SkeletonCard/>
+              <SkeletonMyPostCard/>
              </div>
             ))}
           </div>: <div className='  w-[100vw] h-full'>{postsOfUser?.length > 0 ?<div>
@@ -45,7 +47,7 @@ const handleClick = (path: string): void => {
     <div className='lg:grid-cols-5 grid-cols-2 lg:px-10  px-3  lg:gap-5 mb-10 grid'>
     {postsOfUser?.map((post:any, index : number) => (
       <div className='flex items-center justify-center'  key={index}>
-              <PostCard post={post}/>
+              <MyPostCard post={post}/>
              </div>
 
 ))}
