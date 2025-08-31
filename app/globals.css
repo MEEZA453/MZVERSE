@@ -29,6 +29,10 @@ input[type='range']::-webkit-slider-thumb {
   border-radius: 100%;
   box-shadow: -300px 0 0 300px black; /* filled color */
 }
+html{
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
 }
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
