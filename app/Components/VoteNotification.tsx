@@ -9,6 +9,6 @@ export default function VoteNotification ({noti}){
 
 
     </div>
-        <Image onClick={()=>router.push(`/posts/${noti?.post?._id}`)} src = {noti?.post?.images[0] || '/image.png'} width = {100} height = {100} alt = 'profile' className = 'w-10 rounded-sm h-10'/>
+        <Image onClick={()=>router.push(`/posts/${noti?.post?._id}`)} src = {noti?.post?.images[0] || '/image.png'} width = {100} height = {100} alt = 'profile' className = 'w-10 rounded-sm object-cover h-10'/>
     </div> 
 }

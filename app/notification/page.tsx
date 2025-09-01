@@ -10,6 +10,7 @@ import { IoIosArrowBack } from "react-icons/io"
 import { HiOutlineDotsVertical } from "react-icons/hi"
 import FollowNotification from "../Components/FollowNotification"
 import VoteNotification from "../Components/VoteNotification"
+import SkeletonNotification from "../Components/Skeleton/SkeletonNotification"
 export default function Notification () {
     const {token} = useAuth()
     console.log(token)
@@ -25,7 +26,7 @@ useEffect(() => {
 }, [dispatch, token]);
 
     return <div className="w-screen">
- <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 z-[100] mt-4 '>
+ <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 z-[100] my-4 '>
               <div className='flex gap-1 items-center justify-center'>
               <button onClick={()=> router.back()}>
                 <IoIosArrowBack size={20} />
@@ -35,7 +36,9 @@ useEffect(() => {
     
               <button className=' text-white' ><HiOutlineDotsVertical/></button></div>
 
-              <div className=" w-screen mt-4">{
+             { loading ?  (
+  Array.from({ length: 4 }).map((_, i) => <SkeletonNotification key={i} />)
+): <div className=" w-screen ">{
              items?.map((noti:any  , index:number)=>{
                     return <div key={index}>
                         <div>{
@@ -47,6 +50,6 @@ useEffect(() => {
                     }</div>
                        </div>
                 })
-                }</div>
+                }</div>}
     </div>
 }
