@@ -13,16 +13,16 @@ export const getNotifications = (token: string) => async (dispatch: AppDispatch)
   }
 };
 
-// Mark all as read
-export const markAllNotificationsRead = (token: string) => async (dispatch: AppDispatch) => {
-  try {
-    await api.markAllNotificationsRead(token);
-    dispatch({ type: "MARK_ALL_READ" });
-  } catch (error: any) {
-    const errorMsg = error.response?.data?.message || error.message;
-    dispatch({ type: "NOTIFICATION_FAIL", payload: errorMsg });
-  }
-};
+  // Mark all as read
+  export const markAllNotificationsRead = (token: string) => async (dispatch: AppDispatch) => {
+    try {
+      await api.markAllNotificationsRead(token);
+      dispatch({ type: "MARK_ALL_READ" });
+    } catch (error: any) {
+      const errorMsg = error.response?.data?.message || error.message;
+      dispatch({ type: "NOTIFICATION_FAIL", payload: errorMsg });
+    }
+  };
 
 // Mark single as read
 export const markNotificationRead = (id: string, token: string) => async (dispatch: AppDispatch) => {

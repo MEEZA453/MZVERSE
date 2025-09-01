@@ -11,8 +11,11 @@ import { useAuth } from '../Context/AuthContext';
 import Image from 'next/image';
 import { AnimatePresence } from 'framer-motion';
 import Search from './Search';
-import { IoMdNotificationsOutline } from "react-icons/io";
+import { VscMail } from "react-icons/vsc";
 import { useSelector } from 'react-redux';
+import { getNotifications } from '../store/actions/notification';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store/store';
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
   setShowSignupInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -38,10 +41,19 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
     { name: 'Inspiration', path: '/' },
     { name: 'Presets', path: '/' },
     { name: 'Account', path: '/' },
-  ];
-    const { items } = useSelector((state: any) => state.notification);
-    const hasUnread = items.some((n) => !n.isRead);
 
+  ];
+  const dispatch = useDispatch<AppDispatch>()
+  const {token} = useAuth()
+    const { items } = useSelector((state: any) => state.notification);
+     useEffect(() => {
+    if (token) {
+      dispatch(getNotifications(token));
+    }
+  }, [dispatch, token]);
+
+    const hasUnread = items.some((n) => !n.isRead);
+console.log(items)
   const [isLargeScreen, setIsLargeScreen] = useState(false);
 
   useEffect(() => {
@@ -99,9 +111,9 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
           {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>
             <button className=" text-white  duration-300"onClick={()=> router.push('/createPost ') } ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
 
-             <button className=" relative text-white  duration-300"onClick={()=> router.push('/notification') } ref={dynamicButtonRef}><IoMdNotificationsOutline size={22}/>
+             <button className=" relative text-white  duration-300"onClick={()=> router.push('/notification') } ref={dynamicButtonRef}><VscMail size={22}/>
                {hasUnread && (
-          <span className="absolute top-1 right-0 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
+          <span className="absolute top-[6px] right-0 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
         )}
              </button>
 

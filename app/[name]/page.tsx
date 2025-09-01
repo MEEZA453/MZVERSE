@@ -23,6 +23,8 @@ import { unfollowUser } from '../store/actions/follow'
 import HighlightControl from '../Components/HighlightControl'
 import Promotion from '../Components/Promotion'
 import ProfileMenuLg from '../Components/ProfileMenuLg'
+import { getNotifications } from '../store/actions/notification'
+import { VscMail } from 'react-icons/vsc'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
 const {profileLink ,  authorId , handle , role} = useAuth()
@@ -54,6 +56,14 @@ useEffect(()=>{
   //     dispatch(getFavorites(token));
   //   }
 
+    const { items } = useSelector((state: any) => state.notification);
+     useEffect(() => {
+    if (token) {
+      dispatch(getNotifications(token));
+    }
+  }, [dispatch, token]);
+
+    const hasUnread = items.some((n) => !n.isRead);
 
 useEffect(() => {
   if (userHandle && token) {
@@ -147,8 +157,14 @@ const buttonsOfAuthor = [
 {loading ? <Loading/> : <div> 
       <div className='profile relative flex  relative flex-col h-90   gap-3 mt-10 items-center justify-center w-screen'>
               <div className='absolute  flex-col gap-4 flex justify-between px-2 lg:right-[38vw] top-1 right-4 '>
-{user?.isUser&&<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px]'>...</button>}
-<button onClick={()=>user?.instagram}><FiInstagram/></button>
+{user?.isUser&&<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px] '>...</button>}
+<button onClick={()=>user?.instagram} className='ml-0.5'><FiInstagram/></button>
+
+             <button className=" relative text-white m duration-300"onClick={()=> router.push('/notification') }><VscMail size={20}/>
+               {hasUnread && (
+          <span className="absolute top-[2px] right-0 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
+        )}
+             </button>
       </div>
      
         <Image height = {300} width = {300}
