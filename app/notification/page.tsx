@@ -11,6 +11,7 @@ import { HiOutlineDotsVertical } from "react-icons/hi"
 import FollowNotification from "../Components/FollowNotification"
 import VoteNotification from "../Components/VoteNotification"
 import SkeletonNotification from "../Components/Skeleton/SkeletonNotification"
+import WelcomeNotification from "../Components/WelcomeNotification"
 export default function Notification () {
     const {token} = useAuth()
     console.log(token)
@@ -51,5 +52,6 @@ useEffect(() => {
                        </div>
                 })
                 }</div>}
+                <WelcomeNotification/>
     </div>
 }
