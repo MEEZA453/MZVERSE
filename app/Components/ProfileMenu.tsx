@@ -18,13 +18,14 @@ useEffect(()=>{
 
 },[])
       
-      return <motion.div    
+      return <motion.div   
+       initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }}    exit = {{opacity : 0}} 
       className="h-screen w-screen fixed lg:absolute z-[999] bottom-0 left-0 max-sm:bg-black/50">
       <div onClick={()=>setProfileMenu(false)} className="w-screen h-screen overflow-hidden "></div>
-      <motion.div  initial={ {y: 160 }}
+      <motion.div  initial={ {y: 180 }}
   animate={{ y: 0}}
-  exit={ {y: 160}}
-  transition={ { duration: 0.3 }}  className="bg-[#151515] fixed lg:absolute lg:w-60 lg:top-22 lg:right-[26.1vw] lg:h-fit lg: z-[99999] bottom-2 py-4 max-sm:-translate-x-1/2 max-sm:left-1/2  flex  flex-col items-center justify-center  w-[96%] rounded-[6px]   ">
+  exit={ {y: 180}}
+  transition={ { duration: 0.3 , ease : 'easeInOut' }}  className="bg-[#151515] fixed lg:absolute lg:w-60 lg:top-22 lg:right-[26.1vw] lg:h-fit lg: z-[99999] bottom-2 py-4 max-sm:-translate-x-1/2 max-sm:left-1/2  flex  flex-col items-center justify-center  w-[96%] rounded-[6px]   ">
   {/* <button
       onClick={()=>router.push('/profile')}
       className=" text-white  w-full text-[14.5px] px-3 py-1 flex items-center justify-center gap-1"

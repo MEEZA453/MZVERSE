@@ -34,7 +34,7 @@ useEffect(() => {
                 </button>
               <h4 >Notifications</h4></div>
     
-              <button className=' text-white' ><HiOutlineDotsVertical/></button></div>
+            </div>
 
              { loading ?  (
   Array.from({ length: 4 }).map((_, i) => <SkeletonNotification key={i} />)

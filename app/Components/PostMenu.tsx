@@ -72,7 +72,7 @@ const handleDeleteClick = ()=>{
     dispatch(deletePostAction(postId , token))
 router.back()
 }
-    return  <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen z-[999] fixed top-0 bg-black/50">
+    return  <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} exit = {{opacity : 0}}  className="h-screen w-screen z-[999] fixed top-0 bg-black/50">
       <div onClick={()=>setIsMenu(false)} className="w-screen h-screen "></div>
       <motion.div  initial = {{y : 160 }} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y : 160}} animate = {{y : 0}}  className="bg-[#151515] fixed lg:absolute lg:w-60 lg:top-16 lg:left-[2vw] lg:h-fit  z-200 bottom-4 py-2 max-sm:-translate-x-1/2 max-sm:left-1/2  flex  flex-col items-center justify-center  w-[96%] rounded-[6px]  ">
   <button
