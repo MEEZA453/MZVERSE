@@ -3,6 +3,26 @@ const url = 'https://meeza-in-8.onrender.com/'
 //  const url  = 'http://localhost:8080/'
 
 
+export const getNotifications = (token) =>
+  axios.get(`${url}notification`,{
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+export const markAllNotificationsRead = (token) =>
+  axios.put(`${url}notification/read`,{}, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+export const markNotificationRead = (id, token) =>
+  axios.put(`${url}notification/read/${id}`, {}, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+export const deleteNotification = (id, token) =>
+  axios.delete(`${url}notification/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
 // Follow a user
 export const followUser = (targetId, token) =>
   axios.post(`${url}user/follow/${targetId}`, {}, {

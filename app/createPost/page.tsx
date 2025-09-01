@@ -114,7 +114,7 @@ const deleteField = (i: number) => {
         dispatch(createPostAction(payload, token))
           .then(() => {
             setLoading(false);
-            router.push("/feed");
+            router.push("/");
           })
           .catch((err) => {
             setLoading(false);

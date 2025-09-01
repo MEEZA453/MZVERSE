@@ -8,6 +8,7 @@ import posts from './post'
 import follow from './follow'
 import search from './search'
 import highlight from './highlight'
+import notification from "./notification";
 import promotion from './promotion';
 const rootReducer = combineReducers({
   design,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   follow,
   search,
   highlight , 
-  promotion
+  promotion,
+  notification
 });
 
 export type RootState = ReturnType<typeof rootReducer>; // ✅ Type for useSelector

@@ -94,19 +94,19 @@ export default function CategorySelect({ formData, setFormData, error }: any) {
     <div onClick={()=>setOpen(false)} style={{opacity  : open ? 0.7 : 0}} className="h-screen duration-300 transition-opacity w-screen z-[99] bg-black absolute top-0 left-0"></div>
         <motion.div 
         initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }}
-         className="absolute top-0 z-[999] left-0 mt-1 w-full bg-[#1a1a1a] border border-[#2c2b2b] rounded-md max-h-64 overflow-y-auto">
+         className="absolute top-0 hide-scrollbar lg:w-[50vw] lg:-translate-x-1/2 lg:left-1/2 lg:top-2 lg:h-102 z-[999] left-0 mt-1 w-full bg-[#1a1a1a] border border-[#2c2b2b] rounded-md max-h-64 overflow-y-auto">
           {/* Search Input */}
 <input type="text" placeholder=" Search category..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full p-2 outline-none text-sm" />
           {/* Panel: Parents OR Subcategories */}
           {!selectedParent ? (
             // ---- Parent List ----
             filteredParents.map((parent) => (
-              <div key={parent.name} className="border-b border-[#2c2b2b]">
+              <div key={parent.name} className="border-b hover:bg-[#2a2a2a] border-[#2c2b2b]">
                 <div className="flex px-2 justify-between items-center w-full">
                 <button
                   type="button"
                   onClick={() => setSelectedParent(parent.name)}
-                  className="w-full text-left text-[14px]  py-2 hover:bg-[#2a2a2a] font-semibold"
+                  className="w-full text-left text-[14px]  py-2  font-semibold"
                 >
                   {parent.name}
                 </button>

@@ -11,6 +11,8 @@ import { useAuth } from '../Context/AuthContext';
 import Image from 'next/image';
 import { AnimatePresence } from 'framer-motion';
 import Search from './Search';
+import { IoMdNotificationsOutline } from "react-icons/io";
+import { useSelector } from 'react-redux';
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
   setShowSignupInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -37,7 +39,8 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
     { name: 'Presets', path: '/' },
     { name: 'Account', path: '/' },
   ];
-  
+    const { items } = useSelector((state: any) => state.notification);
+    const hasUnread = items.some((n) => !n.isRead);
 
   const [isLargeScreen, setIsLargeScreen] = useState(false);
 
@@ -95,6 +98,12 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
           {/* <h6>[ 10 ]</h6> */}
           {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>
             <button className=" text-white  duration-300"onClick={()=> router.push('/createPost ') } ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
+
+             <button className=" relative text-white  duration-300"onClick={()=> router.push('/notification') } ref={dynamicButtonRef}><IoMdNotificationsOutline size={22}/>
+               {hasUnread && (
+          <span className="absolute top-1 right-0 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
+        )}
+             </button>
 
             {/* <button style={{rotate : openCreate ? '45deg' : '0deg'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button> */}
 
