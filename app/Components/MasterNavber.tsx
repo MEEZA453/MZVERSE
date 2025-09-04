@@ -16,6 +16,8 @@ import { useSelector } from 'react-redux';
 import { getNotifications } from '../store/actions/notification';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
+import { useNotification } from '../Context/Notification';
+
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
   setShowSignupInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,7 +25,8 @@ interface MasterNavberProps {
 }
 export default function MasterNavber({setShowLoginInput , setShowSignupInput}:MasterNavberProps) {
   const router = useRouter();
-
+  
+  const {setIsNotification}  = useNotification()
   
   const {isLoggedIn , profileLink , user} = useAuth();
  const [openCreate , setOpenCreate] = useState(false)
@@ -53,7 +56,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   }, [dispatch, token]);
 
     const hasUnread = items.some((n) => !n.isRead);
-console.log(items)
+
   const [isLargeScreen, setIsLargeScreen] = useState(false);
 
   useEffect(() => {
@@ -111,7 +114,7 @@ console.log(items)
           {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>
             <button className=" text-white  duration-300"onClick={()=> router.push('/createPost ') } ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
 
-             <button className=" relative text-white  duration-300"onClick={()=> router.push('/notification') } ref={dynamicButtonRef}><VscMail size={22}/>
+             <button className=" relative text-white  duration-300"onClick={()=> setIsNotification(true) } ref={dynamicButtonRef}><VscMail size={22}/>
                {hasUnread && (
           <span className="absolute top-[6px] right-0 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
         )}

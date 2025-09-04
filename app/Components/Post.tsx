@@ -2,27 +2,27 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { usePathname, useRouter } from 'next/navigation'
-import { fetchVotesByPostAction, getPostByIdAction } from '../../store/actions/post'
-import { AppDispatch, RootState } from '../../store/store'
-import MasterNavber from '../../Components/MasterNavber'
-import Loading from '../../Components/loading'
+import { fetchVotesByPostAction, getPostByIdAction } from '../store/actions/post'
+import { AppDispatch, RootState } from '../store/store'
+import MasterNavber from './MasterNavber'
+import Loading from './loading'
 import Image from 'next/image'
-import ProductImages from '../../Components/ProductImages'
-import Vote from '../../Components/Vote'
-import { useAuth } from '../../Context/AuthContext'
-import { getVotesByPost } from '../../api'
+import ProductImages from './ProductImages'
+import Vote from './Vote'
+import { useAuth } from '../Context/AuthContext'
+import { getVotesByPost } from '../api'
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import PostMenu from '../../Components/PostMenu'
-import ImageShower from '../../Components/ImageShower'
+import PostMenu from './PostMenu'
+import ImageShower from './ImageShower'
 import {AnimatePresence, motion} from 'framer-motion'
 import { GoHeartFill } from 'react-icons/go'
 import { PiHeartLight } from 'react-icons/pi'
-import { addToFavorites, removeFromFavorites } from '../../store/actions/fav'
-import { useNotification } from '../../Context/Notification'
-import Notification from '../../Components/Notification'
-import VoteMenu from '../../Components/VoteMenu'
-import VoteMenuLg from '../../Components/VoteMenuLg'
-import PostMenuLg from '../../Components/PostMenuLg'
+import { addToFavorites, removeFromFavorites } from '../store/actions/fav'
+import { useNotification } from '../Context/Notification'
+import Notification from './Notification'
+import VoteMenu from './VoteMenu'
+import VoteMenuLg from './VoteMenuLg'
+import PostMenuLg from './PostMenuLg'
 import { IoIosArrowBack } from 'react-icons/io'
 
 type AveragesType = {
@@ -38,12 +38,14 @@ const defaultAverages: AveragesType = {
   emotion: 0,
 };
 export default function Post() {
+
     const dispatch = useDispatch<AppDispatch>()
     const [openIndex , setOpenIndex] = useState(0)
     const [isVoteMenu , setVoteMenu] = useState(false)
     const [currentIndex ,setCurrentIndex] = useState(0)
     const [totalAvg , setTotalAvg] = useState(0)
     const [isMenu , setIsMenu]  = useState(false)
+
     const postId = usePathname().split('/')[2]
     const {user ,token , role} = useAuth()
     const router  = useRouter()
@@ -91,19 +93,19 @@ user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
 
 const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
-    return (
-        <div className='hide-scrollbar'>
+    return (<div className='sticky top-0'>
+        <div className='hide-scrollbar h-screen lg:w-[30vw] bg-black  border-l border-[#4d4d4d] z-[999]  right-0'>
            
           
 
-          <Notification/>
-            <MasterNavber/>
-            {!loading && post ?<div className='lg:flex hide-scrollbar lg:h-screen lg:overflow-hidden'>
+
+
+            {!loading && post ?<div className=' hide-scrollbar  '>
                 {post?.createdBy?.handle === user?.handle ?<div>
 
         
             </div>:null}
-            <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[100] top-14 '>
+            <div className='w-full flex justify-between lg:w-[30vw]  items-center px-3 absolute z-[100] top-14 '>
               <div className='flex gap-1 items-center justify-center'>
               <button onClick={()=> router.back()}>
                 <IoIosArrowBack size={20} />
@@ -223,7 +225,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
 
             
-            </div>: <Loading/>}
-        </div>
+            </div>: <div className='h-screen w-[30vw] bg-black'> <Loading/></div>}
+        </div></div>
     )
 }

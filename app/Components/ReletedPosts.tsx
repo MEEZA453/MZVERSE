@@ -15,7 +15,7 @@ import { getPostsAction } from '../store/actions/post';
 import BlurEffect from 'react-progressive-blur';
 import PostCard from '../Components/PostCard';
 import { SkeletonCard } from '../Components/Skeleton/SkeletonCard';
-export default function AllPosts() {
+export default function ReletedPosts() {
 
 
 const dispatch = useDispatch<AppDispatch>();
@@ -31,18 +31,18 @@ const dispatch = useDispatch<AppDispatch>();
   const {token } = useAuth()
 
   return (
-    <div className='w-screen px-4 lg:px-22 '>
+    <div className='w-screen lg:w-[70vw] w-screen overflow-y-scroll h-screen hide-scrollbar px-4 lg:px-22 '>
       {/* <Notification/> */}
       {/* <MasterNavber /> */}
      
 
-   {   !loading ? <div className='lg:grid-cols-5 lg:gap-5 gap-2   grid-cols-2 grid'>
+   {   !loading ? <div className='lg:grid-cols-4 lg:gap-5 gap-2   grid-cols-2 grid'>
         {posts?.map((post:any, index:number) => (
           <div key={index}>
   <PostCard   post = {post}/>
   </div>
         ))}
-      </div> : <div className="lg:grid-cols-5 lg:gap-5 gap-1   grid-cols-2 grid">
+      </div> : <div className="lg:grid-cols-3 lg:gap-5 gap-1   grid-cols-2 grid">
             {Array.from({ length: 6 }).map((_, i) => (
               <SkeletonCard key={i} />
             ))}

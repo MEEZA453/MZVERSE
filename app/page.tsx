@@ -8,8 +8,13 @@ import AllPosts from "./posts/page";
 import { useEffect, useState } from "react";
 import AllAssets from "./AllAssets/page";
 import { useAuth } from "./Context/AuthContext";
+import Notification from "./notification/page";
+import { useNotification } from "./Context/Notification";
+import { AnimatePresence ,motion} from "framer-motion";
 export  default function Feed (){
     const router =  useRouter()
+    const [postId , setPostId]  = useState('')
+    const {isNotification , setIsNotification} = useNotification()
     const {user , loading} = useAuth()
  useEffect(() => {
     if (loading) return; // wait until user is loaded
@@ -29,7 +34,10 @@ export  default function Feed (){
     return <div className="hide-scrollbar h-full w-screen"> 
 
         <MasterNavber/>
-        <div className="sticky top-13 z-[910]">
+<motion.div onClick={()=>setIsNotification(false)} className={`fixed top-0 h-screen w-screen duration-500 bg-black/60 z-[900] ${isNotification ? 'opacity-100': 'opacity-0'}`}></motion.div>
+      <AnimatePresence> { isNotification && <Notification/>}</AnimatePresence>
+      
+        <div className="sticky top-13 z-[800]">
         <div className=" left-1/2 w-screen justify-center items-center flex px-2 mt-3 gap-1">
 {
     tabs.map((tab, index : number)=>{
@@ -37,6 +45,9 @@ export  default function Feed (){
         
     })
 }        </div>
+</div>
+<div className="">
+
 </div>
 {activeIndex === 0 && <div>
         {/* <PhotographyOfTheDay p={photo[2]}/> */}

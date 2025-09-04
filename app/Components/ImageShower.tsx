@@ -10,9 +10,8 @@ export default function ImageShower({ images = [] }) {
 
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true)
-    const isLarge = window.innerWidth >= 1024
-    setStartPos(isLarge ? e.pageY - (carouselRef.current?.offsetTop || 0) : e.pageX - (carouselRef.current?.offsetLeft || 0))
-    setScrollStart(isLarge ? (carouselRef.current?.scrollTop || 0) : (carouselRef.current?.scrollLeft || 0))
+    setStartPos(e.pageX - (carouselRef.current?.offsetLeft || 0))
+    setScrollStart(carouselRef.current?.scrollLeft || 0)
   }
 
   const handleMouseLeave = () => setIsDragging(false)
@@ -21,17 +20,9 @@ export default function ImageShower({ images = [] }) {
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !carouselRef.current) return
     e.preventDefault()
-    const isLarge = window.innerWidth >= 1024
-
-    if (isLarge) {
-      const y = e.pageY - carouselRef.current.offsetTop
-      const walk = (y - startPos) * 2
-      carouselRef.current.scrollTop = scrollStart - walk
-    } else {
-      const x = e.pageX - carouselRef.current.offsetLeft
-      const walk = (x - startPos) * 2
-      carouselRef.current.scrollLeft = scrollStart - walk
-    }
+    const x = e.pageX - carouselRef.current.offsetLeft
+    const walk = (x - startPos) * 2
+    carouselRef.current.scrollLeft = scrollStart - walk
   }
 
   return (
@@ -41,7 +32,7 @@ export default function ImageShower({ images = [] }) {
         className="
           flex hide-scrollbar snap-mandatory cursor-grab
           overflow-x-scroll snap-x
-          lg:flex-col  lg:pt-22  lg:overflow-y-scroll  lg:h-screen border-r border-[#4d4d4d] lg:overflow-x-hidden lg:snap-y
+          lg:flex-col lg:pt-22 lg:h-screen border-r border-[#4d4d4d] lg:overflow-x-scroll lg:snap-y
         "
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseLeave}
@@ -52,7 +43,7 @@ export default function ImageShower({ images = [] }) {
           <div
             key={i}
             className="
-              flex-shrink-0 w-screen  h-[50vh] snap-center flex items-center justify-center
+              flex-shrink-0 w-screen h-[50vh] snap-center flex items-center justify-center
               lg:w-[70vw] lg:h-fit
             "
           >
@@ -61,7 +52,7 @@ export default function ImageShower({ images = [] }) {
               alt={`image-${i}`}
               width={1200}
               height={1200}
-              className="w-full lg:w-[40%] object-cover"
+              className="w-full lg:w-[70%] object-cover"
             />
           </div>
         ))}
