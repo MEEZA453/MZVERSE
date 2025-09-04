@@ -146,15 +146,16 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         </div>}
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
 {votes.length > 0 && <div className='tabs  mt-6'>
-    <div className='flex px-3 gap-12'>
+    <div className='flex relative border-b border-[#4d4d4d] pb-1 px-3 gap-12'>
 {['Creators' , 'Judges'].map((el , i)=>{
     return <button className='text-[14px]' key={i} style={{opacity :currentIndex === i ? 1 : 0.66}}  onClick={()=> setCurrentIndex(i)}>{el}</button>
 })}
+{/* <div className='bg-[white/10 ]pointer-events-none h-full z-[200] w-20 absolute top-0 left-0'></div> */}
 </div>
-<div className='w-full border-t mt-[2px]  border-[#4d4d4d] h-1.5 caro'>
+{/* <div className='w-full border-t mt-[2px]  border-[#4d4d4d] h-1.5 caro'>
     <div style={{transform : !isMobile ?`translate(${currentIndex*174}px)`:`translate(${currentIndex*103}px)` }} className='bg-white duration-300 translate-x-[13px] w-12 h-[3px] rounded-full
     '></div>
-    </div>
+    </div> */}
 
 </div>}
 

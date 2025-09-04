@@ -34,7 +34,7 @@ export  default function Feed (){
     return <div className="hide-scrollbar h-full w-screen"> 
 
         <MasterNavber/>
-<motion.div onClick={()=>setIsNotification(false)} className={`fixed top-0 h-screen w-screen duration-500 bg-black/60 z-[900] ${isNotification ? 'opacity-100': 'opacity-0'}`}></motion.div>
+<motion.div onClick={()=>setIsNotification(false)} className={`fixed top-0 h-screen w-screen duration-500 bg-black/60 z-[900] ${isNotification ? 'opacity-100 pointer-events-auto': 'opacity-0  pointer-events-none'}`}></motion.div>
       <AnimatePresence> { isNotification && <Notification/>}</AnimatePresence>
       
         <div className="sticky top-13 z-[800]">
