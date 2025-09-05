@@ -106,7 +106,7 @@ const login = useGoogleLogin({
 
         
         </form>
-        {errorMessage && <p className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red-500">{errorMessage}</p>}
+        {errorMessage && <p style={{color:'red'}} className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red-500">{errorMessage}</p>}
       </div>
     </div>
   )
