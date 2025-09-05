@@ -25,7 +25,7 @@ useEffect(()=>{
       <motion.div  initial={ {y: 180 }}
   animate={{ y: 0}}
   exit={ {y: 180}}
-  transition={ { duration: 0.3 , ease : 'easeInOut' }}  className="bg-[#151515] fixed lg:absolute lg:w-60 lg:top-22 lg:right-[26.1vw] lg:h-fit lg: z-[99999] bottom-2 py-4 max-sm:-translate-x-1/2 max-sm:left-1/2  flex  flex-col items-center justify-center  w-[96%] rounded-[6px]   ">
+  transition={ { duration: 0.3 , ease : 'easeInOut' }}  className="bg-[#151515] fixed lg:absolute lg:w-60 lg:top-22 lg:right-[26.1vw] lg:h-fit lg: z-[99999] bottom-3 py-4 max-sm:-translate-x-1/2 max-sm:left-1/2  flex  flex-col items-center justify-center  w-[96%] rounded-[6px]   ">
   {/* <button
       onClick={()=>router.push('/profile')}
       className=" text-white  w-full text-[14.5px] px-3 py-1 flex items-center justify-center gap-1"

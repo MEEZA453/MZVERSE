@@ -47,12 +47,12 @@ if(Object.keys(votes).length === fieldOfVote.length){setLoading(true)
     <div>{isOpen ?<motion.form initial={{opacity : 0 }}
     animate = {{opacity : 1}}
     transition = {{duration :0.5 , delay : 0.5}}
-    style={{opacity : isOpen ? 1 :0}} onSubmit={(e)=>handleSubmit(e)} className='flex flex-col gap-2'>
+    style={{opacity : isOpen ? 1 :0}} onSubmit={(e)=>handleSubmit(e)} className='flex  w-screen lg:px-6 px-4 lg:w-[30vw] flex-col gap-2'>
           <button onClick={(e) => {
   e.stopPropagation();
   setIsOpen(false);
 }}><RxCross2
-          className=' close absolute right-2 top-2 text-black'/></button>
+          className=' close absolute right-3 top-2 text-black'/></button>
 
 {fieldOfVote?.map((vote , i)=>{
 
@@ -66,7 +66,7 @@ return  <div key={i} className='flex gap-0.5 flex-col'>
 <input  min={0}
 onChange={(e) => handleChange(vote, Number(e.target.value))}
             max={100}
-            className='w-94 lg:w-[27vw] h-1.5 bg-black' type='range'/>
+            className='w-full  h-1.5 bg-black' type='range'/>
         </div>
 })}
 
