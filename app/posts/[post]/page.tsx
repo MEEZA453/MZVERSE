@@ -98,12 +98,12 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
           <Notification/>
             <MasterNavber/>
-            {!loading && post ?<div className='lg:flex hide-scrollbar lg:h-screen lg:overflow-hidden'>
+            {!loading && post ?<div className='lg:flex hide-scrollbar lg:h-screen  lg:overflow-hidden'>
                 {post?.createdBy?.handle === user?.handle ?<div>
 
         
             </div>:null}
-            <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[100] top-14 '>
+            <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[999] top-14 '>
               <div className='flex gap-1 items-center justify-center'>
               <button onClick={()=> router.back()}>
                 <IoIosArrowBack size={20} />
@@ -116,9 +116,9 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         <AnimatePresence>{  isMenu ? isMobile ? <PostMenu role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
                    <AnimatePresence>{  isVoteMenu ? isMobile ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/> : <VoteMenuLg role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
         {/* <ProductImages images={post?.images}/> */}
-<ImageShower images = {post?.images}/>
+<ImageShower isMobile={isMobile} images = {post?.images}/>
     
-     <div onClick={()=>setIsMenu(false)} className='w-full  mb-20 lg:mt-20 '>
+     <div onClick={()=>setIsMenu(false)} className='w-full  lg:h-screen bg-black mt-10 rounded lg:w-[30vw] mb-20 lg:pt-20 '>
   
        { votes.length > 0 && <div className='w-full '>
 
