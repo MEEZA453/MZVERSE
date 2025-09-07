@@ -1,6 +1,6 @@
 import axios from 'axios' 
-const url = 'https://meeza-in-8.onrender.com/' 
-//  const url  = 'http://localhost:8080/'
+// const url = 'https://meeza-in-8.onrender.com/' 
+ const url  = 'http://localhost:8080/'
 
 
 export const getNotifications = (token) =>
@@ -43,6 +43,20 @@ export const getFollowers = (handle) =>
 export const getFollowing = (handle) =>
   axios.get(`${url}user/${handle}/following`);
 
+export const applyJury = (message, token) =>
+  axios.post(
+    `${url}user/applyJury`,
+    { message },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+
+// Approve/Reject jury request (for devs)
+export const approveJury = (userId, approve, token) =>
+  axios.post(
+    `${url}user/approveJury`,
+    { userId, approve },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
 
 export const registerUser = (user) =>
   axios.post(`${url}user/register`, user);

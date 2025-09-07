@@ -10,6 +10,7 @@ import search from './search'
 import highlight from './highlight'
 import notification from "./notification";
 import promotion from './promotion';
+import jury from './jury';
 const rootReducer = combineReducers({
   design,
   cart,
@@ -21,7 +22,8 @@ const rootReducer = combineReducers({
   search,
   highlight , 
   promotion,
-  notification
+  notification,
+  jury
 });
 
 export type RootState = ReturnType<typeof rootReducer>; // ✅ Type for useSelector

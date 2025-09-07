@@ -1,7 +1,7 @@
 'use client'
 import { UseDispatch , useSelector } from "react-redux"
 import { AppDispatch } from "../store/store"
-import { getNotifications, markAllNotificationsRead } from "../store/actions/notification"
+import { getNotifications, markAllNotificationsRead , deleteNotification} from "../store/actions/notification"
 import { useAuth } from "../Context/AuthContext"
 import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
@@ -14,6 +14,10 @@ import SkeletonNotification from "../Components/Skeleton/SkeletonNotification"
 import WelcomeNotification from "../Components/WelcomeNotification"
 import {motion } from 'framer-motion'
 import { useNotification } from "../Context/Notification"
+import notification from "../store/reducers/notification"
+import JuryApplicationRequest from "../Components/JuryApplicationRequest"
+import JuryApproval from "../Components/JuryApproval"
+import SwipeToDelete from "../Components/SwipeToDelete"
 export default function Notification () {
   const {setIsNotification} = useNotification()
     const {token} = useAuth()
@@ -34,7 +38,7 @@ useEffect(()=>{
     window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
 
 },[])
-
+console.log(items)
 
   const [isDesktop, setIsDesktop] = useState(false)
 
@@ -65,18 +69,38 @@ useEffect(()=>{
              { loading ?  (
   Array.from({ length: 4 }).map((_, i) => <SkeletonNotification key={i} />)
 ): <div className=" ">{
-             items?.map((noti:any  , index:number)=>{
-                    return <div key={index}>
-                        <div>{
-                        noti?.type === 'follow' && <FollowNotification noti={noti}/>
-                    }</div>
+  items?.map((noti: any, index: number) => {
+    return (
+      <div key={index}>
+        {noti?.type === "follow" && (
+          <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+            <FollowNotification noti={noti} />
+          </SwipeToDelete>
+        )}
 
-                     <div>{
-                        noti?.type === 'vote' && <VoteNotification noti={noti}/>
-                    }</div>
-                       </div>
-                })
-                }</div>}
+        {noti?.type === "jury_request" && (
+
+            <JuryApplicationRequest noti={noti} />
+
+        )}
+
+        {noti?.type === "vote" && (
+          <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+            <VoteNotification noti={noti} />
+          </SwipeToDelete>
+        )}
+
+        {(noti?.type === "jury_approved" ||
+          noti?.type === "jury_rejected" ||
+          noti?.type === "jury_removed") && (
+          <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+            <JuryApproval message={noti.message} />
+          </SwipeToDelete>
+        )}
+      </div>
+    )
+  })
+}</div>}
                 <WelcomeNotification/>
     </motion.div>
 }

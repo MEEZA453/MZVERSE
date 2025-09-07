@@ -53,6 +53,7 @@ useEffect(()=>{
         <button
 
       className="text-white text-[14.5px]  border-b border-[#4d4d4d] w-full justify-center pb-1   px-3 py-0.5 flex  gap-1"
+          onClick={()=> router.push('/request')}
     >
     Request for judge
     </button>
