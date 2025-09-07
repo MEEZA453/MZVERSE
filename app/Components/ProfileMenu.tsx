@@ -7,9 +7,9 @@ import { CiLogout } from "react-icons/ci";
 import { useAuth } from "../Context/AuthContext";
 import {motion} from 'framer-motion'
 import { useEffect, useState } from "react";
-export default function ProfileMenu({setProfileMenu}){
-
-const {logout} = useAuth()
+export default function ProfileMenu({setProfileMenu ,  role}){
+console.log(role)
+const {logout ,user} = useAuth()
 const router = useRouter()
 const [isMobile , setIsMobile] = useState(false)
 useEffect(()=>{
@@ -58,10 +58,10 @@ useEffect(()=>{
     Claim a new handle
     </button>
         <button
-
+ onClick={()=>router.push('/request')}
       className="text-white text-[14.5px]  w-full  px-3 py-0.5  gap-1"
     >
-    Request for judge
+{role ==='normal'? 'Request for jury': 'Switch to normal user'}
     </button>
      <button
       onClick={()=> logout()}

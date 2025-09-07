@@ -49,6 +49,12 @@ export const applyJury = (message, token) =>
     { message },
     { headers: { Authorization: `Bearer ${token}` } }
   );
+export const approveNormal = (userId, approve, token) =>
+  axios.post(
+    `${url}user/approveNormal`,
+    { userId, approve },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
 
 // Approve/Reject jury request (for devs)
 export const approveJury = (userId, approve, token) =>

@@ -78,12 +78,9 @@ console.log(items)
           </SwipeToDelete>
         )}
 
-        {noti?.type === "jury_request" && (
-
-            <JuryApplicationRequest noti={noti} />
-
-        )}
-
+     {(noti?.type === "jury_request" || noti?.type === "jury_removal_request") && (
+  <JuryApplicationRequest noti={noti} />
+)}
         {noti?.type === "vote" && (
           <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
             <VoteNotification noti={noti} />
@@ -92,8 +89,10 @@ console.log(items)
 
         {(noti?.type === "jury_approved" ||
           noti?.type === "jury_rejected" ||
+          noti?.type === "normal_request_rejected" ||
+          
           noti?.type === "jury_removed") && (
-          <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          <SwipeToDelete  onDelete={() => dispatch(deleteNotification(noti._id, token))}>
             <JuryApproval message={noti.message} />
           </SwipeToDelete>
         )}

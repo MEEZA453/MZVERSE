@@ -149,11 +149,11 @@ const buttonsOfAuthor = [
     tabs.push('Highlight')
     tabs.push('promotion')
   }
-
+console.log(user)
   return (
     <div className='w-screen  overflow-hidden'>
       <Notification/>
- <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setProfileMenu = {setProfileMenu}/>: <ProfileMenuLg  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
+ <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu role = {user?.user?.role} setProfileMenu = {setProfileMenu}/>: <ProfileMenuLg role = {user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 {loading ? <Loading/> : <div> 
       <div className='profile relative flex  relative flex-col h-90   gap-3 mt-10 items-center justify-center w-screen'>
               <div className='absolute  flex-col gap-4 flex justify-between px-2 lg:right-[38vw] top-1 right-4 '>

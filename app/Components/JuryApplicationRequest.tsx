@@ -6,7 +6,7 @@ import { SlArrowDown } from "react-icons/sl";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { useAuth } from "../Context/AuthContext";
-import { approveJury } from "../store/actions/jury";
+import { approveJury, approveNormal } from "../store/actions/jury";
 import { deleteNotification } from "../store/actions/notification";
 
 
@@ -17,7 +17,8 @@ export default function JuryApplicationRequest ({ noti }) {
   const dispatch = useDispatch<AppDispatch>()
   console.log(noti?.sender?._id , token)
   const handleApprove = (approve: boolean) => {
-    dispatch(approveJury (noti?.sender?._id, approve , token)) // 👈 pass senderId + approve
+    {noti?.type === "jury_removal_request" ? dispatch(approveNormal(noti?.sender?._id, approve , token)):dispatch(approveJury (noti?.sender?._id, approve , token)) }
+     // 👈 pass senderId + approve
     dispatch(deleteNotification(noti?._id , token))
   }
 
@@ -29,7 +30,7 @@ export default function JuryApplicationRequest ({ noti }) {
           <div>
             <div className="flex gap-1">
               <h6>@{noti?.sender?.handle}</h6>
-              <h6>applied to be a judge</h6>
+              <h6>{noti?.type === "jury_removal_request" ? 'wants step off as jury':'applid for jury'}</h6>
             </div>
           </div>
         </div>

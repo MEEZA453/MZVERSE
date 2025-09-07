@@ -11,7 +11,7 @@ export default function Request() {
   const { loading, applied, error } = useSelector((state: any) => state.jury);
 
   const [message, setMessage] = useState("");
- const {token} = useAuth()
+ const {token ,user} = useAuth()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ export default function Request() {
 
   return (
     <div className="bg-black w-screen h-screen fixed flex-col top-0 z-[999] flex justify-center items-center">
-      <h5 className="mb-5">Want to help shape the community ?</h5>
+      <h5 className="mb-5">{user?.role ==='normal'? 'Be a jury': 'Switch to normal user'}</h5>
       <form onSubmit={handleSubmit} className="w-[98%] lg:w-160 px-3 py-2 relative">
         <textarea
           className="bg-[#0d0d0d] w-full p-2 border-[#1d1d1d] border h-20 rounded"
