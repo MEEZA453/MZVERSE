@@ -23,9 +23,9 @@ export const metadata = {
   title: "Grido",
   description: "A platform for digital creatives.",
   icons: {
-    icon: "/logo.ico",      // standard favicon
-    shortcut: "/logo.ico",  // browser shortcut
-    apple: "/logo.ico",     // iOS home screen
+    icon: "/favicon.ico",      // standard favicon
+    shortcut: "/favicon.ico",  // browser shortcut
+    apple: "/favicon.ico",     // iOS home screen
   },
 };
 
