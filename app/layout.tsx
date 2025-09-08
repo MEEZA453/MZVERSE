@@ -25,7 +25,7 @@ export const metadata = {
   icons: {
     icon: "/logo.ico",      // standard favicon
     shortcut: "/logo.ico",  // browser shortcut
-    apple: "/logo.png",     // iOS home screen
+    apple: "/logo.ico",     // iOS home screen
   },
 };
 
@@ -37,10 +37,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-  <link rel="icon" href="/logo.ico" sizes="32x32" />
-  <link rel="apple-touch-icon" href="/logo.png" />
-</head>
+
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-black text-white`}
       >
