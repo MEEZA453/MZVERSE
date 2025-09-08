@@ -1,9 +1,16 @@
 import { AnyAction } from 'redux';
 
+interface User {
+  _id: string;
+  name: string;
+  handle: string;
+  profile: string;
+}
+
 interface FollowState {
   loading: boolean;
-  followers: string[]; // store only IDs
-  following: string[]; // store only IDs
+  followers: User[];   // store full objects
+  following: User[];   // store full objects
   error: string | null;
 }
 
@@ -23,22 +30,29 @@ const follow = (state = initialState, action: AnyAction): FollowState => {
       return { ...state, loading: true, error: null };
 
     case 'FOLLOW_SUCCESS':
-      if (!state.following.includes(action.payload)) {
-        return { ...state, loading: false, following: [...state.following, action.payload] };
+      // Add new user object to following (avoid duplicates)
+      if (!state.following.some(f => f._id === action.payload._id)) {
+        return {
+          ...state,
+          loading: false,
+          following: [...state.following, action.payload],
+        };
       }
       return { ...state, loading: false };
 
     case 'UNFOLLOW_SUCCESS':
-      return { ...state, loading: false, following: state.following.filter(id => id !== action.payload) };
+      return {
+        ...state,
+        loading: false,
+        following: state.following.filter(f => f._id !== action.payload),
+      };
 
     case 'GET_FOLLOWERS_SUCCESS':
-      // Convert to IDs if objects are returned
-      const followerIds = action.payload.map((f: any) => (typeof f === 'string' ? f : f._id));
-      return { ...state, loading: false, followers: followerIds };
+      // payload should be array of user objects
+      return { ...state, loading: false, followers: action.payload };
 
     case 'GET_FOLLOWING_SUCCESS':
-      const followingIds = action.payload.map((f: any) => (typeof f === 'string' ? f : f._id));
-      return { ...state, loading: false, following: followingIds };
+      return { ...state, loading: false, following: action.payload };
 
     case 'FOLLOW_FAIL':
     case 'UNFOLLOW_FAIL':

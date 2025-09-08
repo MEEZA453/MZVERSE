@@ -7,7 +7,7 @@ import { CiLogout } from "react-icons/ci";
 import { useAuth } from "../Context/AuthContext";
 import {motion} from 'framer-motion'
 import { useEffect, useState } from "react";
-export default function ProfileMenuLg({setProfileMenu , role}){
+export default function ProfileMenuLg({setProfileMenu , role ,setFollowingWindow , setFollowerWindow}){
 
 const {logout} = useAuth()
 const router = useRouter()
@@ -33,13 +33,13 @@ useEffect(()=>{
     Share profile 
     </button> */}
       <button
-      onClick={()=>router.push('/createProduct')}
+      onClick={()=>setFollowingWindow(true)}
       className="text-white text-[14.5px] border-b border-[#4d4d4d] justify-center w-full px-3  pb-1 py-0.5 flex  gap-1"
     >
     Following list
     </button> 
      <button
-      onClick={()=>router.push('/createProduct')}
+      onClick={()=>setFollowerWindow(true)}
       className="text-white text-[14.5px] border-b border-[#4d4d4d] w-full justify-center pb-1   px-3 py-0.5 flex  gap-1"
     >
     My followers

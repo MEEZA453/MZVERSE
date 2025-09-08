@@ -25,6 +25,8 @@ import Promotion from '../Components/Promotion'
 import ProfileMenuLg from '../Components/ProfileMenuLg'
 import { getNotifications } from '../store/actions/notification'
 import { VscMail } from 'react-icons/vsc'
+import FollowersList from '../Components/FollowersList'
+import FollowingList from '../Components/FollowingList'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
 const {profileLink ,  authorId , handle , role} = useAuth()
@@ -35,6 +37,9 @@ const [profileMenu , setProfileMenu] = useState(false)
   const [activeIndex, setActiveIndex] = useState(2)
 const [follow  , setFollow] =  useState(false)  
 const [isMobile , setIsMobile ] = useState(false)
+const [followerWindow , setFollowerWindow] = useState(false)
+const [followingWindow , setFollowingWindow] = useState(false)
+
   const router = useRouter()
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -69,7 +74,7 @@ useEffect(() => {
   if (userHandle && token) {
     dispatch(getUserByHandle(userHandle, token));
   }
-}, [userHandle, token]);
+}, [userHandle, token , dispatch]);
 
   
   const { user, loading } = useSelector((state: any) => state.auth);
@@ -77,15 +82,18 @@ const { following } = useSelector((state: any) => state.follow);
 
 // Compute if current viewed user is followed
 const viewedUserId = user?.user?._id; // ID of the user being viewed
-const isFollowing = following.includes(viewedUserId);
+console.log(viewedUserId)
+const isFollowing = following.some((f: any) => f._id === viewedUserId);console.log(following)
 console.log('is already follow', isFollowing);
+
+
 
 // Fetch following list for logged-in user
 useEffect(() => {
   if (handle && token) {
     dispatch(getFollowingByHandle(handle));
   }
-}, [handle, token]);
+}, [handle, token , dispatch]);
 
 // Handle follow/unfollow click
 const handleFollowClick = () => {
@@ -149,12 +157,14 @@ const buttonsOfAuthor = [
     tabs.push('Highlight')
     tabs.push('promotion')
   }
-console.log(user)
   return (
     <div className='w-screen  overflow-hidden'>
       <Notification/>
- <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu role = {user?.user?.role} setProfileMenu = {setProfileMenu}/>: <ProfileMenuLg role = {user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
+ <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {user?.user?.role} setProfileMenu = {setProfileMenu}/>: <ProfileMenuLg setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 {loading ? <Loading/> : <div> 
+{ followerWindow &&  <FollowersList setFollowerWindow={setFollowerWindow} handle ={user?.user?.handle}/>}
+{ followingWindow &&  <FollowingList setFollowingWindow={setFollowingWindow} handle ={user?.user?.handle}/>}
+
       <div className='profile relative flex  relative flex-col h-90   gap-3 mt-10 items-center justify-center w-screen'>
               <div className='absolute  flex-col gap-4 flex justify-between px-2 lg:right-[38vw] top-1 right-4 '>
 {user?.isUser&&<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px] '>...</button>}
