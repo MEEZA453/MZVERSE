@@ -22,8 +22,13 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Grido",
   description: "A platform for digital creatives.",
-
+  icons: {
+    icon: "/logo.ico",      // standard favicon
+    shortcut: "/logo.ico",  // browser shortcut
+    apple: "/logo.png",     // iOS home screen
+  },
 };
+
 
 export default function RootLayout({
   children,
