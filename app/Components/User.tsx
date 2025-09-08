@@ -30,7 +30,7 @@ const  handleUnfollow  =()=>{
             <h3 >@{user?.handle || 'unknowuser'}</h3>
         </div>
         <h3 >Designer</h3>
-{ isFollowingList ? <button onClick={handleUnfollow} className={`text-[12px] border px-2 py-0.5 rounded-[3px] `}>Unfollow</button>:<button  
- onClick={handleFollowClick} className={`text-[12px] ${!isFollowing ?  'bg-white text-black' : 'border'} px-2 py-0.5 rounded-[3px] `}>{!isFollowing ? 'Follow' : 'following'}</button>}
+{ isFollowingList ? <button onClick={handleUnfollow} className={`text-[13px] border px-2 py-0.5 rounded-[3px] `}>Unfollow</button>:<button  
+ onClick={handleFollowClick} className={`text-[13px] ${!isFollowing ?  'bg-white text-black' : 'border'} px-2 py-0.5 rounded-[3px] `}>{!isFollowing ? 'Follow' : 'following'}</button>}
     </div>
 }

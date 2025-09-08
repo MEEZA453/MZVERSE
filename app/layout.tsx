@@ -22,11 +22,7 @@ const geistMono = Geist_Mono({
 export const metadata = {
   title: "Grido",
   description: "A platform for digital creatives.",
-  icons: [
-    { url: '/logo.png', type: 'image/png', sizes: '32x32' },
-    { url: '/logo.png', type: 'image/png', sizes: '16x16' },
-  ],
-  apple: '/logo.png',
+
 };
 
 export default function RootLayout({
@@ -37,7 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-  <link rel="icon" href="/logo.png" sizes="32x32" />
+  <link rel="icon" href="/logo.ico" sizes="32x32" />
   <link rel="apple-touch-icon" href="/logo.png" />
 </head>
       <body

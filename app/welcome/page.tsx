@@ -9,6 +9,7 @@ import { useShowInput } from "../Context/ShowInputContext";
 import { useNotification } from "../Context/Notification";
 import { useAuth } from "../Context/AuthContext";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function Home(){
   const {isLoggedIn} = useAuth()
@@ -17,7 +18,7 @@ export default function Home(){
 const {showLoginInput , showSignupInput ,setShowLoginInput , setShowSignupInput}  = useShowInput()
 
 const handleClick = ()=>{
-    window.location.href = isLoggedIn ?  window.location.origin +'/feed':window.location.origin +'/signup';
+    window.location.href = isLoggedIn ?  window.location.origin +'/':window.location.origin +'/signup';
 }
   return <div>
     <Notification/>
@@ -31,7 +32,8 @@ const handleClick = ()=>{
  {showLoginInput ? <div className="absolute top-1/2 left-1/2 -translate-y-1/2 -translate-x-1/2 z-[999]">
 <Login setShowLoginInput={setShowLoginInput}/>
 </div>: null}
-    <MasterNavber setShowLoginInput = {setShowLoginInput} setShowSignupInput = {setShowSignupInput}/>
+      <Image className="w-8 absolute z-[999] left-2 top-2 rounded-xl" src={'/logo.png'} width={50} height={50} alt="log"/>
+
     <InteractiveGrid/>
 
       </div>

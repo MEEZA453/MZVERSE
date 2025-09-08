@@ -39,13 +39,13 @@ useEffect(()=>{
     Share profile 
     </button> */}
       <button
-      onClick={()=>setFollowingWindow(true)}
+      onClick={()=>{setFollowingWindow(true), setProfileMenu(false)}}
       className="text-white text-[14.5px]   w-full px-3 py-0.5  gap-1"
     >
     Following list
     </button> 
      <button
-      onClick={()=>setFollowerWindow(true)}
+      onClick={()=>{setFollowerWindow(true), setProfileMenu(false)}}
       className="text-white text-[14.5px]  w-full  px-3 py-0.5  gap-1"
     >
     My followers

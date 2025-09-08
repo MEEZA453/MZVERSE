@@ -162,6 +162,7 @@ const buttonsOfAuthor = [
       <Notification/>
  <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {user?.user?.role} setProfileMenu = {setProfileMenu}/>: <ProfileMenuLg setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 {loading ? <Loading/> : <div> 
+{ !isMobile && <div style={{opacity : followerWindow || followingWindow ? 1 : 0}} className='h-screen duration-300 w-screen z-[900] fixed top-0 pointer-events-none bg-black/60'></div>}
 { followerWindow &&  <FollowersList setFollowerWindow={setFollowerWindow} handle ={user?.user?.handle}/>}
 { followingWindow &&  <FollowingList setFollowingWindow={setFollowingWindow} handle ={user?.user?.handle}/>}
 
