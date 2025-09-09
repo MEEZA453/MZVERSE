@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useSelector } from "react-redux"
@@ -7,7 +8,7 @@ const {postResult , loading} = useSelector((state : any)  => state.search)
 console.log('posts result is :' , postResult)
     const router = useRouter()
     return <div>{loading ? <Loading/>:<div className="w-full">
-        {postResult.map((post    , index)=>{
+        {postResult.map((post:any    , index: number)=>{
 return  <div key={index}  onClick={()=>router.push(`/posts/${post?._id}`)} className="w-full flex justify-start px-2">
             <div className="px-2 justify-between w-full mt-2 items-center flex">
                 <div className="flex gap-2 items-center justify-center">

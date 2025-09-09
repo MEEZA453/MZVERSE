@@ -16,24 +16,24 @@ export default function SearchedCreators() {
       {loading && searched && <Loading />}
 
       {/* Show results if available */}
-      {!loading && userResult.length > 0 && (
+      {!loading && userResult?.length > 0 && (
         <div className="w-full justify-start px-2">
-          {userResult.map((user, index) => (
+          {userResult?.map((user : any, index :number) => (
             <div
               key={index}
-              onClick={() => router.push(`/${user.handle}`)}
+              onClick={() => router.push(`/${user?.handle}`)}
               className="flex items-center gap-1 cursor-pointer"
             >
               <Image
                 height={300}
                 width={300}
-                alt={user.name}
+                alt={user?.name}
                 className="h-8 w-8 rounded-full object-cover"
-                src={user.profile || "/image.png"}
+                src={user?.profile || "/image.png"}
               />
               <div>
-                <h6 className="mt-2">{user.name}</h6>
-                <p className="text-[13px]">@{user.handle}</p>
+                <h6 className="mt-2">{user?.name}</h6>
+                <p className="text-[13px]">@{user?.handle}</p>
               </div>
             </div>
           ))}

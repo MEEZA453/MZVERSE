@@ -20,31 +20,31 @@ interface Post {
 
 type SearchState = {
   loading: boolean;
-  searched: boolean;       // 🔹 track if a search has been performed
-  userResult: User[];
-  postResult: Post[];
-  assetResult: Product[];
+  searched: boolean;       
+  userResult: User[] | null;
+  postResult: Post[] | null;
+  assetResult: Product[] | null;
   error: string | null;
 };
 
 const initialState: SearchState = {
   loading: false,
   searched: false,
-  userResult: [],
-  postResult: [],
-  assetResult: [],
+  userResult: null,
+  postResult: null,
+  assetResult: null,
   error: null,
 };
 
 const search = (state = initialState, action: AnyAction): SearchState => {
   switch (action.type) {
-    /** 🔍 Requests - keep previous results to avoid flash **/
+    /** 🔍 Requests - reset previous results immediately **/
     case "SEARCH_USERS_REQUEST":
-      return { ...state, loading: true, error: null, searched: true };
+      return { ...state, loading: true, error: null, searched: true, userResult: null };
     case "SEARCH_POSTS_REQUEST":
-      return { ...state, loading: true, error: null, searched: true };
+      return { ...state, loading: true, error: null, searched: true, postResult: null };
     case "SEARCH_ASSETS_REQUEST":
-      return { ...state, loading: true, error: null, searched: true };
+      return { ...state, loading: true, error: null, searched: true, assetResult: null };
 
     /** ✅ Success **/
     case "SEARCH_USERS_SUCCESS":
@@ -56,11 +56,11 @@ const search = (state = initialState, action: AnyAction): SearchState => {
 
     /** ❌ Failures **/
     case "SEARCH_USERS_FAIL":
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload, userResult: null };
     case "SEARCH_POSTS_FAIL":
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload, postResult: null };
     case "SEARCH_ASSETS_FAIL":
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loading: false, error: action.payload, assetResult: null };
 
     default:
       return state;
