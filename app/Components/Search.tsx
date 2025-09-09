@@ -51,7 +51,7 @@ useEffect(() => {
 
        return     <div>
 
-      <motion.div   initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }} className="h-110 lg:h-100  fixed  top-0 z-[999] lg:w-[35vw] overflow-y-scroll hide-scrollbar -translate-x-1/2 left-1/2 lg:top-4 lg:rounded left-0 w-screen bg-[#101010]">
+      <motion.div   initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }} className="h-91 rounded-b  rounded-lg lg:h-100  fixed  top-0 z-[999] lg:w-[35vw] overflow-y-scroll hide-scrollbar -translate-x-1/2 left-1/2 lg:top-4 lg:rounded left-0 w-screen bg-[#101010]">
              <div className="flex items-center z-[999] px-2 pt-1  bg-[#101010] ">
 <IoSearchOutline className="mt-2"
             color="#8d8d8d"

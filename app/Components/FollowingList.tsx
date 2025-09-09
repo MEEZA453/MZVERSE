@@ -44,16 +44,14 @@ return <motion.div   {...(isDesktop
     
             </div>
 
-             { loading ?  (
-  Array.from({ length: 4 }).map((_, i) => <SkeletonNotification key={i} />)
-): <div className=" bg-black  z-[999]">
+            <div className=" bg-black  z-[999]">
         
       {following?.map((follower: any, index: number) => (
         <div key={index} className="w-full">
           <User  user={follower} isFollowingList ={true}/>
         </div>
       ))}
-    </div>}
+    </div>
            
     </motion.div> 
 }

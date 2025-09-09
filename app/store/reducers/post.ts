@@ -29,7 +29,7 @@ const posts = (state = initialState, action: AnyAction): PostState => {
     case 'FETCH_POSTS_BY_HANDLE_REQUEST':
 
     case 'FETCH_POST_REQUEST':
-  return { ...state, loading: true, error: null, post: null };
+  return { ...state, loading: true, error: null, post: null , postsOfUser : null};
 
 case 'VOTE_POST_REQUEST':
   return { ...state, loading: true, error: null };

@@ -2,11 +2,11 @@ import * as api from '../../api';
 import { AppDispatch } from '../store';
 
 // Follow a user
-export const followUser = (targetId: string, token: string) => async (dispatch: AppDispatch) => {
+export const followUser = (user: any, token: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: 'FOLLOW_REQUEST' });
-    await api.followUser(targetId, token);
-    dispatch({ type: 'FOLLOW_SUCCESS', payload: targetId }); // send only ID
+    await api.followUser(user._id, token);
+    dispatch({ type: 'FOLLOW_SUCCESS', payload: user }); // ✅ send full user
   } catch (error: any) {
     const errorMsg = error.response?.data?.message || error.message;
     dispatch({ type: 'FOLLOW_FAIL', payload: errorMsg });

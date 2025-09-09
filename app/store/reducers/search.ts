@@ -1,6 +1,6 @@
 import { AnyAction } from "@reduxjs/toolkit";
 import { Product } from "../../types/Product";
-// Define types for different search results
+
 type User = {
   _id: string;
   name: string;
@@ -11,29 +11,25 @@ type User = {
   bio: string;
 };
 
-
 interface Post {
-  loading: boolean;
-  posts: Post[];
-  post: Post | null;
-  postsOfUser : Post[]
-  votes: any[];      // votes for a single post
-  allVotes: any[];   // all votes (admin/analytics)
-  error: string | null;
+  _id: string;
+  title: string;
+  content: string;
+  authorId: string;
 }
 
-
-// Extend Search State
 type SearchState = {
   loading: boolean;
-  userResult: User[];   // multiple results possible
+  searched: boolean;       // 🔹 track if a search has been performed
+  userResult: User[];
   postResult: Post[];
-  assetResult:Product[];
+  assetResult: Product[];
   error: string | null;
 };
 
 const initialState: SearchState = {
   loading: false,
+  searched: false,
   userResult: [],
   postResult: [],
   assetResult: [],
@@ -42,20 +38,27 @@ const initialState: SearchState = {
 
 const search = (state = initialState, action: AnyAction): SearchState => {
   switch (action.type) {
+    /** 🔍 Requests - keep previous results to avoid flash **/
     case "SEARCH_USERS_REQUEST":
+      return { ...state, loading: true, error: null, searched: true };
     case "SEARCH_POSTS_REQUEST":
+      return { ...state, loading: true, error: null, searched: true };
     case "SEARCH_ASSETS_REQUEST":
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, error: null, searched: true };
 
+    /** ✅ Success **/
     case "SEARCH_USERS_SUCCESS":
-      return { ...state, loading: false, userResult: action.payload };
+      return { ...state, loading: false, userResult: action.payload, error: null };
     case "SEARCH_POSTS_SUCCESS":
-      return { ...state, loading: false, postResult: action.payload };
+      return { ...state, loading: false, postResult: action.payload, error: null };
     case "SEARCH_ASSETS_SUCCESS":
-      return { ...state, loading: false, assetResult: action.payload };
+      return { ...state, loading: false, assetResult: action.payload, error: null };
 
+    /** ❌ Failures **/
     case "SEARCH_USERS_FAIL":
+      return { ...state, loading: false, error: action.payload };
     case "SEARCH_POSTS_FAIL":
+      return { ...state, loading: false, error: action.payload };
     case "SEARCH_ASSETS_FAIL":
       return { ...state, loading: false, error: action.payload };
 

@@ -21,7 +21,7 @@ const  handleUnfollow  =()=>{
       if (isFollowing) {
         dispatch(unfollowUser(user?._id, token));
       } else {
-        dispatch(followUser(user?._id, token));
+        dispatch(followUser(user, token));
       }
     };
     return <div className=' flex bg-[#151515] mb-[1px] w-full h-10  px-2 items-center justify-between'>
