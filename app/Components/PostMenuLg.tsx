@@ -26,6 +26,7 @@ useEffect(()=>{
 
 const addToMoodBoard = () => {
   if (!token) return;
+  console.log('ad')
 
   if (isFavorited) {
     dispatch(removeFromFavorites(postId, token));
@@ -43,26 +44,39 @@ const handleDeleteClick = ()=>{
     dispatch(deletePostAction(postId , token))
 router.back()
 }
-    return  <div className="h-screen w-screen">
-        <div className="h-screen w-screen fixed top-0 left-0 z-[700] " onClick  = {()=>setIsMenu(false)}></div>
-      <div className="bg-[#0d0d0d]  absolute w-60 top-18 left-[56vw] h-fit  z-900 bottom-1.5 py-3   flex  flex-col items-center justify-center  rounded-[6px]  ">
-  <button
-      onClick={addToMoodBoard }
-      className ="text-white text-[15px]  px-5 py-1  w-full lg:text-left gap-1"
+    return   <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen z-[999] fixed left-0 bottom-0 flex items-center justify-center bg-black/50">
+      <div onClick={()=>setIsMenu(false)} className="w-screen h-screen absolute "></div>
+      <motion.div  initial = {{y : 50, opacity : 0 }} transition = {{duration : 0.2 , ease : "easeInOut"} } exit={{y : 50, opacity : 0}} animate = {{y : 0 , opacity :1}}  className="bg-[#151515]   w-100  h-fit  z-200  py-4 gap-1  flex  flex-col items-center justify-center  rounded-[6px]  ">
+
+
+ {/* {isAuthor&& <button
+      onClick={()=>handleDeleteClick()}
+      className="text-white text-[14px]  px-3 py-1 flex items-center justify-center gap-1"
     >
-    {!isFavorited ? 'Add to moodboard':'Remove from moodboard'}
+      Edit post
+    </button>}
+
+     */}
+      <button
+     onClick={addToMoodBoard }
+      className="  text-[15px] px-5 w-full   border-b border-[#2d2d2d] pb-1  gap-1"
+    >
+{!isFavorited ? 'Add to moodboard':'Remove from moodboard'}
     </button>
-
-
-
+    
 { (isAuthor || role === 'dev') && <button
       onClick={()=>handleDeleteClick()}
-      className="text-red-500 w-full text-[15px] px-5 py-1  w-full lg:text-left  gap-1"
+      className="text-red-500  text-[15px] px-5   border-b border-[#2d2d2d] pb-1  w-full    gap-1"
     >
-      Delete post 
+      Delete 
     </button>
     }
-
-    </div>
-      </div>
+<button
+      onClick={()=>setIsMenu(false)}
+      className="  text-[15px] px-5    w-full      gap-1"
+    >
+      Cancel 
+    </button>
+    </motion.div>
+      </motion.div>
 }
