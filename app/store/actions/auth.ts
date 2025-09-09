@@ -2,24 +2,24 @@ import * as api from '../../api';
 import { AppDispatch } from '../store';
 
 
-export const getUserByHandle = (handle: string , token : string) => async (dispatch: AppDispatch) => {
+// export const getUserByHandle = (handle: string , token : string) => async (dispatch: AppDispatch) => {
 
-  try {
-    dispatch({ type: 'GET_USER_BY_HANDLE_REQUEST' });
-    const { data } = await api.getUserByHandle(handle , token);
+//   try {
+//     dispatch({ type: 'GET_USER_BY_HANDLE_REQUEST' });
+//     const { data } = await api.getUserByHandle(handle , token);
 
-    dispatch({
-      type: 'GET_USER_BY_HANDLE_SUCCESS',
-      payload: data,
-    });
-  } catch (error: any) {
-    const errMsg = error.response?.data?.message || error.message;
-    dispatch({
-      type: 'GET_USER_BY_HANDLE_FAIL',
-      payload: errMsg,
-    });
-  }
-};
+//     dispatch({
+//       type: 'GET_USER_BY_HANDLE_SUCCESS',
+//       payload: data,
+//     });
+//   } catch (error: any) {
+//     const errMsg = error.response?.data?.message || error.message;
+//     dispatch({
+//       type: 'GET_USER_BY_HANDLE_FAIL',
+//       payload: errMsg,
+//     });
+//   }
+// };
 export const searchUsers = (query: string, token: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: 'SEARCH_USERS_REQUEST' });

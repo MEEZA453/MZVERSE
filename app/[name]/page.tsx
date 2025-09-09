@@ -9,7 +9,7 @@ import { useDispatch  ,useSelector } from 'react-redux'
 import { IoMenuOutline } from "react-icons/io5";
 import Image from 'next/image'
 // import { getFavorites } from '../store/actions/fav'
-import { getProductById  , getUserByHandle} from '../store/actions/auth'
+import { getUserByHandle } from '../store/actions/profile'
 import { MdOutlineAttachFile } from "react-icons/md";
 import Favourites from '../Components/Favourites'
 import { current } from '@reduxjs/toolkit'
@@ -29,27 +29,18 @@ import FollowersList from '../Components/FollowersList'
 import FollowingList from '../Components/FollowingList'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
-const {profileLink ,  authorId , handle , role} = useAuth()
+const {profileLink ,  authorId , handle , role , token} = useAuth()
 const pathname = usePathname();
 const userHandle = pathname.split('/').pop();
-const [token , setToken] = useState('')
 const [profileMenu , setProfileMenu] = useState(false) 
   const [activeIndex, setActiveIndex] = useState(2)
-const [follow  , setFollow] =  useState(false)  
+
 const [isMobile , setIsMobile ] = useState(false)
 const [followerWindow , setFollowerWindow] = useState(false)
 const [followingWindow , setFollowingWindow] = useState(false)
-
+const [isFollowing, setIsFollowing] = useState(false);
   const router = useRouter()
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const profile = localStorage.getItem('profile')
-      if (profile) {
-        const parsedUser = JSON.parse(profile)
-        setToken(parsedUser.token)
-      }
-    }
-  }, [])
+
 useEffect(()=>{
 
     window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
@@ -72,20 +63,17 @@ useEffect(()=>{
 
 useEffect(() => {
   if (userHandle && token) {
+    
     dispatch(getUserByHandle(userHandle, token));
   }
 }, [userHandle, token , dispatch]);
 
   
-  const { user, loading } = useSelector((state: any) => state.auth);
-const { following } = useSelector((state: any) => state.follow);
+  const { profile, loading } = useSelector((state: any) => state.profile);
+const { following} = useSelector((state: any) => state.follow);
 
 // Compute if current viewed user is followed
-const viewedUserId = user?.user?._id; // ID of the user being viewed
-console.log(viewedUserId)
-const isFollowing = following.some((f: any) => f._id === viewedUserId);console.log(following)
-console.log('is already follow', isFollowing);
-
+const viewedUserId = profile?.user?._id; // ID of the user being viewed
 
 
 // Fetch following list for logged-in user
@@ -96,16 +84,23 @@ useEffect(() => {
 }, [handle, token , dispatch]);
 
 // Handle follow/unfollow click
+useEffect(() => {
+  if (viewedUserId) {
+    setIsFollowing(following.some((f: any) => f._id === viewedUserId));
+  }
+}, [viewedUserId, following]);
+
 const handleFollowClick = () => {
   if (!viewedUserId) return;
 
   if (isFollowing) {
+    setIsFollowing(false); // instant update
     dispatch(unfollowUser(viewedUserId, token));
   } else {
-    dispatch(followUser(viewedUserId, token));
+    setIsFollowing(true); // instant update
+    dispatch(followUser(profile?.user, token));
   }
 };
-
 const buttonsOfAuthor = [
   {
     name: 'Edit profile',
@@ -114,17 +109,17 @@ const buttonsOfAuthor = [
   {
     name: 'Share profile',
     origin: async () => {
-      if (!user?.user?.handle) {
+      if (!profile?.user?.handle) {
         alert("Profile link not available yet");
         return;
       }
 
-      const profileLink = window.location.origin + '/' + user.user.handle;
+      const profileLink = window.location.origin + '/' + profile?.user?.handle;
 
       if (navigator.share) {
         try {
           await navigator.share({
-            title: `${user.user.name}'s Profile`,
+            title: `${profile?.user?.name}'s Profile`,
             text: `Check out this profile!`,
             url: profileLink,
           });
@@ -152,24 +147,25 @@ const buttonsOfAuthor = [
   const tabs = ['Store' , 'Moodboard' , 'Crafts' ]
   const isDev = true
 
-
+const isProfileLoaded = profile && profile.user && profile.user.handle === userHandle;
     if(role === 'dev'){
     tabs.push('Highlight')
     tabs.push('promotion')
   }
   return (
     <div className='w-screen  overflow-hidden'>
-      <Notification/>
- <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {user?.user?.role} setProfileMenu = {setProfileMenu}/>: <ProfileMenuLg setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
-{loading ? <Loading/> : <div> 
+  {!isProfileLoaded || loading ? <Loading/> : <div> 
+      {/* <Notification/> */}
+ <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {profile?.user?.role} setProfileMenu = {setProfileMenu}/>: <ProfileMenuLg setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {profile?.user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
+
 { !isMobile && <div style={{opacity : followerWindow || followingWindow ? 1 : 0}} className='h-screen duration-300 w-screen z-[900] fixed top-0 pointer-events-none bg-black/60'></div>}
-{ followerWindow &&  <FollowersList setFollowerWindow={setFollowerWindow} handle ={user?.user?.handle}/>}
-{ followingWindow &&  <FollowingList setFollowingWindow={setFollowingWindow} handle ={user?.user?.handle}/>}
+{ followerWindow &&  <FollowersList setFollowerWindow={setFollowerWindow} handle ={profile?.user?.handle}/>}
+{ followingWindow &&  <FollowingList setFollowingWindow={setFollowingWindow} handle ={profile?.user?.handle}/>}
 
       <div className='profile relative flex  relative flex-col h-90   gap-3 mt-10 items-center justify-center w-screen'>
               <div className='absolute  flex-col gap-4 flex justify-between px-2 lg:right-[38vw] top-1 right-4 '>
-{user?.isUser&&<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px] '>...</button>}
-<button onClick={()=>user?.instagram} className='ml-0.5'><FiInstagram/></button>
+{profile?.isUser&&<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px] '>...</button>}
+<button onClick={()=>profile?.user?.instagram} className='ml-0.5'><FiInstagram/></button>
 
              <button className=" relative text-white m duration-300"onClick={()=> router.push('/notification') }><VscMail size={20}/>
                {hasUnread && (
@@ -180,17 +176,17 @@ const buttonsOfAuthor = [
      
         <Image height = {300} width = {300}
           className='h-24 w-24 rounded-full bg-[#dadada] object-cover'
-          src={user?.user?.profile || '/image.png'}
+          src={profile?.user?.profile || '/image.png'}
           alt ='profile' 
         />
         <div className='flex items-center flex-col gap-0.5'>
-          <h6>{user?.user?.name}</h6>
-      <p   style={{lineHeight : -0.3}}>@{user?.user?.handle}</p>
+          <h6>{profile?.user?.name}</h6>
+      <p   style={{lineHeight : -0.3}}>@{profile?.user?.handle}</p>
 
         </div>
-        <p  style={{fontSize : '13px', lineHeight : -1}}>{user?.user?.bio}</p>
+        <p  style={{fontSize : '13px', lineHeight : -1}}>{profile?.user?.bio}</p>
  
-        { user?.isUser?<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
+        { profile?.isUser?<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
           { buttonsOfAuthor.map((tab , index)=>{
             return     <button  key={index} onClick={() => tab.origin()} className={`border  flex items-center justify-center   rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab.name}</button>
           })}

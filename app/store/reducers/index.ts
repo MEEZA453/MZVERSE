@@ -11,6 +11,7 @@ import highlight from './highlight'
 import notification from "./notification";
 import promotion from './promotion';
 import jury from './jury';
+import profile from './profile';
 const rootReducer = combineReducers({
   design,
   cart,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   search,
   highlight , 
   promotion,
+  profile,
   notification,
   jury
 });
