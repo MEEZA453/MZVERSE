@@ -21,15 +21,15 @@ export default function Handle() {
   const { user } = useAuth()
 
   // Conditions
-  const containsValidChars = /^[a-zA-Z0-9._]+$/.test(handle)
-  const noStartEndPeriod = !/^\./.test(handle) && !/\.$/.test(handle)
-  const maxLength = handle.length <= 12
-  const allLowercase = handle === handle.toLowerCase()
-  const hasLetter = /[a-zA-Z]/.test(handle)
-  const minLength = handle.length >= 3
+  const containsValidChars =handle.length > 0 &&  /^[a-zA-Z0-9._]+$/.test(handle)
+  const noStartEndPeriod = handle.length > 0 && !/^\./.test(handle) && !/\.$/.test(handle)
+  const maxLength =handle.length > 0 &&  handle.length <= 12
+  const allLowercase = handle.length > 0 && handle === handle.toLowerCase()
+  const hasLetter = handle.length > 0 && /[a-zA-Z]/.test(handle)
+  const minLength = handle.length > 0 && handle.length >= 3
 
   const validateHandle = () => {
-    if (handle) {
+    if (handle != '') {
       return (
         containsValidChars &&
         noStartEndPeriod &&
