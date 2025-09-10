@@ -93,9 +93,14 @@ const login = useGoogleLogin({
             value={email}
             placeholder="Enter your email address.."
             onChange={(e) => { setEmail(e.target.value); setError(false) }}
-            className={`flex-1 w-full mb-2 bg-[#131313] ${error ? 'border border-red-600/50' : ''} px-2 py-1 outline-none`}
+            className={`flex-1 w-full bg-[#131313] ${error ? 'border border-red-600/50' : ''} px-2 py-1 outline-none`}
           />
-
+  {  <p 
+          className="mt-1 mb-1.5"
+          style={{ color: 'red' , opacity : errorMessage != 'No error' ? 1 : 0}}
+        >
+          {errorMessage}
+        </p>}
           <button
             type="button"
             onClick={handleSendOtp}
@@ -106,7 +111,7 @@ const login = useGoogleLogin({
 
         
         </form>
-        {errorMessage && <p style={{color:'red'}} className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2 text-red-500">{errorMessage}</p>}
+
       </div>
     </div>
   )

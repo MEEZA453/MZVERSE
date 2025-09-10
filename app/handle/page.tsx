@@ -10,7 +10,7 @@ import { setHandleAction } from '../store/actions/auth'
 import { useAuth } from '../Context/AuthContext'
 
 export default function Handle() {
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState('No error')
   const [loading, setLoading] = useState(false)
   const [handle, setHandle] = useState('')
   const [error, setError] = useState(false)
@@ -72,7 +72,7 @@ const validateHandle = () => {
   }
 
   return (
-    <div className="h-screen w-screen bg-[#030303] flex">
+    <div className="min-h-screen w-screen bg-[#030303] flex overflow-y-auto">
       <Image
         className="w-8 absolute left-2 top-2 rounded-xl"
         src={'/logo.png'}
@@ -92,7 +92,7 @@ const validateHandle = () => {
             placeholder="Enter your handle..."
             onChange={(e) => setHandle(e.target.value)}
             className={`flex-1 w-full mb-2 bg-[#131313] ${
-              error ? 'border border-red-600/50' : ''
+              error ? 'border border-red-600/50' : 'border border-red-600/0'
             } px-2 py-1 outline-none`}
           />
 
@@ -102,9 +102,14 @@ const validateHandle = () => {
           >
             {loading ? <ButtonLoader /> : 'Continue'}
           </button>
-
+  {  <p 
+          className="mt-1"
+          style={{ color: 'red' , opacity : errorMessage != 'No error' ? 1 : 0}}
+        >
+          {errorMessage}
+        </p>}
           {/* Rules checklist */}
-          <div className="steps mt-4">
+          <div className="steps mt-1.5">
             <div className="flex w-full mt-1 justify-between">
               <p>Contains only letters, numbers, underscores and periods</p>
               <div
@@ -165,12 +170,7 @@ const validateHandle = () => {
           </div>
         </form>
 
-        <p
-          className="absolute bottom-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2"
-          style={{ color: 'red' }}
-        >
-          {errorMessage}
-        </p>
+    
       </div>
     </div>
   )

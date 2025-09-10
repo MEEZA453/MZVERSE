@@ -101,6 +101,33 @@ const handleFollowClick = () => {
     dispatch(followUser(profile?.user, token));
   }
 };
+const handleShareClick =  async () => {
+      if (!profile?.user?.handle) {
+        alert("Profile link not available yet");
+        return;
+      }
+
+      const profileLink = window.location.origin + '/' + profile?.user?.handle;
+
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: `${profile?.user?.name}'s Profile`,
+            text: `Check out this profile!`,
+            url: profileLink,
+          });
+        } catch (err) {
+          console.log('Error sharing:', err);
+        }
+      } else {
+        try {
+          await navigator.clipboard.writeText(profileLink);
+          alert('Profile link copied to clipboard!');
+        } catch (err) {
+          alert('Failed to copy link.');
+        }
+      }
+    }
 const buttonsOfAuthor = [
   {
     name: 'Edit profile',
@@ -193,7 +220,7 @@ const isProfileLoaded = profile && profile.user && profile.user.handle === userH
      
         </div>:<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
          <button   onClick={handleFollowClick} className={`border  flex items-center justify-center  ${!isFollowing ? 'bg-white text-black': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{!isFollowing ? 'Follow' : 'Unfollow'}</button>
-           <button   onClick={handleFollowClick} className={`border  flex items-center justify-center text-white  rounded text-[14px] lg:w-60 w-full py-0.5`}>Share profile</button>
+           <button   onClick={handleShareClick} className={`border  flex items-center justify-center text-white  rounded text-[14px] lg:w-60 w-full py-0.5`}>Share profile</button>
         </div>}
 
        <div className='flex gap-2 mt-10  overflow-x-scroll hide-scrollbar px-3'>
@@ -212,7 +239,7 @@ const isProfileLoaded = profile && profile.user && profile.user.handle === userH
  <Favourites/>
 <Crafts/>
 {isDev&&<HighlightControl/>}
-{isDev&&<Promotion/>}
+  {isDev&&<Promotion/>}
 
  
 
