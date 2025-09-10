@@ -1,7 +1,7 @@
 'use client'
 
 import { FiCheck } from 'react-icons/fi'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { useState } from 'react'
 import ButtonLoader from '../Components/ButtonLoader'
 import Image from 'next/image'
@@ -14,34 +14,32 @@ export default function Handle() {
   const [loading, setLoading] = useState(false)
   const [handle, setHandle] = useState('')
   const [error, setError] = useState(false)
+  const [focused, setFocused] = useState(false) // ✅ track input focus
 
   const dispatch = useDispatch()
   const router = useRouter()
-
-  // const { user } = useSelector((state: any) => state.auth)
-
   const { user } = useAuth()
-console.log(user)
 
   // Conditions
-  const containsValidChars = /^[a-zA-Z0-9._]+$/.test(handle) // only allowed chars
-  const noStartEndPeriod = !/^\./.test(handle) && !/\.$/.test(handle) // no start/end period
-  const maxLength = handle.length <= 12 // at most 30 chars (insta-like)
-  const allLowercase = handle === handle.toLowerCase() // must be lowercase
-  const hasLetter = /[a-zA-Z]/.test(handle) // contains letter
-  const minLength = handle.length >= 3 // at least 3 chars (insta-like)
-const validateHandle = () => {
-  if (handle) {
-    return (
-      containsValidChars &&
-      noStartEndPeriod &&
-      hasLetter &&
-      minLength &&
-      maxLength &&
-      allLowercase
-    )
+  const containsValidChars = /^[a-zA-Z0-9._]+$/.test(handle)
+  const noStartEndPeriod = !/^\./.test(handle) && !/\.$/.test(handle)
+  const maxLength = handle.length <= 12
+  const allLowercase = handle === handle.toLowerCase()
+  const hasLetter = /[a-zA-Z]/.test(handle)
+  const minLength = handle.length >= 3
+
+  const validateHandle = () => {
+    if (handle) {
+      return (
+        containsValidChars &&
+        noStartEndPeriod &&
+        hasLetter &&
+        minLength &&
+        maxLength &&
+        allLowercase
+      )
+    }
   }
-}
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -81,9 +79,14 @@ const validateHandle = () => {
         alt="log"
       />
 
-      <div className="h-screen flex items-center flex-col gap-10 justify-center login w-full">
+      <div
+        className={`h-screen flex items-center flex-col gap-10 justify-center login w-full transition-transform duration-300`}
+        style={{
+          transform: focused ? 'translateY(-140px)' : 'translateY(0px)', // ✅ push up on focus
+        }}
+      >
         <form onSubmit={handleSubmit} className="lg:w-[40%] w-[90%]">
-          <h5  className="mb-6 text-center">Claim your handle</h5>
+          <h5 className="mb-6 text-center">Claim your handle</h5>
 
           <input
             type="text"
@@ -91,6 +94,8 @@ const validateHandle = () => {
             value={handle}
             placeholder="Enter your handle..."
             onChange={(e) => setHandle(e.target.value)}
+            onFocus={() => setFocused(true)}   // ✅ move up
+            onBlur={() => setFocused(false)}   // ✅ reset back
             className={`flex-1 w-full mb-2 bg-[#131313] ${
               error ? 'border border-red-600/50' : 'border border-red-600/0'
             } px-2 py-1 outline-none`}
@@ -102,18 +107,20 @@ const validateHandle = () => {
           >
             {loading ? <ButtonLoader /> : 'Continue'}
           </button>
-  {  <p 
-          className="mt-1"
-          style={{ color: 'red' , opacity : errorMessage != 'No error' ? 1 : 0}}
-        >
-          {errorMessage}
-        </p>}
+
+          <p
+            className="mt-1"
+            style={{ color: 'red', opacity: errorMessage != 'No error' ? 1 : 0 }}
+          >
+            {errorMessage}
+          </p>
+
           {/* Rules checklist */}
           <div className="steps mt-1.5">
             <div className="flex w-full mt-1 justify-between">
               <p>Contains only letters, numbers, underscores and periods</p>
               <div
-                className={`oporate bg-white rounded-full h-4 w-4 flex items-center justify-center`}
+                className="oporate bg-white rounded-full h-4 w-4 flex items-center justify-center"
                 style={{ opacity: containsValidChars ? 1 : 0.5 }}
               >
                 <FiCheck color="black" size={13} />
@@ -123,25 +130,27 @@ const validateHandle = () => {
             <div className="flex w-full mt-1 justify-between">
               <p>Does not start or end with a period</p>
               <div
-                className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
                 style={{ opacity: noStartEndPeriod ? 1 : 0.5 }}
               >
                 <FiCheck color="black" size={13} />
               </div>
             </div>
-<div className="flex w-full mt-1 justify-between">
-  <p>Only lowercase letters</p>
-  <div
-    className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
-    style={{ opacity: allLowercase ? 1 : 0.5 }}
-  >
-    <FiCheck color="black" size={13} />
-  </div>
-</div>
+
+            <div className="flex w-full mt-1 justify-between">
+              <p>Only lowercase letters</p>
+              <div
+                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
+                style={{ opacity: allLowercase ? 1 : 0.5 }}
+              >
+                <FiCheck color="black" size={13} />
+              </div>
+            </div>
+
             <div className="flex w-full mt-1 justify-between">
               <p>Contains at least one letter</p>
               <div
-                className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
                 style={{ opacity: hasLetter ? 1 : 0.5 }}
               >
                 <FiCheck color="black" size={13} />
@@ -151,7 +160,7 @@ const validateHandle = () => {
             <div className="flex w-full mt-1 justify-between">
               <p>Minimum 3 characters</p>
               <div
-                className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
                 style={{ opacity: minLength ? 1 : 0.5 }}
               >
                 <FiCheck color="black" size={13} />
@@ -161,7 +170,7 @@ const validateHandle = () => {
             <div className="flex w-full mt-1 justify-between">
               <p>Maximum 12 characters</p>
               <div
-                className={`bg-white oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
                 style={{ opacity: maxLength ? 1 : 0.5 }}
               >
                 <FiCheck color="black" size={13} />
@@ -169,8 +178,6 @@ const validateHandle = () => {
             </div>
           </div>
         </form>
-
-    
       </div>
     </div>
   )

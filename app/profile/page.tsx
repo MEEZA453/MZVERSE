@@ -19,7 +19,7 @@ export default function Profile() {
   const [bio, setBio] = useState("")
   const [image, setImage] = useState<File | null>(null)
   const [preview, setPreview] = useState("/image.png")
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("No error")
   const [loading, setLoading] = useState(false)
 
   // Populate form with user data on page load
@@ -145,16 +145,20 @@ console.log(user)
             value={bio}
             onChange={(e) => setBio(e.target.value)}
             maxLength={50}
-            className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 mb-1 py-1 outline-none"
+            className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
           />
 
         </div>
-
-        {errorMessage && <p className="text-red-500 text-center">{errorMessage}</p>}
+  {  <p 
+          className="mt-1 mb-1.5"
+          style={{ color: 'red' , opacity : errorMessage != 'No error' ? 1 : 0}}
+        >
+          {errorMessage}
+        </p>}
 
         <button
           type="submit"
-          className="px-2 w-full flex items-center justify-center h-6 bg-white mt-2 text-black rounded-[2px]"
+          className="px-2 w-full flex items-center justify-center h-6 bg-white mt-0 text-black rounded-[2px]"
         >
           {loading ? <ButtonLoader /> : "Continue"}
         </button>

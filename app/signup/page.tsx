@@ -13,7 +13,7 @@ export default function SignIn() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter()
 
-  const [errorMessage, setErrorMessage] = useState("")
+  const [errorMessage, setErrorMessage] = useState("No error")
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState("")
   const [error, setError] = useState(false)
@@ -93,14 +93,9 @@ const login = useGoogleLogin({
             value={email}
             placeholder="Enter your email address.."
             onChange={(e) => { setEmail(e.target.value); setError(false) }}
-            className={`flex-1 w-full bg-[#131313] ${error ? 'border border-red-600/50' : ''} px-2 py-1 outline-none`}
+            className={`flex-1 w-full bg-[#131313] ${error ? 'border border-red-600/50' : 'border border-red-600/0'} px-2 py-1 mb-2 outline-none`}
           />
-  {  <p 
-          className="mt-1 mb-1.5"
-          style={{ color: 'red' , opacity : errorMessage != 'No error' ? 1 : 0}}
-        >
-          {errorMessage}
-        </p>}
+
           <button
             type="button"
             onClick={handleSendOtp}
@@ -108,7 +103,12 @@ const login = useGoogleLogin({
           >
             {loading ? <ButtonLoader /> : 'Connect'}
           </button>
-
+  {  <p 
+          className="mt-2 mb-1.5"
+          style={{ color: 'red' , opacity : errorMessage != 'No error' ? 1 : 0}}
+        >
+          {errorMessage}
+        </p>}
         
         </form>
 
