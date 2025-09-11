@@ -2,7 +2,7 @@
 
 import { useAssets } from '../../Context/AllAssetsContext';
 import Image from 'next/image';
-import {usePathname} from 'next/navigation';
+import {usePathname, useRouter} from 'next/navigation';
 import { Product } from '../../types/Product';
 import { HiOutlineLink } from "react-icons/hi2";
 import MasterNavber from '../../Components/MasterNavber';
@@ -22,21 +22,27 @@ import { HiOutlineDotsVertical } from 'react-icons/hi';
 import { AnimatePresence } from 'framer-motion';
 import ProductMenu from '../../Components/ProductMenu';
 import { useAuth } from '../../Context/AuthContext';
+import { FaArrowDown } from 'react-icons/fa';
+import { SlArrowDown } from 'react-icons/sl';
+import ImageShower from '../../Components/ImageShower';
+import { IoIosArrowBack } from 'react-icons/io';
 export default function ProductPage() {
 const pathname = usePathname()
 
-
+const [openIndex, setOpenIndex] = useState(null);
 const {setNotification , notification} = useNotification()
 const productpath = pathname.split('/');
 const [token , setToken] = useState('')
+const [isMobile , setIsMobile] = useState(false)
 const {role  } = useAuth()
 const [red ,setRed ] = useState(false)
 const {setShowLoginInput , setShowSignupInput , showLoginInput , showSignupInput} = useShowInput()
 const slug = productpath[productpath.length - 1]
 const [isMenu , setIsMenu] = useState(false)
-
+  const [opacity, setOpacity] = useState(0); // start at 0
   const { data , loading}: { data: Product[] ; loading : boolean } = useAssets();
   const product = data.find((item) => item._id === slug);
+  const router  = useRouter()
 console.log(product)
    useEffect(() => {
      if (typeof window !== 'undefined') {
@@ -47,6 +53,23 @@ console.log(product)
        }
      }
    }, [])
+   useEffect(()=>{
+
+    window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
+
+},[])
+
+useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const maxScroll = 300; // adjust scroll distance where opacity reaches 0.6
+      const newOpacity = Math.min(scrollY / maxScroll, 0.6); 
+      setOpacity(newOpacity);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 const dispatch = useDispatch<AppDispatch>();
   const isFavorited = false
 
@@ -56,15 +79,25 @@ const dispatch = useDispatch<AppDispatch>();
 
   <Notification/>
        <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
+          <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 fixed z-[999] top-14 '>
+                     <div className='flex gap-1 items-center justify-center'>
+                     <button onClick={()=> router.back()}>
+                       <IoIosArrowBack size={20} />
+                       
+                       </button>
+                     <h4 >{product?.name}</h4></div>
+           
+                     <button className=' text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button></div>
+                       <AnimatePresence>{  isMenu ?  <ProductMenu setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> 
       {showLoginInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
       {
       loading ? <Loading/>: <main  className='desc flex max-sm:flex-col h-screen w-screen  max-sm:items-center'>
 
-<section className=''>
-
-        <ProductImages images = {product?.image}/>
+<section className='sticky top-0'>
+<div       style={{ opacity }} className='h-full absolute pointer-events-none top-0 z-[99] w-full bg-black'></div>
+        <ImageShower isMobile = {isMobile} images = {product?.image}/>
 </section>
-<div className='absolute top-16 left-3 flex justify-between z-[999] w-[92vw]  lg:w-[68vw]'>
+{/* <div className='absolute top-16 left-3 flex justify-between z-[999] w-[92vw]  lg:w-[68vw]'>
  <div  className='flex gap-[2px] lg:gap-2 items-center  '>
 
           <Image  
@@ -78,33 +111,66 @@ const dispatch = useDispatch<AppDispatch>();
               
         <AnimatePresence>{  isMenu ?  <ProductMenu setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> 
            
+</div> */}
+<div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
+
+        <aside  className='flex flex-col bg-black pt-3 -translate-y-4 rounded-t-[6px] items-center  sticky top-2    lg:mt-4'>
+<div className='w-full mb-8 px-2'>
+  <div className='w-full mt-1  border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
+    <h6>createdBy:</h6>
+    <h6>@immeeza</h6>
+  </div>
+ <div className='w-full mt-1 border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
+    <h6>Supply type:</h6>
+    
+            <label className='text-[14px] bg-[#4d4d4d] text-[#dadada] px-2'>Preset</label>
+        
+  </div>
+<div className='w-full  mt-1 border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
+    <h6>Size:</h6>
+    <h6>2.0GB</h6>
+  </div>
+  <button className='bg-white text-black w-full rounded-[3px] text-[15px] mt-4'>Buy now</button>
+
 </div>
-<div  style={{ height: `${product?.image.length * 50 + 50}vh` }}>
 
-        <aside  className='flex flex-col items-center  sticky top-2 overflow-y-auto   lg:mt-4'>
+<div className='w-full justify-between  flex px-2'>
+  <button className='text-[13px] w-full border-b'>Details of Asset</button>
+  <button className='text-[14px] w-full '>Useages</button>
 
-         <div className='pricing flex flex-col justify-between pb-4 relative bg-white h-40 rounded w-[96%] '>
+</div>
+         {/* <div className='pricing flex flex-col justify-between pb-4 relative bg-white h-40 rounded w-[96%] '>
             <div className='name flex gap-1 px-2 items-center'>
-            <h4 className='text-black'>{product?.name}</h4> <label className='bg-[#000000]  text-white leading-5 text-[14px] px-1.5'>${product?.amount}</label>
+            <h4 className='text-black'>{product?.name}</h4>    <label className="text-white mt-1.5 bg-black px-1.5 flex items-center justify-center py-2.5 " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '13px'
+                        }}>$ 29.99</label>
             </div>
             <div className='buttons px-1 relative flex flex-col items-center gap-1'>
               <button className='buy w-full h-7 bg-black text- rounded pb-1'>Buy now</button>
               <button  className='buy w-full h-7 border rounded-full border-black pb-1 text-black'>View Profile</button>
 
             </div>
-         </div>
-         <div className='details'>
+         </div> */}
+         <div className='details mt-10'>
           {product?.sections.map((section , index)=>{
-            return <div key={index}>
-              <h4 className='w-screen  lg:w-[30vw] bg-[#1d1d1d] my-2 px-3'> {section.title}</h4>
-              <div className='px-2'>{section.content.map((el , i)=>{
-                return <p key={i}>• {el}</p>
+            return <div  className={`bg-[#1d1d1d]  ${openIndex === index ? 'h-50':'h-7'} mb-2 duration-500`} key={index}>
+              <div className=' flex justify-between items-center w-screen  lg:w-[30vw]   px-3'>
+              <h4 > {section.title}</h4>
+            <button onClick={() => setOpenIndex(index)}>
+                     <SlArrowDown 
+                       style={{ rotate: openIndex === index ? '180deg' : '0deg' }} 
+                       className="duration-300" 
+                       size={13} 
+                     />
+                   </button>
+              </div>
+              <div className={`px-2 ${openIndex === index ? 'opacity-100':'opacity-0'} duration-200 delay-200`}>{section.content.map((el , i)=>{
+                return <p key={i}>- {el}</p>
               })}</div>
             </div>
           })}
          </div>
          <div className='hastags'>
-          <h4 className='bg-[#1d1d1d] my-2 px-3 w-screen lg:w-[30vw]'>Tags</h4>
+          <h4 className='bg-[#1d1d1d]  mb-2 px-3 w-screen lg:w-[30vw]'>Tags</h4>
           <div className='flex px-3 gap-2'>
 
           {product?.hastags.map((el , i)=>{
@@ -113,22 +179,7 @@ const dispatch = useDispatch<AppDispatch>();
           })}
           </div>
          </div>
-          <div className='delivery rounded-xl w-[97%] border-[#4d4d4d] mt-5 h-30 border flex justify-between p-3 items-center  '>
-            <div className='q flex flex-col h-full justify-between items-start'>
-            <p>Format:</p>
-            <p>File size:</p>
-            <p>Asset type:</p>
-            </div>
-                <div className='q flex flex-col h-full justify-between items-end'>
-            <div className='flex items-center gap-[2px]' >
-              <HiOutlineLink className='' size={12}/>
-              <p>Instant link</p>
-              </div>
-            <p>2.0GB</p>
-            <label className='text-[14px] bg-[#4d4d4d] text-[#dadada] px-2'>Preset</label>
-            </div>
-
-          </div>
+      
         </aside>
 </div>
 
@@ -136,7 +187,7 @@ const dispatch = useDispatch<AppDispatch>();
          </main>
     }
 
-<div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[300] top-0"></div>
+{/* <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[300] top-0"></div> */}
       
     </div>
   );
