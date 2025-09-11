@@ -152,9 +152,9 @@ const dispatch = useDispatch<AppDispatch>();
          </div> */}
          <div className='details mt-10'>
           {product?.sections.map((section , index)=>{
-            return <div  className={`bg-[#1d1d1d]  ${openIndex === index ? 'h-50':'h-7'} mb-2 duration-500`} key={index}>
+            return <div  className={`bg-[#1d1d1d]   ${openIndex === index ? 'h-50':'h-9'} mb-2 duration-500`} key={index}>
               <div className=' flex justify-between items-center w-screen  lg:w-[30vw]   px-3'>
-              <h4 > {section.title}</h4>
+              <h4  className='mb-2 mt-1'> {section.title}</h4>
             <button onClick={() => setOpenIndex(index)}>
                      <SlArrowDown 
                        style={{ rotate: openIndex === index ? '180deg' : '0deg' }} 
@@ -164,7 +164,7 @@ const dispatch = useDispatch<AppDispatch>();
                    </button>
               </div>
               <div className={`px-2 ${openIndex === index ? 'opacity-100':'opacity-0'} duration-200 delay-200`}>{section.content.map((el , i)=>{
-                return <p key={i}>- {el}</p>
+                return <p className='mb-1' key={i}>- {el}</p>
               })}</div>
             </div>
           })}
