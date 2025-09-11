@@ -29,17 +29,18 @@ function TagInput({ hastags, setHastags, error }: TagInputProps) {
       <div className='flex items-center px-2 gap-2'>
         <input
           type="text"
-          className={`w-full px-2 py-2  bg-[#212020] ${error ? 'border border-red-600' : ''}`}
+          
+          className={`py-1 mt-1 px-2 border-[#2c2b2b] border  bg-[#101010] ${error ?  'border border-red-500/50':null} rounded-[2px] w-[94%] `}
           placeholder="eg: texture"
           onChange={(e) => setInputTag(e.target.value)}
           value={inputTag}
         />
         <button
           type='button'
-          className="bg-[#4d4d4d] rounded-[2.5px] text-white p-1.5 h-fit w-fit"
+         className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center"
           onClick={addHasTags}
         >
-          <GoPlus size={22} />
+          <GoPlus size={17} />
         </button>
       </div>
 
@@ -47,9 +48,9 @@ function TagInput({ hastags, setHastags, error }: TagInputProps) {
         {hastags.map((hashtag, index) => (
           <div
             key={index}
-            className="bg-[#4d4d4d] flex items-center text-black rounded px-1.5"
+            className="bg-[#1d1d1d] flex items-center text-black rounded px-1.5"
           >
-            <label className='text-[14px] bg-[#4d4d4d] px-1 text-[#dadada]'>
+            <label className='text-[14px] bg-[#1d1d1d] px-1 text-[#dadada]'>
               #{hashtag}
             </label>
             <RxCross2

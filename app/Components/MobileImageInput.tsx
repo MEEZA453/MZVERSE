@@ -6,8 +6,8 @@ import { RxCross2 } from "react-icons/rx";
 
 type ImageInputProps = {
   selectedImage: File[];
-  isFullImage : boolean;
-  setFullImage : React.Dispatch<React.SetStateAction<boolean>>
+  // isFullImage : boolean;
+  // setFullImage : React.Dispatch<React.SetStateAction<boolean>>
   setSelectedImage: React.Dispatch<React.SetStateAction<File[]>>;
   error: boolean;
 };
@@ -16,7 +16,6 @@ export default function MobileImageInput({
   error,
   selectedImage,
   setSelectedImage,
-  isFullImage,
 }: ImageInputProps) {
   const [previewURLs, setPreviewURLs] = useState<string[]>([]);
 
@@ -39,7 +38,7 @@ export default function MobileImageInput({
   }, [selectedImage]);
 
   return (
-    <div className="mt-4 mb-6">
+    <div className="max-sm:mt-4 mb-6 lg:sticky lg:top-10">
       {/* Grid of images */}
       <div className={`grid grid-cols-3 bg-black items-center mx-4 mb-1 justify-center gap-3 min:h-60  lg:w-150 h-full border  rounded-[3px] p-3 ${error?'border-red-500/40':'border-[#1d1d1d]'}`}>
         {previewURLs.map((url, i) => (

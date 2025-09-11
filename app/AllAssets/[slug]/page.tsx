@@ -29,7 +29,7 @@ import { IoIosArrowBack } from 'react-icons/io';
 export default function ProductPage() {
 const pathname = usePathname()
 
-const [openIndex, setOpenIndex] = useState(null);
+const [openIndex, setOpenIndex] = useState(0);
 const {setNotification , notification} = useNotification()
 const productpath = pathname.split('/');
 const [token , setToken] = useState('')

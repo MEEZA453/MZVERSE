@@ -36,7 +36,7 @@ const CreatePost: React.FC = () => {
 
    
   });
-const [isFullImage  , setFullImage] = useState(false)
+// const [isFullImage  , setFullImage] = useState(false)
 const [isShowVoteField ,  setShowVoteField] = useState(false)
   const [error, setError] = useState<ErrorState>({
     nameError: false,
@@ -140,7 +140,7 @@ const deleteField = (i: number) => {
          
             <section className=''>
         
-<MobileImageInput  isFullImage = {isFullImage} setFullImage = {setFullImage} error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />
+<MobileImageInput  error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />
     <div className="w-">
 
 </div>
