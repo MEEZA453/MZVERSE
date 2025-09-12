@@ -18,6 +18,7 @@ import notification from "../store/reducers/notification"
 import JuryApplicationRequest from "../Components/JuryApplicationRequest"
 import JuryApproval from "../Components/JuryApproval"
 import SwipeToDelete from "../Components/SwipeToDelete"
+import AttachRequestNotification from "../Components/AttachRequestNotification"
 export default function Notification () {
   const {setIsNotification} = useNotification()
     const {token} = useAuth()
@@ -85,6 +86,11 @@ console.log(items)
           <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
             <VoteNotification noti={noti} />
           </SwipeToDelete>
+        )}
+          {noti?.type === "asset_attach_request" && (
+
+            <AttachRequestNotification noti={noti} />
+
         )}
 
         {(noti?.type === "jury_approved" ||

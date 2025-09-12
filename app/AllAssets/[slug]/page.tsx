@@ -173,7 +173,7 @@ const dispatch = useDispatch<AppDispatch>();
           <h4 className='bg-[#1d1d1d]  mb-2 px-3 w-screen lg:w-[30vw]'>Tags</h4>
           <div className='flex px-3 gap-2'>
 
-          {product?.hastags.map((el , i)=>{
+          {product?.hastags?.map((el , i)=>{
             return <label key={i} className='text-[14px] bg-[#4d4d4d] text-[#dadada] px-2'>#{el}</label>
             
           })}

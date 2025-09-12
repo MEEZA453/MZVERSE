@@ -24,6 +24,9 @@ import VoteMenu from '../../Components/VoteMenu'
 import VoteMenuLg from '../../Components/VoteMenuLg'
 import PostMenuLg from '../../Components/PostMenuLg'
 import { IoIosArrowBack } from 'react-icons/io'
+import SearchAssets from '../../Components/SearchAssets'
+import Attachments from '../../Components/Attachments'
+import AttachmentsMenu from '../../Components/AttachmentsMenu'
 
 type AveragesType = {
   aesthetics: number;
@@ -46,7 +49,9 @@ export default function Post() {
     const [isMenu , setIsMenu]  = useState(false)
     const postId = usePathname().split('/')[2]
     const {user ,token , role} = useAuth()
+    const [attachmentsMenu ,setAttachmentsMenu] = useState(false)
     const router  = useRouter()
+    const [searchAssets , setSearchAssets] = useState(false)
     const [red , setRed ] = useState(false)
     const {setNotification , notification} = useNotification()
     const [isAuthor , setAuthor] = useState(false)
@@ -112,12 +117,15 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
               <h4 >{post?.name}</h4></div>
     
               <button className=' text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button></div>
-              
-        <AnimatePresence>{  isMenu ? isMobile ? <PostMenu role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
+
+                  <AnimatePresence>{attachmentsMenu&& <AttachmentsMenu setAttachmentsMenu = {setAttachmentsMenu} postId  = {post?._id} token= {token}/>}</AnimatePresence>
+
+              <AnimatePresence>{searchAssets &&  <SearchAssets postId={post?._id} setSearchAssets = {setSearchAssets} />} </AnimatePresence>
+        <AnimatePresence>{  isMenu ? isMobile ? <PostMenu setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets} role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
                    <AnimatePresence>{  isVoteMenu ? isMobile ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/> : <VoteMenuLg role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
         {/* <ProductImages images={post?.images}/> */}
 <ImageShower isMobile={isMobile} images = {post?.images}/>
-    
+    <Attachments setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>
      <div onClick={()=>setIsMenu(false)} className='w-full  lg:h-screen bg-black mt-10 rounded lg:w-[30vw] mb-4 lg:pt-20 '>
   
        { votes.length > 0 && <div className='w-full '>

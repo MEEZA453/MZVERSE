@@ -1,7 +1,33 @@
 import axios from 'axios' 
-const url = 'https://meeza-in-8.onrender.com/' 
-//  const url  = 'http://localhost:8080/'
+// const url = 'https://meeza-in-8.onrender.com/' 
+ const url  = 'http://localhost:8080/'
 
+
+
+export const requestAttachAsset = (postId, assetId, message, token) =>
+  axios.post(`${url}post/request-attach`, { postId, assetId, message }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+ 
+  export const approveAttachRequest = (notificationId, approve, token) =>
+  axios.post(`${url}post/approve-attach`, { notificationId, approve }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+export const detachAsset = (postId ,assetId, token) =>
+  axios.post(`${url}post/detach`, { postId, assetId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+// Get assets of a post
+export const getAssetsOfPost = (postId, token) =>
+  axios.get(`${url}post/${postId}/assets`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+// Get posts where an asset is used
+export const getPostsOfAsset = (assetId, token) =>
+  axios.get(`${url}asset/${assetId}/posts`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
 
 export const getNotifications = (token) =>
   axios.get(`${url}notification`,{

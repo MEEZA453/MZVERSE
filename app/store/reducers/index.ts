@@ -12,6 +12,7 @@ import notification from "./notification";
 import promotion from './promotion';
 import jury from './jury';
 import profile from './profile';
+import attach from './attach';
 const rootReducer = combineReducers({
   design,
   cart,
@@ -25,7 +26,8 @@ const rootReducer = combineReducers({
   promotion,
   profile,
   notification,
-  jury
+  jury,
+  attach
 });
 
 export type RootState = ReturnType<typeof rootReducer>; // ✅ Type for useSelector

@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 import { addToFavorites, removeFromFavorites } from "../store/actions/fav";
 import { addToPromotion, removeFromPromotion } from "../store/actions/Promotion";
 import { addToHighlight, removeFromHighlight } from "../store/actions/Highlight";
-export default function PostMenu({ setIsMenu , postId , token  ,isAuthor , role}){
+export default function PostMenu({ setAttachmentsMenu, setSearchAssets ,  setIsMenu , postId , token  ,isAuthor , role}){
   const [highlighted , setHighlight] = useState(false)
   const [promoted , setPromoted] = useState(false)
 const { favourites } = useSelector((state: any) => state.favourites);
@@ -65,6 +65,14 @@ const addToMoodBoard = () => {
 
   }
 
+const  handleAttachAsset = ()=>{
+setSearchAssets(true)
+}
+const handleViewAttachedAssets = ()=>{
+setAttachmentsMenu(true)
+setIsMenu(false)
+}
+
 const router = useRouter()
 const dispatch = useDispatch<AppDispatch>();
 const handleDeleteClick = ()=>{
@@ -94,7 +102,19 @@ router.back()
     >
     {!promoted ? 'Add to promotion':'Remove from  promotion'}
     </button>}
-
+{ (isAuthor || role === 'dev') && <button
+      onClick={()=>handleAttachAsset()}
+      className=" w-full text-[15px] px-5   w-full lg:text-left  gap-1"
+    >
+      Attach asset
+    </button>
+    }{ (isAuthor || role === 'dev') && <button
+      onClick={()=>handleViewAttachedAssets()}
+      className=" w-full text-[15px] px-5   w-full lg:text-left  gap-1"
+    >
+      View attched assets 
+    </button>
+    }
 { (isAuthor || role === 'dev') && <button
       onClick={()=>handleDeleteClick()}
       className="text-red-500 w-full text-[15px] px-5   w-full lg:text-left  gap-1"
