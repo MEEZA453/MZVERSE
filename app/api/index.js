@@ -8,7 +8,11 @@ export const requestAttachAsset = (postId, assetId, message, token) =>
   axios.post(`${url}post/request-attach`, { postId, assetId, message }, {
     headers: { Authorization: `Bearer ${token}` }
   });
- 
+ export const attachAsset = (postId, assetId, token) =>
+  axios.post(`${url}attach`, { postId, assetId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
   export const approveAttachRequest = (notificationId, approve, token) =>
   axios.post(`${url}post/approve-attach`, { notificationId, approve }, {
     headers: { Authorization: `Bearer ${token}` }

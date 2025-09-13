@@ -26,6 +26,7 @@ import { FaArrowDown } from 'react-icons/fa';
 import { SlArrowDown } from 'react-icons/sl';
 import ImageShower from '../../Components/ImageShower';
 import { IoIosArrowBack } from 'react-icons/io';
+import Useages from '../../Components/Useges';
 export default function ProductPage() {
 const pathname = usePathname()
 
@@ -42,8 +43,10 @@ const [isMenu , setIsMenu] = useState(false)
   const [opacity, setOpacity] = useState(0); // start at 0
   const { data , loading}: { data: Product[] ; loading : boolean } = useAssets();
   const product = data.find((item) => item._id === slug);
+  const [viewUsages , setViewUsages]  = useState(true)
   const router  = useRouter()
-console.log(product)
+
+
    useEffect(() => {
      if (typeof window !== 'undefined') {
        const profile = localStorage.getItem('profile')
@@ -114,29 +117,31 @@ const dispatch = useDispatch<AppDispatch>();
 </div> */}
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
 
-        <aside  className='flex flex-col bg-black pt-3 -translate-y-4 rounded-t-[6px] items-center  sticky top-2    lg:mt-4'>
+        <aside  className='flex flex-col bg-black pt-3 -translate-y-4 rounded-t-[6px] items-center  w-screen sticky top-2    lg:mt-4'>
 <div className='w-full mb-8 px-2'>
   <div className='w-full mt-1  border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
-    <h6>createdBy:</h6>
-    <h6>@immeeza</h6>
+    <h3 >createdBy:</h3>
+    <h3 >@immeeza</h3>
   </div>
  <div className='w-full mt-1 border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
-    <h6>Supply type:</h6>
+    <h3>Supply type:</h3>
     
-            <label className='text-[14px] bg-[#4d4d4d] text-[#dadada] px-2'>Preset</label>
+            <label className='text-[13px] pt-0.5 bg-[#4d4d4d] text-[#dadada] px-2'>Preset</label>
         
   </div>
 <div className='w-full  mt-1 border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
-    <h6>Size:</h6>
-    <h6>2.0GB</h6>
+    <h3 >Size:</h3>
+    <h3 >2.0GB</h3>
   </div>
-  <button className='bg-white text-black w-full rounded-[3px] text-[15px] mt-4'>Buy now</button>
+  <button className='bg-white text-black w-full rounded-[2px]  h-6 flex items-center justify-center pb-0.5 text-[14px] mt-4'>Buy now</button>
+  <button className='border border-white text-white w-full rounded-full h-6 flex items-center pb-1 justify-center  text-[14px] mt-2'>Add to Bag</button>
+
 
 </div>
 
 <div className='w-full justify-between  flex px-2'>
-  <button className='text-[13px] w-full border-b'>Details of Asset</button>
-  <button className='text-[14px] w-full '>Useages</button>
+  <button onClick={()=>setViewUsages(true)} className={`text-[14px] w-full  ${viewUsages ? 'border-b opacity-100':'opacity-60'} duration-100`}>Useages</button>
+  <button onClick={()=>setViewUsages(false)} className={`text-[13px] w-full  ${viewUsages ? 'opacity-60':'border-b opacity-100'} duration-100`}>Details of Asset</button>
 
 </div>
          {/* <div className='pricing flex flex-col justify-between pb-4 relative bg-white h-40 rounded w-[96%] '>
@@ -150,27 +155,25 @@ const dispatch = useDispatch<AppDispatch>();
 
             </div>
          </div> */}
-         <div className='details mt-10'>
+
+<div className='h-full'>
+{
+  viewUsages?  <Useages assetId  = {product?._id} token ={token }/> :     <div className='details h-full mt-10'>
+         <div className='section-details'>
           {product?.sections.map((section , index)=>{
-            return <div  className={`bg-[#1d1d1d]   ${openIndex === index ? 'h-50':'h-9'} mb-2 duration-500`} key={index}>
+            return <div  className={` h-fit  mb-2 duration-500`} key={index}>
               <div className=' flex justify-between items-center w-screen  lg:w-[30vw]   px-3'>
-              <h4  className='mb-2 mt-1'> {section.title}</h4>
-            <button onClick={() => setOpenIndex(index)}>
-                     <SlArrowDown 
-                       style={{ rotate: openIndex === index ? '180deg' : '0deg' }} 
-                       className="duration-300" 
-                       size={13} 
-                     />
-                   </button>
+              <h4  className='mb-1   w-full '> {section.title}</h4>
+
               </div>
-              <div className={`px-2 ${openIndex === index ? 'opacity-100':'opacity-0'} duration-200 delay-200`}>{section.content.map((el , i)=>{
+              <div className={`px-2 duration-200 delay-200`}>{section.content.map((el , i)=>{
                 return <p className='mb-1' key={i}>- {el}</p>
               })}</div>
             </div>
           })}
          </div>
          <div className='hastags'>
-          <h4 className='bg-[#1d1d1d]  mb-2 px-3 w-screen lg:w-[30vw]'>Tags</h4>
+          <h4 className='  mb-2 px-3 w-screen lg:w-[30vw]'>Tags</h4>
           <div className='flex px-3 gap-2'>
 
           {product?.hastags?.map((el , i)=>{
@@ -179,7 +182,11 @@ const dispatch = useDispatch<AppDispatch>();
           })}
           </div>
          </div>
-      
+      </div>
+}
+  </div>       
+
+    
         </aside>
 </div>
 

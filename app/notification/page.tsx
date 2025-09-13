@@ -19,6 +19,7 @@ import JuryApplicationRequest from "../Components/JuryApplicationRequest"
 import JuryApproval from "../Components/JuryApproval"
 import SwipeToDelete from "../Components/SwipeToDelete"
 import AttachRequestNotification from "../Components/AttachRequestNotification"
+import ApproveAttachNotification from "../Components/ApproveAttachNotification"
 export default function Notification () {
   const {setIsNotification} = useNotification()
     const {token} = useAuth()
@@ -76,6 +77,11 @@ console.log(items)
         {noti?.type === "follow" && (
           <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
             <FollowNotification noti={noti} />
+          </SwipeToDelete>
+        )}
+          {noti?.type === "asset_attach_approved" && (
+          <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+       <ApproveAttachNotification noti={noti}/>
           </SwipeToDelete>
         )}
 

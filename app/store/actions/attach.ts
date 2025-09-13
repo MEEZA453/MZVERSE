@@ -26,6 +26,20 @@ export const requestAttachAsset = (
   }
 };
 
+export const attachAsset = (postId: string, assetId: string, token: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: "ATTACH_ASSET_REQUEST" });
+    const { data } = await api.attachAsset(postId, assetId, token);
+    dispatch({ type: "ATTACH_ASSET_SUCCESS", payload: data });
+  } catch (error: any) {
+    const errorMsg = error.response?.data?.message || error.message;
+    dispatch({ type: "ATTACH_ASSET_FAIL", payload: errorMsg });
+  }
+};
+
+// Get assets of a post
+
+
 // Approve or reject an attach request (asset creator action)
 export const approveAttachRequest = (
   notificationId: string,

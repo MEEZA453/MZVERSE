@@ -86,7 +86,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
         </div>
       </div>
 
-      <div className="top-2 fixed z-[999] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
+      <div className="top-2 fixed z-[700] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
 <button onClick={()=>router.push('/')}><Image alt='logo' width={100} height={100} src="/logo.png" className="w-8 ml-2 rounded-xl lg:w-7" /></button>
 
         {/* <div className="flex gap-1 fixed top-15 left-1/2 -translate-x-1/2 lg:gap-6">

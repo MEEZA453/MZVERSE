@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { addToFavorites, removeFromFavorites } from "../store/actions/fav";
 import { removeFromHighlight  ,   addToHighlight } from "../store/actions/Highlight";
 import { addToPromotion, removeFromPromotion } from "../store/actions/Promotion";
+import { deleteDesign } from "../store/actions/design";
 export default function ProductMenu({ setIsMenu , postId , token  }){
 const [moodboard , setMoodboard ] = useState(true)
 const [highlighted , setHighlight] = useState(false)
@@ -22,7 +23,7 @@ const router = useRouter()
 const dispatch = useDispatch<AppDispatch>();
 const handleDeleteClick = ()=>{
     console.log('clicked',postId)
-    dispatch(deletePostAction(postId , token))
+    dispatch(deleteDesign(postId ))
 router.back()
 }
     return  <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}}exit = {{opacity : 0}}  transition={{duration: 0.3 , }} className="h-screen w-screen z-[999] fixed left-0 bottom-0 bg-black/50">
