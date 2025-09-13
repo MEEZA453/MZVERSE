@@ -30,15 +30,15 @@ const attach = (state = initialState, action: AnyAction): AssetState => {
       return { ...state, loading: true, error: null };
 
     // Attach asset success
-    case "ATTACH_ASSET_SUCCESS":
-      return {
-        ...state,
-        loading: false,
-        error: null,
-        assetsOfPost: state.assetsOfPost.some(a => a._id === action.payload._id)
-          ? state.assetsOfPost
-          : [...state.assetsOfPost, action.payload],
-      };
+case "ATTACH_ASSET_SUCCESS":
+  return {
+    ...state,
+    loading: false,
+    error: null,
+    assetsOfPost: state.assetsOfPost.some(a => a._id === action.payload._id)
+      ? state.assetsOfPost
+      : [...state.assetsOfPost, action.payload],
+  };
 
     // Detach asset success
     case "DETACH_ASSET_SUCCESS":

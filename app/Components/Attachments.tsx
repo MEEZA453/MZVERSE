@@ -15,7 +15,7 @@ export default function Attachments ({postId , token, setAttachmentsMenu , asset
       <MultipleAttachment 
       setAttachmentsMenu={setAttachmentsMenu}
         length={assetsOfPost?.length} 
-        coverImage={assetsOfPost[0]?.image[0]} 
+        coverImage={assetsOfPost[0]?.image?.[0] || '/abundance.webp'} 
       />
     {/* ) : ( */}
       {/* <Attachment asset={assetsOfPost[0]} /> */}

@@ -37,7 +37,7 @@ export  default function Feed (){
 <motion.div onClick={()=>setIsNotification(false)} className={`fixed top-0 h-screen w-screen duration-500 bg-black/60 z-[900] ${isNotification ? 'opacity-100 pointer-events-auto': 'opacity-0  pointer-events-none'}`}></motion.div>
       <AnimatePresence> { isNotification && <Notification/>}</AnimatePresence>
       
-        <div className="sticky top-13 z-[800]">
+        <div className="sticky top-13 z-[300]">
         <div className=" left-1/2 w-screen justify-center items-center flex px-2 mt-3 gap-1">
 {
     tabs.map((tab, index : number)=>{

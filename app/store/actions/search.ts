@@ -82,15 +82,25 @@ export const getDefaultPosts = () => async (dispatch: AppDispatch) => {
 };
 
 // 🔹 Search Assets
-export const searchAssets = (query: string, page: number = 1, limit: number = 10) => async (dispatch: AppDispatch) => {
+export const searchAssets = (
+  query: string,
+  page: number = 1,
+  limit: number = 10,
+  token: string
+) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: 'SEARCH_ASSETS_REQUEST' });
 
-    const { data } = await api.searchAssets(query, page, limit);
+    const { data } = await api.searchAssets(query, page, limit, token);
 
     dispatch({
       type: 'SEARCH_ASSETS_SUCCESS',
-      payload: data,
+      payload: {
+        page: data.page,
+        limit: data.limit,
+        count: data.count,
+        results: data.results, // already includes isMyProduct from backend
+      },
     });
   } catch (error: any) {
     const errMsg = error.response?.data?.message || error.message;
@@ -100,23 +110,29 @@ export const searchAssets = (query: string, page: number = 1, limit: number = 10
     });
   }
 };
-
 // 🔹 Default Assets
-export const getDefaultAssets = (page: number , limit: number = 0) => async (dispatch: AppDispatch) => {
-  try {
-    dispatch({ type: 'SEARCH_ASSETS_REQUEST' });
+export const getDefaultAssets = (page: number = 1, limit: number = 10 , token:string) => 
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch({ type: 'SEARCH_ASSETS_REQUEST' });
 
-    const { data } = await api.getDefaultAssets(page, limit);
+      const { data } = await api.getDefaultAssets(page, limit, token);
 
-    dispatch({
-      type: 'SEARCH_ASSETS_SUCCESS',
-      payload: data,
-    });
-  } catch (error: any) {
-    const errMsg = error.response?.data?.message || error.message;
-    dispatch({
-      type: 'SEARCH_ASSETS_FAIL',
-      payload: errMsg,
-    });
-  }
-};
+      dispatch({
+        type: 'SEARCH_ASSETS_SUCCESS',
+        payload: {
+          page: data.page,
+          limit: data.limit,
+          count: data.count,
+          results: data.results, // ✅ backend already sends isMyProduct
+        },
+      });
+    } catch (error: any) {
+      const errMsg = error.response?.data?.message || error.message;
+      dispatch({
+        type: 'SEARCH_ASSETS_FAIL',
+        payload: errMsg,
+      });
+    }
+  };
+

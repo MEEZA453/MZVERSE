@@ -52,10 +52,10 @@ export default function SwipeToDelete({ onDelete, children }: SwipeToDeleteProps
   }, [])
 
   return (
-    <div className="relative w-full" ref={cardRef}>
+    <div className="relative w-full " ref={cardRef}>
       {/* Delete Button (slides in as you drag) */}
       <div
-        className="absolute right-0 top-[1px] h-9 flex items-center justify-center bg-white w-9 rounded-full transition-opacity duration-200"
+        className="absolute right-0 top-[1px] h-9 mt-1.5 flex items-center justify-center bg-white w-9 rounded-full transition-opacity duration-200"
         style={{ opacity: Math.min(Math.abs(offsetX) / 40, 1) }}
       >
         <button onClick={onDelete} className="text-black">

@@ -10,9 +10,8 @@ import { AppDispatch } from '../store/store';
 import { searchUsers } from '../store/actions/auth';
 import { useAuth } from '../Context/AuthContext';
 import { searchPostsAction } from '../store/actions/post';
-import { searchAssets } from '../store/actions/design';
 import { useSelector } from 'react-redux';
-import { getDefaultAssets, getDefaultPosts, getDefaultUsers } from '../store/actions/search';
+import { getDefaultAssets, getDefaultPosts, getDefaultUsers, searchAssets } from '../store/actions/search';
 export default function Search({setSearch}){
     const searchTabs = ['Creators' , 'posts' , 'Assets'];
     const [selectedIndex , setSelectedIndex] = useState(0)
@@ -30,7 +29,7 @@ useEffect(() => {
       } else if (selectedIndex === 1) {
         dispatch(getDefaultPosts()); // e.g. trending posts
       } else if (selectedIndex === 2) {
-        dispatch(getDefaultAssets(1, 20)); // e.g. recent assets
+        dispatch(getDefaultAssets(1, 20, token)); // e.g. recent assets
       }
     } else {
       // 🔹 Perform search normally
@@ -39,7 +38,7 @@ useEffect(() => {
       } else if (selectedIndex === 1) {
         dispatch(searchPostsAction(query));
       } else if (selectedIndex === 2) {
-        dispatch(searchAssets(query, 1, 20));
+        dispatch(searchAssets(query, 1, 20 , token));
       }
     }
   }, 400);

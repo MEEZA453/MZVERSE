@@ -26,11 +26,17 @@ export const requestAttachAsset = (
   }
 };
 
-export const attachAsset = (postId: string, assetId: string, token: string) => async (dispatch: AppDispatch) => {
+export const attachAsset = (postId: string, assetId: string, token: string) => 
+  async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: "ATTACH_ASSET_REQUEST" });
+
     const { data } = await api.attachAsset(postId, assetId, token);
-    dispatch({ type: "ATTACH_ASSET_SUCCESS", payload: data });
+
+    dispatch({
+      type: "ATTACH_ASSET_SUCCESS",
+      payload: data.asset, // 👈 send only the asset object
+    });
   } catch (error: any) {
     const errorMsg = error.response?.data?.message || error.message;
     dispatch({ type: "ATTACH_ASSET_FAIL", payload: errorMsg });

@@ -58,7 +58,7 @@ export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, ass
         animate={{ y: 0 }}
         exit={{ y: 160 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed lg:absolute lg:w-60 lg:top-16 lg:left-[2vw] lg:h-fit z-200 bottom-4 py-2 max-sm:-translate-x-1/2 max-sm:left-1/2 flex px-1 flex-col items-center justify-center w-full rounded-[6px]"
+        className="fixed lg:absolute lg:w-60 lg:top-16 px-2 lg:left-[2vw] lg:h-fit z-200 bottom-4 py-2 max-sm:-translate-x-1/2 max-sm:left-1/2 flex px-1 flex-col items-center justify-center w-full rounded-[6px]"
       >
   
 {assetsOfPost.map((asset: any) => (

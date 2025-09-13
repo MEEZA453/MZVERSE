@@ -10,9 +10,9 @@ import { AppDispatch } from '../store/store';
 import { searchUsers } from '../store/actions/auth';
 import { useAuth } from '../Context/AuthContext';
 import { searchPostsAction } from '../store/actions/post';
-import { searchAssets } from '../store/actions/design';
+
 import { useSelector } from 'react-redux';
-import { getDefaultAssets, getDefaultPosts, getDefaultUsers } from '../store/actions/search';
+import { getDefaultAssets, getDefaultPosts, getDefaultUsers, searchAssets } from '../store/actions/search';
 import SearchedAssetsToAttach from './SearchAssetsToAttach';
 export default function SearchAssets({setSearchAssets , postId}){
     const searchTabs = ['Creators' , 'posts' , 'Assets'];
@@ -26,12 +26,12 @@ useEffect(() => {
   const handler = setTimeout(() => {
     if (!query.trim()) {
       // 🔹 Fetch default results if query is empty
-        dispatch(getDefaultAssets(1, 20)); // e.g. recent assets
+        dispatch(getDefaultAssets(1, 20 , token)); // e.g. recent assets
 
     } else {
       // 🔹 Perform search normally
-   
-        dispatch(searchAssets(query, 1, 20));
+  
+        dispatch(searchAssets(query, 1, 20 , token));
       
     }
   }, 400);

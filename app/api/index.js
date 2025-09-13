@@ -1,6 +1,6 @@
 import axios from 'axios' 
-const url = 'https://meeza-in-8.onrender.com/' 
-//  const url  = 'http://localhost:8080/'
+// const url = 'https://meeza-in-8.onrender.com/' 
+ const url  = 'http://localhost:8080/'
 
 
 
@@ -9,7 +9,7 @@ export const requestAttachAsset = (postId, assetId, message, token) =>
     headers: { Authorization: `Bearer ${token}` }
   });
  export const attachAsset = (postId, assetId, token) =>
-  axios.post(`${url}attach`, { postId, assetId }, {
+  axios.post(`${url}post/attach`, { postId, assetId }, {
     headers: { Authorization: `Bearer ${token}` }
   });
 
@@ -136,9 +136,10 @@ export const searchUsers = (query, token) =>
   axios.get(`${url}user/search/users?query=${query}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-export const searchAssets = (query, page, limit) =>
+export const searchAssets = (query, page, limit, token) =>
   axios.get(`${url}search/designs`, {
-    params: { query, page, limit }
+    params: { query, page, limit },
+    headers: { Authorization: `Bearer ${token}` }, // ✅ added
   });
 export const searchPosts = (query) =>
   axios.get(`${url}post/search/posts?query=${query}`);
@@ -153,10 +154,11 @@ export const getDefaultPosts = (limit = 10) =>
     params: { limit }
   });
 
-export const getDefaultAssets = (page , limit ) =>
-  axios.get(`${url}defaultSearch` , page , limit );
-
-
+export const getDefaultAssets = (page, limit, token) =>
+  axios.get(`${url}defaultSearch`, {
+    params: { page, limit },
+    headers: { Authorization: `Bearer ${token}` },
+  });
 export const sendEmailOtp = (email) =>
   axios.post(`${url}user/send-otp`, { email })
 
