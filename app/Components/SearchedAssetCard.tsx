@@ -39,9 +39,9 @@ return <div  className="w-full flex justify-start px-2">
                 </div>
             <button
           onClick={()=>handleAttach(asset?._id )}
-          className={`text-[13px] border px-2 py-0.5 rounded-[2px]`}
+          className={`text-[13px] border px-2 py-0.5 rounded-[2px] `}
         >
-          {!attached ? "Attach" : "Attached"}
+          {!attached ? "Send reaqest" : "Requested"}
         </button>
                  </div>
         </div>
