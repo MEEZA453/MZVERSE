@@ -28,6 +28,7 @@ const [amount, setAmount] = useState<number | "">("");
     const [sections, setSections] = useState([{ title: "", content: ["", ""] }]);
     const [faq , setFaq] = useState([{q : '' , a : ''} ,{q : '' , a : ''}])
     const router = useRouter()
+          const [removedImages, setRemovedImages] = useState<string[]>([]);
     const [loading , setLoading] = useState (false)
     const {user} = useAuth()
 console.log(currentData)
@@ -69,7 +70,17 @@ const dispatch = useDispatch<AppDispatch>();
     // useEffect(() => {
     //   dispatch(getDesign(1)); // Fetch first page; extend if you awant all pages
     // }, [dispatch]);
-  
+  const handleRemoveImage = (index: number) => {
+  const img = image[index];
+
+  // If it’s an existing URL, mark it for removal
+  if (typeof img === "string") {
+    setRemovedImages(prev => [...prev, img]);
+  }
+
+  // Remove from selectedImage array
+  setSelectedImage(prev => prev.filter((_, i) => i !== index));
+};
 
 
     const addSections = () => setSections([...sections, { title: "", content: [] }]);
@@ -165,7 +176,9 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   image.forEach((file) => formData.append("images", file));
   formData.append("sections", JSON.stringify(sections));
   formData.append("hashtags", JSON.stringify(hashtags));
-
+   if (removedImages.length > 0) {
+  formData.append("removeImages", JSON.stringify(removedImages));
+}
   try {
     const user = localStorage.getItem("profile");
     if (!user) throw new Error("User not found");
@@ -199,7 +212,7 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
 
       <section className=''>
-         <MobileImageInput  error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />
+         <MobileImageInput  handleRemove={handleRemoveImage} error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />
          
       </section>
 

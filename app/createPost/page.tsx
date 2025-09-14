@@ -24,12 +24,14 @@ catagoryError : boolean;
 const CreatePost: React.FC = () => {
     console.log('creating ')
     const {editPost} = useSelector((state: any) => state.posts);
-console.log(editPost)
+
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
       const [image, setSelectedImage] = useState([]);
+      console.log(image)
       const [selectedVoteFields, setSelectedVoteFields] = useState<string[]>([]);
-      console.log(selectedVoteFields)
+      const [removedImages, setRemovedImages] = useState<string[]>([]);
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",
@@ -38,6 +40,18 @@ console.log(editPost)
 
    
   });
+  
+const handleRemoveImage = (index: number) => {
+  const img = image[index];
+
+  // If it’s an existing URL, mark it for removal
+  if (typeof img === "string") {
+    setRemovedImages(prev => [...prev, img]);
+  }
+
+  // Remove from selectedImage array
+  setSelectedImage(prev => prev.filter((_, i) => i !== index));
+};
   useEffect(() => {
   if (editPost) {
     // ✅ Pre-fill form
@@ -118,6 +132,9 @@ const deleteField = (i: number) => {
     payload.append("name", formData.name);
     payload.append("description", formData.description);
     payload.append("category", formData.category);
+    if (removedImages.length > 0) {
+  payload.append("removeImages", JSON.stringify(removedImages));
+}
     payload.append("voteFields", JSON.stringify(selectedVoteFields));
         payload.append("hashtags", JSON.stringify(formData.hashtags));
         image.forEach((file) => payload.append("images", file));
@@ -171,7 +188,7 @@ const deleteField = (i: number) => {
          
             <section className=''>
         
-<MobileImageInput  error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />
+<MobileImageInput   handleRemove={handleRemoveImage}  error = {error.imagesError }selectedImage={image} setSelectedImage={setSelectedImage} />
     <div className="w-">
 
 </div>

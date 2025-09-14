@@ -5,15 +5,17 @@ import { GoPlus, GoPlusCircle } from "react-icons/go";
 import { RxCross2 } from "react-icons/rx";
 
 type ImageInputProps = {
-  selectedImage: (File | string)[];  // allow both
+  selectedImage: (File | string)[];
   setSelectedImage: React.Dispatch<React.SetStateAction<(File | string)[]>>;
   error: boolean;
+  handleRemove: (index: number) => void; // add this
 };
 
 export default function MobileImageInput({
   error,
   selectedImage,
   setSelectedImage,
+  handleRemove,
 }: ImageInputProps) {
   const [previewURLs, setPreviewURLs] = useState<string[]>([]);
 
@@ -22,9 +24,9 @@ export default function MobileImageInput({
     setSelectedImage((prev) => [...prev, ...newFiles]);
   };
 
-  const handleRemove = (index: number) => {
-    setSelectedImage((prev) => prev.filter((_, i) => i !== index));
-  };
+  // const handleRemove = (index: number) => {
+  //   setSelectedImage((prev) => prev.filter((_, i) => i !== index));
+  // };
 
   // useEffect(() => {
   //   const urls = selectedImage.map((file) => URL.createObjectURL(file));
