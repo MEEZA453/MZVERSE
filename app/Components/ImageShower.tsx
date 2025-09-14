@@ -115,7 +115,7 @@ export default function ImageShower({ images = [], isMobile = false }: { images?
         onMouseMove={handleMouseMove}
       >
         {!isMobile && (
-          <div className="gradient absolute pointer-events-none w-120 h-screen bg-gradient-to-l from-[#000000] to-[#00000000] z-[900] right-[1px] top-0"></div>
+          <div className="gradient absolute pointer-events-none w-120 h-screen bg-gradient-to-l from-[#000000] to-[#00000000] z-[300] right-[1px] top-0"></div>
         )}
 
         {images.map((img: string, i: number) => (
@@ -135,7 +135,7 @@ export default function ImageShower({ images = [], isMobile = false }: { images?
 
       {/* Thumbnail Controller */}
       {images.length > 1 && (
-        <div className="absolute image-controller flex lg:left-6 left-2 bottom-2 gap-1">
+        <div className="absolute image-controller flex lg:left-[35vw] left-[35vw] bottom-2 gap-1">
           {images.map((el, i) => (
             <Image
               key={i}

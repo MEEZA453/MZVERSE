@@ -14,6 +14,20 @@ export const createPostAction = (formData: FormData, token: string) => async (di
     throw new Error(errMsg);
   }
 };
+export const editPostAction = (id: string, formData: FormData, token: string) => 
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch({ type: 'EDIT_POST_REQUEST' });
+      const { data } = await api.editPost(id, formData, token);
+      dispatch({ type: 'EDIT_POST_SUCCESS', payload: data.post });
+      return data.post;
+    } catch (error: any) {
+      const errMsg = error.response?.data?.message || error.message;
+      dispatch({ type: 'EDIT_POST_FAIL', payload: errMsg });
+      throw new Error(errMsg);
+    }
+};
+
 export const searchPostsAction = (query: string) => async (dispatch: AppDispatch) => {
   try {
     dispatch({ type: 'SEARCH_POSTS_REQUEST' });

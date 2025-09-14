@@ -1,6 +1,6 @@
 'use client'
 
-import { useAssets } from '../../Context/AllAssetsContext';
+
 import Image from 'next/image';
 import {usePathname, useRouter} from 'next/navigation';
 import { Product } from '../../types/Product';
@@ -27,35 +27,33 @@ import { SlArrowDown } from 'react-icons/sl';
 import ImageShower from '../../Components/ImageShower';
 import { IoIosArrowBack } from 'react-icons/io';
 import Useages from '../../Components/Useges';
+import ProductMenuLg from '../../Components/ProductMenuLg';
+import { getDesignById } from '../../store/actions/design';
 export default function ProductPage() {
 const pathname = usePathname()
 
 const [openIndex, setOpenIndex] = useState(0);
 const {setNotification , notification} = useNotification()
 const productpath = pathname.split('/');
-const [token , setToken] = useState('')
+
 const [isMobile , setIsMobile] = useState(false)
 const {role  } = useAuth()
 const [red ,setRed ] = useState(false)
 const {setShowLoginInput , setShowSignupInput , showLoginInput , showSignupInput} = useShowInput()
 const slug = productpath[productpath.length - 1]
+console.log(slug)
 const [isMenu , setIsMenu] = useState(false)
+const {token} = useAuth()
   const [opacity, setOpacity] = useState(0); // start at 0
-  const { data , loading}: { data: Product[] ; loading : boolean } = useAssets();
-  const product = data.find((item) => item._id === slug);
+
+const dispatch = useDispatch<AppDispatch>()
+
   const [viewUsages , setViewUsages]  = useState(true)
   const router  = useRouter()
-
-
+const {product , loading} = useSelector((state : any)=> state.design)
    useEffect(() => {
-     if (typeof window !== 'undefined') {
-       const profile = localStorage.getItem('profile')
-       if (profile) {
-         const parsedUser = JSON.parse(profile)
-         setToken(parsedUser.token)
-       }
-     }
-   }, [])
+    dispatch(getDesignById(slug , token))
+   }, [dispatch  , slug, token])
    useEffect(()=>{
 
     window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
@@ -73,7 +71,7 @@ useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-const dispatch = useDispatch<AppDispatch>();
+
   const isFavorited = false
 
 
@@ -82,7 +80,8 @@ const dispatch = useDispatch<AppDispatch>();
 
   <Notification/>
        <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
-          <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 fixed z-[999] top-14 '>
+      { loading || !product? <Loading/> :<div>
+  <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 fixed z-[999] top-14 '>
                      <div className='flex gap-1 items-center justify-center'>
                      <button onClick={()=> router.back()}>
                        <IoIosArrowBack size={20} />
@@ -90,11 +89,11 @@ const dispatch = useDispatch<AppDispatch>();
                        </button>
                      <h4 >{product?.name}</h4></div>
            
-                     <button className=' text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button></div>
-                       <AnimatePresence>{  isMenu ?  <ProductMenu setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> 
+                    { product?.isMyProduct&&<button className=' text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>}</div>
+                       {isMobile ? <AnimatePresence>{  isMenu ?  <ProductMenu currentData={product} setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> :
+                       <AnimatePresence>{  isMenu ?  <ProductMenuLg setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> }
       {showLoginInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
-      {
-      loading ? <Loading/>: <main  className='desc flex max-sm:flex-col h-screen w-screen  max-sm:items-center'>
+      <main  className='desc flex max-sm:flex-col h-screen w-screen  max-sm:items-center'>
 
 <section className='sticky top-0'>
 <div       style={{ opacity }} className='h-full absolute pointer-events-none top-0 z-[99] w-full bg-black'></div>
@@ -117,7 +116,7 @@ const dispatch = useDispatch<AppDispatch>();
 </div> */}
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
 
-        <aside  className='flex flex-col bg-black pt-3 -translate-y-4 rounded-t-[6px] items-center  w-screen sticky top-2    lg:mt-4'>
+        <aside  className='flex flex-col bg-black pt-3  lg:overflow-y-scroll h-screen hide-scrollbar -translate-y-4 lg:w-[30vw] rounded-t-[6px] items-center  w-screen sticky top-2    lg:mt-14'>
 <div className='w-full mb-8 px-2'>
   <div className='w-full mt-1  border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
     <h3 >createdBy:</h3>
@@ -172,11 +171,11 @@ const dispatch = useDispatch<AppDispatch>();
             </div>
           })}
          </div>
-         <div className='hastags'>
+         <div className='hashtags'>
           <h4 className='  mb-2 px-3 w-screen lg:w-[30vw]'>Tags</h4>
           <div className='flex px-3 gap-2'>
 
-          {product?.hastags?.map((el , i)=>{
+          {product?.hashtags?.map((el , i)=>{
             return <label key={i} className='text-[14px] bg-[#4d4d4d] text-[#dadada] px-2'>#{el}</label>
             
           })}
@@ -192,10 +191,12 @@ const dispatch = useDispatch<AppDispatch>();
 
 
          </main>
-    }
+    
 
 {/* <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-black to-[#00000000] z-[300] top-0"></div> */}
       
+       </div>} 
+        
     </div>
   );
 }

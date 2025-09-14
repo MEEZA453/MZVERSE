@@ -1,6 +1,6 @@
 import axios from 'axios' 
-const url = 'https://meeza-in-8.onrender.com/' 
-//  const url  = 'http://localhost:8080/'
+// const url = 'https://meeza-in-8.onrender.com/' 
+ const url  = 'http://localhost:8080/'
 
 
 
@@ -101,14 +101,7 @@ export const loginUser = (user) =>
   axios.post(`${url}user/login`, user);
 export const googleLogin = (code) =>
   axios.post(`${url}user/google-login`, { code });
-export const postDesign = (newPost, token) => {
-  return axios.post(`${url}post`, newPost, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data'
-    }
-  });
-};
+
 export const setUserHandle = (userId, handle, token) =>
   axios.post(
   `${url}user/handle`,
@@ -170,13 +163,47 @@ export const resendOtp = (email) =>
   axios.post(`${url}user/resend-otp`, { email })
 
 export const deleteDesign = (id) => axios.delete(`${url}delete/${id}`);
-export const getDesign = (page = 1 , limit = 6)=> axios.get(`${url}allProducts` , page , limit )
+export const getDesign = (token) => {
+  return axios.get(`${url}allproducts`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+};
+export const getDesignById = (id, token) => {
+  return axios.get(`${url}assetById/${id}`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+};
+
+// ✅ Get product by HANDLE
+export const getDesignByHandle = (handle, token) => {
+  return axios.get(`${url}assetByHandle/${handle}`, {
+    headers: token ? { Authorization: `Bearer ${token}` } : {},
+  });
+};
 export const createOrder = (items)=> axios.post(`${url}payment/create-order` , items)
 export const getCart = ()=>axios.get('https://meeza-in-8.onrender.com/cart')
 export const postCart = (newCart)=>axios.post('https://meeza-in-8.onrender.com/cart/postcart' , newCart)
 export const deleteCart = (newCart)=>axios.post('https://meeza-in-8.onrender.com/cart/deletecart' , newCart)
 export const updateCartItem = (updatedItem) => axios.put(`https://meeza-in-8.onrender.com/cart/update/${updatedItem._id}`, updatedItem);
+// export const getDesign = (page = 1 , limit = 6 ) =>
+//   axios.post(`${url}allProducts`,page , limit, );
 
+export const postDesign = (newPost, token) => {
+  return axios.post(`${url}post`, newPost, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data'
+    }
+  });
+};
+export const editDesign = (id, post, token) => {
+  return axios.put(`${url}edit/${id}`, post, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data', // <- required for FormData
+    },
+  });
+};
 
 
 export const addToFavorites = (designId , token) =>
@@ -243,7 +270,10 @@ export const createPost = (newPost, token) => {
 
 // Get All Posts
 export const getPosts = () => axios.get(`${url}post`);
-
+export const editPost = (id, post, token) =>
+  axios.put(`${url}post/editPost/${id}`, post, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 // Get Post By ID
 export const getPostById = (id) => axios.get(`${url}post/${id}`);
 export const getPostsByHandle = (id) => axios.get(`${url}post/postByHandle/${id}`);

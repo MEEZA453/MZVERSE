@@ -1,64 +1,102 @@
-import * as api from '../../api'
-import {Product } from '../../types/Product'
-import { AppDispatch } from '../store';
+import * as api from "../../api";
+import { AppDispatch } from "../store";
+import { Product } from "../../types/Product";
 
-export const postDesign = (post : FormData , token : string) => async (dispatch : AppDispatch) => {
+// ✅ Post design
+export const postDesign = (post: FormData, token: string) => async (dispatch: AppDispatch) => {
+  try {
+    dispatch({ type: "POST_PRODUCT_REQUEST" });
+    const { data } = await api.postDesign(post, token);
+    dispatch({ type: "POST_PRODUCT_SUCCESS", payload: data.product });
+  } catch (error: any) {
+    dispatch({ type: "POST_PRODUCT_FAIL", payload: error.message });
+    console.log("Error posting design:", error.message);
+  }
+};
+export const getDesignById =
+  (id: string, token?: string) =>
+  async (dispatch: AppDispatch) => {
     try {
-      console.log('Post data being sent:', post);  // Log the post data to check if it's formatted correctly
-      const { data } = await api.postDesign(post , token); 
-      dispatch({ type: 'POST_PRODUCT', payload: data });
-    } catch (error) {
-      console.log('Error in action:', error.message); // Log the error message
+      dispatch({ type: "FETCH_PRODUCT_BY_ID_REQUEST" });
+      const { data } = await api.getDesignById(id, token);
+      dispatch({
+        type: "FETCH_PRODUCT_BY_ID_SUCCESS",
+        payload: data.product,
+      });
+    } catch (err: any) {
+      dispatch({
+        type: "FETCH_PRODUCT_BY_ID_FAIL",
+        payload: err.message,
+      });
+      console.log("Error fetching product by ID:", err.message);
     }
   };
-// export const searchAssets = (
-//   query: string, 
-//   page: number = 1, 
-//   limit: number = 10
-// ) => async (dispatch: AppDispatch) => {
-//   try {
-//     dispatch({ type: 'SEARCH_ASSETS_REQUEST' });
 
-//     const { data } = await api.searchAssets(query, page, limit);
-
-//     dispatch({ 
-//       type: 'SEARCH_ASSETS_SUCCESS', 
-//       payload: data 
-//     });
-//   } catch (error: any) {
-//     const errMsg = error.response?.data?.message || error.message;
-//     dispatch({
-//       type: 'SEARCH_ASSETS_FAIL',
-//       payload: errMsg,
-//     });
-//   }
-// };
-  export const getDesign = (page : number , limit : number)=> async(dispatch : any) =>{
+// ✅ Fetch product by HANDLE
+export const getDesignByHandle =
+  (handle: string, token?: string) =>
+  async (dispatch: AppDispatch) => {
     try {
-      const { data } = await api.getDesign(page , limit);
-      dispatch({type : 'FETCH_ALL_PRODUCTS' , payload : data})
-    }catch (err){
-      console.log('error in action : ', err.message)
+      dispatch({ type: "FETCH_PRODUCT_BY_HANDLE_REQUEST" });
+      const { data } = await api.getDesignByHandle(handle, token);
+      dispatch({
+        type: "FETCH_PRODUCT_BY_HANDLE_SUCCESS",
+        payload: data.product,
+      });
+    } catch (err: any) {
+      dispatch({
+        type: "FETCH_PRODUCT_BY_HANDLE_FAIL",
+        payload: err.message,
+      });
+      console.log("Error fetching product by handle:", err.message);
     }
-  }
-  export const deleteDesign = (id : string) => async (dispatch) => {
+  };
+
+// ✅ Fetch all designs
+
+// ✅ Fetch all designs with authorization
+export const getDesign =
+  (token?: string) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch({ type: "FETCH_ALL_PRODUCTS_REQUEST" });
+
+      const { data } = await api.getDesign(token);
+
+      dispatch({
+        type: "FETCH_ALL_PRODUCTS_SUCCESS",
+        payload: data.results, // ✅ backend sends { results: [...] }
+      });
+    } catch (err: any) {
+      dispatch({
+        type: "FETCH_ALL_PRODUCTS_FAIL",
+        payload: err.message,
+      });
+      console.log("Error fetching products:", err.message);
+    }
+  };
+
+
+// ✅ Delete design
+export const deleteDesign = (id: string) => async (dispatch: AppDispatch) => {
   try {
-    console.log(id)
-    await api.deleteDesign(id); // Send DELETE request
-    dispatch({ type: 'DELETE_PRODUCT', payload: id }); // Optionally update the Redux state
-  } catch (err) {
-    console.log('Error deleting product:', err.message);
+    dispatch({ type: "DELETE_PRODUCT_REQUEST" });
+    await api.deleteDesign(id);
+    dispatch({ type: "DELETE_PRODUCT_SUCCESS", payload: id });
+  } catch (err: any) {
+    dispatch({ type: "DELETE_PRODUCT_FAIL", payload: err.message });
+    console.log("Error deleting product:", err.message);
   }
 };
 
-export const createOrder = (items : Product[]) => async (dispatch) => {
+// ✅ Edit design
+export const editDesign = (id: string, post: FormData, token: string) => async (dispatch: AppDispatch) => {
   try {
-    console.log('creating order...', items);
-    const { data } = await api.createOrder(items);
-    dispatch({ type: 'CREATE_ORDER', payload: data });
-    return data.url;
-  } catch (err) {
-    console.log('create-order error', err);
-    // Optionally dispatch an error action here
+    dispatch({ type: "EDIT_PRODUCT_REQUEST" });
+    const { data } = await api.editDesign(id, post, token);
+    dispatch({ type: "EDIT_PRODUCT_SUCCESS", payload: data.product });
+  } catch (err: any) {
+    dispatch({ type: "EDIT_PRODUCT_FAIL", payload: err.message });
+    console.log("Error editing product:", err.message);
   }
 };

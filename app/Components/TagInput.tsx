@@ -4,24 +4,24 @@ import { RxCross2 } from "react-icons/rx";
 import { GoPlus } from "react-icons/go";
 
 type TagInputProps = {
-  hastags: string[];
-  setHastags: React.Dispatch<React.SetStateAction<string[]>>;
+  hashtags: string[];
+  setHashtags: React.Dispatch<React.SetStateAction<string[]>>;
   error?: boolean;
 };
 
-function TagInput({ hastags, setHastags, error }: TagInputProps) {
+function TagInput({ hashtags, setHashtags, error }: TagInputProps) {
   const [inputTag, setInputTag] = useState('');
 
-  const addHasTags = () => {
+  const addHashtags = () => {
     const trimmedTag = inputTag.trim();
-    if (trimmedTag !== '' && !hastags.includes(trimmedTag)) {
-      setHastags([...hastags, trimmedTag]);
+    if (trimmedTag !== '' && !hashtags.includes(trimmedTag)) {
+      setHashtags([...hashtags, trimmedTag]);
     }
     setInputTag('');
   };
 
   const deleteTag = (tagIndex: number) => {
-    setHastags(hastags.filter((_, index) => index !== tagIndex));
+    setHashtags(hashtags.filter((_, index) => index !== tagIndex));
   };
 
   return (
@@ -38,14 +38,14 @@ function TagInput({ hastags, setHastags, error }: TagInputProps) {
         <button
           type='button'
          className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center"
-          onClick={addHasTags}
+          onClick={addHashtags}
         >
           <GoPlus size={17} />
         </button>
       </div>
 
       <div className="flex flex-wrap gap-2 px-2 mt-2">
-        {hastags.map((hashtag, index) => (
+        {hashtags.map((hashtag, index) => (
           <div
             key={index}
             className="bg-[#1d1d1d] flex items-center text-black rounded px-1.5"

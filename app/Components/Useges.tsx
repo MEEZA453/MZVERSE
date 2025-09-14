@@ -14,7 +14,7 @@ export default function Useages({assetId , token}){
         dispatch(getPostsOfAsset(assetId , token))
     } , [dispatch])
     return <div>
-         {   !loading ? <div>{postsOfAsset?.length > 0 ?<div className='lg:grid-cols-5 lg:gap-5 gap-2  mt-10 grid-cols-2 grid'>
+         {   !loading ? <div>{postsOfAsset?.length > 0 ?<div className='lg:grid-cols-2 px-4 lg:gap-5 gap-2  mt-10 grid-cols-2 grid'>
         {postsOfAsset.map((post , index)=>{
             return <div key={index}>{<PostCard  post={post}/>}</div>
         })}

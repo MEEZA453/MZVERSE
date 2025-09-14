@@ -1,6 +1,5 @@
 'use client'
 import MasterNavber from '../Components/MasterNavber';
-import { useAssets } from '../Context/AllAssetsContext';
 import {useRouter , usePathname} from 'next/navigation';
 import Image from 'next/image';
 import {Product} from '../types/Product';
@@ -16,25 +15,27 @@ import { useSelector } from 'react-redux';
 import StoreCard from '../Components/StoreCard';
 import { VscUnlock } from "react-icons/vsc";
 import { SkeletonCard } from '../Components/Skeleton/SkeletonCard';
+import { useAuth } from '../Context/AuthContext';
+import { SkeletonMyPostCard } from '../Components/Skeleton/SkeletomMyPostCard';
 export default function AllAssets() {
   const currentPath  = usePathname();
    const [unlock, setUnlock] = useState(false)
-  const [loading, setLoading] = useState(true);
+
   const router = useRouter();
   const [red , setRed ] = useState(false)
 
-
+  const {token}  = useAuth()
 
   const dispatch: AppDispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(getDesign(9 , 10));
+      await dispatch(getDesign(token));
       
     };
     
     fetchData();
-    setLoading(false);
+
   }, [dispatch]);
 useEffect(() => {
   if (!unlock) {
@@ -47,10 +48,10 @@ useEffect(() => {
     document.body.style.overflow = "auto"; // cleanup
   };
 }, [unlock]);
-  const data = useSelector((state: any) => state.design);
+  const {items , loading} = useSelector((state: any) => state.design);
 
   return (
-    <div className='w-screen px-4 lg:px-22'>
+    <div className='w-screen px-4 mt-10 lg:px-22'>
       {/* <Notification/>
       <MasterNavber /> */}
      {/* { !unlock && <div className={'w-screen h-screen fixed top-0 bg-black/20 backdrop-blur-2xl z-400 flex items-center justify-center'}>
@@ -61,14 +62,14 @@ useEffect(() => {
     </div>} */}
 
       {   !loading ? <div className='lg:grid-cols-5 lg:gap-5 gap-2   grid-cols-2 grid'>
-           {data?.map((product:any, index:number) => (
+           {items?.map((product:any, index:number) => (
              <div key={index}>
      <StoreCard   product={product}/>
      </div>
            ))}
          </div> : <div className="lg:grid-cols-5 lg:gap-5 gap-1   grid-cols-2 grid">
                {Array.from({ length: 6 }).map((_, i) => (
-                 <SkeletonCard key={i} />
+                 <SkeletonMyPostCard key={i} />
                ))}
              </div>}
 

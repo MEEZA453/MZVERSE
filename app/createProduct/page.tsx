@@ -6,7 +6,7 @@ import { GoPlus } from "react-icons/go";
 import ImageInput from "../Components/ImageInput";
 import { LuMinus } from "react-icons/lu";
 import TagInput from "../Components/TagInput";
-import { postDesign } from "../store/actions/design";
+import { editDesign, postDesign } from "../store/actions/design";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 import { useRouter } from "next/navigation";
@@ -15,26 +15,45 @@ import { useAuth } from "../Context/AuthContext";
 import ButtonLoader from "../Components/ButtonLoader";
 import MobileImageInput from "../Components/MobileImageInput";
 import { RxCross1 } from "react-icons/rx";
+import { useSelector } from "react-redux";
 
 export default function CreateProduct() {
+  const currentData = useSelector((state: any) => state.design.editProduct);
    const [name, setName] = useState("");
     const [headline, setHeadline] = useState("this is the fucking headline");
-    const [amount, setAmount] = useState("");
+const [amount, setAmount] = useState<number | "">("");
     const [url , setUrl ] = useState("")
     const [image, setSelectedImage] = useState([]);
-    const [hastags, setHastags] = useState([]);
+    const [hashtags, setHashtags] = useState([]);
     const [sections, setSections] = useState([{ title: "", content: ["", ""] }]);
     const [faq , setFaq] = useState([{q : '' , a : ''} ,{q : '' , a : ''}])
     const router = useRouter()
     const [loading , setLoading] = useState (false)
     const {user} = useAuth()
+console.log(currentData)
+    useEffect(() => {
+  if (currentData) {
+    setName(currentData.name || "");
+    setHeadline(currentData.headline || "");
+    setAmount(
+      currentData.amount !== undefined && currentData.amount !== null
+        ? Number(currentData.amount)
+        : ""
+    );
+    setUrl(currentData.driveLink || "");
+    setSelectedImage(currentData.image || []);
+    setHashtags(currentData.hashtags || []);
+    setSections(currentData.sections || [{ title: "", content: [""] }]);
+    setFaq(currentData.faq || [{ q: "", a: "" }]);
+  }
+}, [currentData]);
 
     type ErrorState = {
   nameError: boolean;
   amountError: boolean;
   urlError : boolean;
   sectionsError: SectionError[];
-  hastagsError : boolean;
+  hashtagsError : boolean;
   imagesError : boolean
 };
 const [error, setError] = useState<ErrorState>({
@@ -42,7 +61,7 @@ const [error, setError] = useState<ErrorState>({
   amountError: false,
   urlError : false,
   sectionsError: [],
-  hastagsError : false,
+  hashtagsError : false,
   imagesError : false
 });
 const dispatch = useDispatch<AppDispatch>();
@@ -95,10 +114,11 @@ type SectionError = {
 
 
 
-const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-  console.log(image)
+const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault();
+  console.log(image);
 
+  // Validate sections
   const sectionError: SectionError[] = sections.map((section) => {
     const titleError = section.title.trim() === "";
     const contentError = section.content.map((c) => c.trim() === "");
@@ -108,17 +128,19 @@ const formSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     };
   });
 
+  // Overall errors
   const newErrors: ErrorState = {
     nameError: name.trim() === "",
-    amountError: amount.trim() === "",
-    urlError : url.trim() === "",
+    amountError: amount === "" || isNaN(Number(amount)),
+    urlError: url.trim() === "",
     sectionsError: sectionError,
-    hastagsError : hastags.length < 2,
-    imagesError : image.length < 1
+    hashtagsError: hashtags.length < 1,
+    imagesError: image.length < 1,
   };
 
   setError(newErrors);
-console.log(error)
+  console.log(newErrors);
+
   const hasSectionErrors = sectionError.some(
     (s) => s.title || s.content.some((c) => c)
   );
@@ -126,35 +148,48 @@ console.log(error)
   if (
     newErrors.nameError ||
     newErrors.urlError ||
+    newErrors.hashtagsError||
     newErrors.imagesError ||
     newErrors.amountError ||
     hasSectionErrors
+
   ) {
     return;
   }
 
+  // Prepare FormData
   const formData = new FormData();
   formData.append("name", name);
-formData.append("driveLink" , url)
-  formData.append("amount", amount);
-    image.forEach((file) => formData.append("images", file));
+  formData.append("driveLink", url);
+  formData.append("amount", String(amount));
+  image.forEach((file) => formData.append("images", file));
   formData.append("sections", JSON.stringify(sections));
-  formData.append("hastags", JSON.stringify(hastags));
-try {
-  const user = localStorage.getItem('profile');
-  if (user) {
+  formData.append("hashtags", JSON.stringify(hashtags));
+
+  try {
+    const user = localStorage.getItem("profile");
+    if (!user) throw new Error("User not found");
+
     const parsedUser = JSON.parse(user);
     const token = parsedUser.token;
-    console.log(token);
-    setLoading(true)
-    dispatch(postDesign(formData , token));
-    setLoading(false)
-    router.push('/AllAssets')
+
+    setLoading(true); // Start loader
+
+    if (currentData?._id) {
+      // 🔹 EDIT MODE
+      console.log("edit mode");
+      await dispatch(editDesign(currentData._id, formData, token));
+    } else {
+      // 🔹 CREATE MODE
+      await dispatch(postDesign(formData, token));
+    }
+
+    setLoading(false); // Stop loader after API finishes
+    router.push("/"); // Navigate only after API completes
+  } catch (err: any) {
+    setLoading(false);
+    console.log("Error submitting form:", err.message || err);
   }
-} catch (err) {
-  setLoading(false)
-  console.log('Invalid JSON in localStorage', err);
-}
 };
 
 
@@ -173,10 +208,19 @@ try {
         <aside className='flex flex-col items-center  border border-[#1d1d1d] rounded-xl py-7 overflow-y-auto'>
 <div className="name flex gap-2 relative w-full px-2">
     <div className="w-3/4"><h6>Name:</h6>
-<input  onChange={(e)=> setName(e.target.value)} className={`py-1 mt-1 px-2 border-[#2c2b2b] border bg-[#101010] ${error.nameError ?  'border border-red-500/50':null} rounded-[2px] w-full `}/>
+<input value={name} onChange={(e)=> setName(e.target.value)} className={`py-1 mt-1 px-2 border-[#2c2b2b] border bg-[#101010] ${error.nameError ?  'border border-red-500/50':null} rounded-[2px] w-full `}/>
     </div>
-<div className="w-1/4"><h6>Amount:</h6>
-<input onChange={(e)=> setAmount(e.target.value)}  className={`py-1 mt-1 px-2 border-[#2c2b2b] border bg-[#101010] ${error.amountError ?  'border border-red-500/50':null} rounded-[2px] w-full `}/>
+<div  className="w-1/4"><h6>Amount:</h6>
+<input
+  type="number"
+  value={amount}
+  onChange={(e) =>
+    setAmount(e.target.value === "" ? "" : Number(e.target.value))
+  }
+  className={`py-1 mt-1 px-2 border-[#2c2b2b] border bg-[#101010] ${
+    error.amountError ? "border border-red-500/50" : ""
+  } rounded-[2px] w-full `}
+/>
     </div>
 </div>
 
@@ -187,6 +231,7 @@ try {
 
   </div>
   <input type="url" size ={20} 
+  value={url}
   onChange={(e)=>setUrl(e.target.value)}  
       className={`py-1 px-2 border-[#2c2b2b] border-l-0 border bg-[#101010] ${error.urlError ?  'border  border-red-500/50':null} rounded-[2px] w-full `}/>
 </div>
@@ -287,13 +332,13 @@ try {
             </div>
         </div>
 
-          <div className='hastags'>
-            <h5  className='bg-[#1d1d1d] my-2 py-1 px-3 w-screen lg:w-[30vw]'>Add hastags*</h5>
+          <div className='hashtags'>
+            <h5  className='bg-[#1d1d1d] my-2 py-1 px-3 w-screen lg:w-[30vw]'>Add hashtags*</h5>
 
-                       <TagInput error={error.hastagsError} hastags={hastags} setHastags={setHastags} />
+                       <TagInput error={error.hashtagsError} hashtags={hashtags} setHashtags={setHashtags} />
             
           </div>
-  <button type="submit" className=" text-black flex mb-8 mt-4 w-[97%] h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ?<ButtonLoader/>:'Share'}</button>
+  <button type="submit" className=" text-black flex mb-8 mt-4 w-[97%] h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ? <ButtonLoader /> : currentData ? 'Update' : 'Share'}</button>
         </aside>
       </div>
 

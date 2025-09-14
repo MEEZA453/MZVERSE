@@ -67,14 +67,14 @@ export default function PromotionOfTheDay() {
       >
         {!loading ?
           reoderedPromotion.map((promo: any, index: number) => (
-            <div key={index} className="flex-shrink-0 w-[80vw] lg:w-[33.33vw]  mb-4 snap-center relative">
+            <div key={index} className="flex-shrink-0 w-[80vw] lg:w-[33.33vw] h-[85vw] lg:h-[37vw]  mb-4 snap-center relative">
               <Image
               onClick={()=>router.push('/posts/'+promo?._id)}
                 src={promo?.images[0]}
                 height={1500}
                 width={1500}
                 alt="promo"
-                className="w-full h-[22rem] lg:h-[40rem] object-cover rounded"
+                className="w-full h-[85vw] lg:h-[37vw]  object-cover rounded"
               />
         <div className="absolute pointer-events-none w-full h-80 bg-gradient-to-b from-[#00000080] to-[#00000000] z-[50] top-0"></div>
 

@@ -8,7 +8,7 @@ import { useAuth } from "../Context/AuthContext";
  import {motion} from 'framer-motion'
 import { useRouter } from "next/navigation";
 import { addToFavorites, removeFromFavorites } from "../store/actions/fav";
-export default function PostMenuLg({ setIsMenu , postId , token  ,isAuthor , role}){
+export default function PostMenuLg({ setAttachmentsMenu , setSearchAssets, setIsMenu , postId , token  ,isAuthor , role}){
   const [highlighted , setHighlight] = useState(false)
   const [promoted , setPromoted] = useState(false)
 const { favourites } = useSelector((state: any) => state.favourites);
@@ -44,6 +44,16 @@ const handleDeleteClick = ()=>{
     dispatch(deletePostAction(postId , token))
 router.back()
 }
+
+
+const  handleAttachAsset = ()=>{
+setSearchAssets(true)
+}
+const handleViewAttachedAssets = ()=>{
+setAttachmentsMenu(true)
+setIsMenu(false)
+}
+
     return   <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen z-[999] fixed left-0 bottom-0 flex items-center justify-center bg-black/50">
       <div onClick={()=>setIsMenu(false)} className="w-screen h-screen absolute "></div>
       <motion.div  initial = {{y : 50, opacity : 0 }} transition = {{duration : 0.2 , ease : "easeInOut"} } exit={{y : 50, opacity : 0}} animate = {{y : 0 , opacity :1}}  className="bg-[#151515]   w-100  h-fit  z-200  py-4 gap-1  flex  flex-col items-center justify-center  rounded-[6px]  ">
@@ -63,6 +73,19 @@ router.back()
     >
 {!isFavorited ? 'Add to moodboard':'Remove from moodboard'}
     </button>
+    { (isAuthor || role === 'dev') && <button
+      onClick={()=>handleAttachAsset()}
+      className="  text-[15px] px-5 w-full   border-b border-[#2d2d2d] pb-1  gap-1"
+    >
+      Attach asset
+    </button>
+    }{ (isAuthor || role === 'dev') && <button
+      onClick={()=>handleViewAttachedAssets()}
+      className="  text-[15px] px-5 w-full   border-b border-[#2d2d2d] pb-1  gap-1"
+    >
+      View attched assets 
+    </button>
+    }
     
 { (isAuthor || role === 'dev') && <button
       onClick={()=>handleDeleteClick()}

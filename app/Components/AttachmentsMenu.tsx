@@ -49,7 +49,7 @@ export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, ass
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
       exit={{ opacity: 0 }}
-      className="h-screen w-screen z-[999] fixed top-0   bg-[#101010]/50 backdrop-blur-xl"
+      className="h-screen w-screen z-[999] fixed bottom-0   bg-[#101010]/50 backdrop-blur-xl"
     >
       <div onClick={() => setAttachmentsMenu(false)} className="w-screen h-screen "></div>
       {assetsOfPost?.length<1? <p className=' absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 items-center'>No attachments found</p>: <div>
@@ -58,7 +58,7 @@ export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, ass
         animate={{ y: 0 }}
         exit={{ y: 160 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed lg:absolute lg:w-60 lg:top-16 px-2 lg:left-[2vw] lg:h-fit z-200 bottom-4 py-2 max-sm:-translate-x-1/2 max-sm:left-1/2 flex px-1 flex-col items-center justify-center w-full rounded-[6px]"
+        className="fixed  lg:w-[30vw] px-2  lg:h-fit z-200 bottom-4 py-2 -translate-x-1/2  left-1/2 flex px-1 flex-col items-center justify-center w-full rounded-[6px]"
       >
   
 {assetsOfPost.map((asset: any) => (

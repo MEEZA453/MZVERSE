@@ -1,8 +1,8 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../store/store";
-import { createPostAction } from "../store/actions/post";
+import { createPostAction, editPostAction } from "../store/actions/post";
 import { useRouter } from "next/navigation";
 import ImageInput from "../Components/ImageInput";
 import ButtonLoaderWhite from "../Components/ButtonLoaderWhite";
@@ -23,6 +23,8 @@ catagoryError : boolean;
 
 const CreatePost: React.FC = () => {
     console.log('creating ')
+    const {editPost} = useSelector((state: any) => state.posts);
+console.log(editPost)
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
       const [image, setSelectedImage] = useState([]);
@@ -36,6 +38,20 @@ const CreatePost: React.FC = () => {
 
    
   });
+  useEffect(() => {
+  if (editPost) {
+    // ✅ Pre-fill form
+    setFormData({
+      name: editPost.name || "",
+      description: editPost.description || "",
+      category: editPost.category || "",
+      hashtags: editPost.hashtags || [],
+    });
+
+    setSelectedVoteFields(editPost.voteFields || []);
+    setSelectedImage(editPost.images || []); // existing images (if you store URLs)
+  }
+}, [editPost]);
 // const [isFullImage  , setFullImage] = useState(false)
 const [isShowVoteField ,  setShowVoteField] = useState(false)
   const [error, setError] = useState<ErrorState>({
@@ -106,22 +122,37 @@ const deleteField = (i: number) => {
         payload.append("hashtags", JSON.stringify(formData.hashtags));
         image.forEach((file) => payload.append("images", file));
     try {
-      const user = localStorage.getItem("profile");
-      if (user) {
-        const parsedUser = JSON.parse(user);
-        const token = parsedUser.token;
-        setLoading(true);
+    const user = localStorage.getItem("profile");
+    if (user) {
+      const parsedUser = JSON.parse(user);
+      const token = parsedUser.token;
+      setLoading(true);
+
+      if (editPost) {
+        // ✅ EDIT FLOW
+        dispatch(editPostAction(editPost._id, payload, token))
+          .then(() => {
+            setLoading(false);
+            router.push("/");
+          })
+          .catch((err: any) => {
+            setLoading(false);
+            console.error(err);
+          });
+      } else {
+        // ✅ CREATE FLOW
         dispatch(createPostAction(payload, token))
           .then(() => {
             setLoading(false);
             router.push("/");
           })
-          .catch((err) => {
+          .catch((err: any) => {
             setLoading(false);
             console.error(err);
           });
       }
-    } catch (err) {
+    }
+  } catch (err) {
       setLoading(false);
       console.error("Invalid JSON in localStorage", err);
     }
@@ -207,7 +238,7 @@ const deleteField = (i: number) => {
 </div>
   
 
-     <button type="submit" className=" text-black flex mb-8 mt-4 w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ?<ButtonLoader/>:'Share'}</button>
+     <button type="submit" className=" text-black flex mb-8 mt-4 w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ? <ButtonLoader /> : editPost ? 'Update' : 'Share'}</button>
   </div>
 
     </form>

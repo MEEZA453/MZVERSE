@@ -113,7 +113,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
         
             </div>:null}
-            <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[100] top-14 '>
+            <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[400] top-14 '>
               <div className='flex gap-1 items-center justify-center'>
               <button onClick={()=> router.back()}>
                 <IoIosArrowBack size={20} />
@@ -126,7 +126,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
                   <AnimatePresence>{attachmentsMenu&& <AttachmentsMenu assetsOfPost = {assetsOfPost}  setAttachmentsMenu = {setAttachmentsMenu} postId  = {post?._id} token= {token}/>}</AnimatePresence>
 
               <AnimatePresence>{searchAssets &&  <SearchAssets postId={post?._id} setSearchAssets = {setSearchAssets} />} </AnimatePresence>
-        <AnimatePresence>{  isMenu ? isMobile ? <PostMenu setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets} role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
+        <AnimatePresence>{  isMenu ? isMobile ? <PostMenu currentData={post} setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets} role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets}  role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
                    <AnimatePresence>{  isVoteMenu ? isMobile ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/> : <VoteMenuLg role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
         {/* <ProductImages images={post?.images}/> */}
 <ImageShower isMobile={isMobile} images = {post?.images}/>

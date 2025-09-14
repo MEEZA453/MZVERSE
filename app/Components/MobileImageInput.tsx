@@ -5,10 +5,8 @@ import { GoPlus, GoPlusCircle } from "react-icons/go";
 import { RxCross2 } from "react-icons/rx";
 
 type ImageInputProps = {
-  selectedImage: File[];
-  // isFullImage : boolean;
-  // setFullImage : React.Dispatch<React.SetStateAction<boolean>>
-  setSelectedImage: React.Dispatch<React.SetStateAction<File[]>>;
+  selectedImage: (File | string)[];  // allow both
+  setSelectedImage: React.Dispatch<React.SetStateAction<(File | string)[]>>;
   error: boolean;
 };
 
@@ -28,15 +26,34 @@ export default function MobileImageInput({
     setSelectedImage((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // useEffect(() => {
+  //   const urls = selectedImage.map((file) => URL.createObjectURL(file));
+  //   setPreviewURLs(urls);
+
+  //   return () => {
+  //     urls.forEach((url) => URL.revokeObjectURL(url));
+  //   };
+  // }, [selectedImage]);
+
   useEffect(() => {
-    const urls = selectedImage.map((file) => URL.createObjectURL(file));
-    setPreviewURLs(urls);
+  const urls = selectedImage.map((fileOrUrl) => {
+    if (typeof fileOrUrl === "string") {
+      return fileOrUrl; // backend URL
+    }
+    return URL.createObjectURL(fileOrUrl); // File from input
+  });
 
-    return () => {
-      urls.forEach((url) => URL.revokeObjectURL(url));
-    };
-  }, [selectedImage]);
+  setPreviewURLs(urls);
 
+  // cleanup only blob URLs
+  return () => {
+    urls.forEach((url, i) => {
+      if (typeof selectedImage[i] !== "string") {
+        URL.revokeObjectURL(url);
+      }
+    });
+  };
+}, [selectedImage]);
   return (
     <div className="max-sm:mt-4 mb-6 lg:sticky lg:top-10">
       {/* Grid of images */}

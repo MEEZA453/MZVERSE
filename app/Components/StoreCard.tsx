@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 export default function PostCard({product}){
       const currentPath  = usePathname  ();
-      console.log(product)
+  
       const router = useRouter()
     const handleClick = (path : string):void=>{
         router.push(`/AllAssets/${path}`)

@@ -10,7 +10,7 @@ export default function Attachments ({postId , token, setAttachmentsMenu , asset
     const dispatch = useDispatch<AppDispatch>()
 
    return (
-  <div className="px-2  absolute top-[48vh]">
+  <div className="px-2  absolute top-[48vh] lg:top-[91vh] lg:left-2">
     {/* {assetsOfPost?.length > 1 ? ( */}
       <MultipleAttachment 
       setAttachmentsMenu={setAttachmentsMenu}

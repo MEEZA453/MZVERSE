@@ -9,6 +9,7 @@ interface PostState {
   votes: any[];      // votes for a single post
   allVotes: any[];   // all votes (admin/analytics)
   error: string | null;
+    editPost: Post | null;
 }
 
 const initialState: PostState = {
@@ -19,6 +20,7 @@ const initialState: PostState = {
   votes: [],
   allVotes: [],
   error: null,
+  editPost : null
 };
 
 const posts = (state = initialState, action: AnyAction): PostState => {
@@ -27,15 +29,16 @@ const posts = (state = initialState, action: AnyAction): PostState => {
     case 'CREATE_POST_REQUEST':
     case 'FETCH_POSTS_REQUEST':
     case 'FETCH_POSTS_BY_HANDLE_REQUEST':
-
     case 'FETCH_POST_REQUEST':
-  return { ...state, loading: true, error: null, post: null , postsOfUser : null};
+    case 'VOTE_POST_REQUEST':
+    case 'DELETE_POST_REQUEST':
+    case 'EDIT_POST_REQUEST':
+      return { ...state, loading: true, post: null, error: null };
 
-case 'VOTE_POST_REQUEST':
-  return { ...state, loading: true, error: null };
     case 'CREATE_POST_SUCCESS':
       return { ...state, loading: false, posts: [action.payload, ...state.posts] };
-      case 'FETCH_POSTS_BY_HANDLE_SUCCESS':
+
+    case 'FETCH_POSTS_BY_HANDLE_SUCCESS':
       return { ...state, loading: false, postsOfUser: action.payload };
 
     case 'FETCH_POSTS_SUCCESS':
@@ -44,19 +47,23 @@ case 'VOTE_POST_REQUEST':
     case 'FETCH_POST_SUCCESS':
       return { ...state, loading: false, post: action.payload };
 
-case 'DELETE_POST_REQUEST':
-  return { ...state, loading: true, error: null };
+    case 'EDIT_POST_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        posts: state.posts.map((p) =>
+          p._id === action.payload._id ? action.payload : p
+        ),
+        post: state.post && state.post._id === action.payload._id ? action.payload : state.post,
+      };
 
-case 'DELETE_POST_SUCCESS':
-  return {
-    ...state,
-    loading: false,
-    posts: state.posts.filter((p) => p._id !== action.payload),
-    post: state.post && state.post._id === action.payload ? null : state.post
-  };
-
-case 'DELETE_POST_FAIL':
-  return { ...state, loading: false, error: action.payload };
+    case 'DELETE_POST_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        posts: state.posts.filter((p) => p._id !== action.payload),
+        post: state.post && state.post._id === action.payload ? null : state.post,
+      };
 
     case 'VOTE_POST_SUCCESS':
       return {
@@ -75,9 +82,10 @@ case 'DELETE_POST_FAIL':
     case 'CREATE_POST_FAIL':
     case 'FETCH_POSTS_FAIL':
     case 'FETCH_POSTS_BY_HANDLE_FAIL':
-
     case 'FETCH_POST_FAIL':
     case 'VOTE_POST_FAIL':
+    case 'DELETE_POST_FAIL':
+    case 'EDIT_POST_FAIL':
       return { ...state, loading: false, error: action.payload };
 
     /** Vote actions **/
@@ -110,9 +118,19 @@ case 'DELETE_POST_FAIL':
     case 'DELETE_VOTE_FAIL':
       return { ...state, loading: false, error: action.payload };
 
+
+       case "SET_EDIT_POST":
+      return { ...state, editPost: action.payload };
+
+    case "CLEAR_EDIT_POST":
+      return { ...state, editPost: null };
+
+  
     default:
       return state;
+      
   }
 };
+
 
 export default posts;
