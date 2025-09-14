@@ -1,6 +1,6 @@
 'use client'
 import MasterNavber from '../Components/MasterNavber';
-import { useAssets } from '../Context/AllAssetsContext';
+
 import {useRouter , usePathname} from 'next/navigation';
 import Image from 'next/image';
 import {Product} from '../types/Product';
