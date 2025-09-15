@@ -24,7 +24,7 @@ export default function PostCard({product}){
     width={300}
     alt="dff"
     src={product?.image[0]}
-    className="w-full h-fit object-cover flex items-center justify-center lg:mb-4 lg:w-[15vw]"
+    className="w-full h-fit object-cover flex items-center justify-center lg:mb-4 "
     priority
   />
 ) : null}
@@ -50,7 +50,7 @@ export default function PostCard({product}){
             width={300}
             alt='fdfdf'  className='h-7 w-7 rounded-full items-center object-cover' src={product?.postedBy?.profile || '/image.png'}/></button>  
              <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5 " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
-                        }}>$ 29.99</label>
+                        }}>{product?.amount || 'free'}</label>
           </div>
             </div>
           

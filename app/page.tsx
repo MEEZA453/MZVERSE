@@ -43,7 +43,10 @@ useEffect(() => {
   localStorage.setItem("activeTab", String(activeIndex));
 }, [activeIndex]);
 // ----------------------------------------
-
+  useEffect(() => {
+    // Clear saved tab when user reloads/opens site
+    localStorage.removeItem("activeTab");
+  }, []);
   // ----------------------------------------
 
   const tabs = [
