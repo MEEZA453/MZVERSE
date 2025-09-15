@@ -39,12 +39,14 @@ const initialState: SearchState = {
 const search = (state = initialState, action: AnyAction): SearchState => {
   switch (action.type) {
     /** 🔍 Requests - reset the specific results immediately **/
-    case "SEARCH_USERS_REQUEST":
-      return { ...state, loading: true, error: null, searched: true, userResult: null, postResult: null, assetResult: null };
-    case "SEARCH_POSTS_REQUEST":
-      return { ...state, loading: true, error: null, searched: true, userResult: null, postResult: null, assetResult: null };
-    case "SEARCH_ASSETS_REQUEST":
-      return { ...state, loading: true, error: null, searched: true, userResult: null, postResult: null, assetResult: null };
+case "SEARCH_USERS_REQUEST":
+  return { ...state, loading: true, error: null, searched: true };
+
+case "SEARCH_POSTS_REQUEST":
+  return { ...state, loading: true, error: null, searched: true };
+
+case "SEARCH_ASSETS_REQUEST":
+  return { ...state, loading: true, error: null, searched: true };
 
     /** ✅ Success **/
     case "SEARCH_USERS_SUCCESS":

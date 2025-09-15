@@ -9,6 +9,7 @@ import {motion } from 'framer-motion'
 import ButtonLoaderWhite from '../Components/ButtonLoaderWhite'
 import { votePostAction } from '../store/actions/post';
     export default function Vote ({fieldOfVote, existingVote , postId , token}:{fieldOfVote:[string],existingVote : object , postId : string , token : string}){
+        console.log(postId)
     const [isOpen , setIsOpen]  = useState(false);
     const dispatch = useDispatch<AppDispatch>()
     const [loading , setLoading] = useState(false)

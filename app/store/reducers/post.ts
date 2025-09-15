@@ -27,13 +27,15 @@ const posts = (state = initialState, action: AnyAction): PostState => {
   switch (action.type) {
     /** Post actions **/
     case 'CREATE_POST_REQUEST':
-    case 'FETCH_POSTS_REQUEST':
-    case 'FETCH_POSTS_BY_HANDLE_REQUEST':
-    case 'FETCH_POST_REQUEST':
+  
     case 'VOTE_POST_REQUEST':
     case 'DELETE_POST_REQUEST':
     case 'EDIT_POST_REQUEST':
-      return { ...state, loading: true, post: null, error: null };
+      return { ...state, loading: true, error: null };
+  case 'FETCH_POSTS_REQUEST':
+    case 'FETCH_POSTS_BY_HANDLE_REQUEST':
+    case 'FETCH_POST_REQUEST':
+      return { ...state, loading: true, post : null, error: null };
 
     case 'CREATE_POST_SUCCESS':
       return { ...state, loading: false, posts: [action.payload, ...state.posts] };

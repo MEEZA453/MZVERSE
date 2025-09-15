@@ -7,7 +7,7 @@ export default function SearchedPosts(){
 const {postResult , loading} = useSelector((state : any)  => state.search)
 console.log('posts result is :' , postResult)
     const router = useRouter()
-    return <div>{loading ? <Loading/>:<div className="w-full">
+    return <div>{loading&& !postResult? <Loading/>:<div className="w-full">
         {postResult?.map((post:any    , index: number)=>{
 return  <div key={index}  onClick={()=>router.push(`/posts/${post?._id}`)} className="w-full flex justify-start px-2">
             <div className="px-2 justify-between w-full mt-2 items-center flex">

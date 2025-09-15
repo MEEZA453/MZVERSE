@@ -6,7 +6,7 @@ export default function SearchedAssets(){
     const router = useRouter()
  const {assetResult , loading} = useSelector((state : any)  => state.search)
 console.log(assetResult)
-    return <div>{loading ?<Loading/>:<div className="w-full">
+    return <div>{loading && !assetResult?<Loading/>:<div className="w-full">
 
         {assetResult?.results?.map((asset , index)=>{
             return <div  onClick={()=>router.push(`/AllAssets/${asset?._id}`)} key={index} className="w-full flex justify-start px-2">

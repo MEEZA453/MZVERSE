@@ -11,7 +11,7 @@ export default function SearchedCreators(){
 const {userResult , loading} = useSelector((state : any)  => state.search)
 console.log(userResult)
     return <div className="w-full">
-       { loading ? <Loading/>:<div  className="w-full  justify-start px-2 ">
+       { loading && !userResult ? <Loading/>:<div  className="w-full  justify-start px-2 ">
             {userResult?.map((user : any , index :number )=>{
                 return <div key={index}> <div onClick={()=>router.push(`/${user?.handle}`)}  className="flex items-center    gap-1">
                                       <Image  

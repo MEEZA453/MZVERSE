@@ -25,7 +25,7 @@ useEffect(()=>{
 },[dispatch , token])
 
 
-    return <div>{loading ?<Loading/>:<div className="w-full">
+    return <div>{loading ?<div className="-translate-x-2"><Loading/></div>:<div className="w-full">
 
         {assetResult?.results?.map((asset , index)=>{
             const isAttached  = assetsOfPost.some((f: any) => f._id === asset._id);
