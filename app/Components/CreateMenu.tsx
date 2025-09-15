@@ -21,7 +21,7 @@ const router = useRouter()
       
       return <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen fixed left-0 bottom-0 bg-black/50">
       <div onClick={()=>setOpenCreate(false)} className="w-screen h-screen "></div>
-      <motion.div  initial = {{y  : 160}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y :160}} animate = {{y : 0}}  className="bg-[#151515] fixed   z-[99999] bottom-8 py-4 -translate-x-1/2  left-1/2  flex  flex-col items-center   w-[96%] lg:w-120 rounded-[6px]   ">
+      <motion.div  initial = {{y  : 160}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y :160}} animate = {{y : 0}}  className="bg-[#151515] fixed   z-[99999] bottom-4 py-4 -translate-x-1/2  left-1/2  flex  flex-col items-center   w-[96%] lg:w-120 rounded-[6px]   ">
   <button
       onClick={()=>router.push('/createPost')}
       className=" text-white w-full flex items-center justify-between  px-3 pb-1.5  border-b border-[#4d4d4d]  gap-"

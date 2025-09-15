@@ -50,8 +50,8 @@ useEffect(() => {
 
        return     <div>
 
-      <motion.div   initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }} className="h-91 rounded-b  rounded-lg lg:h-100  fixed  top-0 z-[999] lg:w-[35vw] overflow-y-scroll hide-scrollbar -translate-x-1/2 left-1/2 lg:top-4 lg:rounded left-0 w-screen bg-[#101010]">
-             <div className="flex items-center z-[999] px-2 pt-1  bg-[#101010] ">
+      <motion.div   initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }} className=" rounded-b  rounded-lg lg:h-100 pt-2 fixed  top-0 z-[999] lg:w-[35vw] overflow-y-scroll hide-scrollbar -translate-x-1/2 left-1/2 lg:top-4 lg:rounded left-0 w-screen ">
+             <div className="flex items-center mx-2 z-[999] bg-[#1d1d1d]/70 pb-2 px-2  h-8  rounded-full my-3">
 <IoSearchOutline className="mt-2"
             color="#8d8d8d"
               size={19}
@@ -66,7 +66,7 @@ useEffect(() => {
             />
             </div>
             <div className='w-screen lg:w-full '>
-            <div className='flex justify-between w-full px-7 bg-[#101010] sticky top-0 pt-2  border-b border-[#2c2b2b] pb-1 items-center'>
+            <div className='flex justify-between w-full px-7 sticky top-0 pt-2  border-b border-[#2c2b2b] pb-1 items-center'>
                 {searchTabs.map((el , index)=>{
                     return <button style={{fontSize : '14px'}} onClick={()=>setSelectedIndex(index)} className={`${index === selectedIndex ? 'opacity-100': 'opacity-60'}`} key={index}>{el}</button>
                 })}
@@ -81,5 +81,5 @@ useEffect(() => {
             
             </div>
          </div>
-    </motion.div> <div onClick={()=>setSearch(false)} className='h-screen w-screen z-[700] bg-black/70 fixed top-0 right-0'></div> </div> 
+    </motion.div> <div onClick={()=>setSearch(false)}  className='h-screen w-screen z-[700]  fixed top-0 right-0  bg-black/50 backdrop-blur-xl'></div> </div> 
 }
