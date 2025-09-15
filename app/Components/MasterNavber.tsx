@@ -17,6 +17,7 @@ import { getNotifications } from '../store/actions/notification';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import { useNotification } from '../Context/Notification';
+import CreateMenuLg from './CreateMenuLg';
 
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +29,7 @@ export default function MasterNavber({setShowLoginInput , setShowSignupInput}:Ma
   
   const {setIsNotification}  = useNotification()
   
+  const  [isMobile , setIsMobile ]  = useState(false)
   const {isLoggedIn , profileLink , user} = useAuth();
  const [openCreate , setOpenCreate] = useState(false)
   const currentPath = usePathname();
@@ -58,7 +60,11 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
     const hasUnread = items.some((n) => !n.isRead);
 
   const [isLargeScreen, setIsLargeScreen] = useState(false);
+useEffect(()=>{
 
+    window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
+
+},[])
   useEffect(() => {
     // Safe window access
     const handleResize = () => {
@@ -112,7 +118,7 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
           </div>
           {/* <h6>[ 10 ]</h6> */}
           {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>
-            <button className=" text-white  duration-300"onClick={()=> router.push('/createPost ') } ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
+            {/* <button className=" text-white  duration-300"onClick={()=> router.push('/createPost ') } ref={dynamicButtonRef}><GoPlusCircle size={22}/></button> */}
 
              <button className=" relative text-white  duration-300"onClick={()=> setIsNotification(true) } ref={dynamicButtonRef}><VscMail size={22}/>
                {hasUnread && (
@@ -120,9 +126,9 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
         )}
              </button>
 
-            {/* <button style={{rotate : openCreate ? '45deg' : '0deg'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button> */}
+            <button style={{rotate : openCreate ? '45deg' : '0deg'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
 
-           <AnimatePresence> {openCreate &&<CreateMenu setOpenCreate = {setOpenCreate}/>}</AnimatePresence>
+           <AnimatePresence> {openCreate && <CreateMenu setOpenCreate = {setOpenCreate}/>}</AnimatePresence>
                       <Image height = {100} width ={100} alt ="profile" onClick={()=>router.push('/'+profileLink)} className='w-8 h-8 rounded-full full object-cover' src={user.profile || '/image.png'}/>
                       
           

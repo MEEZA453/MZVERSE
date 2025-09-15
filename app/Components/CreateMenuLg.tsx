@@ -8,7 +8,7 @@ import { IoCreateOutline } from "react-icons/io5";
 import { MdOutlineArrowForwardIos } from "react-icons/md";
 import { GoEye } from "react-icons/go";
 import { PiEye, PiEyeLight } from "react-icons/pi";
-export default function CreateMenu({setOpenCreate}){
+export default function CreateMenuLg({setOpenCreate}){
 
 const router = useRouter()
    const [isMobile , setIsMobile] = useState(false)
@@ -19,9 +19,9 @@ const router = useRouter()
    },[])
          
       
-      return <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen fixed left-0 bottom-0 bg-black/50">
-      <div onClick={()=>setOpenCreate(false)} className="w-screen h-screen "></div>
-      <motion.div  initial = {{y  : 160}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y :160}} animate = {{y : 0}}  className="bg-[#151515] fixed   z-[99999] bottom-8 py-4 -translate-x-1/2  left-1/2  flex  flex-col items-center   w-[96%] lg:w-120 rounded-[6px]   ">
+      return <motion.div  initial = {{opacity : 0}} animate = {{opacity : 1}} transition={{duration: 0.3 , }} className="h-screen w-screen z-[999] fixed left-0 bottom-0 flex items-center justify-center bg-black/50">
+      <div onClick={()=>setOpenCreate(false)} className="w-screen h-screen absolute "></div>
+      <motion.div  initial = {{y : 50, opacity : 0 }} transition = {{duration : 0.2 , ease : "easeInOut"} } exit={{y : 50, opacity : 0}} animate = {{y : 0 , opacity :1}}  className="bg-[#151515]   w-100  h-fit  z-200  py-4 gap-1  flex  flex-col items-center justify-center  rounded-[6px]  ">
   <button
       onClick={()=>router.push('/createPost')}
       className=" text-white w-full flex items-center justify-between  px-3 pb-1.5  border-b border-[#4d4d4d]  gap-"

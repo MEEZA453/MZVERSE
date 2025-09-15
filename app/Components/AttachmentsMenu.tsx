@@ -58,7 +58,7 @@ export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, ass
         animate={{ y: 0 }}
         exit={{ y: 160 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
-        className="fixed  lg:w-[30vw] px-2  lg:h-fit z-200 bottom-4 py-2 -translate-x-1/2  left-1/2 flex px-1 flex-col items-center justify-center w-full rounded-[6px]"
+        className="fixed  lg:w-[30vw] px-2  lg:h-fit z-200 bottom-4 py-2 -translate-x-1/2  left-1/2 flex px-1 flex-col items-center justify-center w-full rounded-[6px] gap-1"
       >
   
 {assetsOfPost.map((asset: any) => (
