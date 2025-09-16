@@ -77,7 +77,7 @@ useEffect(() => {
         {isNotification && <Notification />}
       </AnimatePresence>
  <AnimatePresence>
-        {isCart && <Cart  setIsCart = {setIsCart} />}
+        {isCart && <Cart   setIsCart = {setIsCart} />}
       </AnimatePresence>
 
       <div className="sticky top-13 z-[300]">

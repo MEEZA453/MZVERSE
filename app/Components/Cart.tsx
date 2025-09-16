@@ -33,6 +33,10 @@ const handleDelete = (productId: string) => {
   // still call redux action + API
   dispatch(removeFromCart(productId, token));
 };
+const handleExplore = async ()=>{
+ await localStorage.setItem("activeTab", String(2));
+  setIsCart(false)
+}
      return <motion.div   className="w-screen fixed top-0 right-0 bg-black h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-[23vw]">
       <div>
  <div className='w-full flex justify-between lg:w-[23vw] items-center px-0 z-[100] my-4 '>
@@ -45,7 +49,7 @@ const handleDelete = (productId: string) => {
     
             </div>
         {loading ?   <Loading/>: <div>{items?.length === 0 ? <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex items-center flex-col gap-3 "><p>Nothing in the bag</p>
-        <button className="w-fit bg-white h-7 rounded-full text-black flex text-[14px] px-3 flex items-center justify-center ">Explore store</button>
+        <button onClick={handleExplore} className="w-fit bg-white h-7 rounded-full text-black flex text-[14px] px-3 flex items-center justify-center ">Explore store</button>
         </div>:<div>
             <div>
               {localItems.map((item , index)=>{
@@ -62,7 +66,7 @@ const handleDelete = (productId: string) => {
                   </div>
               })}
             </div>
-            <button className="bg-white w-[96%] -translate-x-1/2 left-1/2 rounded-[2px] h-6 items-center justify-center text-[14px] text-black absolute bottom-5">Proceed order at $ {totalAmount}</button>
+            <button className="bg-white w-[96%] -translate-x-1/2 left-1/2 rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black absolute bottom-5">Proceed order at $ {totalAmount}</button>
             </div>}
             </div>}
             
