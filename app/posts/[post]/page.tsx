@@ -131,7 +131,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         {/* <ProductImages images={post?.images}/> */}
 <ImageShower isMobile={isMobile} images = {post?.images}/>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
-     <div onClick={()=>setIsMenu(false)} className='w-full  lg:h-screen bg-black mt-10 rounded lg:w-[30vw] mb-4 lg:pt-20 '>
+     <div onClick={()=>setIsMenu(false)} className='w-full bg-black rounded-sm lg:h-screen mt-10 rounded lg:w-[30vw] mb-4 lg:pt-20 '>
   
        { votes.length > 0 && <div className='w-full '>
 

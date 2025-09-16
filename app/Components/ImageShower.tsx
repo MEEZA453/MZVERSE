@@ -83,9 +83,9 @@ export default function ImageShower({ images = [], isMobile = false }: { images?
   }, [images])
 
   return (
-    <div className="relative lg:w-[70vw] w-screen mb-4">
+    <div className="relative lg:w-[70vw] flex items-center  h-[55vh] lg:h-screen w-screen mb-4">
       {/* Left Arrow */}
-      {!isMobile && (
+      {/* {!isMobile && (
         <div>
           {activeIndex !== 0 && (
             <button
@@ -104,26 +104,26 @@ export default function ImageShower({ images = [], isMobile = false }: { images?
             </button>
           )}
         </div>
-      )}
+      )} */}
 
       <div
         ref={carouselRef}
-        className="flex hide-scrollbar snap-mandatory cursor-grab overflow-x-scroll snap-x lg:w-[70vw] lg:pt-22 lg:h-screen border-r border-[#4d4d4d] lg:overflow-x-scroll lg:snap-y"
+        className={`flex hide-scrollbar ${images?.length === 1? 'lg:ml-[15vw]':''}  snap-mandatory cursor-grab  ml flex items-center overflow-x-scroll snap-x lg:w-[70vw] lg:h-screen lg:overflow-x-scroll lg:snap-y`}
         onMouseDown={handleMouseDown}
         onMouseLeave={handleMouseLeave}
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
       >
         {!isMobile && (
-          <div className="gradient absolute pointer-events-none w-120 h-screen bg-gradient-to-l from-[#000000] to-[#00000000] z-[300] right-[1px] top-0"></div>
+          <div className="gradient absolute pointer-events-none w-120 h-screen bg-gradient-to-l from-[#000000] to-[#00000000] z-[300] right-0 top-0"></div>
         )}
 
         {images.map((img: string, i: number) => (
           <div
             key={i}
             data-index={i}
-            className={`flex-shrink-0 w-screen pointer-events-none lg:translate-x-[25vw] mt-10 h-[50vh] snap-center flex items-center justify-center lg:w-[28vw] lg:h-fit ${
-              i === images.length - 1 ? "lg:mr-[40vw]" : ""
+            className={`flex-shrink-0 w-screen pointer-events-none  h-[55vh] snap-center flex items-center justify-center lg:w-[40vw] lg:h-[50vh] lg:h-fit ${
+              i === images.length - 1 ? "" : ""
             }`}
           >
             <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="w-full object-cover" />
