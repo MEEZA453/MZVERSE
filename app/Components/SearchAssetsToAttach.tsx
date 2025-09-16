@@ -18,7 +18,7 @@ export default function SearchedAssetsToAttach({postId}){
 
  const {token}  = useAuth()
  const dispatch = useDispatch<AppDispatch>()
-console.log(assetResult)
+
 
 useEffect(()=>{
       dispatch(getAssetsOfPost(postId , token))

@@ -11,11 +11,13 @@ import { useAuth } from "./Context/AuthContext";
 import Notification from "./notification/page";
 import { useNotification } from "./Context/Notification";
 import { AnimatePresence ,motion} from "framer-motion";
+import Cart from "./Components/Cart";
 
 export default function Feed() {
   const router = useRouter();
   const [postId, setPostId] = useState('');
   const { isNotification, setIsNotification } = useNotification();
+  const [isCart , setIsCart] = useState(false )
   const { user, loading } = useAuth();
 
   useEffect(() => {
@@ -64,7 +66,7 @@ useEffect(() => {
 
   return (
     <div className="hide-scrollbar h-full w-screen">
-      <MasterNavber />
+      <MasterNavber setIsCart={setIsCart} />
 
       <motion.div
         onClick={() => setIsNotification(false)}
@@ -73,6 +75,9 @@ useEffect(() => {
 
       <AnimatePresence>
         {isNotification && <Notification />}
+      </AnimatePresence>
+ <AnimatePresence>
+        {isCart && <Cart  setIsCart = {setIsCart} />}
       </AnimatePresence>
 
       <div className="sticky top-13 z-[300]">

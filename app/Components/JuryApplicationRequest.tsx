@@ -15,7 +15,7 @@ export default function JuryApplicationRequest ({ noti }) {
   const router = useRouter()
   const [fullNotification, setFullNotification] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
-  console.log(noti?.sender?._id , token)
+
   const handleApprove = (approve: boolean) => {
     {noti?.type === "jury_removal_request" ? dispatch(approveNormal(noti?.sender?._id, approve , token)):dispatch(approveJury (noti?.sender?._id, approve , token)) }
      // 👈 pass senderId + approve

@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { detachAsset, getAssetsOfPost } from '../store/actions/attach';
 import Image from 'next/image';
 import SwipeToDelete from './SwipeToDelete';
+import AttachmentCard from './AttachmentCard';
 
 interface AttachmentsMenuProps {
   postId: string;
@@ -17,8 +18,9 @@ interface AttachmentsMenuProps {
 }
 
 export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, assetsOfPost }: AttachmentsMenuProps) {
-  console.log(assetsOfPost)
   const router = useRouter();
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
+
   const dispatch = useDispatch<AppDispatch>();
   const [isAddToCart , setAddToCart] = useState(false)
 
@@ -31,17 +33,23 @@ export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, ass
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {
     setIsMobile(window.innerWidth <= 640);
-  }, []);
+  }, [])
+const {items} = useSelector((state : any)=>state.cart)
+
+
+
 
   const handleAddToCart = ()=>{
     setAddToCart(!isAddToCart)
   }
+
 
   const handleDeleteClick = (assetId: string) => {
     console.log(assetId)
     dispatch(detachAsset(postId, assetId, token));
     // no need to call getAssetsOfPost again, reducer updates store immediately
   };
+
 
   return (
     <motion.div
@@ -61,38 +69,14 @@ export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, ass
         className="fixed  lg:w-[30vw] px-2  lg:h-fit z-200 bottom-4 py-2 -translate-x-1/2  left-1/2 flex px-1 flex-col items-center justify-center w-full rounded-[6px] gap-1"
       >
   
-{assetsOfPost.map((asset: any) => (
-          <SwipeToDelete key={asset._id} onDelete={() => handleDeleteClick(asset._id)}>
-            <div
-
-              className="w-full mb-1 rounded-[3px] px-3 border border-[#2d2d2d] items-center relative flex h-12 bg-[#151515] flex justify-between"
-            >
-              <div className="flex gap-2 items-center py-2">
-                <div className="h-10 w-10 bg-[#1d1d1d] flex items-center">
-                  <Image
-                                onClick={() => router.push('/AllAssets/' + asset._id)}
-                    src={asset?.image?.[0]}
-                    height={100}
-                    width={100}
-                    alt="preview"
-                    className="h-9 w-fit rounded-[2px] object-cover"
-                  />
-                </div>
-                <div>
-                  <div className='flex items-center gap-1 justify-center'>
-                  <h6>{asset?.name}</h6>
-            <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5  " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
-                        }}>$ 29.99</label>
-                  </div>
-                  <p style={{ fontSize: '12px' }}>@madeby</p>
-                </div>
-              </div>
-              <button  style={{fontWeight : 400}}  onClick={handleAddToCart}  className={`text-[14px] pb-1  h-7 ${
-            !isAddToCart ? "bg-white text-black" : "border"
-          } px-2  py-0.5 rounded-[3px]`}>{!isAddToCart?'Add to bag':'Added'}</button>
-            </div>
+{assetsOfPost.map((asset: any , index : number) => {
+        const isAlreadyAddedToCart = items.some((f : any)=> f?.product?._id === String(asset?._id))
+      return  <SwipeToDelete     onClose={() => setOpenIndex(null)}
+            isOpen={openIndex === index}
+          onOpen={() => setOpenIndex(index)} key={asset._id} onDelete={() => handleDeleteClick(asset._id)}>
+           <AttachmentCard asset ={asset} isAlreadyAddedToCart = {isAlreadyAddedToCart}/>
           </SwipeToDelete>
-        ))}
+        })}
        
         
       </motion.div>

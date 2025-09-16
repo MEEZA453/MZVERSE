@@ -5,7 +5,7 @@ import { useSelector } from "react-redux"
 import Loading from "./loading"
 export default function SearchedPosts(){
 const {postResult , loading} = useSelector((state : any)  => state.search)
-console.log('posts result is :' , postResult)
+
     const router = useRouter()
     return <div>{loading&& !postResult? <Loading/>:<div className="w-full">
         {postResult?.map((post:any    , index: number)=>{

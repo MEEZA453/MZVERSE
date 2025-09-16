@@ -70,7 +70,7 @@ export default function OtpPage() {
       setLoading(true)
       const result =  await dispatch(verifyEmailOtpAction({ email, otp }))
       // user.handle ? router.push('/profile'): router.push('/handle')
-console.log(result )
+
         
          if (result?.isAlreadyUser) {
         window.location.href = '/feed' // existing user

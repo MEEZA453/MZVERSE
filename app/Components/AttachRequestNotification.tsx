@@ -16,7 +16,6 @@ export default function AttachRequestNotification ({ noti }) {
   const router = useRouter()
   const [fullNotification, setFullNotification] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
-  console.log(noti?.sender?._id , token)
   const handleApprove = async (approve: boolean) => {
     await dispatch(approveAttachRequest(noti?._id , approve , token))
     await dispatch(deleteNotification(noti?._id , token))

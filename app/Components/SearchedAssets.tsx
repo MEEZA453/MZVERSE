@@ -5,7 +5,7 @@ import Loading from "./loading"
 export default function SearchedAssets(){
     const router = useRouter()
  const {assetResult , loading} = useSelector((state : any)  => state.search)
-console.log(assetResult)
+
     return <div>{loading && !assetResult?<Loading/>:<div className="w-full">
 
         {assetResult?.results?.map((asset , index)=>{

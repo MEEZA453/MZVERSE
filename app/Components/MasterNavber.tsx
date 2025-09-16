@@ -18,13 +18,15 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store/store';
 import { useNotification } from '../Context/Notification';
 import CreateMenuLg from './CreateMenuLg';
+import { PiBag } from "react-icons/pi";
 
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
   setShowSignupInput?: React.Dispatch<React.SetStateAction<boolean>>;
+    setIsCart?: React.Dispatch<React.SetStateAction<boolean>>;
 
 }
-export default function MasterNavber({setShowLoginInput , setShowSignupInput}:MasterNavberProps) {
+export default function MasterNavber({setShowLoginInput , setShowSignupInput , setIsCart}:MasterNavberProps) {
   const router = useRouter();
   
   const {setIsNotification}  = useNotification()
@@ -114,6 +116,7 @@ useEffect(()=>{
             /> 
 
             </button> 
+              
 
           </div>
           {/* <h6>[ 10 ]</h6> */}
@@ -125,7 +128,13 @@ useEffect(()=>{
           <span className="absolute top-[6px] right-0 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
         )}
              </button>
+ <button onClick={()=>setIsCart(true)}>
+            <PiBag className=''
+            
+            size={20}
+            /> 
 
+            </button> 
             <button style={{rotate : openCreate ? '45deg' : '0deg'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
 
            <AnimatePresence> {openCreate && <CreateMenu setOpenCreate = {setOpenCreate}/>}</AnimatePresence>

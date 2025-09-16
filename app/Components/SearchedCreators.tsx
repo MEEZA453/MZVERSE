@@ -11,7 +11,7 @@ import { MdArrowForwardIos } from "react-icons/md"
 export default function SearchedCreators(){
     const router = useRouter()
 const {userResult , loading} = useSelector((state : any)  => state.search)
-console.log(userResult)
+
     return <div className="w-full">
        { loading && !userResult ? <Loading/>:<div  className="w-full  justify-start  ">
             {userResult?.map((user : any , index :number )=>{
@@ -21,7 +21,7 @@ console.log(userResult)
                         width={300}
                         alt='fdfdf'  className='h-9 w-9 rounded-full items-center object-cover' src={user?.profile || '/image.png'}/>  
                           <div>
-                                      <h3    className=''>{user?.name}  </h3>
+                                      <h6   className=''>{user?.name}  </h6>
                                       <p style={{fontSize : '13px'}} className=''>@{user?.handle}  </p>
                       
                       

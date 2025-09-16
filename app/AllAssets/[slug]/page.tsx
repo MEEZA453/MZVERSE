@@ -29,12 +29,14 @@ import { IoIosArrowBack } from 'react-icons/io';
 import Useages from '../../Components/Useges';
 import ProductMenuLg from '../../Components/ProductMenuLg';
 import { getDesignById } from '../../store/actions/design';
+import { addToCart, getUserCart, removeFromCart } from '../../store/actions/cart';
 export default function ProductPage() {
 const pathname = usePathname()
 
 const [openIndex, setOpenIndex] = useState(0);
 const {setNotification , notification} = useNotification()
 const productpath = pathname.split('/');
+const {items} = useSelector((state : any)=>state.cart)
 
 const [isMobile , setIsMobile] = useState(false)
 const {role  } = useAuth()
@@ -51,7 +53,18 @@ const dispatch = useDispatch<AppDispatch>()
   const [viewUsages , setViewUsages]  = useState(true)
   const router  = useRouter()
 const {product , loading} = useSelector((state : any)=> state.design)
+const isAlreadyAddedToCart = items.some((f : any)=> f?.product?._id === String(product?._id))
+console.log(isAlreadyAddedToCart)
+// console.log(items[0].product?._id , product?._id)
+const [isAddedToCart  ,setAddedToCart] = useState(isAlreadyAddedToCart ?? false)
+
+  useEffect(() => {
+    setAddedToCart(isAlreadyAddedToCart);
+  }, [isAlreadyAddedToCart]);
+
+
    useEffect(() => {
+    dispatch(getUserCart(token))
     dispatch(getDesignById(slug , token))
    }, [dispatch  , slug, token])
    useEffect(()=>{
@@ -71,9 +84,18 @@ useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
   const isFavorited = false
 
+
+const handleAddToBag = ()=>{
+  if(!isAddedToCart){
+setAddedToCart(true)
+    dispatch(addToCart(product?._id , token))
+  }else{
+    setAddedToCart(false)
+    dispatch(removeFromCart(product?._id , token))
+  }
+}
 
   return (
     <div className='w-screen h-screen'>
@@ -133,7 +155,7 @@ useEffect(() => {
     <h3 >2.0GB</h3>
   </div>
   <button className='bg-white text-black w-full rounded-[2px]  h-6 flex items-center justify-center pb-0.5 text-[14px] mt-4'>Buy now</button>
-  <button className='border border-white text-white w-full rounded-full h-6 flex items-center pb-1 justify-center  text-[14px] mt-2'>Add to Bag</button>
+  <button onClick={handleAddToBag} className='border border-white text-white w-full rounded-full h-6 flex items-center pb-1 justify-center  text-[14px] mt-2'>{isAddedToCart ? 'Added to bag': 'Add to bag'}</button>
 
 
 </div>

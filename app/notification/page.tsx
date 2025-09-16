@@ -28,6 +28,7 @@ export default function Notification () {
     const [isMobile ,setIsMobile] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const {items , loading} = useSelector((state: any)=>state.notification)
+  const [openIndex, setOpenIndex] = useState<number | null>(null)
 
 useEffect(() => {
   if (!token) return; 
@@ -40,7 +41,7 @@ useEffect(()=>{
     window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
 
 },[])
-console.log(items)
+
 
   const [isDesktop, setIsDesktop] = useState(false)
 
@@ -75,12 +76,16 @@ console.log(items)
     return (
       <div key={index}>
         {noti?.type === "follow" && (
-          <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          <SwipeToDelete       onClose={() => setOpenIndex(null)}
+            isOpen={openIndex === index}
+          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
             <FollowNotification noti={noti} />
           </SwipeToDelete>
         )}
           {noti?.type === "asset_attach_approved" && (
-          <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          <SwipeToDelete      onClose={() => setOpenIndex(null)}
+            isOpen={openIndex === index}
+          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
        <ApproveAttachNotification noti={noti}/>
           </SwipeToDelete>
         )}
@@ -89,7 +94,9 @@ console.log(items)
   <JuryApplicationRequest noti={noti} />
 )}
         {noti?.type === "vote" && (
-          <SwipeToDelete onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          <SwipeToDelete     onClose={() => setOpenIndex(null)}
+            isOpen={openIndex === index}
+          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
             <VoteNotification noti={noti} />
           </SwipeToDelete>
         )}
@@ -104,7 +111,9 @@ console.log(items)
           noti?.type === "normal_request_rejected" ||
           
           noti?.type === "jury_removed") && (
-          <SwipeToDelete  onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          <SwipeToDelete      onClose={() => setOpenIndex(null)}
+            isOpen={openIndex === index}
+          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
             <JuryApproval message={noti.message} />
           </SwipeToDelete>
         )}

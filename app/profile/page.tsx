@@ -40,7 +40,7 @@ export default function Profile() {
       setPreview(URL.createObjectURL(file))
     }
   }
-console.log(user)
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
   if (!user || !user._id || !user.token) {

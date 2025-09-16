@@ -9,9 +9,9 @@ import SkeletonNotification from "./Skeleton/SkeletonNotification"
 import { IoIosArrowBack } from "react-icons/io"
 import {motion} from 'framer-motion'
 export default function FollowersList ({handle , setFollowerWindow}){
-    console.log(handle)
+
     const {followers ,following , loading} = useSelector((state:any)=>state.follow)
-    console.log(followers)
+
 const dispatch = useDispatch<AppDispatch>()
     useEffect(()=>{
         dispatch(getFollowersByHandle(handle))

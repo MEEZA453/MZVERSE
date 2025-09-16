@@ -32,7 +32,7 @@ const  handle = usePathname().split('/')[1]
   }, [dispatch, handle , token]);
 
   const { postsOfUser , loading} = useSelector((state: any) => state.posts)
-console.log(postsOfUser)
+
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };

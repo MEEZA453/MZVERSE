@@ -4,6 +4,30 @@ const url = 'https://meeza-in-8.onrender.com/'
 
 
 
+export const getUserCart = (token) =>
+  axios.get(`${url}cart`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+export const addToCart = (productId, token) =>
+  axios.post(
+    `${url}cart/add`,
+    { productId },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+
+export const removeFromCart = (productId, token) =>
+  axios.post(
+    `${url}cart/remove`,
+    { productId },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+
+export const clearCart = (token) =>
+  axios.delete(`${url}cart/clear`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
 export const requestAttachAsset = (postId, assetId, message, token) =>
   axios.post(`${url}post/request-attach`, { postId, assetId, message }, {
     headers: { Authorization: `Bearer ${token}` }
@@ -181,10 +205,7 @@ export const getDesignByHandle = (handle, token) => {
   });
 };
 export const createOrder = (items)=> axios.post(`${url}payment/create-order` , items)
-export const getCart = ()=>axios.get('https://meeza-in-8.onrender.com/cart')
-export const postCart = (newCart)=>axios.post('https://meeza-in-8.onrender.com/cart/postcart' , newCart)
-export const deleteCart = (newCart)=>axios.post('https://meeza-in-8.onrender.com/cart/deletecart' , newCart)
-export const updateCartItem = (updatedItem) => axios.put(`https://meeza-in-8.onrender.com/cart/update/${updatedItem._id}`, updatedItem);
+
 // export const getDesign = (page = 1 , limit = 6 ) =>
 //   axios.post(`${url}allProducts`,page , limit, );
 

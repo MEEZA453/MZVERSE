@@ -14,7 +14,7 @@ const pathname = usePathname();
 const userHandle = pathname.split('/').pop();
 useEffect(()=>{
       if (!userHandle) return; 
-    console.log('getting')
+  
  dispatch(getProductById(userHandle))
 },[userHandle ])
 

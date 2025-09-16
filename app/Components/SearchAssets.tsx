@@ -18,7 +18,7 @@ export default function SearchAssets({setSearchAssets , postId}){
     const searchTabs = ['Creators' , 'posts' , 'Assets'];
     const [selectedIndex , setSelectedIndex] = useState(0)
   const [query , setQuery ] = useState("")
-  console.log(query)
+
   const {token} =  useAuth()
   const dispatch = useDispatch<AppDispatch>()
 
