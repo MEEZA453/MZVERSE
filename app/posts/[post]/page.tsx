@@ -113,7 +113,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
         
             </div>:null}
-            <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[400] top-14 '>
+            <div className='w-full flex justify-between lg:w-[70vw]  items-center px-3 absolute z-[400] top-14 '>
               <div className='flex gap-1 items-center justify-center'>
               <button onClick={()=> router.back()}>
                 <IoIosArrowBack size={20} />
@@ -131,8 +131,8 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         {/* <ProductImages images={post?.images}/> */}
 <ImageShower isMobile={isMobile} images = {post?.images}/>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
-     <div onClick={()=>setIsMenu(false)} className='w-full bg-black rounded-sm lg:h-screen mt-10 rounded lg:w-[30vw] mb-4 lg:pt-20 '>
-  
+     <div onClick={()=>setIsMenu(false)} className='w-full lg:border-l lg:border-[#4d4d4d] bg-black rounded-sm lg:h-screen pt-10 rounded lg:w-[30vw] mb-4 lg:pt-20 '>
+
        { votes.length > 0 && <div className='w-full '>
 
 {post?.voteFields?.map((field : any ,index : number)=>{

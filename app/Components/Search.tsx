@@ -81,5 +81,5 @@ useEffect(() => {
             
             </div>
          </div>
-    </motion.div> <div onClick={()=>setSearch(false)}  className='h-screen w-screen z-[700]  fixed top-0 right-0  bg-black/50 backdrop-blur-xl'></div> </div> 
+    </motion.div> <div onClick={()=>setSearch(false)}  className='h-screen w-screen z-[700]  fixed top-0 right-0  bg-black'></div> </div> 
 }
