@@ -16,6 +16,7 @@ import ButtonLoader from "../Components/ButtonLoader";
 import MobileImageInput from "../Components/MobileImageInput";
 import { RxCross1 } from "react-icons/rx";
 import { useSelector } from "react-redux";
+import { useNotification } from "../Context/Notification";
 
 export default function CreateProduct() {
   const currentData = useSelector((state: any) => state.design.editProduct);
@@ -28,6 +29,8 @@ const [amount, setAmount] = useState<number | "">("");
     const [sections, setSections] = useState([{ title: "", content: ["", ""] }]);
     const [faq , setFaq] = useState([{q : '' , a : ''} ,{q : '' , a : ''}])
     const router = useRouter()
+        const {setNotification} = useNotification()
+    
           const [removedImages, setRemovedImages] = useState<string[]>([]);
     const [loading , setLoading] = useState (false)
     const {user} = useAuth()
@@ -199,6 +202,7 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
     setLoading(false); // Stop loader after API finishes
     router.push("/"); // Navigate only after API completes
+    setNotification('supplyCreated')
   } catch (err: any) {
     setLoading(false);
     console.log("Error submitting form:", err.message || err);

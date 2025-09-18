@@ -13,6 +13,7 @@ import MobileImageInput from "../Components/MobileImageInput";
 import {AnimatePresence, motion} from 'framer-motion'
 import CategorySelect from "../Components/CatagoryInput";
 import VoteFieldSelector from "../Components/VoteFieldSelector";
+import { useNotification } from "../Context/Notification";
 type ErrorState = {
   nameError: boolean;
 catagoryError : boolean;
@@ -24,7 +25,7 @@ catagoryError : boolean;
 const CreatePost: React.FC = () => {
     console.log('creating ')
     const {editPost} = useSelector((state: any) => state.posts);
-
+const {setNotification} = useNotification()
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
       const [image, setSelectedImage] = useState([]);
@@ -152,6 +153,7 @@ const deleteField = (i: number) => {
             setLoading(false);
             router.push("/");
           })
+       
           .catch((err: any) => {
             setLoading(false);
             console.error(err);
@@ -162,6 +164,10 @@ const deleteField = (i: number) => {
           .then(() => {
             setLoading(false);
             router.push("/");
+          })
+               .then(() => {
+        setNotification('postCreated')
+        
           })
           .catch((err: any) => {
             setLoading(false);

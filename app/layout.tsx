@@ -5,6 +5,9 @@ import { AuthProvider } from "./Context/AuthContext";
 import { ShowInputProvider } from "./Context/ShowInputContext";
 import { NotificationProvider } from "./Context/Notification";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import PayPalProvider from "./Context/PaypalContext";
+import Notification from "./Components/Notification";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -41,7 +44,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-black text-white`}
       >
+        
         <ReduxProvider>
+<PayPalProvider>
+
 
 <GoogleOAuthProvider clientId="286568333858-u0lo291u1qchomf2dpgsdsnr7gpje11m.apps.googleusercontent.com">
           <ShowInputProvider>
@@ -49,12 +55,13 @@ export default function RootLayout({
 
           <AuthProvider>
             
-
+<Notification/>
           {children}
           </AuthProvider>
           </NotificationProvider>
           </ShowInputProvider>
 </GoogleOAuthProvider>
+       </PayPalProvider>
         </ReduxProvider>
       </body>
     </html>

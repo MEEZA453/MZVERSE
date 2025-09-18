@@ -8,11 +8,13 @@ import { AppDispatch } from '../store/store';
 import {motion } from 'framer-motion'
 import ButtonLoaderWhite from '../Components/ButtonLoaderWhite'
 import { votePostAction } from '../store/actions/post';
+import { useNotification } from '../Context/Notification';
     export default function Vote ({fieldOfVote, existingVote , postId , token}:{fieldOfVote:[string],existingVote : object , postId : string , token : string}){
         console.log(postId)
     const [isOpen , setIsOpen]  = useState(false);
     const dispatch = useDispatch<AppDispatch>()
     const [loading , setLoading] = useState(false)
+    const {setNotification} = useNotification()
 const [isMobile, setIsMobile] = useState(
   typeof window !== "undefined" ? window.innerWidth <= 640 : false
 );
@@ -39,6 +41,7 @@ const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 if(Object.keys(votes).length === fieldOfVote.length){setLoading(true)
     console.log('submitting' , postId , votes , token);
     dispatch(votePostAction(postId, votes, token));
+    setNotification('voteSubmitted')
     setLoading(false)}else{
         return
     }

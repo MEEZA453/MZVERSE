@@ -20,6 +20,7 @@ import JuryApproval from "../Components/JuryApproval"
 import SwipeToDelete from "../Components/SwipeToDelete"
 import AttachRequestNotification from "../Components/AttachRequestNotification"
 import ApproveAttachNotification from "../Components/ApproveAttachNotification"
+import OrderCreatedNotification from "../Components/OrderCreatedNotification"
 export default function Notification () {
   const {setIsNotification} = useNotification()
     const {token} = useAuth()
@@ -82,6 +83,13 @@ useEffect(()=>{
             <FollowNotification noti={noti} />
           </SwipeToDelete>
         )}
+         {noti?.type === "order_created" && (
+          <SwipeToDelete       onClose={() => setOpenIndex(null)}
+            isOpen={openIndex === index}
+          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+            <OrderCreatedNotification noti={noti} />
+          </SwipeToDelete>
+        )}
           {noti?.type === "asset_attach_approved" && (
           <SwipeToDelete      onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
@@ -121,6 +129,6 @@ useEffect(()=>{
     )
   })
 }</div>}
-                <WelcomeNotification/>
+               
     </motion.div>
 }

@@ -12,7 +12,7 @@ import { PiHeartLight } from "react-icons/pi";
 import { GoHeartFill } from "react-icons/go";
 import Login from '../../Components/Login';
 import { useShowInput } from '../../Context/ShowInputContext';
-import { useState  , useEffect} from 'react';
+import { useState  , useEffect, useRef} from 'react';
 import Notification from '../../Components/Notification';
 import { useNotification } from '../../Context/Notification';
 import { addToFavorites , removeFromFavorites } from '../../store/actions/fav';
@@ -30,20 +30,24 @@ import Useages from '../../Components/Useges';
 import ProductMenuLg from '../../Components/ProductMenuLg';
 import { getDesignById } from '../../store/actions/design';
 import { addToCart, getUserCart, removeFromCart } from '../../store/actions/cart';
+import { getDownloadLink, handleProductUnlock } from '../../store/actions/order';
+import Payment from '../../payment/[productId]/page';
+
 export default function ProductPage() {
 const pathname = usePathname()
 
 const [openIndex, setOpenIndex] = useState(0);
-const {setNotification , notification} = useNotification()
+
 const productpath = pathname.split('/');
 const {items} = useSelector((state : any)=>state.cart)
-
+  const { unlocked,  pendingPayments , notification , orderLoading} = useSelector((state: any) => state.freeProducts);
+const freeProducts = useRef(null)
 const [isMobile , setIsMobile] = useState(false)
 const {role  } = useAuth()
 const [red ,setRed ] = useState(false)
 const {setShowLoginInput , setShowSignupInput , showLoginInput , showSignupInput} = useShowInput()
 const slug = productpath[productpath.length - 1]
-console.log(slug)
+const [isPayment , setOpenPayment] = useState(false)
 const [isMenu , setIsMenu] = useState(false)
 const {token} = useAuth()
   const [opacity, setOpacity] = useState(0); // start at 0
@@ -53,8 +57,10 @@ const dispatch = useDispatch<AppDispatch>()
   const [viewUsages , setViewUsages]  = useState(true)
   const router  = useRouter()
 const {product , loading} = useSelector((state : any)=> state.design)
+const {setNotification} = useNotification()
 const isAlreadyAddedToCart = items.some((f : any)=> f?.product?._id === String(product?._id))
-console.log(isAlreadyAddedToCart)
+console.log(product)
+
 // console.log(items[0].product?._id , product?._id)
 const [isAddedToCart  ,setAddedToCart] = useState(isAlreadyAddedToCart ?? false)
 
@@ -72,6 +78,13 @@ const [isAddedToCart  ,setAddedToCart] = useState(isAlreadyAddedToCart ?? false)
     window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
 
 },[])
+useEffect(() => {
+  if (freeProducts.current) {
+    freeProducts.current.innerText = notification;
+    freeProducts.current.style.opacity = 0.6;
+  setNotification('orderCreated')
+  }
+}, [notification]);
 
 useEffect(() => {
     const handleScroll = () => {
@@ -91,11 +104,34 @@ const handleAddToBag = ()=>{
   if(!isAddedToCart){
 setAddedToCart(true)
     dispatch(addToCart(product?._id , token))
+    setNotification('addToBag')
   }else{
     setAddedToCart(false)
     dispatch(removeFromCart(product?._id , token))
+    
   }
 }
+     const unlockToken = unlocked[product?._id];
+     
+useEffect(() => {
+  if (unlockToken && product?._id) {
+    dispatch(getDownloadLink(product._id, unlockToken));
+  }
+}, [unlockToken, product?._id, dispatch]);
+
+
+
+const handleBuyNow = () => {
+  if (product?.amount === 0) {
+    // Free unlock
+    if (!notification && product?._id) {
+      dispatch(handleProductUnlock(product._id, product?.amount, token));
+    
+    }
+  } else {
+    // Redirect to custom payment page
+    router.push(`/payment/${product._id}`);  }
+};
 
   return (
     <div className='w-screen h-screen'>
@@ -154,7 +190,7 @@ setAddedToCart(true)
     <h3 >Size:</h3>
     <h3 >2.0GB</h3>
   </div>
-  <button className='bg-white text-black w-full rounded-[2px]  h-6 flex items-center justify-center pb-0.5 text-[14px] mt-4'>Buy now</button>
+  <button ref={freeProducts} onClick={handleBuyNow} className={`bg-white text-black w-full rounded-[2px]  h-6 flex items-center justify-center  text-[14px] mt-4`}>{orderLoading ? 'Creating order..':  product?.amount === 0 ?'Get it for free': 'Buy now'}</button>
   <button onClick={handleAddToBag} className='border border-white text-white w-full rounded-full h-6 flex items-center pb-1 justify-center  text-[14px] mt-2'>{isAddedToCart ? 'Added to bag': 'Add to bag'}</button>
 
 

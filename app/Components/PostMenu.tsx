@@ -10,11 +10,12 @@ import { useRouter } from "next/navigation";
 import { addToFavorites, removeFromFavorites } from "../store/actions/fav";
 import { addToPromotion, removeFromPromotion } from "../store/actions/Promotion";
 import { addToHighlight, removeFromHighlight } from "../store/actions/Highlight";
+import { useNotification } from "../Context/Notification";
 export default function PostMenu({ setAttachmentsMenu, setSearchAssets ,  setIsMenu , postId , token  ,isAuthor , role ,currentData}){
   const [highlighted , setHighlight] = useState(false)
   const [promoted , setPromoted] = useState(false)
 const { favourites } = useSelector((state: any) => state.favourites);
-
+const {setNotification} = useNotification()
 // Check if the post is already in favorites
 const isFavorited = favourites.some((item: any) => item._id === postId);
 
@@ -31,8 +32,10 @@ const addToMoodBoard = () => {
 
   if (isFavorited) {
     dispatch(removeFromFavorites(postId, token));
+       setNotification('removeFromFav')
   } else {
     dispatch(addToFavorites(postId, token));
+   setNotification('addToFav')
   }
 };
 

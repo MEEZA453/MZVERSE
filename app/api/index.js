@@ -1,9 +1,45 @@
 import axios from 'axios' 
-const url = 'https://meeza-in-8.onrender.com/' 
-//  const url  = 'http://localhost:8080/'
+// const url = 'https://meeza-in-8.onrender.com/' 
+ const url  = 'http://localhost:8080/'
 
+// api/index.ts
+export const createPaypalOrder = (productId, token) =>
+  axios.post(`${url}payment/paypal/create`, { productId }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 
+export const capturePaypalOrder = (orderId, token) =>
+  axios.post(`${url}payment/paypal/capture`, { orderId }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+export const createRazorpayOrder = (productId, token) =>
+  axios.post(
+    `${url}payment/razorpay/create`,
+    { productId },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
 
+// Capture Razorpay payment
+export const captureRazorpayPayment = (payload, token) =>
+  axios.post(
+    `${url}payment/razorpay/capture`,
+    payload,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+export const unlockFreeProduct = (productId, token) =>
+  axios.post(`${url}order/${productId}/unlock`, {}, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+
+// Download product (use unlock token)
+export const downloadProduct = (productId, unlockToken) =>
+  axios.get(`${url}order/${productId}/download`, {
+    params: { token: unlockToken }
+  });
 export const getUserCart = (token) =>
   axios.get(`${url}cart`, {
     headers: { Authorization: `Bearer ${token}` },

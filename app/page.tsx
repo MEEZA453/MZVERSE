@@ -16,7 +16,7 @@ import Cart from "./Components/Cart";
 export default function Feed() {
   const router = useRouter();
   const [postId, setPostId] = useState('');
-  const { isNotification, setIsNotification } = useNotification();
+  const { isNotification, setIsNotification , setNotification} = useNotification();
   const [isCart , setIsCart] = useState(false )
   const { user, loading } = useAuth();
 
@@ -85,7 +85,7 @@ useEffect(() => {
           {tabs.map((tab, index) => (
             <button
               key={index}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => {setActiveIndex(index) }}
               className={`rounded-full ${activeIndex === index ? 'bg-white text-black' : 'bg-[#1d1d1d] text-white'} items-center justify-center px-3 text-[14px] py-0.5`}
             >
               {tab.name}
