@@ -70,6 +70,7 @@ useEffect(() => {
 
   
   const { profile, loading } = useSelector((state: any) => state.profile);
+  console.log(profile)
 const { following} = useSelector((state: any) => state.follow);
 
 // Compute if current viewed user is followed

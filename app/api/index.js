@@ -1,6 +1,6 @@
 import axios from 'axios' 
-// const url = 'https://meeza-in-8.onrender.com/' 
- const url  = 'http://localhost:8080/'
+const url = 'https://meeza-in-8.onrender.com/' 
+//  const url  = 'http://localhost:8080/'
 
 // api/index.ts
 export const createPaypalOrder = (productId, token) =>
@@ -12,24 +12,38 @@ export const capturePaypalOrder = (orderId, token) =>
   axios.post(`${url}payment/paypal/capture`, { orderId }, {
     headers: { Authorization: `Bearer ${token}` },
   });
-export const createRazorpayOrder = (productId, token) =>
+export const createRazorpayOrder = (token, productId) =>
   axios.post(
     `${url}payment/razorpay/create`,
     { productId },
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
+    { headers: { Authorization: `Bearer ${token}` } }
   );
 
-// Capture Razorpay payment
-export const captureRazorpayPayment = (payload, token) =>
+// 2. Capture Razorpay Payment
+export const captureRazorpayPayment = (token, payload) =>
+  axios.post(`${url}payment/razorpay/capture`, payload, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+// 3. Connect Razorpay Account (OAuth result)
+export const connectRazorpayAccount = (token, razorpayAccountId) =>
   axios.post(
-    `${url}payment/razorpay/capture`,
-    payload,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-    }
+    `${url}payment/razorpay/connect`,
+    { razorpayAccountId },
+    { headers: { Authorization: `Bearer ${token}` } }
   );
+
+// 4. Withdraw Seller Balance
+export const withdrawBalance = (token) =>
+  axios.post(`${url}payment/razorpay/withdraw`, {}, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+// 5. Fetch Wallet Transactions
+export const getWalletTransactions = (token) =>
+  axios.get(`${url}payment/razorpay/wallet`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
 export const unlockFreeProduct = (productId, token) =>
   axios.post(`${url}order/${productId}/unlock`, {}, {
     headers: { Authorization: `Bearer ${token}` }

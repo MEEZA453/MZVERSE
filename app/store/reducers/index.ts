@@ -15,6 +15,7 @@ import profile from './profile';
 import attach from './attach';
 import freeProducts from './order';
 import payment from './payment';
+import razorpayConnect from './razorpayConnect';
 const rootReducer = combineReducers({
   design,
   cart,
@@ -31,7 +32,8 @@ const rootReducer = combineReducers({
   jury,
   attach,
   freeProducts,
-  payment
+  payment,
+  razorpayConnect,
 });
 
 export type RootState = ReturnType<typeof rootReducer>; // ✅ Type for useSelector

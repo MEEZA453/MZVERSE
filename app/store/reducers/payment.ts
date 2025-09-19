@@ -2,57 +2,54 @@ import { AnyAction } from "redux";
 
 interface PaymentState {
   loading: boolean;
-  success: boolean;
-  transaction: any | null;
+  order?: any;
+  capture?: any;
+  wallet: any[];
   error: string | null;
-  method: "paypal" | "razorpay" | null;
 }
 
 const initialState: PaymentState = {
   loading: false,
-  success: false,
-  transaction: null,
+  order: undefined,
+  capture: undefined,
+  wallet: [],
   error: null,
-  method: null,
 };
 
-const payment = (state = initialState, action: AnyAction): PaymentState => {
+const paymentReducer = (state = initialState, action: AnyAction): PaymentState => {
   switch (action.type) {
     case "CREATE_ORDER_REQUEST":
-    case "CAPTURE_ORDER_REQUEST":
-      return { ...state, loading: true, error: null, success: false, method: action.meta || null };
+    case "CAPTURE_PAYMENT_REQUEST":
+    case "CONNECT_ACCOUNT_REQUEST":
+    case "WITHDRAW_REQUEST":
+    case "WALLET_REQUEST":
+      return { ...state, loading: true, error: null };
 
     case "CREATE_ORDER_SUCCESS":
-      return {
-        ...state,
-        loading: false,
-        transaction: action.payload,
-        success: false,
-        method: action.meta || null,
-      };
+      return { ...state, loading: false, order: action.payload };
 
-    case "CAPTURE_ORDER_SUCCESS":
-      return {
-        ...state,
-        loading: false,
-        transaction: action.payload,
-        success: true,
-        method: action.meta || null,
-      };
+    case "CAPTURE_PAYMENT_SUCCESS":
+      return { ...state, loading: false, capture: action.payload };
+
+    case "CONNECT_ACCOUNT_SUCCESS":
+      return { ...state, loading: false };
+
+    case "WITHDRAW_SUCCESS":
+      return { ...state, loading: false };
+
+    case "WALLET_SUCCESS":
+      return { ...state, loading: false, wallet: action.payload };
 
     case "CREATE_ORDER_FAIL":
-    case "CAPTURE_ORDER_FAIL":
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-        success: false,
-        method: action.meta || null,
-      };
+    case "CAPTURE_PAYMENT_FAIL":
+    case "CONNECT_ACCOUNT_FAIL":
+    case "WITHDRAW_FAIL":
+    case "WALLET_FAIL":
+      return { ...state, loading: false, error: action.payload };
 
     default:
       return state;
   }
 };
 
-export default payment;
+export default paymentReducer;

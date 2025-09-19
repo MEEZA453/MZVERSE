@@ -12,6 +12,7 @@ import Notification from "./notification/page";
 import { useNotification } from "./Context/Notification";
 import { AnimatePresence ,motion} from "framer-motion";
 import Cart from "./Components/Cart";
+import ConnectRazorpayButton from "./Components/ConnectWithRazorpay";
 
 export default function Feed() {
   const router = useRouter();
@@ -99,6 +100,7 @@ useEffect(() => {
           {/* <PhotographyOfTheDay p={photo[2]} /> */}
           <PosterOfTheDay />
           <PromotionOfTheDay />
+          <ConnectRazorpayButton/>
           <AllPosts />
         </div>
       )}

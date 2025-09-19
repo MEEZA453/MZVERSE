@@ -30,7 +30,7 @@ export default function Notification () {
     const dispatch = useDispatch<AppDispatch>()
     const {items , loading} = useSelector((state: any)=>state.notification)
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-
+console.log(items)
 useEffect(() => {
   if (!token) return; 
     dispatch(getNotifications(token));

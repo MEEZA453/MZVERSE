@@ -1,115 +1,128 @@
 "use client";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
-import PayButton from "../../Components/PaypalButton";
-import { useSelector } from "react-redux";
-import { useAuth } from "../../Context/AuthContext";
-import { getDesignById } from "../../store/actions/design";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useAuth } from "../../Context/AuthContext";
 import { AppDispatch } from "../../store/store";
+import { capturePayment, createOrder } from "../../store/actions/payment";
+
 
 export default function PaymentPage() {
-  const { productId } = useParams(); // product id
-  const dispatch = useDispatch<AppDispatch>()
-  const {token} = useAuth()
-const {product , loading} = useSelector((state : any)=> state.design)
+  const { productId } = useParams();
+  const dispatch = useDispatch<AppDispatch>();
+  const { token, user } = useAuth();
 
- useEffect(()=>{
-dispatch(getDesignById(product))
- },[dispatch])
-  const [method, setMethod] = useState<"paypal" | "card" | null>(null);
-// async function payWithRazorpay() {
-//   // 1. Call backend to create order
-//   const res = await fetch("/api/payment/razorpay/create", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${token}`,
-//     },
-//     body: JSON.stringify({ amount, productId }),
-//   });
+  // Customer info
+  const [customer, setCustomer] = useState({
+    name: "",
+    email: user?.email || "",
+  });
 
-//   const data = await res.json();
+  // 👉 Razorpay Loader
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
-//   if (!data.success) return alert("Order creation failed");
+  // 👉 Payment handler
+  const payWithRazorpay = async () => {
+    try {
+      const res = await loadRazorpayScript();
+      if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+        return;
+      }
 
-//   const order = data.order;
+      // 1. Create order from backend
+      const orderData: any = await dispatch(createOrder(token ,productId as string));
+      if (!orderData?.success) {
+        console.log(orderData)
+        alert("Failed to create Razorpay order");
+        return;
+      }
 
-//   // 2. Razorpay options
-//   const options = {
-//     key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID, // public key
-//     amount: order.amount,
-//     currency: order.currency,
-//     name: "Your Website Name",
-//     description: "Purchase Description",
-//     order_id: order.id, // created order id from backend
-//     handler: async function (response) {
-//       // 3. Capture payment on backend
-//       const captureRes = await fetch("/api/payment/razorpay/capture", {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//           Authorization: `Bearer ${token}`,
-//         },
-//         body: JSON.stringify({ paymentId: response.razorpay_payment_id, orderId: order.id }),
-//       });
+      // 2. Razorpay options
+      const options: any = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: "INR",
+        name: "MZCO Store",
+        description: "Purchase Design",
+        order_id: orderData.orderId,
+        handler: async function (response: any) {
+          const payload = {
+            orderId: orderData.orderId,
+            paymentId: response.razorpay_payment_id,
+            signature: response.razorpay_signature,
+            productId,
+          };
+          const captureRes: any = await dispatch(capturePayment(token, payload));
 
-//       const captureData = await captureRes.json();
-//       if (captureData.success) alert("Payment successful! Check your email.");
-//     },
-//     prefill: {
-//       email: "customer@example.com",
-//       contact: "9999999999",
-//     },
-//     theme: { color: "#3399cc" },
-//   };
+          if (captureRes?.success) {
+            alert("✅ Payment successful! Check your email.");
+          } else {
+            alert("❌ Payment capture failed");
+          }
+        },
+        prefill: {
+          name: customer.name,
+          email: customer.email,
+        },
+        theme: { color: "#6366f1" }, // Indigo
+      };
 
-//   // 4. Open Razorpay checkout
-//   const rzp = new Razorpay(options);
-//   rzp.open();
-// }
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Razorpay payment error:", err);
+      alert("Something went wrong with Razorpay");
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">💳 Choose Payment Method</h1>
+        {/* Checkout Header */}
+        <h1 className="text-2xl font-bold mb-6 text-center">🛒 Checkout</h1>
 
-        <div className="flex flex-col gap-4">
-          {/* Card Option (UI only for now) */}
-          <button
-            onClick={() => setMethod("card")}
-            className={`w-full py-3 rounded-lg font-medium ${
-              method === "card"
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 hover:bg-gray-300"
-            }`}
-          >
-            Pay with Card
-          </button>
-
-          {/* PayPal Option */}
-          <button
-            onClick={() => setMethod("paypal")}
-            className={`w-full py-3 rounded-lg font-medium ${
-              method === "paypal"
-                ? "bg-yellow-400 text-black"
-                : "bg-gray-200 hover:bg-gray-300"
-            }`}
-          >
-            Pay with PayPal
-          </button>
+        {/* Product Summary */}
+        <div className="mb-6 border rounded-lg p-4 bg-gray-50">
+          <p className="font-semibold">Product: Poster Design</p>
+          <p className="text-gray-600">High-quality digital poster</p>
+          <p className="mt-2 text-lg font-bold">₹499</p>
         </div>
 
-        {/* Render Selected Payment Method */}
-        <div className="mt-6">
-          {method === "card" && (
-            <p className="text-center text-gray-600">⚠️ Card checkout will be added later.</p>
-          )}
-          {method === "paypal" && (
-            <PayButton productId={productId as string} token={token} />
-          )}
+        {/* Customer Info */}
+        <div className="space-y-4 mb-6">
+          <input
+            type="text"
+            placeholder="Full Name"
+            value={customer.name}
+            onChange={(e) => setCustomer({ ...customer, name: e.target.value })}
+            className="w-full border rounded-lg px-4 py-2"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            value={customer.email}
+            onChange={(e) => setCustomer({ ...customer, email: e.target.value })}
+            className="w-full border rounded-lg px-4 py-2"
+          />
         </div>
+
+        {/* Payment Button */}
+        <button
+          onClick={payWithRazorpay}
+          className="w-full py-3 rounded-lg font-medium bg-purple-600 text-white hover:bg-purple-700"
+        >
+          Pay Securely with Razorpay
+        </button>
       </div>
-      <button>Razorpay</button>
     </div>
   );
 }
