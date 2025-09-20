@@ -17,6 +17,7 @@ export default function WalletPage({setIsWallet}:{setIsWallet :React.Dispatch<Re
   const { token } = useAuth();
 const [isAlart , setAlart] = useState(false)
   const { wallet, loading, error } = useSelector((state: any) => state.payment);
+  
 console.log(wallet)
   useEffect(() => {
     if (token) dispatch(getWalletTransactions(token));
