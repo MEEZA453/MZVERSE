@@ -33,10 +33,11 @@ console.log(wallet)
     if (!razorpayAccountId || !token) return;
     dispatch(connectAccount(token, razorpayAccountId));
   };
-const totalAmount = wallet?.transactions?.reduce((acc , item , i )=>{
- acc += item?.product?.amount
- return acc
-}, 0)
+const totalAmount = products.reduce((sum, p) => sum + p.amount, 0);
+
+// ensure it's always integer
+const amountInSubunits = Math.round(totalAmount * 100);
+
   return    <motion.div   className="w-screen fixed top-0 right-0 bg-black h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-[23vw]">
       <div>
                   
@@ -60,7 +61,7 @@ const totalAmount = wallet?.transactions?.reduce((acc , item , i )=>{
          
         return         <div key={index}>
      
-                  <WalletTransection transaction={transaction}/>
+        <WalletTransection transaction={transaction?.product} buyer={transaction?.purchasedBy}/>
 
                   </div>
               })}
