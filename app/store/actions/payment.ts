@@ -69,3 +69,38 @@ export const getWalletTransactions = (token: string) => async (dispatch: AppDisp
     dispatch({ type: "WALLET_FAIL", payload: errorMsg });
   }
 };
+export const createCartOrder =
+  (token: string, cartItems: { productId: string }[]) =>
+  async (dispatch: AppDispatch) => {
+    try {
+      dispatch({ type: "CREATE_CART_ORDER_REQUEST" });
+
+      const { data } = await api.createRazorpayCartOrder(token, cartItems);
+
+      dispatch({ type: "CREATE_CART_ORDER_SUCCESS", payload: data });
+
+      return data;
+    } catch (error: any) {
+      const errorMsg = error.response?.data?.message || error.message;
+      dispatch({ type: "CREATE_CART_ORDER_FAIL", payload: errorMsg });
+      return { success: false, message: errorMsg };
+    }
+  };
+
+// 🔹 4. Capture Cart Payment
+export const captureCartPayment =
+  (token: string, payload: any) => async (dispatch: AppDispatch) => {
+    try {
+      dispatch({ type: "CAPTURE_CART_PAYMENT_REQUEST" });
+
+      const { data } = await api.captureRazorpayCartPayment(token, payload);
+
+      dispatch({ type: "CAPTURE_CART_PAYMENT_SUCCESS", payload: data });
+
+      return data;
+    } catch (error: any) {
+      const errorMsg = error.response?.data?.message || error.message;
+      dispatch({ type: "CAPTURE_CART_PAYMENT_FAIL", payload: errorMsg });
+      return { success: false, message: errorMsg };
+    }
+  };

@@ -11,16 +11,21 @@ import SwipeToDelete from "./SwipeToDelete"
 import Loading from "./loading"
 import SkeletonNotification from "./Skeleton/SkeletonNotification"
 import Alart from "./Alart"
+import { captureCartPayment, createCartOrder } from "../store/actions/payment"
+import { useNotification } from "../Context/Notification"
 export default function Cart({setIsCart}){
-const {token} = useAuth()
+const {token , user} = useAuth()
+const {setNotification} = useNotification()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 const {items , loading} = useSelector((state : any)=>state.cart)
 const [isAlart , setAlart]  = useState(false)
 const [localItems, setLocalItems] = useState<any[]>([]);
-const totalAmount = localItems.reduce((acc , item , i )=>{
- acc += item?.product?.amount
- return acc
-}, 0)
+const totalAmount = localItems.reduce((acc, item) => {
+  if (item?.product?.amount) {
+    return acc + item.product.amount;
+  }
+  return acc;
+}, 0);
 const dispatch = useDispatch<AppDispatch>()
 useEffect(()=>{
   dispatch(getUserCart(token))
@@ -35,6 +40,85 @@ const handleDelete = (productId: string) => {
   // still call redux action + API
   dispatch(removeFromCart(productId, token));
 };
+
+const cartItems = localItems.map((item) => ({
+  productId: item.product._id,
+  amount: item.product.amount, // optional if backend needs
+}));
+
+  const [customer, setCustomer] = useState({
+    name: "",
+    email: user?.email || "",
+  });
+
+  // 👉 Razorpay Loader
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
+const payForCart = async () => {
+  try {
+    const res = await loadRazorpayScript();
+    if (!res) {
+      alert("Razorpay SDK failed to load. Are you online?");
+      return;
+    }
+
+    // 1. Create order from backend (send cart items)
+    const orderData: any = await dispatch(createCartOrder(token, cartItems));
+    if (!orderData?.success) {
+      console.log(orderData);
+      alert("Failed to create Razorpay cart order");
+      return;
+    }
+
+    // 2. Razorpay options
+    const options: any = {
+      key: orderData.key,
+      amount: orderData.amount,
+      currency: "INR",
+      name: "MZCO Store",
+      description: "Cart Purchase",
+      order_id: orderData.orderId,
+      handler: async function (response: any) {
+        const payload = {
+          orderId: orderData.orderId,
+          paymentId: response.razorpay_payment_id,
+          signature: response.razorpay_signature,
+          cartItems, // ✅ include all items to capture
+        };
+
+        const captureRes: any = await dispatch(captureCartPayment(token, payload));
+
+        if (captureRes?.success) {
+          setAlart(false);
+          setNotification("cartOrderCreated");
+        } else {
+          setAlart(false);
+          alert("❌ Cart payment capture failed");
+        }
+      },
+      prefill: {
+        name: customer.name,
+        email: customer.email,
+      },
+      theme: { color: "#6366f1" }, // Indigo
+    };
+
+    const rzp = new (window as any).Razorpay(options);
+    rzp.open();
+  } catch (err) {
+    console.error("Razorpay cart payment error:", err);
+    alert("Something went wrong with Razorpay cart payment");
+  }
+};
+
+
 const handleExplore = async ()=>{
  await localStorage.setItem("activeTab", String(2));
   setIsCart(false)
@@ -53,19 +137,19 @@ const handleExplore = async ()=>{
         {loading ?   <Loading/>: <div>{items?.length === 0 ? <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex items-center flex-col gap-3 "><p>Nothing in the bag</p>
         <button onClick={handleExplore} className="w-fit bg-white h-7 rounded-full text-black flex text-[14px] px-3 flex items-center justify-center ">Explore store</button>
         </div>:<div>
-                      { isAlart&& <Alart setAlart={setAlart}  func ={()=>{console.log('clie')}} nameOfFunc='Proceed'/>}
+                      { isAlart&& <Alart setAlart={setAlart}  func ={payForCart} nameOfFunc='Proceed'/>}
             <div>
               {localItems.map((item , index)=>{
          
         return         <div key={index}>
-          <SwipeToDelete 
+          { item?.product && <SwipeToDelete 
                onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
           onOpen={() => setOpenIndex(index)}
           onDelete={()=>handleDelete(item?.product._id)}>
 
                   <CartItemCart asset={item?.product}/>
-          </SwipeToDelete>
+          </SwipeToDelete>}
                   </div>
               })}
             </div>

@@ -25,6 +25,19 @@ export const captureRazorpayPayment = (token, payload) =>
     headers: { Authorization: `Bearer ${token}` },
   });
 
+  export const createRazorpayCartOrder = (token, cartItems) =>
+  axios.post(
+    `${url}payment/razorpay/cart/create`,
+    { cartItems }, // [{ productId }, { productId }]
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+
+// 🔹 4. Capture Razorpay Payment (Cart / Multiple Products)
+export const captureRazorpayCartPayment = (token, payload) =>
+  axios.post(`${url}payment/razorpay/cart/capture`, payload, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
 // 3. Connect Razorpay Account (OAuth result)
 export const connectRazorpayAccount = (token, razorpayAccountId) =>
   axios.post(
