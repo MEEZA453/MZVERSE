@@ -27,6 +27,7 @@ import { getNotifications } from '../store/actions/notification'
 import { VscMail } from 'react-icons/vsc'
 import FollowersList from '../Components/FollowersList'
 import FollowingList from '../Components/FollowingList'
+import WalletPage from '../Components/Wallet'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
 const {profileLink ,  authorId , handle , role , token} = useAuth()
@@ -34,7 +35,7 @@ const pathname = usePathname();
 const userHandle = pathname.split('/').pop();
 const [profileMenu , setProfileMenu] = useState(false) 
   const [activeIndex, setActiveIndex] = useState(2)
-
+const [isWallet  , setIsWallet] = useState(false)
 const [isMobile , setIsMobile ] = useState(false)
 const [followerWindow , setFollowerWindow] = useState(false)
 const [followingWindow , setFollowingWindow] = useState(false)
@@ -184,10 +185,11 @@ const isProfileLoaded = profile && profile.user && profile.user.handle === userH
     <div className='w-screen  overflow-hidden'>
   {!isProfileLoaded || loading ? <Loading/> : <div> 
       {/* <Notification/> */}
- <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {profile?.user?.role} setProfileMenu = {setProfileMenu}/>: <ProfileMenuLg setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {profile?.user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
+ <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {profile?.user?.role} setProfileMenu = {setProfileMenu} setIsWallet = {setIsWallet}/>: <ProfileMenuLg setIsWallet = {setIsWallet} setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {profile?.user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 
 { !isMobile && <div style={{opacity : followerWindow || followingWindow ? 1 : 0}} className='h-screen duration-300 w-screen z-[900] fixed top-0 pointer-events-none bg-black/60'></div>}
 { followerWindow &&  <FollowersList setFollowerWindow={setFollowerWindow} handle ={profile?.user?.handle}/>}
+{isWallet && <WalletPage setIsWallet={setIsWallet}/>}
 { followingWindow &&  <FollowingList setFollowingWindow={setFollowingWindow} handle ={profile?.user?.handle}/>}
 
       <div className='profile relative flex  relative flex-col h-90   gap-3 mt-10 items-center justify-center w-screen'>

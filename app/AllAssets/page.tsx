@@ -36,7 +36,7 @@ export default function AllAssets() {
     
     fetchData();
 
-  }, [dispatch]);
+  }, [dispatch , token]);
 useEffect(() => {
   if (!unlock) {
     document.body.style.overflow = "hidden"; // lock scroll

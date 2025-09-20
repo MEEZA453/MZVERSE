@@ -12,7 +12,7 @@ export default function Useages({assetId , token}){
     console.log(postsOfAsset)
     useEffect(()=>{
         dispatch(getPostsOfAsset(assetId , token))
-    } , [dispatch])
+    } , [dispatch , token , assetId])
     return <div>
          {   !loading ? <div>{postsOfAsset?.length > 0 ?<div className='lg:grid-cols-2 px-4 lg:gap-5 gap-2  mt-10 grid-cols-2 grid'>
         {postsOfAsset.map((post , index)=>{

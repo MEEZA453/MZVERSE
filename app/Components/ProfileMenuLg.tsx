@@ -7,7 +7,7 @@ import { CiLogout } from "react-icons/ci";
 import { useAuth } from "../Context/AuthContext";
 import {motion} from 'framer-motion'
 import { useEffect, useState } from "react";
-export default function ProfileMenuLg({setProfileMenu , role ,setFollowingWindow , setFollowerWindow}){
+export default function ProfileMenuLg({setProfileMenu , role ,setFollowingWindow , setFollowerWindow , setIsWallet}){
 
 const {logout} = useAuth()
 const router = useRouter()

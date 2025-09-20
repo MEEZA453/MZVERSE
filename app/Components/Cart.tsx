@@ -10,10 +10,12 @@ import { useAuth } from "../Context/AuthContext"
 import SwipeToDelete from "./SwipeToDelete"
 import Loading from "./loading"
 import SkeletonNotification from "./Skeleton/SkeletonNotification"
+import Alart from "./Alart"
 export default function Cart({setIsCart}){
 const {token} = useAuth()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 const {items , loading} = useSelector((state : any)=>state.cart)
+const [isAlart , setAlart]  = useState(false)
 const [localItems, setLocalItems] = useState<any[]>([]);
 const totalAmount = localItems.reduce((acc , item , i )=>{
  acc += item?.product?.amount
@@ -51,6 +53,7 @@ const handleExplore = async ()=>{
         {loading ?   <Loading/>: <div>{items?.length === 0 ? <div className="absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 flex items-center flex-col gap-3 "><p>Nothing in the bag</p>
         <button onClick={handleExplore} className="w-fit bg-white h-7 rounded-full text-black flex text-[14px] px-3 flex items-center justify-center ">Explore store</button>
         </div>:<div>
+                      { isAlart&& <Alart setAlart={setAlart}  func ={()=>{console.log('clie')}} nameOfFunc='Proceed'/>}
             <div>
               {localItems.map((item , index)=>{
          
@@ -66,7 +69,7 @@ const handleExplore = async ()=>{
                   </div>
               })}
             </div>
-            <button className="bg-white w-[96%] -translate-x-1/2 left-1/2 rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black absolute bottom-5">Proceed order at $ {totalAmount}</button>
+            <button onClick={()=>setAlart(true)}  className="bg-white w-[96%] -translate-x-1/2 left-1/2 rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black absolute bottom-5">Proceed order at $ {totalAmount}</button>
             </div>}
             </div>}
             

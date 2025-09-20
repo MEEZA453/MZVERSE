@@ -32,6 +32,8 @@ import { getDesignById } from '../../store/actions/design';
 import { addToCart, getUserCart, removeFromCart } from '../../store/actions/cart';
 import { getDownloadLink, handleProductUnlock } from '../../store/actions/order';
 import Payment from '../../payment/[productId]/page';
+import Alart from '../../Components/Alart';
+import { capturePayment, createOrder } from '../../store/actions/payment';
 
 export default function ProductPage() {
 const pathname = usePathname()
@@ -49,9 +51,9 @@ const {setShowLoginInput , setShowSignupInput , showLoginInput , showSignupInput
 const slug = productpath[productpath.length - 1]
 const [isPayment , setOpenPayment] = useState(false)
 const [isMenu , setIsMenu] = useState(false)
-const {token} = useAuth()
+const {token , user} = useAuth()
   const [opacity, setOpacity] = useState(0); // start at 0
-
+const  [isAlart , setAlart] = useState(false)
 const dispatch = useDispatch<AppDispatch>()
 
   const [viewUsages , setViewUsages]  = useState(true)
@@ -82,7 +84,7 @@ useEffect(() => {
   if (freeProducts.current) {
     freeProducts.current.innerText = notification;
     freeProducts.current.style.opacity = 0.6;
-  setNotification('orderCreated')
+
   }
 }, [notification]);
 
@@ -119,19 +121,101 @@ useEffect(() => {
   }
 }, [unlockToken, product?._id, dispatch]);
 
+  const [customer, setCustomer] = useState({
+    name: "",
+    email: user?.email || "",
+  });
 
+  // 👉 Razorpay Loader
+  const loadRazorpayScript = () => {
+    return new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
+  };
 
-const handleBuyNow = () => {
+  // 👉 Payment handler
+  const payWithRazorpay = async () => {
+    try {
+      const res = await loadRazorpayScript();
+      if (!res) {
+        alert("Razorpay SDK failed to load. Are you online?");
+        return;
+      }
+
+      // 1. Create order from backend
+      const orderData: any = await dispatch(createOrder(token ,product?._id as string));
+      if (!orderData?.success) {
+        console.log(orderData)
+        alert("Failed to create Razorpay order");
+        return;
+      }
+
+      // 2. Razorpay options
+      const options: any = {
+        key: orderData.key,
+        amount: orderData.amount,
+        currency: "INR",
+        name: "MZCO Store",
+        description: "Purchase Design",
+        order_id: orderData.orderId,
+        handler: async function (response: any) {
+          const payload = {
+            orderId: orderData.orderId,
+            paymentId: response.razorpay_payment_id,
+            signature: response.razorpay_signature,
+            productId: product?._id
+          };
+          const captureRes: any = await dispatch(capturePayment(token, payload));
+
+          if (captureRes?.success) {
+            setAlart(false)
+              setNotification('orderCreated')
+          } else {
+            setAlart(false)
+
+            alert("❌ Payment capture failed");
+          }
+        },
+        prefill: {
+          name: customer.name,
+          email: customer.email,
+        },
+        theme: { color: "#6366f1" }, // Indigo
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Razorpay payment error:", err);
+      alert("Something went wrong with Razorpay");
+    }
+  };
+
+const handleAlart = async()=>{
+  if(product?.amount === 0){
+        if (!notification && product?._id) {
+      await dispatch(handleProductUnlock(product._id, product?.amount, token));
+      setNotification('orderCreated')
+    }
+  }else{
+    setAlart(true)
+
+  }
+}
+const handleBuyNow = async () => {
   if (product?.amount === 0) {
     // Free unlock
-    if (!notification && product?._id) {
-      dispatch(handleProductUnlock(product._id, product?.amount, token));
-    
-    }
+
   } else {
     // Redirect to custom payment page
-    router.push(`/payment/${product._id}`);  }
-};
+   await payWithRazorpay()
+         setAlart(false)
+
+};}
 
   return (
     <div className='w-screen h-screen'>
@@ -139,15 +223,8 @@ const handleBuyNow = () => {
   <Notification/>
        <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
       { loading || !product? <Loading/> :<div>
-  <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 fixed z-[999] top-14 '>
-                     <div className='flex gap-1 items-center justify-center'>
-                     <button onClick={()=> router.back()}>
-                       <IoIosArrowBack size={20} />
-                       
-                       </button>
-                     <h4 >{product?.name}</h4></div>
-           
-                    { product?.isMyProduct&&<button className=' text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button>}</div>
+                           { isAlart&& <Alart setAlart={setAlart}  func ={handleBuyNow} nameOfFunc='Proceed'/>}
+
                        {isMobile ? <AnimatePresence>{  isMenu ?  <ProductMenu currentData={product} setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> :
                        <AnimatePresence>{  isMenu ?  <ProductMenuLg setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> }
       {showLoginInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
@@ -155,7 +232,7 @@ const handleBuyNow = () => {
 
 <section className='sticky top-0'>
 <div       style={{ opacity }} className='h-full absolute pointer-events-none top-0 z-[99] w-full bg-black'></div>
-        <ImageShower isMobile = {isMobile} images = {product?.image}/>
+        <ImageShower setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
 </section>
 {/* <div className='absolute top-16 left-3 flex justify-between z-[999] w-[92vw]  lg:w-[68vw]'>
  <div  className='flex gap-[2px] lg:gap-2 items-center  '>
@@ -190,7 +267,7 @@ const handleBuyNow = () => {
     <h3 >Size:</h3>
     <h3 >2.0GB</h3>
   </div>
-  <button ref={freeProducts} onClick={handleBuyNow} className={`bg-white text-black w-full rounded-[2px]  h-6 flex items-center justify-center  text-[14px] mt-4`}>{orderLoading ? 'Creating order..':  product?.amount === 0 ?'Get it for free': 'Buy now'}</button>
+  <button ref={freeProducts} onClick={handleAlart} className={`bg-white text-black w-full rounded-[2px]  h-6 flex items-center justify-center  text-[14px] mt-4`}>{orderLoading ? 'Creating order..':  product?.amount === 0 ?'Get it for free': 'Buy now'}</button>
   <button onClick={handleAddToBag} className='border border-white text-white w-full rounded-full h-6 flex items-center pb-1 justify-center  text-[14px] mt-2'>{isAddedToCart ? 'Added to bag': 'Add to bag'}</button>
 
 

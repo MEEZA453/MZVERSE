@@ -85,8 +85,8 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
-      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
+    <div className="flex flex-col items-center justify-center min-h-screen p-6">
+      <div className=" shadow-xl rounded-2xl p-8 w-full max-w-md">
         {/* Checkout Header */}
         <h1 className="text-2xl font-bold mb-6 text-center">🛒 Checkout</h1>
 

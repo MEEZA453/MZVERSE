@@ -1,18 +1,21 @@
 'use client'
 import Image from "next/image"
+import { useRouter } from "next/navigation";
 import { useRef, useState, useEffect } from "react"
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import { IoIosArrowBack } from "react-icons/io";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md"
 
-export default function ImageShower({ images = [], isMobile = false }: { images?: string[]; isMobile?: boolean }) {
+export default function ImageShower({ images = [], isMobile = false , name , amount , isMyProduct , setIsMenu }: { images?: string[]; isMobile?: boolean , name? : string , amount?: number , isMyProduct ?: boolean , setIsMenu ?: React.Dispatch<React.SetStateAction<boolean>> }) {
   const carouselRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const startPos = useRef(0)
   const scrollStart = useRef(0)
   const animationFrame = useRef<number | null>(null)
-
+const router  = useRouter()
   const [activeIndex, setActiveIndex] = useState(0)
   const targetScroll = useRef(0)
-
+console.log(isMyProduct)
   // ---- Desktop Drag ----
   const handleMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true
@@ -117,7 +120,24 @@ export default function ImageShower({ images = [], isMobile = false }: { images?
         {!isMobile && (
           <div className="gradient absolute pointer-events-none w-120 h-screen bg-gradient-to-l from-[#000000] to-[#00000000] z-[300] right-0 top-0"></div>
         )}
-
+  <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[999] top-14 '>
+                     <div className='flex gap-1 items-center justify-center'>
+                     <button onClick={()=> router.back()}>
+                       <IoIosArrowBack size={20} />
+                       
+                       </button>
+                     <h4 >{name}</h4> { isMyProduct && <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5  " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
+                            }}>${amount === 0 ? 'free':amount}</label>}</div>
+             
+                  { (isMyProduct === undefined || isMyProduct === true) && (
+    <button 
+      className="text-white" 
+      onClick={() => setIsMenu(true)}
+    >
+      <HiOutlineDotsVertical />
+    </button>
+)}
+</div>
         {images.map((img: string, i: number) => (
           <div
             key={i}

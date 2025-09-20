@@ -67,7 +67,7 @@ export default function Post() {
     
         useEffect(()=>{
               dispatch(getAssetsOfPost(postId , token))
-        },[dispatch , token])
+        },[dispatch , token , postId])
 
 const averages = post?.voteFields?.reduce((acc, category) => {
   const total = votes.reduce((sum, vote) => sum + vote[category], 0);
@@ -113,15 +113,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
         
             </div>:null}
-            <div className='w-full flex justify-between lg:w-[70vw]  items-center px-3 absolute z-[400] top-14 '>
-              <div className='flex gap-1 items-center justify-center'>
-              <button onClick={()=> router.back()}>
-                <IoIosArrowBack size={20} />
-                
-                </button>
-              <h4 >{post?.name}</h4></div>
-    
-              <button className=' text-white' onClick={()=> {setIsMenu(true)}}><HiOutlineDotsVertical/></button></div>
+         
 
                   <AnimatePresence>{attachmentsMenu&& <AttachmentsMenu assetsOfPost = {assetsOfPost}  setAttachmentsMenu = {setAttachmentsMenu} postId  = {post?._id} token= {token}/>}</AnimatePresence>
 
@@ -129,7 +121,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         <AnimatePresence>{  isMenu ? isMobile ? <PostMenu currentData={post} setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets} role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets}  role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
                    <AnimatePresence>{  isVoteMenu ? isMobile ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/> : <VoteMenuLg role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
         {/* <ProductImages images={post?.images}/> */}
-<ImageShower isMobile={isMobile} images = {post?.images}/>
+<ImageShower  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
      <div onClick={()=>setIsMenu(false)} className='w-full lg:border-l lg:border-[#4d4d4d] bg-black rounded-sm lg:h-screen pt-10 rounded lg:w-[30vw] mb-4 lg:pt-20 '>
 

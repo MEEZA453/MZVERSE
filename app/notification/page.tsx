@@ -59,7 +59,7 @@ useEffect(()=>{
             animate: { opacity: 1, y: 0 },
             transition: { duration: 0.8 }
           }
-        : {})}   className="w-screen fixed top-0 right-0 bg-black h-screen px-2 z-[999] lg:w-[23vw]">
+        : {})}   className="w-screen fixed top-0 right-0 bg-black overflow-y-scroll hide-scrollbar h-screen px-2 z-[999] lg:w-[23vw]">
  <div className='w-full flex justify-between lg:w-[23vw] items-center px-0 z-[100] my-4 '>
               <div className='flex gap-1 items-center justify-center'>
               <button onClick={()=> setIsNotification(false)}>
@@ -101,7 +101,7 @@ useEffect(()=>{
      {(noti?.type === "jury_request" || noti?.type === "jury_removal_request") && (
   <JuryApplicationRequest noti={noti} />
 )}
-        {noti?.type === "vote" && (
+        {(noti?.type === "vote" || noti?.type === "product_sold") && (
           <SwipeToDelete     onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
           onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>

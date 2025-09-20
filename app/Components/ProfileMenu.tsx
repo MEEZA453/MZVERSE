@@ -7,7 +7,7 @@ import { CiLogout } from "react-icons/ci";
 import { useAuth } from "../Context/AuthContext";
 import {motion} from 'framer-motion'
 import { useEffect, useState } from "react";
-export default function ProfileMenu({setFollowingWindow, setProfileMenu,role, setFollowerWindow}){
+export default function ProfileMenu({setFollowingWindow, setProfileMenu,role, setFollowerWindow , setIsWallet}){
 
 const {logout ,user} = useAuth()
 const router = useRouter()
@@ -38,12 +38,20 @@ useEffect(()=>{
     >
     Share profile 
     </button> */}
+          <button 
+      onClick={()=>{setIsWallet(true), setProfileMenu(false)}}
+      className="text-white text-[14.5px]  w-full  px-3 py-0.5  gap-1"
+    >
+    Wallet
+    </button>
       <button
       onClick={()=>{setFollowingWindow(true), setProfileMenu(false)}}
       className="text-white text-[14.5px]   w-full px-3 py-0.5  gap-1"
     >
     Following list
     </button> 
+    
+    
      <button
       onClick={()=>{setFollowerWindow(true), setProfileMenu(false)}}
       className="text-white text-[14.5px]  w-full  px-3 py-0.5  gap-1"

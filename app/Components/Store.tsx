@@ -16,11 +16,11 @@ useEffect(()=>{
       if (!userHandle) return; 
   
  dispatch(getProductById(userHandle))
-},[userHandle ])
+},[userHandle , dispatch ])
 
     const { product, loading, error } = useSelector((state: any) => state.getProductOfUser || {});
     return   <div>
-      {product?.length > 0 ? <div className='assets border-t  border-[#4d4d4d] w-screen h-full'>
+      {product?.length > 0 ? <div className='assets w-screen h-full'>
     { !loading ? <div className='lg:grid-cols-5 grid-cols-2 grid px-2'>
     {product?.map((product:any, index : number) => (
       <div

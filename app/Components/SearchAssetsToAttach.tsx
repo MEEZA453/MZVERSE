@@ -22,7 +22,7 @@ export default function SearchedAssetsToAttach({postId}){
 
 useEffect(()=>{
       dispatch(getAssetsOfPost(postId , token))
-},[dispatch , token])
+},[dispatch , token , postId])
 
 
     return <div>{loading ?<div className="-translate-x-2"><Loading/></div>:<div className="w-full">
