@@ -74,7 +74,7 @@ const {items} = useSelector((state : any)=>state.cart)
   console.log(asset)
         const isAlreadyAddedToCart = items.some((f : any)=> f?.product?._id === String(asset?._id))
 
-      return <div className='w-full'>
+      return <div key={index} className='w-full'>
 
        {isMyPost ? <SwipeToDelete     onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
