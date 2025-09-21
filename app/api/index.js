@@ -13,10 +13,10 @@ export const capturePaypalOrder = (orderId, token) =>
   axios.post(`${url}payment/paypal/capture`, { orderId }, {
     headers: { Authorization: `Bearer ${token}` },
   });
-export const createRazorpayOrder = (token, productId) =>
+export const createRazorpayOrder = (token, productId , currency) =>
   axios.post(
     `${url}payment/razorpay/create`,
-    { productId },
+    { productId, currency},
     { headers: { Authorization: `Bearer ${token}` } }
   );
 
@@ -26,10 +26,10 @@ export const captureRazorpayPayment = (token, payload) =>
     headers: { Authorization: `Bearer ${token}` },
   });
 
-  export const createRazorpayCartOrder = (token, cartItems) =>
+  export const createRazorpayCartOrder = (token, cartItems , currency) =>
   axios.post(
     `${url}payment/razorpay/cart/create`,
-    { cartItems }, // [{ productId }, { productId }]
+    { cartItems, currency}, // [{ productId }, { productId }]
     { headers: { Authorization: `Bearer ${token}` } }
   );
 

@@ -4,9 +4,10 @@ import {AnimatePresence, motion  } from 'framer-motion'
 import { useNotification } from "../Context/Notification"
 import { LiaVoteYeaSolid } from "react-icons/lia";
 import { IoMdHeart } from "react-icons/io";
-import { IoBagSharp } from "react-icons/io5";
+import { IoBagCheckSharp, IoBagSharp } from "react-icons/io5";
 import { MdDone } from "react-icons/md";
 import { GoMail } from "react-icons/go";
+import { PiWalletFill } from "react-icons/pi";
 export default function Notification(){
 const {notification , setNotification } = useNotification();
 const [currentNotification , setCurrentNotification ]  = useState( {headline : 'Added to Moodboard.' , subline : 'tap to view the list.' , profile : <LiaVoteYeaSolid />
@@ -31,6 +32,11 @@ const notificationState = {
       
         text : 'Join now'
     } },
+     cashReceived : {headline : 'Cash received in your wallet' , subline : 'tap to view the list.' , profile :<PiWalletFill /> ,  button : {
+        action : null,
+      
+        text : 'Join now'
+    } },
  voteSubmit : {headline : 'Vote Submitted Successfully..' , subline : 'tap to view the list.' , profile : <LiaVoteYeaSolid /> ,  button : {
         action : null,
         text : 'Join now'
@@ -46,6 +52,11 @@ const notificationState = {
         text : 'Join now'
     } },
      orderCreated : {headline : 'Order created successfully' , subline : 'tap to view the list.' , profile :<GoMail /> ,  button : {
+        action : null,
+      
+        text : 'Join now'
+    } },
+        cartOrderCreated : {headline : 'Order created successfully' , subline : 'tap to view the list.' , profile :<IoBagCheckSharp /> ,  button : {
         action : null,
       
         text : 'Join now'
@@ -89,9 +100,20 @@ setNotification('')
         setTimeout(()=>{
 setNotification('')
         }, 1000)   
-         
+      
     
-    }  else if(notification === 'voteSubmitted'){
+    } else if(notification === 'cashReceived'){
+        setCurrentNotification(notificationState.cashReceived)
+        setTimeout(()=>{
+setNotification('')
+        }, 1000)   
+      
+    
+    }    else if(notification === 'cartOrderCreated'){
+        setCurrentNotification(notificationState.cartOrderCreated)
+        setTimeout(()=>{
+setNotification('')
+        }, 1000)   } else if(notification === 'voteSubmitted'){
         setCurrentNotification(notificationState.voteSubmit)
         setTimeout(()=>{
 setNotification('')

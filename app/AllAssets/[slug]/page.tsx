@@ -31,7 +31,6 @@ import ProductMenuLg from '../../Components/ProductMenuLg';
 import { getDesignById } from '../../store/actions/design';
 import { addToCart, getUserCart, removeFromCart } from '../../store/actions/cart';
 import { getDownloadLink, handleProductUnlock } from '../../store/actions/order';
-import Payment from '../../payment/[productId]/page';
 import Alart from '../../Components/Alart';
 import { capturePayment, createOrder } from '../../store/actions/payment';
 
@@ -121,6 +120,17 @@ useEffect(() => {
   }
 }, [unlockToken, product?._id, dispatch]);
 
+const getUserCurrency = async () => {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    return data.country === "IN" ? "INR" : "USD"; // simple logic
+  } catch {
+    return "INR"; // fallback
+  }
+};
+
+
   const [customer, setCustomer] = useState({
     name: "",
     email: user?.email || "",
@@ -147,7 +157,12 @@ useEffect(() => {
       }
 
       // 1. Create order from backend
-      const orderData: any = await dispatch(createOrder(token ,product?._id as string));
+      const userCurrency = await getUserCurrency();
+      console.log(userCurrency)
+const orderData: any = await dispatch(
+  createOrder(token, product?._id as string, userCurrency)
+);
+      // const orderData: any = await dispatch(createOrder(token ,product?._id as string));
       if (!orderData?.success) {
         console.log(orderData)
         alert("Failed to create Razorpay order");
@@ -158,7 +173,7 @@ useEffect(() => {
       const options: any = {
         key: orderData.key,
         amount: orderData.amount,
-        currency: "INR",
+       currency: orderData.currency,
         name: "MZCO Store",
         description: "Purchase Design",
         order_id: orderData.orderId,
@@ -174,6 +189,9 @@ useEffect(() => {
           if (captureRes?.success) {
             setAlart(false)
               setNotification('orderCreated')
+              setTimeout(()=>{
+                setNotification('moneyReceived')
+              }, 1000)
           } else {
             setAlart(false)
 

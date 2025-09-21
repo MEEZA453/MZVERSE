@@ -40,10 +40,19 @@ const handleDelete = (productId: string) => {
   // still call redux action + API
   dispatch(removeFromCart(productId, token));
 };
+const getUserCurrency = async () => {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    return data.country === "IN" ? "INR" : "USD"; // simple logic
+  } catch {
+    return "INR"; // fallback
+  }
+};
 
 const cartItems = localItems.map((item) => ({
-  productId: item.product._id,
-  amount: item.product.amount, // optional if backend needs
+  productId: item?.product?._id,
+  amount: item?.product.amount, // optional if backend needs
 }));
 
   const [customer, setCustomer] = useState({
@@ -70,7 +79,9 @@ const payForCart = async () => {
     }
 
     // 1. Create order from backend (send cart items)
-    const orderData: any = await dispatch(createCartOrder(token, cartItems));
+    const userCurrency = await getUserCurrency();
+    const orderData: any = await dispatch(createCartOrder(token, cartItems, userCurrency));
+    setAlart(false)
     if (!orderData?.success) {
       console.log(orderData);
       alert("Failed to create Razorpay cart order");

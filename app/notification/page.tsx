@@ -21,6 +21,7 @@ import SwipeToDelete from "../Components/SwipeToDelete"
 import AttachRequestNotification from "../Components/AttachRequestNotification"
 import ApproveAttachNotification from "../Components/ApproveAttachNotification"
 import OrderCreatedNotification from "../Components/OrderCreatedNotification"
+import MoneyReceivedNotification from "../Components/MoneyReceivedNotification"
 export default function Notification () {
   const {setIsNotification} = useNotification()
     const {token} = useAuth()
@@ -95,6 +96,13 @@ useEffect(()=>{
             isOpen={openIndex === index}
           onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
        <ApproveAttachNotification noti={noti}/>
+          </SwipeToDelete>
+        )}
+         {noti?.type === "cash_received" && (
+          <SwipeToDelete      onClose={() => setOpenIndex(null)}
+            isOpen={openIndex === index}
+          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+       <MoneyReceivedNotification noti={noti}/>
           </SwipeToDelete>
         )}
 

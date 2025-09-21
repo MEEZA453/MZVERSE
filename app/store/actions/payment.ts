@@ -3,11 +3,11 @@ import { AppDispatch } from "../store";
 
 // 1. Create Order
 export const createOrder =
-  (token: string, productId: string) => async (dispatch: AppDispatch) => {
+  (token: string, productId: string , currency:string) => async (dispatch: AppDispatch) => {
     try {
       dispatch({ type: "CREATE_ORDER_REQUEST" });
 
-      const { data } = await api.createRazorpayOrder(token, productId);
+      const { data } = await api.createRazorpayOrder(token, productId, currency);
 
       dispatch({ type: "CREATE_ORDER_SUCCESS", payload: data });
 
@@ -70,12 +70,12 @@ export const getWalletTransactions = (token: string) => async (dispatch: AppDisp
   }
 };
 export const createCartOrder =
-  (token: string, cartItems: { productId: string }[]) =>
+  (token: string, cartItems: { productId: string }[], currency: string) =>
   async (dispatch: AppDispatch) => {
     try {
       dispatch({ type: "CREATE_CART_ORDER_REQUEST" });
 
-      const { data } = await api.createRazorpayCartOrder(token, cartItems);
+      const { data } = await api.createRazorpayCartOrder(token, cartItems , currency);
 
       dispatch({ type: "CREATE_CART_ORDER_SUCCESS", payload: data });
 
