@@ -86,10 +86,11 @@ h1 {
 
 p {
   font-family: var(--font-inter), sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 13.5px;
   line-height: 2ch;
-color : #a9a9a9
+color : rgb(138, 138, 138);
+
 }
 h3 {
   font-family: var(--font-inter), sans-serif;
