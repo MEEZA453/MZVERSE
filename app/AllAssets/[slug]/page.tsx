@@ -174,8 +174,8 @@ const orderData: any = await dispatch(
         key: orderData.key,
         amount: orderData.amount,
        currency: orderData.currency,
-        name: "MZCO Store",
-        description: "Purchase Design",
+        name: "Grido",
+        description: "A platform for degital  creative",
         order_id: orderData.orderId,
         handler: async function (response: any) {
           const payload = {
@@ -202,7 +202,11 @@ const orderData: any = await dispatch(
           name: customer.name,
           email: customer.email,
         },
-        theme: { color: "#6366f1" }, // Indigo
+theme: {
+  color: "#000000",      // Primary color of checkout page
+  image: "/logo.png", // Optional logo
+
+}
       };
 
       const rzp = new (window as any).Razorpay(options);

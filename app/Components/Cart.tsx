@@ -22,7 +22,7 @@ const [isAlart , setAlart]  = useState(false)
 const [localItems, setLocalItems] = useState<any[]>([]);
 const totalAmount = localItems.reduce((acc, item) => {
   if (item?.product?.amount) {
-    return acc + item.product.amount;
+    return acc + item.product?.amount;
   }
   return acc;
 }, 0)?.toFixed(2)
@@ -52,7 +52,7 @@ const getUserCurrency = async () => {
 
 const cartItems = localItems.map((item) => ({
   productId: item?.product?._id,
-  amount: item?.product.amount, // optional if backend needs
+  amount: item?.product?.amount, // optional if backend needs
 }));
 
   const [customer, setCustomer] = useState({
