@@ -7,7 +7,7 @@ export default function WalletTransection({transaction , buyer}){
 const router = useRouter()
     return  <div
     
-                  className="w-full mb-1 rounded-[3px] px-3 border border-[#2d2d2d] items-center relative flex h-12 bg-[#151515] flex justify-between"
+                  className="w-full mb-1  px-3 border-b border-[#4d4d4d] items-center relative flex h-12 flex justify-between"
                 >
                   <div className="flex gap-2 items-center py-2">
                     <div className="h-10 w-10 bg-[#1d1d1d] flex items-center">

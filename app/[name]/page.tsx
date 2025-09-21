@@ -40,6 +40,7 @@ const [isMobile , setIsMobile ] = useState(false)
 const [followerWindow , setFollowerWindow] = useState(false)
 const [followingWindow , setFollowingWindow] = useState(false)
 const [isFollowing, setIsFollowing] = useState(false);
+const [localProfile, setLocalProfile] = useState<any>(null);
   const router = useRouter()
 
 useEffect(()=>{
@@ -76,7 +77,11 @@ const { following} = useSelector((state: any) => state.follow);
 
 // Compute if current viewed user is followed
 const viewedUserId = profile?.user?._id; // ID of the user being viewed
-
+useEffect(() => {
+  if (profile?.user) {
+    setLocalProfile(profile); // update only when profile fetched
+  }
+}, [profile]);
 
 // Fetch following list for logged-in user
 useEffect(() => {
@@ -176,7 +181,7 @@ const buttonsOfAuthor = [
   const tabs = ['Store' , 'Moodboard' , 'Crafts' ]
   const isDev = true
 
-const isProfileLoaded = profile && profile.user && profile.user.handle === userHandle;
+const isProfileLoaded = localProfile && localProfile.user && localProfile.user.handle === userHandle;
     if(role === 'dev'){
     tabs.push('Highlight')
     tabs.push('promotion')

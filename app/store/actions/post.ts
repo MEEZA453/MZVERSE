@@ -76,11 +76,11 @@ export const getPostsAction = () => async (dispatch: AppDispatch) => {
 };
 
 // Fetch Single Post
-export const getPostByIdAction = (id: string) => async (dispatch: AppDispatch) => {
+export const getPostByIdAction = (id: string, token: string) => async (dispatch: AppDispatch) => {
 
   try {
     dispatch({ type: 'FETCH_POST_REQUEST' });
-    const { data } = await api.getPostById(id);
+    const { data } = await api.getPostById(id, token);
     dispatch({ type: 'FETCH_POST_SUCCESS', payload: data });
     return data;
   } catch (error: any) {

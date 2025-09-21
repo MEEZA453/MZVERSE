@@ -120,7 +120,7 @@ console.log(isMyProduct)
         {!isMobile && (
           <div className="gradient absolute pointer-events-none w-120 h-screen bg-gradient-to-l from-[#000000] to-[#00000000] z-[300] right-0 top-0"></div>
         )}
-  <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[999] top-14 '>
+  <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[600] top-14 '>
                      <div className='flex gap-1 items-center justify-center'>
                      <button onClick={()=> router.back()}>
                        <IoIosArrowBack size={20} />

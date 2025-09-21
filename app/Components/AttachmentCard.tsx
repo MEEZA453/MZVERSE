@@ -44,7 +44,7 @@ setAddedToCart(true)
                   <div className='flex items-center gap-1 justify-center'>
                   <h6>{asset?.name}</h6>
             <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5  " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
-                        }}>$ 29.99</label>
+                        }}> {asset?.amount ? '$':null}{asset?.amount === 0 ? 'free':asset?.amount}</label>
                   </div>
                   <p style={{ fontSize: '12px' }}>@madeby</p>
                 </div>

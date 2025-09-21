@@ -360,7 +360,11 @@ export const editPost = (id, post, token) =>
     headers: { Authorization: `Bearer ${token}` },
   });
 // Get Post By ID
-export const getPostById = (id) => axios.get(`${url}post/${id}`);
+export const getPostById = (id, token) => axios.get(`${url}post/${id}`,{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 export const getPostsByHandle = (id) => axios.get(`${url}post/postByHandle/${id}`);
 
 export const deletePost = (id , token )=>axios.delete(`${url}post/deletePost/${id}`,{

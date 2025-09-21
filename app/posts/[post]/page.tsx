@@ -58,9 +58,10 @@ export default function Post() {
     const [isAuthor , setAuthor] = useState(false)
     const [isMobile  ,setIsMobile] = useState(false)
     const { post, loading , votes } = useSelector((state: any) => state.posts)
+ 
     useEffect(() => {
       console.log('calling API for postId:', postId)
-        dispatch(getPostByIdAction(postId))
+        dispatch(getPostByIdAction(postId, token))
         dispatch(fetchVotesByPostAction(postId))
     }, [dispatch, postId])
         const {assetsOfPost} = useSelector((state: any)=>state.attach)
@@ -115,7 +116,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
             </div>:null}
          
 
-                  <AnimatePresence>{attachmentsMenu&& <AttachmentsMenu assetsOfPost = {assetsOfPost}  setAttachmentsMenu = {setAttachmentsMenu} postId  = {post?._id} token= {token}/>}</AnimatePresence>
+                  <AnimatePresence>{attachmentsMenu&& <AttachmentsMenu assetsOfPost = {assetsOfPost} setAttachmentsMenu = {setAttachmentsMenu} isMyPost={post?.isMyPost} postId = {post?._id} token= {token}/>}</AnimatePresence>
 
               <AnimatePresence>{searchAssets &&  <SearchAssets postId={post?._id} setSearchAssets = {setSearchAssets} />} </AnimatePresence>
         <AnimatePresence>{  isMenu ? isMobile ? <PostMenu currentData={post} setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets} role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets}  role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 

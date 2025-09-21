@@ -26,6 +26,7 @@ const totalAmount = localItems.reduce((acc, item) => {
   }
   return acc;
 }, 0)?.toFixed(2)
+console.log(items)
 const dispatch = useDispatch<AppDispatch>()
 useEffect(()=>{
   dispatch(getUserCart(token))

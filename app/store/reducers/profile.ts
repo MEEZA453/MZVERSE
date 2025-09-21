@@ -28,7 +28,7 @@ const profile = (state = initialState, action: AnyAction): ProfileState => {
 
     /** 👤 Get profile by handle **/
     case "GET_USER_BY_HANDLE_REQUEST":
-      return { ...state, loading: true, error: null };
+      return { ...state, loading: true, error: null , profile : null };
 
     case "GET_USER_BY_HANDLE_SUCCESS":
       return { ...state, loading: false, profile: action.payload, error: null };

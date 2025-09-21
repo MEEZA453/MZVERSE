@@ -15,9 +15,10 @@ interface AttachmentsMenuProps {
   token: string;
   setAttachmentsMenu: React.Dispatch<React.SetStateAction<boolean>>;
   assetsOfPost :any;
+  isMyPost : boolean;
 }
 
-export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, assetsOfPost }: AttachmentsMenuProps) {
+export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, assetsOfPost, isMyPost }: AttachmentsMenuProps) {
   const router = useRouter();
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 
@@ -57,7 +58,7 @@ const {items} = useSelector((state : any)=>state.cart)
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
       exit={{ opacity: 0 }}
-      className="h-screen w-screen z-[999] fixed bottom-0   bg-[#101010]/50 backdrop-blur-xl"
+      className="h-screen w-screen z-[9999] fixed bottom-0   bg-[#101010]/50 backdrop-blur-xl"
     >
       <div onClick={() => setAttachmentsMenu(false)} className="w-screen h-screen "></div>
       {assetsOfPost?.length<1? <p className=' absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 items-center'>No attachments found</p>: <div>
@@ -70,12 +71,17 @@ const {items} = useSelector((state : any)=>state.cart)
       >
   
 {assetsOfPost.map((asset: any , index : number) => {
+  console.log(asset)
         const isAlreadyAddedToCart = items.some((f : any)=> f?.product?._id === String(asset?._id))
-      return  <SwipeToDelete     onClose={() => setOpenIndex(null)}
+
+      return <div className='w-full'>
+
+       {isMyPost ? <SwipeToDelete     onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
-          onOpen={() => setOpenIndex(index)} key={asset._id} onDelete={() => handleDeleteClick(asset._id)}>
+            onOpen={() => setOpenIndex(index)} key={asset._id} onDelete={() => handleDeleteClick(asset._id)}>
            <AttachmentCard asset ={asset} isAlreadyAddedToCart = {isAlreadyAddedToCart}/>
-          </SwipeToDelete>
+          </SwipeToDelete> : <AttachmentCard asset ={asset} isAlreadyAddedToCart = {isAlreadyAddedToCart}/>}
+            </div>
         })}
        
         
