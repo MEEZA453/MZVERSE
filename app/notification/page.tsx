@@ -64,13 +64,7 @@ useEffect(()=>{
     return () => window.removeEventListener("resize", checkScreen)
   }, [])
 
-    return <motion.div  {...(isDesktop
-        ? { 
-            initial: { opacity: 0, y: -50 },
-            animate: { opacity: 1, y: 0 },
-            transition: { duration: 0.8 }
-          }
-        : {})}   className="w-screen fixed top-0 right-0 bg-black overflow-y-scroll hide-scrollbar h-screen px-2 z-[999] lg:w-[23vw]">
+    return <motion.div    className="w-screen fixed top-0 right-0 bg-black overflow-y-scroll hide-scrollbar h-screen px-2 z-[999] lg:w-120">
  <div className='w-full flex justify-between lg:w-[23vw] items-center px-0 z-[100] my-4 '>
               <div className='flex gap-1 items-center justify-center'>
               <button onClick={()=> setIsNotification(false)}>

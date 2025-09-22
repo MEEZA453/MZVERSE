@@ -135,7 +135,7 @@ const handleExplore = async ()=>{
  await localStorage.setItem("activeTab", String(2));
   setIsCart(false)
 }
-     return <motion.div   className="w-screen fixed top-0 right-0 bg-black h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-[23vw]">
+     return <motion.div   className="w-screen fixed top-0 right-0 bg-black h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-120">
       <div>
  <div className='w-full flex justify-between lg:w-[23vw] items-center px-0 z-[100] my-4 '>
               <div className='flex gap-1 items-center justify-center'>

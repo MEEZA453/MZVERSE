@@ -70,8 +70,8 @@ useEffect(() => {
       <MasterNavber setIsCart={setIsCart} />
 
       <motion.div
-        onClick={() => setIsNotification(false)}
-        className={`fixed top-0 h-screen w-screen duration-500 bg-black/60 z-[900] ${isNotification ? 'opacity-100 pointer-events-auto' : 'opacity-0  pointer-events-none'}`}
+        onClick={() => {setIsNotification(false) , setIsCart(false)}}
+        className={`fixed top-0 h-screen w-screen duration-500 bg-black/60 z-[900] ${isNotification || isCart ? 'opacity-100 pointer-events-auto' : 'opacity-0  pointer-events-none'}`}
       ></motion.div>
 
       <AnimatePresence>
