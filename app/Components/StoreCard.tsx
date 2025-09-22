@@ -29,7 +29,7 @@ export default function PostCard({product}){
   />
 ) : null}
 
-            <div className="   absolute bottom-0 bg-white/40 flex h-6 px-2 justify-between items-center w-full  z-100  duration-200 ">
+            {/* <div className="   absolute bottom-0 bg-white/40 flex h-6 px-2 justify-between items-center w-full  z-100  duration-200 ">
                         <div className="flex items-center  gap-1">
                 
               <div>
@@ -37,18 +37,29 @@ export default function PostCard({product}){
           
           
               </div>
-                           {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+                       
                         </div>
                        
-                      </div>
+                      </div> */}
 
                         <div className="flex absolute top-1 px-1  w-full items-center justify-between">
 
-
-                                <button onClick={()=>router.push('/'+product?.createdBy?.handle)}><Image  
+  <div className="     flex justify-between items-center w-full pr-3 z-100  duration-200 ">
+                        <div className="flex items-center  gap-1">
+                          <button onClick={()=>router.push('/'+product?.postedBy?.handle)}><Image  
             height={300}
             width={300}
-            alt='fdfdf'  className='h-7 w-7 rounded-full items-center object-cover' src={product?.postedBy?.profile || '/image.png'}/></button>  
+            alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src={product?.postedBy?.profile || '/image.png'}/></button>  
+              <div>
+                          <h3 className='mt-2'>{product.name}  </h3>
+                          <p style={{fontSize : '12px'}} className=''>@{product?.postedBy?.handle}  </p>
+          
+          
+              </div>
+                           {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+                        </div>
+                        
+                      </div>
              <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5 " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
                         }}>{product?.amount ? '$':null}{product?.amount || 'free'}</label>
           </div>

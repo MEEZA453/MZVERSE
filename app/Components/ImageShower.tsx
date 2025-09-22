@@ -126,8 +126,8 @@ console.log(isMyProduct)
                        <IoIosArrowBack size={20} />
                        
                        </button>
-                     <h4 >{name}</h4> { isMyProduct && <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5  " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
-                            }}>${amount === 0 ? 'free':amount}</label>}</div>
+                     <h4 >{name}</h4> { !isMyProduct  === undefined && <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5  " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
+                            }}>{amount === 0 ? null : '$'}{amount === 0 ? 'free':amount}</label>}</div>
              
                   { (isMyProduct === undefined || isMyProduct === true) && (
     <button 

@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { getPostsOfAsset } from "../store/actions/attach";
 import PostCard from "./PostCard";
 import Loading from "./loading";
+import { SkeletonMyPostCard } from "./Skeleton/SkeletomMyPostCard";
 
 export default function Useages({assetId , token}){
     const dispatch  = useDispatch<AppDispatch>();
@@ -18,6 +19,12 @@ export default function Useages({assetId , token}){
         {postsOfAsset.map((post , index)=>{
             return <div key={index}>{<PostCard  post={post}/>}</div>
         })}
-        </div>:<p className="mt-10">No usages</p>}</div>: <div className="w-full h-[100vh]"> <Loading/></div>}
+        </div>:<p className="mt-10">No usages</p>}</div>: <div className="w-full h-[100vh]"> < div className=" grid-cols-2   px-3 w-screen  my-10 grid">
+                    {Array.from({ length: 6 }).map((_, i) => (
+                      <div className=''  key={i}>
+                      <SkeletonMyPostCard/>
+                     </div>
+                    ))}
+                  </div></div>}
     </div>
 }
