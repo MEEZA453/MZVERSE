@@ -9,20 +9,11 @@ import PostCard from './PostCard';
 import { SkeletonCard } from './Skeleton/SkeletonCard';
 import MyPostCard from './MyPostCard';
 import { SkeletonMyPostCard } from './Skeleton/SkeletomMyPostCard';
-export default function Crafts(){
-    const [token , setToken] = useState('')
+export default function Crafts({handle , token}){
+
     const dispatch = useDispatch<AppDispatch>();
-const  handle = usePathname().split('/')[1]
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const profile = localStorage.getItem('profile')
-      if (profile) {
-        const parsedUser = JSON.parse(profile)
-        setToken(parsedUser.token)
-      }
-    }
-  }, [])
-  
+
+
 
    useEffect(() => {
 
@@ -31,12 +22,12 @@ const  handle = usePathname().split('/')[1]
     }
   }, [dispatch, handle , token]);
 
-  const { postsOfUser , loading} = useSelector((state: any) => state.posts)
+  const { postsOfUser , postsOfUserLoading} = useSelector((state: any) => state.posts)
 
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;
 };
-    return <div>{loading ?< div className="lg:grid-cols-5 grid-cols-2 lg:px-10  px-3 w-screen  lg:gap-5 mb-10 grid">
+    return <div>{(!handle || postsOfUserLoading) ?< div className="lg:grid-cols-5 grid-cols-2 lg:px-10  px-3 w-screen  lg:gap-5 mb-10 grid">
             {Array.from({ length: 6 }).map((_, i) => (
               <div className=''  key={i}>
               <SkeletonMyPostCard/>

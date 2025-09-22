@@ -42,7 +42,7 @@ const [followingWindow , setFollowingWindow] = useState(false)
 const [isFollowing, setIsFollowing] = useState(false);
 const [localProfile, setLocalProfile] = useState<any>(null);
   const router = useRouter()
-
+console.log(localProfile)
 useEffect(()=>{
 
     window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
@@ -73,29 +73,20 @@ useEffect(() => {
   
   const { profile, loading } = useSelector((state: any) => state.profile);
   console.log(profile)
-const { following} = useSelector((state: any) => state.follow);
 
 // Compute if current viewed user is followed
-const viewedUserId = profile?.user?._id; // ID of the user being viewed
+const viewedUserId = localProfile?.user?._id; // ID of the user being viewed
 useEffect(() => {
   if (profile?.user) {
     setLocalProfile(profile); // update only when profile fetched
+       setIsFollowing(profile?.isFollowing);
   }
 }, [profile]);
 
 // Fetch following list for logged-in user
-useEffect(() => {
-  if (handle && token) {
-    dispatch(getFollowingByHandle(handle));
-  }
-}, [handle, token , dispatch]);
 
 // Handle follow/unfollow click
-useEffect(() => {
-  if (viewedUserId) {
-    setIsFollowing(following.some((f: any) => f._id === viewedUserId));
-  }
-}, [viewedUserId, following]);
+
 
 const handleFollowClick = () => {
   if (!viewedUserId) return;
@@ -105,21 +96,21 @@ const handleFollowClick = () => {
     dispatch(unfollowUser(viewedUserId, token));
   } else {
     setIsFollowing(true); // instant update
-    dispatch(followUser(profile?.user, token));
+    dispatch(followUser(localProfile?.user, token));
   }
 };
 const handleShareClick =  async () => {
-      if (!profile?.user?.handle) {
+      if (!localProfile?.user?.handle) {
         alert("Profile link not available yet");
         return;
       }
 
-      const profileLink = window.location.origin + '/' + profile?.user?.handle;
+      const profileLink = window.location.origin + '/' + localProfile?.user?.handle;
 
       if (navigator.share) {
         try {
           await navigator.share({
-            title: `${profile?.user?.name}'s Profile`,
+            title: `${localProfile?.user?.name}'s Profile`,
             text: `Check out this profile!`,
             url: profileLink,
           });
@@ -143,17 +134,17 @@ const buttonsOfAuthor = [
   {
     name: 'Share profile',
     origin: async () => {
-      if (!profile?.user?.handle) {
+      if (!localProfile?.user?.handle) {
         alert("Profile link not available yet");
         return;
       }
 
-      const profileLink = window.location.origin + '/' + profile?.user?.handle;
+      const profileLink = window.location.origin + '/' + localProfile?.user?.handle;
 
       if (navigator.share) {
         try {
           await navigator.share({
-            title: `${profile?.user?.name}'s Profile`,
+            title: `${localProfile?.user?.name}'s Profile`,
             text: `Check out this profile!`,
             url: profileLink,
           });
@@ -190,17 +181,17 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
     <div className='w-screen  overflow-hidden'>
   {!isProfileLoaded || loading ? <Loading/> : <div> 
       {/* <Notification/> */}
- <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {profile?.user?.role} setProfileMenu = {setProfileMenu} setIsWallet = {setIsWallet}/>: <ProfileMenuLg setIsWallet = {setIsWallet} setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {profile?.user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
+ <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {localProfile?.user?.role} setProfileMenu = {setProfileMenu} setIsWallet = {setIsWallet}/>: <ProfileMenuLg setIsWallet = {setIsWallet} setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {localProfile?.user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 
 { !isMobile && <div style={{opacity : followerWindow || followingWindow ? 1 : 0}} className='h-screen duration-300 w-screen z-[900] fixed top-0 pointer-events-none bg-black/60'></div>}
-{ followerWindow &&  <FollowersList setFollowerWindow={setFollowerWindow} handle ={profile?.user?.handle}/>}
+{ followerWindow &&  <FollowersList setFollowerWindow={setFollowerWindow} handle ={localProfile?.user?.handle}/>}
 {isWallet && <WalletPage setIsWallet={setIsWallet}/>}
-{ followingWindow &&  <FollowingList setFollowingWindow={setFollowingWindow} handle ={profile?.user?.handle}/>}
+{ followingWindow &&  <FollowingList setFollowingWindow={setFollowingWindow} handle ={localProfile?.user?.handle}/>}
 
       <div className='profile relative flex  relative flex-col h-90   gap-3 mt-10 items-center justify-center w-screen'>
               <div className='absolute  flex-col gap-4 flex justify-between px-2 lg:right-[38vw] top-1 right-4 '>
-{profile?.isUser&&<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px] '>...</button>}
-<button onClick={()=>profile?.user?.instagram} className='ml-0.5'><FiInstagram/></button>
+{localProfile?.isUser&&<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px] '>...</button>}
+<button onClick={()=>localProfile?.user?.instagram} className='ml-0.5'><FiInstagram/></button>
 
              <button className=" relative text-white m duration-300"onClick={()=> router.push('/notification') }><VscMail size={20}/>
                {hasUnread && (
@@ -210,18 +201,18 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
       </div>
      
         <Image height = {300} width = {300}
-          className='h-24 w-24 rounded-full bg-[#dadada] object-cover'
-          src={profile?.user?.profile || '/image.png'}
+          className='h-24 w-24 rounded-full bg-[#2d2d2d] object-cover'
+          src={localProfile?.user?.profile || '/image.png'}
           alt ='profile' 
         />
         <div className='flex items-center flex-col gap-0.5'>
-          <h6>{profile?.user?.name}</h6>
-      <p   style={{lineHeight : -0.3}}>@{profile?.user?.handle}</p>
+          <h6>{localProfile?.user?.name}</h6>
+      <p   style={{lineHeight : -0.3}}>@{localProfile?.user?.handle}</p>
 
         </div>
-        <p  style={{fontSize : '13px', lineHeight : -1}}>{profile?.user?.bio}</p>
+        <p  style={{fontSize : '13px', lineHeight : -1}}>{localProfile?.user?.bio}</p>
  
-        { profile?.isUser?<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
+        { localProfile?.isUser?<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
           { buttonsOfAuthor.map((tab , index)=>{
             return     <button  key={index} onClick={() => tab.origin()} className={`border  flex items-center justify-center   rounded text-[14px] lg:w-60 w-full py-0.5`}>{tab.name}</button>
           })}
@@ -241,17 +232,19 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
     
       </div>
 
-{ !loading ? <div className={`${isDev ? 'w-[500vw]':'w-[300vw] '} flex duration-500`}style={{transform :`translate(${-activeIndex*100}vw)`}}>
+ <div className={`${isDev ? 'w-[500vw]':'w-[300vw] '} flex duration-500`}style={{transform :`translate(${-activeIndex*100}vw)`}}>
+
 
  <Store/>
  <Favourites/>
-<Crafts/>
+<Crafts  handle={localProfile?.user?.handle} token={token} />
 {isDev&&<HighlightControl/>}
   {isDev&&<Promotion/>}
 
  
 
-</div>: <Loading/> }
+</div>
+
 </div>}
 
     </div>

@@ -5,6 +5,7 @@ interface PostState {
   loading: boolean;
   posts: Post[];
   post: Post | null;
+   postsOfUserLoading: boolean;
   postsOfUser : Post[]
   votes: any[];      // votes for a single post
   allVotes: any[];   // all votes (admin/analytics)
@@ -14,6 +15,7 @@ interface PostState {
 
 const initialState: PostState = {
   loading: true,
+   postsOfUserLoading: false,
   posts: [],
   post: null,
   postsOfUser:[],
@@ -35,13 +37,13 @@ const posts = (state = initialState, action: AnyAction): PostState => {
   case 'FETCH_POSTS_REQUEST':
     case 'FETCH_POSTS_BY_HANDLE_REQUEST':
     case 'FETCH_POST_REQUEST':
-      return { ...state, loading: true, post : null, error: null , postsOfUser : null };
+      return { ...state,  postsOfUserLoading: true, post : null, error: null , postsOfUser : [] };
 
     case 'CREATE_POST_SUCCESS':
       return { ...state, loading: false, posts: [action.payload, ...state.posts] };
 
     case 'FETCH_POSTS_BY_HANDLE_SUCCESS':
-      return { ...state, loading: false, postsOfUser: action.payload };
+      return { ...state, loading: false, postsOfUserLoading: false, postsOfUser: action.payload };
 
     case 'FETCH_POSTS_SUCCESS':
       return { ...state, loading: false, posts: action.payload };
@@ -88,7 +90,7 @@ const posts = (state = initialState, action: AnyAction): PostState => {
     case 'VOTE_POST_FAIL':
     case 'DELETE_POST_FAIL':
     case 'EDIT_POST_FAIL':
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loading: false, postsOfUserLoading: false, error: action.payload };
 
     /** Vote actions **/
     case 'FETCH_VOTES_REQUEST':

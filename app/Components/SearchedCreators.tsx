@@ -15,7 +15,7 @@ const {userResult , loading} = useSelector((state : any)  => state.search)
     return <div className="w-full">
        { loading && !userResult ? <Loading/>:<div  className="w-full  justify-start  ">
             {userResult?.map((user : any , index :number )=>{
-                return <div key={index} className="flex px-2  pb-1 border-[#4d4d4d] items-center justify-between mt-2.5 " > <div onClick={()=>router.push(`/${user?.handle}`)}  className="flex items-center    gap-2">
+                return <div key={index} className="flex px-2  pb-1 border-[#4d4d4d] items-center justify-between mt-2 " > <div onClick={()=>router.push(`/${user?.handle}`)}  className="flex items-center    gap-2">
                                       <Image  
                         height={300}
                         width={300}
