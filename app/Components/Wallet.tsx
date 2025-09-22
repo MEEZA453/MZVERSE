@@ -38,10 +38,10 @@ const totalAmount = wallet?.transactions?.reduce((acc, item) => {
   return acc;
 }, 0);
 
-  return    <motion.div   className="w-screen fixed top-0 right-0 bg-black h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-[23vw]">
+  return    <motion.div   className="w-screen fixed top-0 right-0 bg-[#0D0D0D] h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-120">
       <div>
                   
- <div className='w-full flex justify-between lg:w-[23vw] items-center px-0 z-[100] my-4 '>
+ <div className='w-full flex justify-between lg:w-120 items-center px-0 z-[100] my-4 '>
 
      <div className='flex gap-1 items-center absolute top-3 left-2 justify-center'>
               <button onClick={()=> setIsWallet(false)}>
@@ -66,7 +66,7 @@ const totalAmount = wallet?.transactions?.reduce((acc, item) => {
                   </div>
               })}
             </div>
-            <button onClick={()=>setAlart(true)} className="bg-white w-[96%] -translate-x-1/2 left-1/2 rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black fixed bottom-5">Withdraw</button>
+            <button onClick={()=>setAlart(true)} className="bg-white w-[96%]  lg:w-115  rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black fixed bottom-5">Withdraw</button>
             </div>}
             </div>}
             

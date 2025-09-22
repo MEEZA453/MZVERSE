@@ -8,6 +8,7 @@ import { Geist, Geist_Mono, Inter } from "next/font/google";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import PayPalProvider from "./Context/PaypalContext";
 import Notification from "./Components/Notification";
+import { ThemeProvider } from "next-themes";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -44,7 +45,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased bg-black text-white`}
       >
-        
+                <ThemeProvider attribute="class">
         <ReduxProvider>
 <PayPalProvider>
 
@@ -63,6 +64,7 @@ export default function RootLayout({
 </GoogleOAuthProvider>
        </PayPalProvider>
         </ReduxProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

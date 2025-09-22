@@ -87,6 +87,24 @@ console.log(isMyProduct)
 
   return (
     <div className="relative lg:w-[70vw] flex items-center  h-[55vh] lg:h-screen w-screen mb-4">
+        <div className='w-full flex justify-between  lg:w-[70vw] items-center px-3 absolute z-[600] top-14 '>
+                     <div className='flex gap-1 items-center justify-center'>
+                     <button onClick={()=> router.back()}>
+                       <IoIosArrowBack size={20} />
+                       
+                       </button>
+                     <h4 >{name}</h4> { !isMyProduct  === undefined && <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5  " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
+                            }}>{amount === 0 ? null : '$'}{amount === 0 ? 'free':amount}</label>}</div>
+             
+                  { (isMyProduct === undefined || isMyProduct === true) && (
+    <button 
+      className="text-white" 
+      onClick={() => setIsMenu(true)}
+    >
+      <HiOutlineDotsVertical />
+    </button>
+)}
+</div>
       {/* Left Arrow */}
       {/* {!isMobile && (
         <div>
@@ -120,24 +138,7 @@ console.log(isMyProduct)
         {!isMobile && (
           <div className="gradient absolute pointer-events-none w-120 h-screen bg-gradient-to-l from-[#000000] to-[#00000000] z-[300] right-0 top-0"></div>
         )}
-  <div className='w-full flex justify-between lg:w-[70vw] items-center px-3 absolute z-[600] top-14 '>
-                     <div className='flex gap-1 items-center justify-center'>
-                     <button onClick={()=> router.back()}>
-                       <IoIosArrowBack size={20} />
-                       
-                       </button>
-                     <h4 >{name}</h4> { !isMyProduct  === undefined && <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5  " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
-                            }}>{amount === 0 ? null : '$'}{amount === 0 ? 'free':amount}</label>}</div>
-             
-                  { (isMyProduct === undefined || isMyProduct === true) && (
-    <button 
-      className="text-white" 
-      onClick={() => setIsMenu(true)}
-    >
-      <HiOutlineDotsVertical />
-    </button>
-)}
-</div>
+
         {images.map((img: string, i: number) => (
           <div
             key={i}

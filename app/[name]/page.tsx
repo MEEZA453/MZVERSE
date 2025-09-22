@@ -183,7 +183,7 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
       {/* <Notification/> */}
  <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {localProfile?.user?.role} setProfileMenu = {setProfileMenu} setIsWallet = {setIsWallet}/>: <ProfileMenuLg setIsWallet = {setIsWallet} setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {localProfile?.user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 
-{ !isMobile && <div style={{opacity : followerWindow || followingWindow ? 1 : 0}} className='h-screen duration-300 w-screen z-[900] fixed top-0 pointer-events-none bg-black/60'></div>}
+{ !isMobile && <div onClick={()=>{setIsWallet(false), setFollowerWindow(false), setFollowingWindow(false)}}  className={`h-screen ${followerWindow || followingWindow || isWallet ? 'opacity-60 pointer-events-auto':'opacity-0 pointer-events-none'} duration-300 w-screen z-[900] fixed top-0 bg-black`}></div>}
 { followerWindow &&  <FollowersList setFollowerWindow={setFollowerWindow} handle ={localProfile?.user?.handle}/>}
 {isWallet && <WalletPage setIsWallet={setIsWallet}/>}
 { followingWindow &&  <FollowingList setFollowingWindow={setFollowingWindow} handle ={localProfile?.user?.handle}/>}

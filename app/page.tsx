@@ -13,6 +13,7 @@ import { useNotification } from "./Context/Notification";
 import { AnimatePresence ,motion} from "framer-motion";
 import Cart from "./Components/Cart";
 import ConnectRazorpayButton from "./Components/ConnectWithRazorpay";
+import { useTheme } from "next-themes";
 
 export default function Feed() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export default function Feed() {
   const { isNotification, setIsNotification , setNotification} = useNotification();
   const [isCart , setIsCart] = useState(false )
   const { user, loading } = useAuth();
-
+ const { theme, setTheme } = useTheme()
   useEffect(() => {
     if (loading) return; // wait until user is loaded
     if (!user) {
@@ -66,7 +67,7 @@ useEffect(() => {
   ];
 
   return (
-    <div className="hide-scrollbar h-full w-screen">
+    <div className="hide-scrollbar  h-full w-screen">
       <MasterNavber setIsCart={setIsCart} />
 
       <motion.div
@@ -81,7 +82,7 @@ useEffect(() => {
         {isCart && <Cart   setIsCart = {setIsCart} />}
       </AnimatePresence>
 
-      <div className="sticky top-13 z-[300]">
+      <div className="sticky top-13  z-[300]">
         <div className="left-1/2 w-screen justify-center items-center flex px-2 mt-3 gap-1">
           {tabs.map((tab, index) => (
             <button
@@ -101,6 +102,7 @@ useEffect(() => {
           <PosterOfTheDay />
           <PromotionOfTheDay />
           <ConnectRazorpayButton/>
+  
           <AllPosts />
         </div>
       )}
