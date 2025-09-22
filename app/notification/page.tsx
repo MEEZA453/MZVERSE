@@ -25,13 +25,23 @@ import MoneyReceivedNotification from "../Components/MoneyReceivedNotification"
 export default function Notification () {
   const {setIsNotification} = useNotification()
     const {token} = useAuth()
-    console.log(token)
+    const [localItems, setLocalItems] = useState<any[]>([]);
     const router  = useRouter()
     const [isMobile ,setIsMobile] = useState(false)
     const dispatch = useDispatch<AppDispatch>()
     const {items , loading} = useSelector((state: any)=>state.notification)
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-console.log(items)
+useEffect(() => {
+  setLocalItems(items);
+}, [items]);
+const handleDelete = (notificationId: string) => {
+  console.log(notificationId)
+  // instantly update UI
+  setLocalItems(prev => prev.filter((item: any) => item?._id !== notificationId));
+
+  // still call redux action + API
+dispatch(deleteNotification(notificationId, token))
+};
 useEffect(() => {
   if (!token) return; 
     dispatch(getNotifications(token));
@@ -74,34 +84,34 @@ useEffect(()=>{
              { loading ?  (
   Array.from({ length: 4 }).map((_, i) => <SkeletonNotification key={i} />)
 ): <div className=" ">{
-  items?.map((noti: any, index: number) => {
+  localItems?.map((noti: any, index: number) => {
     return (
       <div key={index}>
         {noti?.type === "follow" && (
           <SwipeToDelete       onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
-          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(handleDelete(noti._id))}>
             <FollowNotification noti={noti} />
           </SwipeToDelete>
         )}
          {noti?.type === "order_created" && (
           <SwipeToDelete       onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
-          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          onOpen={() => setOpenIndex(index)}  onDelete={() => dispatch(handleDelete(noti._id))}>
             <OrderCreatedNotification noti={noti} />
           </SwipeToDelete>
         )}
           {noti?.type === "asset_attach_approved" && (
           <SwipeToDelete      onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
-          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          onOpen={() => setOpenIndex(index)}  onDelete={() => dispatch(handleDelete(noti._id))}>
        <ApproveAttachNotification noti={noti}/>
           </SwipeToDelete>
         )}
          {noti?.type === "cash_received" && (
           <SwipeToDelete      onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
-          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          onOpen={() => setOpenIndex(index)}  onDelete={() => dispatch(handleDelete(noti._id))}>
        <MoneyReceivedNotification noti={noti}/>
           </SwipeToDelete>
         )}
@@ -112,7 +122,7 @@ useEffect(()=>{
         {(noti?.type === "vote" || noti?.type === "product_sold") && (
           <SwipeToDelete     onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
-          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          onOpen={() => setOpenIndex(index)}  onDelete={() => dispatch(handleDelete(noti._id))}>
             <VoteNotification noti={noti} />
           </SwipeToDelete>
         )}
@@ -129,7 +139,7 @@ useEffect(()=>{
           noti?.type === "jury_removed") && (
           <SwipeToDelete      onClose={() => setOpenIndex(null)}
             isOpen={openIndex === index}
-          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(deleteNotification(noti._id, token))}>
+          onOpen={() => setOpenIndex(index)} onDelete={() => dispatch(handleDelete(noti._id))}>
             <JuryApproval message={noti.message} />
           </SwipeToDelete>
         )}
