@@ -46,10 +46,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} antialiased`}
       >
-                <ThemeProvider>
         <ReduxProvider>
 <PayPalProvider>
 
+                <ThemeProvider>
 
 <GoogleOAuthProvider clientId="286568333858-u0lo291u1qchomf2dpgsdsnr7gpje11m.apps.googleusercontent.com">
           <ShowInputProvider>
@@ -63,9 +63,9 @@ export default function RootLayout({
           </NotificationProvider>
           </ShowInputProvider>
 </GoogleOAuthProvider>
+        </ThemeProvider>
        </PayPalProvider>
         </ReduxProvider>
-        </ThemeProvider>
       </body>
     </html>
   );
