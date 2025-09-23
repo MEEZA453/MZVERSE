@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { RxCross2 } from "react-icons/rx";
 import { GoPlus } from "react-icons/go";
+import { useThemeContext } from '../Context/ThemeContext';
 
 type TagInputProps = {
   hashtags: string[];
@@ -11,7 +12,7 @@ type TagInputProps = {
 
 function TagInput({ hashtags, setHashtags, error }: TagInputProps) {
   const [inputTag, setInputTag] = useState('');
-
+const {isLightMode}  = useThemeContext()
   const addHashtags = () => {
     const trimmedTag = inputTag.trim();
     if (trimmedTag !== '' && !hashtags.includes(trimmedTag)) {
@@ -36,6 +37,7 @@ function TagInput({ hashtags, setHashtags, error }: TagInputProps) {
           value={inputTag}
         />
         <button
+        style={{color : isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'black':'white'}} 
           type='button'
          className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center"
           onClick={addHashtags}

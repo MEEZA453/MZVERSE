@@ -17,6 +17,7 @@ import MobileImageInput from "../Components/MobileImageInput";
 import { RxCross1 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { useNotification } from "../Context/Notification";
+import { useThemeContext } from "../Context/ThemeContext";
 
 export default function CreateProduct() {
   const currentData = useSelector((state: any) => state.design.editProduct);
@@ -29,6 +30,7 @@ const [amount, setAmount] = useState<number | "">("");
     const [sections, setSections] = useState([{ title: "", content: ["", ""] }]);
     const [faq , setFaq] = useState([{q : '' , a : ''} ,{q : '' , a : ''}])
     const router = useRouter()
+    const {isLightMode} = useThemeContext()
         const {setNotification} = useNotification()
     
           const [removedImages, setRemovedImages] = useState<string[]>([]);
@@ -222,7 +224,7 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
 
       <div >
-        <aside className='flex flex-col items-center  border border-[#1d1d1d] rounded-xl py-7 overflow-y-auto'>
+        <aside className={`flex flex-col items-center  border ${isLightMode ? 'border-[#dadada]':'border-[#1d1d1d]'} rounded-xl py-7 overflow-y-auto`}>
 <div className="name flex gap-2 relative w-full px-2">
     <div className="w-3/4"><h6>Name:</h6>
 <input value={name} onChange={(e)=> setName(e.target.value)} className={`py-1 mt-1 px-2 border-[#2c2b2b] border bg-[#101010] ${error.nameError ?  'border border-red-500/50':null} rounded-[2px] w-full `}/>
@@ -243,7 +245,7 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
 
 <div className="link w-full items-center px-2 mt-2 flex">
-  <div className="flex rounded-l-[2px] items-center justify-center  w-10 h-[31px] border-r border-black bg-[#2c2b2b]">
+  <div className={`flex rounded-l-[2px] items-center justify-center  w-10 h-[31px]  border-black ${isLightMode ? 'bg-[#d3d3d3]':'bg-[#3d3d3d]'} `}>
 <MdOutlineAttachFile />
 
   </div>
@@ -255,11 +257,11 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
           <div className='details'>
        
                 <div  >
-                    <div className="heading w-screen lg:w-[30vw] flex justify-between bg-[#1d1d1d] my-2 py-1 px-3">
+                    <div className={`heading w-screen lg:w-[30vw] flex justify-between ${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'} my-2 py-1 px-3`}>
                   <h5 className=''>Add title</h5>
                   <div className="flex gap-1 ">
-                    <button className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center"  type="button" onClick={addSections}><GoPlus size={17}/></button>
-                    <button className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center" type = "button" onClick={deleteSection}><LuMinus size={14}/></button>
+                    <button style={{color : isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'black':'white'}} className=" rounded-full text-black h-5 w-5 items-center  flex justify-center"  type="button" onClick={addSections}><GoPlus size={17}/></button>
+                    <button style={{color : isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'black':'white'}}  className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center" type = "button" onClick={deleteSection}><LuMinus size={14}/></button>
 
                   </div>
                     </div>
@@ -279,8 +281,8 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
          updated[sectionIndex].title = e.target.value;
          setSections(updated);
         }} />
-    <button  type = "button" onClick={() => addContent(sectionIndex)}  className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center" ><GoPlus size={17}/></button>
-    <button  type = "button"  onClick={() => deleteContent(sectionIndex)}className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center"><LuMinus size={15}/></button>
+    <button  style={{color : isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'black':'white'}} type = "button" onClick={() => addContent(sectionIndex)}  className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center" ><GoPlus size={17}/></button>
+    <button  style={{color : isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'black':'white'}} type = "button"  onClick={() => deleteContent(sectionIndex)}className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center"><LuMinus size={15}/></button>
         </div>
 
                    {section.content.map((cont, contentIndex) => (
@@ -316,30 +318,30 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
           </div>
 
         <div className="faq">
-              <div className="heading w-screen lg:w-[30vw] items-center flex justify-between bg-[#1d1d1d] my-2 py-1 px-3">
+              <div className={`heading w-screen lg:w-[30vw] items-center flex justify-between  ${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'} my-2 py-1 px-3`}>
                   <h5 className=''>Add FAQ</h5>
                   <div className="flex gap-1 ">
-                    <button   type = "button"className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center"  onClick={addFaq}><GoPlus size={17}/></button>
-                    <button   type = "button" className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center" onClick={deleteFaq}><LuMinus size={15}/></button>
+                    <button   style={{color : isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'black':'white'}}  type = "button"className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center"  onClick={addFaq}><GoPlus size={17}/></button>
+                    <button  style={{color : isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'black':'white'}}   type = "button" className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center" onClick={deleteFaq}><LuMinus size={15}/></button>
 
                   </div>
                     </div>
 <div className="px-2">
 
         {faq.map((f , i)=>{
-            return             <div key={i} className=" mb-2 border relative border-[#1d1d1d] py-4 px-2 rounded">
+            return             <div key={i} className={` mb-2 border relative pt-4 ${isLightMode ? 'border-[#dadada] border' :'border-[#1d1d1d]'}py-4 px-2 rounded`}>
               <button type="button" className="absolute right-2 top-2"><RxCross1 onClick={() => deleteFaq(i)} /></button>
                         <h3 className="">Question</h3>
 
                        <input 
                        placeholder="Question.."
-                className={`py-1 mt-1 mb-1 px-2 border-[#2c2b2b] border bg-[#101010]  rounded-[2px] w-full `}
+                className={`py-1 mt-1 mb-1 px-2 rounded-[2px] w-full `}
                     />
                         <h3 className="">Answer</h3>
 
                             <textarea 
                   placeholder="Answer.."
-             className={`py-1 mt-1 mb-1 px-2 border-[#2c2b2b] border bg-[#101010]  rounded-[2px] w-full `}
+             className={`py-1 mt-1 mb-1 px-2 rounded-[2px] w-full `}
                     
                     />
               
@@ -350,7 +352,7 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         </div>
 
           <div className='hashtags'>
-            <h5  className='bg-[#1d1d1d] my-2 py-1 px-3 w-screen lg:w-[30vw]'>Add hashtags*</h5>
+            <h5  className={`${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'} my-2 py-1 px-3 w-screen lg:w-[30vw]`}>Add hashtags*</h5>
 
                        <TagInput error={error.hashtagsError} hashtags={hashtags} setHashtags={setHashtags} />
             

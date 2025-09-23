@@ -258,11 +258,17 @@ const handleBuyNow = async () => {
 <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full ${isLightMode ? 'bg-white':'bg-black'}`}></div>
         <ImageShower setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
 </section>
-       <div className={`${isLightMode ? 'bg-white border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b h-10 z-[9999] w-screen px-2 absolute top-0 flex justify between items-center`}>
+       <div className={`${isLightMode ? 'bg-white border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b h-10 z-[9999] w-screen px-2 absolute top-0 flex justify-between w-full items-center`}>
        <button onClick={()=> router.back()}>
                        <IoIosArrowBack  color={isLightMode ? 'black': 'white'} size={17} />
                        
                        </button>
+                                             <button 
+      className="text-white" 
+      onClick={() => setIsMenu(true)}
+    >
+      <HiOutlineDotsVertical  color={isLightMode ? 'black': 'white'}/>
+    </button>
        </div>
 {/* <div className='absolute top-16 left-3 flex justify-between z-[999] w-[92vw]  lg:w-[68vw]'>
  <div  className='flex gap-[2px] lg:gap-2 items-center  '>
