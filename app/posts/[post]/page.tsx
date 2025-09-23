@@ -60,7 +60,7 @@ export default function Post() {
     const [isAuthor , setAuthor] = useState(false)
     const [isMobile  ,setIsMobile] = useState(false)
     const [opacity , setOpacity]  = useState(0)
-    const { post, loading , votes } = useSelector((state: any) => state.posts)
+    const { post, loading , votes , fetched } = useSelector((state: any) => state.posts)
  useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -73,10 +73,12 @@ export default function Post() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
     useEffect(() => {
-      console.log('calling API for postId:', postId)
-        dispatch(getPostByIdAction(postId, token))
-        dispatch(fetchVotesByPostAction(postId))
-    }, [dispatch, postId])
+  if(!fetched){
+
+    dispatch(getPostByIdAction(postId, token))
+    dispatch(fetchVotesByPostAction(postId))
+  }
+    }, [dispatch, postId , fetched])
         const {assetsOfPost} = useSelector((state: any)=>state.attach)
     
         useEffect(()=>{
@@ -153,7 +155,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     </button>
        </div>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
-     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l sticky top-0 z-[999] rounded-t rounded-xl  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} rounded-sm lg:h-screen rounded lg:w-[30vw] mb-4 lg:pt-20`}>
+     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l sticky top-0 z-[200] rounded-t rounded-xl  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} rounded-sm lg:h-screen rounded lg:w-[30vw] mb-4 lg:pt-20`}>
         <h5   className="px-2 my-4" style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
        { votes.length > 0 && <div className='w-full '>
 

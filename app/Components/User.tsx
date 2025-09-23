@@ -12,11 +12,13 @@ export default function User({
   isFollowing,
   isFollowingList,
   onUnfollow,
+  isLightMode,
 }: {
   user: any;
   isFollowing?: boolean;
   isFollowingList?: boolean;
   onUnfollow?: (id: string) => void;
+  isLightMode : boolean
 }) {
   const { token } = useAuth();
   const router = useRouter();
@@ -52,7 +54,7 @@ export default function User({
   };
 
   return (
-    <div className="flex bg-[#151515] mb-[1px] w-full h-10 px-2 items-center justify-between">
+    <div className={`flex ${isLightMode ? 'bg-[#ededed]':'bg-[#151515]'} mb-[4px] w-full h-10 px-2 items-center justify-between`}>
       <div className="profile w-30 flex items-center gap-1">
         <Image
           onClick={() => router.push(`/${user?.handle}`)}
@@ -75,9 +77,10 @@ export default function User({
         </button>
       ) : (
         <button
+        style={{color : !localFollow ? isLightMode ? 'white': 'black': isLightMode ? 'black': 'white'}}
           onClick={handleFollowClick}
-          className={`text-[13px] ${
-            !localFollow ? "bg-white text-black" : "border"
+          className={`text-[13px] border ${
+            !localFollow ? isLightMode ? 'bg-black':'bg-white' : isLightMode ? ' border-black': 'border-white'
           } px-2 py-0.5 rounded-[3px]`}
         >
           {!localFollow ? "Follow" : "Following"}

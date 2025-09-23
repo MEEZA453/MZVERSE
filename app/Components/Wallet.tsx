@@ -11,10 +11,12 @@ import WalletTransection from "./WalletTransection";
 import Loading from "./loading";
 import BalanceCard from "./BalanceCard";
 import Alart from "./Alart";
+import { useThemeContext } from "../Context/ThemeContext";
 
 export default function WalletPage({setIsWallet}:{setIsWallet :React.Dispatch<React.SetStateAction<boolean>>}) {
   const dispatch = useDispatch<AppDispatch>();
   const { token } = useAuth();
+  const {isLightMode} = useThemeContext()
 const [isAlart , setAlart] = useState(false)
   const { wallet, loading, error } = useSelector((state: any) => state.payment);
   
@@ -38,7 +40,7 @@ const totalAmount = wallet?.transactions?.reduce((acc, item) => {
   return acc;
 }, 0);
 
-  return    <motion.div   className="w-screen fixed top-0 right-0 bg-[#0D0D0D] h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-120">
+  return    <motion.div   className={`w-screen  fixed top-0 right-0 ${isLightMode ? 'bg-white':'bg-[#0D0D0D]'} h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-120`}>
       <div>
                   
  <div className='w-full flex justify-between lg:w-120 items-center px-0 z-[100] my-4 '>
@@ -55,18 +57,19 @@ const totalAmount = wallet?.transactions?.reduce((acc, item) => {
         <button  className="w-fit bg-white h-7 rounded-full text-black flex text-[14px] px-3 flex items-center justify-center ">Explore store</button>
         </div>:<div>
             { isAlart&& <Alart setAlart={setAlart}  func ={handleWithdraw} nameOfFunc='Connect'/>}
-        <BalanceCard amount={Number(totalAmount?.toFixed(2))} acctId={wallet?.razorpayAccountId}/>
+        <BalanceCard isLightMode={isLightMode} amount={Number(totalAmount?.toFixed(2))} acctId={wallet?.razorpayAccountId}/>
             <div>
               {wallet?.transactions?.map((transaction , index)=>{
          
         return         <div key={index}>
      
-        <WalletTransection transaction={transaction?.product} buyer={transaction?.purchasedBy}/>
+        <WalletTransection isLightMode={isLightMode} transaction={transaction?.product} buyer={transaction?.purchasedBy}/>
 
                   </div>
               })}
             </div>
-            <button onClick={()=>setAlart(true)} className="bg-white w-[96%]  lg:w-115  rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black fixed bottom-5">Withdraw</button>
+
+            <button style={{color : isLightMode ? 'white':'black'}} onClick={()=>setAlart(true)} className={`w-[96%] ${isLightMode ? 'bg-black':'bg-white'} lg:w-115  rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black fixed bottom-5`}>Withdraw</button>
             </div>}
             </div>}
             

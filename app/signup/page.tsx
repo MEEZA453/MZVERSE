@@ -8,6 +8,7 @@ import { googleLoginAction, sendEmailOtpAction } from "../store/actions/auth"
 import { useRouter } from "next/navigation"
 import { AppDispatch } from "../store/store"
 import { useGoogleLogin } from "@react-oauth/google"
+import { useThemeContext } from "../Context/ThemeContext"
 
 export default function SignIn() {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,7 +18,7 @@ export default function SignIn() {
   const [loading, setLoading] = useState(false)
   const [email, setEmail] = useState("")
   const [error, setError] = useState(false)
-
+const {isLightMode} = useThemeContext()
   // ✅ Custom Google login
 const login = useGoogleLogin({
   flow: "auth-code", // <-- use auth-code instead of implicit
@@ -65,7 +66,7 @@ const login = useGoogleLogin({
   }
 
   return (
-    <div className="h-screen w-screen bg-[#030303] flex">
+    <div className={`h-screen w-screen ${isLightMode ? 'bg-white':'bg-[#030303]'} flex`}>
       <Image className="w-8 absolute left-2 top-2 rounded-xl" src={'/logo.png'} width={50} height={50} alt="log"/>
 
       <div className="h-screen flex items-center flex-col gap-10 justify-center login w-full">
@@ -77,7 +78,7 @@ const login = useGoogleLogin({
             id="google"
             type="button"
             onClick={() => login()} // trigger Google login
-            className="px-2 o google mb-4 w-full flex items-center justify-center h-7 text-center bg-[#131313] text-black text-[14px] rounded-[2px]"
+            className={`px-2 o google mb-4 w-full flex items-center justify-center h-7 text-center  ${isLightMode ? 'bg-[#dadada]':'bg-[#131313]'} text-black text-[14px] rounded-[2px]`}
           >
             {loading ? (
               <ButtonLoader />
@@ -93,13 +94,14 @@ const login = useGoogleLogin({
             value={email}
             placeholder="Enter your email address.."
             onChange={(e) => { setEmail(e.target.value); setError(false) }}
-            className={`flex-1 w-full bg-[#131313] ${error ? 'border border-red-600/50' : 'border border-red-600/0'} px-2 py-1 mb-2 outline-none`}
+            className={`flex-1 w-full ${isLightMode ? 'bg-[#ededed]':'bg-[#131313]'} ${error ? 'border border-red-600/50' : 'border border-red-600/0'} px-2 py-1 mb-2 outline-none`}
           />
 
           <button
             type="button"
             onClick={handleSendOtp}
-            className="px-2 w-full flex items-center justify-center h-6 text-center bg-white text-black text-[14px] rounded-[2px]"
+            style={{color : isLightMode ? 'white':'black'}}
+            className={`px-2 w-full flex items-center ${isLightMode ? 'bg-black':'bg-white'} justify-center h-6 text-centertext-black text-[14px] rounded-[2px]`}
           >
             {loading ? <ButtonLoader /> : 'Connect'}
           </button>

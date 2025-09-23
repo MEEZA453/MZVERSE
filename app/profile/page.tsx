@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux"
 import { updateProfileAction } from "../store/actions/auth"
 import { useRouter } from "next/navigation"
 import { useAuth } from "../Context/AuthContext"
+import { useThemeContext } from "../Context/ThemeContext"
+import ButtonLoaderWhite from "../Components/ButtonLoaderWhite"
 
 export default function Profile() {
   const dispatch = useDispatch()
@@ -21,7 +23,7 @@ export default function Profile() {
   const [preview, setPreview] = useState("/image.png")
   const [errorMessage, setErrorMessage] = useState("No error")
   const [loading, setLoading] = useState(false)
-
+  const {isLightMode} = useThemeContext()
   // Populate form with user data on page load
   useEffect(() => {
     if (user) {
@@ -75,7 +77,7 @@ export default function Profile() {
   }
 
   return (
-    <div className="h-screen w-screen bg-[#030303] flex items-center justify-center">
+    <div className={`h-screen w-screen ${isLightMode ? 'bg-white' : 'bg-[#030303]'} flex items-center justify-center`}>
       <h5 className="text-center absolute top-[15vh]">Configure your profile</h5>
       <form onSubmit={handleSubmit} className="lg:w-[34%] w-[90%] flex flex-col gap-2">
 
@@ -106,7 +108,7 @@ export default function Profile() {
             type="text"
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            className="w-full mt-1 rounded-[3px] bg-[#131313] px-2 py-1 outline-none"
+            className={`w-full mt-1 rounded-[3px] ${isLightMode ? 'bg-[#ededed] border-[#dadada] border': 'bg-[#131313]'} px-2 py-1 outline-none`}
           />
         </div>
 
@@ -158,9 +160,10 @@ export default function Profile() {
 
         <button
           type="submit"
-          className="px-2 w-full flex items-center justify-center h-6 bg-white mt-0 text-black rounded-[2px]"
+          style={{color : isLightMode ? 'white':'black', backgroundColor: isLightMode ? 'black':'white'}}
+          className="px-2 w-full flex items-center justify-center h-6  mt-0  rounded-[2px]"
         >
-          {loading ? <ButtonLoader /> : "Continue"}
+          {loading ? isLightMode ? <ButtonLoaderWhite/>:<ButtonLoader /> : "Continue"}
         </button>
       </form>
     </div>

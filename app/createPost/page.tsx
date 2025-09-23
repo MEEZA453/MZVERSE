@@ -14,6 +14,7 @@ import {AnimatePresence, motion} from 'framer-motion'
 import CategorySelect from "../Components/CatagoryInput";
 import VoteFieldSelector from "../Components/VoteFieldSelector";
 import { useNotification } from "../Context/Notification";
+import { useThemeContext } from "../Context/ThemeContext";
 type ErrorState = {
   nameError: boolean;
 catagoryError : boolean;
@@ -29,7 +30,7 @@ const {setNotification} = useNotification()
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
       const [image, setSelectedImage] = useState([]);
-      console.log(image)
+  const {isLightMode} = useThemeContext()
       const [selectedVoteFields, setSelectedVoteFields] = useState<string[]>([]);
       const [removedImages, setRemovedImages] = useState<string[]>([]);
 
@@ -199,7 +200,7 @@ const deleteField = (i: number) => {
 
 </div>
       </section>
-      <div className="w-full lg:w-[30vw] min:w-[20vw] lg:border border-[#1d1d1d] lg:h-[60vh] px-4 pt-2 bg-black lg:mt-4">
+      <div className={`w-full lg:w-[30vw] min:w-[20vw] lg:border  lg:h-[60vh] ${isLightMode ? 'bg-white border-[#dadada]':'bg-black border-[#1d1d1d]'} px-4 pt-2 bg-black lg:mt-4`}>
       
 {/* <h3 className="mb-3">Field of judgement:</h3> */}
 
@@ -228,11 +229,24 @@ const deleteField = (i: number) => {
     <button onClick={()=>toggleVoteField(field)}
                     key={i}
                     type="button"
-                    className={`text-[13.5px] bg-[#2d2d2d] px-1 text-[#dadada] flex items-center  ${
-                  selectedVoteFields.includes(field)
-                    ? "bg-white text-black"
-                    : "bg-[#0d0d0d] text-white hover:bg-[#2a2a2a]"
-                } text-black rounded-[2px] px-1.5`}
+                    style={{
+                       backgroundColor: selectedVoteFields.includes(field)
+      ? isLightMode
+        ? '#000000'
+        : '#2d2d2d'
+      : isLightMode
+      ? '#dadada'
+      : '#0d0d0d',
+    color: selectedVoteFields.includes(field)
+      ? isLightMode
+        ? '#ffffff'
+        : '#dadada'
+      : isLightMode
+      ? '#000000'
+      : '#ffffff',
+  }}
+                  
+                    className={`text-[13.5px] px-1 flex items-center  SS text-black rounded-[2px] px-1.5`}
                   >
                    {field}
                   
@@ -253,7 +267,7 @@ const deleteField = (i: number) => {
   <h3>Description:</h3>
       <textarea
         name="description"
-        className={`py-1 mt-1  border-[#2c2b2b] border rounded-[2px] w-full bg-[#101010]`}
+        className={`py-1 mt-1 border rounded-[2px] w-full `}
         placeholder="Description"
         value={formData.description}
         onChange={handleChange}
@@ -261,7 +275,7 @@ const deleteField = (i: number) => {
 </div>
   
 
-     <button type="submit" className=" text-black flex mb-8 mt-4 w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ? <ButtonLoader /> : editPost ? 'Update' : 'Share'}</button>
+     <button type="submit" style={{color: isLightMode ? 'white':'black' , backgroundColor:isLightMode ? 'black':'white'}} className=" text-black flex mb-8 mt-4 w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ? <ButtonLoader /> : editPost ? 'Update' : 'Share'}</button>
   </div>
 
     </form>

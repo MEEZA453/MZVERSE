@@ -6,7 +6,6 @@ import { useAuth } from "../Context/AuthContext"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../store/store"
 import { getPromotion } from "../store/actions/Promotion"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import { SkeletonPromoCard } from "./Skeleton/SkeletonPromo"
 
 export default function PromotionOfTheDay() {
@@ -19,11 +18,12 @@ export default function PromotionOfTheDay() {
   const [scrollLeft, setScrollLeft] = useState(0)
   const { promotion, loading } = useSelector((state: any) => state.promotion)
 
+  // ✅ Only fetch once if promotions are empty
   useEffect(() => {
-    if (token) {
+    if (token && promotion.length === 0) {
       dispatch(getPromotion(token))
     }
-  }, [dispatch, token , promotion?.length])
+  }, [dispatch, token, promotion.length])
 
   const reoderedPromotion = useMemo(() => [...promotion].reverse(), [promotion])
 
@@ -53,10 +53,8 @@ export default function PromotionOfTheDay() {
     carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
   }
 
-
   return (
     <div className="relative lg:m-6 my-2 py-2">
-      
       <div
         ref={carouselRef}
         className="flex gap-3 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory px-4"
@@ -65,26 +63,26 @@ export default function PromotionOfTheDay() {
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
       >
-        {!loading ?
+        {!loading ? (
           reoderedPromotion.map((promo: any, index: number) => (
-            <div key={index} className="flex-shrink-0 w-[80vw] lg:w-[33.33vw] h-[85vw] lg:h-[37vw]  mb-4 snap-center relative">
+            <div
+              key={index}
+              className="flex-shrink-0 w-[80vw] lg:w-[33.33vw] h-[85vw] lg:h-[37vw] mb-4 snap-center relative"
+            >
               <Image
-              onClick={()=>router.push('/posts/'+promo?._id)}
+                onClick={() => router.push('/posts/' + promo?._id)}
                 src={promo?.images[0]}
                 height={1500}
                 width={1500}
                 alt="promo"
-                className="w-full h-[85vw] lg:h-[37vw]  object-cover rounded"
+                className="w-full h-[85vw] lg:h-[37vw] object-cover rounded"
               />
-        <div className="absolute pointer-events-none w-full h-80 bg-gradient-to-b from-[#00000080] to-[#00000000] z-[50] top-0"></div>
+              <div className="absolute pointer-events-none w-full h-80 bg-gradient-to-b from-[#00000080] to-[#00000000] z-[50] top-0"></div>
 
               <div className="flex justify-between items-center w-full z-[99] absolute top-2 left-2 pr-3">
-
                 <div className="flex items-center gap-1">
                   <button
-                    onClick={() =>
-                      router.push("/" + promo?.createdBy?.handle)
-                    }
+                    onClick={() => router.push("/" + promo?.createdBy?.handle)}
                   >
                     <Image
                       src={promo?.createdBy?.profile}
@@ -95,20 +93,17 @@ export default function PromotionOfTheDay() {
                     />
                   </button>
                   <div>
-                    <h3 style={{color : 'white'}} className="">{promo?.name}</h3>
-                    <p style={{fontSize : '12px'}} className="">@{promo?.createdBy?.handle}</p>
+                    <h3 style={{ color: 'white' }}>{promo?.name}</h3>
+                    <p style={{ fontSize: '12px' }}>@{promo?.createdBy?.handle}</p>
                   </div>
                 </div>
-              
               </div>
             </div>
-          )):(
-      Array.from({ length: 3 }).map((_, i) => <SkeletonPromoCard key={i} />)
-    )}
+          ))
+        ) : (
+          Array.from({ length: 3 }).map((_, i) => <SkeletonPromoCard key={i} />)
+        )}
       </div>
-
-      {/* Left arrow */}
-     
     </div>
   )
 }

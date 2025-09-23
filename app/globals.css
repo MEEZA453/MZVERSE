@@ -5,20 +5,41 @@
   --text-primary: #000000;
   --text-secondary: #4d4d4d;
   --bg-primary: #ffffff;
+    --input-bg: #ededed;
+  --border-color: #dadada;  /* light mode border */
+  --font-family: 'Inter', sans-serif;
 }
 
 .dark {
   --text-primary: #ffffff;
   --text-secondary: #a9a9a9;
   --bg-primary: #0d0d0d;
+    --input-bg: #101010;
+  --border-color: #333333;  /* dark mode border */
 }
 
-h1, h2, h3, h4, h5, h6, p, a, input,button, textarea {
+/* Apply globally */
+body {
+  background-color: var(--bg-primary);
+  font-family: var(--font-family);
   color: var(--text-primary);
 }
+
+h1, h2, h3, h4, h5, h6, a, input, button, textarea {
+  color: var(--text-primary);
+}
+
 p {
   color: var(--text-secondary);
 }
+
+/* Input styling based on theme */
+input, textarea {
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-color);
+;
+}
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   input[type='range'] {
     overflow: hidden;
@@ -157,7 +178,7 @@ button{
 }
 input{
   font-family: var(--font-inter), sans-serif;
-  font-weight:200;
+  font-weight:300;
   font-size: 14px;
  letter-spacing: 0.4px;
 
@@ -168,12 +189,11 @@ input{
 
 textarea{
   font-family: var(--font-inter), sans-serif;
-  font-weight: 200;
+  font-weight: 300;
   font-size: 14px;
   padding: 3px 10px;
   letter-spacing: 0.4px;
-  color: '#dadada';
-  background-color:  #101010;
+
     resize: none;
 }
 

@@ -8,6 +8,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import { setHandleAction } from '../store/actions/auth'
 import { useAuth } from '../Context/AuthContext'
+import { useThemeContext } from '../Context/ThemeContext'
 
 export default function Handle() {
   const [errorMessage, setErrorMessage] = useState('No error')
@@ -15,7 +16,7 @@ export default function Handle() {
   const [handle, setHandle] = useState('')
   const [error, setError] = useState(false)
   const [focused, setFocused] = useState(false) // ✅ track input focus
-
+  const {isLightMode} = useThemeContext()
   const dispatch = useDispatch()
   const router = useRouter()
   const { user } = useAuth()
@@ -70,7 +71,7 @@ export default function Handle() {
   }
 
   return (
-    <div className="min-h-screen w-screen bg-[#030303] flex overflow-y-auto">
+    <div className={`min-h-screen w-screen ${isLightMode ? 'bg-white':'bg-[#030303]'} flex overflow-y-auto`}>
       <Image
         className="w-8 absolute left-2 top-2 rounded-xl"
         src={'/logo.png'}
@@ -96,14 +97,15 @@ export default function Handle() {
             onChange={(e) => setHandle(e.target.value)}
             onFocus={() => setFocused(true)}   // ✅ move up
             onBlur={() => setFocused(false)}   // ✅ reset back
-            className={`flex-1 w-full mb-2 bg-[#131313] ${
+            className={`flex-1 w-full mb-2 ${isLightMode ? 'bg-[#ededed]':'bg-[#131313]'} ${
               error ? 'border border-red-600/50' : 'border border-red-600/0'
             } px-2 py-1 outline-none`}
           />
 
           <button
             type="submit"
-            className="px-2 w-full flex items-center justify-center h-6 text-center bg-white text-black text-[14px] rounded-[2px]"
+               style={{color : isLightMode ? 'white':'black'}}
+            className={`px-2 w-full flex items-center ${isLightMode ? 'bg-black':'bg-white'} justify-center h-6 text-center   text-[14px] rounded-[2px]`}
           >
             {loading ? <ButtonLoader /> : 'Continue'}
           </button>
@@ -119,61 +121,61 @@ export default function Handle() {
           <div className="steps mt-1.5">
             <div className="flex w-full mt-1 justify-between">
               <p>Contains only letters, numbers, underscores and periods</p>
-              <div
-                className="oporate bg-white rounded-full h-4 w-4 flex items-center justify-center"
-                style={{ opacity: containsValidChars ? 1 : 0.5 }}
+             <div
+                className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                style={{ opacity: minLength ? 1 : 0.3 }}
               >
-                <FiCheck color="black" size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
               </div>
             </div>
 
             <div className="flex w-full mt-1 justify-between">
               <p>Does not start or end with a period</p>
               <div
-                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
-                style={{ opacity: noStartEndPeriod ? 1 : 0.5 }}
+                className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                style={{ opacity: minLength ? 1 : 0.3 }}
               >
-                <FiCheck color="black" size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
               </div>
             </div>
 
             <div className="flex w-full mt-1 justify-between">
               <p>Only lowercase letters</p>
               <div
-                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
-                style={{ opacity: allLowercase ? 1 : 0.5 }}
+                className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                style={{ opacity: minLength ? 1 : 0.3 }}
               >
-                <FiCheck color="black" size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
               </div>
             </div>
 
             <div className="flex w-full mt-1 justify-between">
               <p>Contains at least one letter</p>
-              <div
-                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
-                style={{ opacity: hasLetter ? 1 : 0.5 }}
+            <div
+                className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                style={{ opacity: minLength ? 1 : 0.3 }}
               >
-                <FiCheck color="black" size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
               </div>
             </div>
 
             <div className="flex w-full mt-1 justify-between">
               <p>Minimum 3 characters</p>
               <div
-                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
-                style={{ opacity: minLength ? 1 : 0.5 }}
+                className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                style={{ opacity: minLength ? 1 : 0.3 }}
               >
-                <FiCheck color="black" size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
               </div>
             </div>
 
             <div className="flex w-full mt-1 justify-between">
               <p>Maximum 12 characters</p>
               <div
-                className="bg-white oporate rounded-full h-4 w-4 flex items-center justify-center"
-                style={{ opacity: maxLength ? 1 : 0.5 }}
+                className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
+                style={{ opacity: minLength ? 1 : 0.3 }}
               >
-                <FiCheck color="black" size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
               </div>
             </div>
           </div>

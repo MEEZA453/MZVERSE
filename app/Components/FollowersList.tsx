@@ -8,17 +8,18 @@ import { getFollowersByHandle, getFollowingByHandle } from "../store/actions/fol
 import SkeletonNotification from "./Skeleton/SkeletonNotification"
 import { IoIosArrowBack } from "react-icons/io"
 import {motion} from 'framer-motion'
+import { useThemeContext } from "../Context/ThemeContext"
 export default function FollowersList ({handle , setFollowerWindow}){
 
     const {followers ,following , loading} = useSelector((state:any)=>state.follow)
-
+const {isLightMode}  = useThemeContext()
 const dispatch = useDispatch<AppDispatch>()
     useEffect(()=>{
         dispatch(getFollowersByHandle(handle))
             dispatch(getFollowingByHandle(handle))
 },[dispatch ,  handle])
  
-return <motion.div    className="w-screen fixed top-0 right-0 bg-black h-screen z-[999] lg:w-[23vw]">
+return <motion.div    className={`w-screen fixed top-0 right-0 ${isLightMode ? 'bg-white':'bg-black'} h-screen z-[999] lg:w-[23vw]`}>
  <div className='w-full flex justify-between lg:w-[23vw] items-center px-3 z-[100] my-4 '>
               <div className='flex gap-1 items-center justify-center'>
               <button onClick={()=> setFollowerWindow(false)}>
@@ -31,12 +32,12 @@ return <motion.div    className="w-screen fixed top-0 right-0 bg-black h-screen 
 
              { loading ?  (
   Array.from({ length: 4 }).map((_, i) => <SkeletonNotification key={i} />)
-): <div className=" bg-black  z-[999]">
+): <div className=" z-[999]">
         
       {followers?.map((follower: any, index: number) => {
             const isFollowing = following.some((f: any) => f._id === follower._id);
        return <div key={index} className="w-full">
-          <User isFollowing = {isFollowing} user={follower}/>
+          <User isLightMode = {isLightMode} isFollowing = {isFollowing} user={follower}/>
         </div>
       })}
     </div>}

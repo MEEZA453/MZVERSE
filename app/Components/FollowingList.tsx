@@ -7,6 +7,7 @@ import { AppDispatch } from "../store/store"
 import { useEffect, useState } from "react"
 import { getFollowingByHandle, unfollowUser } from "../store/actions/follow"
 import { useAuth } from "../Context/AuthContext"
+import { useThemeContext } from "../Context/ThemeContext"
 
 export default function FollowersList({ handle, setFollowingWindow }: { handle: string, setFollowingWindow: (val: boolean) => void }) {
   const { following, loading } = useSelector((state: any) => state.follow)
@@ -14,7 +15,7 @@ export default function FollowersList({ handle, setFollowingWindow }: { handle: 
   const [isDesktop, setIsDesktop] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
   const { token } = useAuth()
-
+const {isLightMode} = useThemeContext()
   // fetch following
   useEffect(() => {
     dispatch(getFollowingByHandle(handle))
@@ -48,7 +49,7 @@ export default function FollowersList({ handle, setFollowingWindow }: { handle: 
             transition: { duration: 0.8 },
           }
         : {})}
-      className="w-screen fixed top-0 right-0 bg-black h-screen z-[9999] lg:w-[23vw]"
+      className={`w-screen fixed top-0 right-0 ${isLightMode ? 'bg-white' :'bg-black'} h-screen z-[9999] lg:w-[23vw]`}
     >
       <div className="w-full flex justify-between lg:w-[23vw] items-center px-3 z-[100] my-4 ">
         <div className="flex gap-1 items-center justify-center">
@@ -59,10 +60,11 @@ export default function FollowersList({ handle, setFollowingWindow }: { handle: 
         </div>
       </div>
 
-      <div className="bg-black z-[999]">
+      <div className=" z-[999]">
         {localFollowing?.map((follower: any, index: number) => (
           <div key={index} className="w-full">
             <User
+            isLightMode = {isLightMode}
               user={follower}
               isFollowingList={true}
               onUnfollow={handleLocalUnfollow} // pass handler
