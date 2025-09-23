@@ -244,7 +244,8 @@ const handleBuyNow = async () => {
     <div className='w-screen h-screen'>
 
   <Notification/>
-       <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/>
+       {/* <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/> */}
+
       { loading || !product? <Loading/> :<div>
                            { isAlart&& <Alart setAlart={setAlart}  func ={handleBuyNow} nameOfFunc='Proceed'/>}
 
@@ -257,6 +258,12 @@ const handleBuyNow = async () => {
 <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full ${isLightMode ? 'bg-white':'bg-black'}`}></div>
         <ImageShower setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
 </section>
+       <div className={`${isLightMode ? 'bg-white border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b h-10 z-[9999] w-screen px-2 absolute top-0 flex justify between items-center`}>
+       <button onClick={()=> router.back()}>
+                       <IoIosArrowBack  color={isLightMode ? 'black': 'white'} size={17} />
+                       
+                       </button>
+       </div>
 {/* <div className='absolute top-16 left-3 flex justify-between z-[999] w-[92vw]  lg:w-[68vw]'>
  <div  className='flex gap-[2px] lg:gap-2 items-center  '>
 
@@ -273,8 +280,13 @@ const handleBuyNow = async () => {
            
 </div> */}
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
+  
 
-        <aside  className={`flex flex-col ${isLightMode ? 'bg-[#ededed]':'bg-black'} pt-3  lg:overflow-y-scroll h-screen hide-scrollbar -translate-y-4 lg:w-[30vw] rounded-t-[6px] items-center  w-screen sticky top-2    lg:mt-14`}>
+        <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} pt-3  lg:overflow-y-scroll h-screen hide-scrollbar -translate-y-4 lg:w-[30vw] rounded-t-[6px] items-center  w-screen sticky top-2    lg:mt-14`}>
+            <div className='flex gap-1 items-center justify-start w-full px-2 mb-4'>
+                     
+                     <h5   className="" style={{color : isLightMode ?'black': 'white'}}>{product?.name}</h5> <label className={`bg-white text-black px-1.5 flex items-center justify-center py-2.5 ${isLightMode ? 'tab-light':'tab-dark'}`} style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
+                            }}>{product?.amount === 0 ? null : '$'}{product?.amount === 0 ? 'free':product?.amount}</label></div>
 <div className='w-full mb-8 px-2'>
   <div className={`w-full mt-1 ${isLightMode ? 'border-[#bababa]':'border-[#4d4d4d]'}   pb-1 flex border-b justify-between items-center`}>
     <h3 >createdBy:</h3>

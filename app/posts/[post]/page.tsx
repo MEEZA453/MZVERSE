@@ -59,8 +59,19 @@ export default function Post() {
     const {setNotification , notification} = useNotification()
     const [isAuthor , setAuthor] = useState(false)
     const [isMobile  ,setIsMobile] = useState(false)
+    const [opacity , setOpacity]  = useState(0)
     const { post, loading , votes } = useSelector((state: any) => state.posts)
- 
+ useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const maxScroll = 300; // adjust scroll distance where opacity reaches 0.6
+      const newOpacity = Math.min(scrollY / maxScroll, 0.6); 
+      setOpacity(newOpacity);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
     useEffect(() => {
       console.log('calling API for postId:', postId)
         dispatch(getPostByIdAction(postId, token))
@@ -124,13 +135,26 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         <AnimatePresence>{  isMenu ? isMobile ? <PostMenu currentData={post} setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets} role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets}  role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
                    <AnimatePresence>{  isVoteMenu ? isMobile ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/> : <VoteMenuLg role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
         {/* <ProductImages images={post?.images}/> */}
-        <section className=' top-0'>
+        <section className=' sticky top-0'>
 
 <ImageShower  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
         </section>
+        <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full ${isLightMode ? 'bg-white':'bg-black'}`}></div>
+          <div className={`${isLightMode ? 'bg-white border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b h-10 z-[9999] w-screen px-2 absolute top-0 flex justify-between items-center`}>
+       <button onClick={()=> router.back()}>
+                       <IoIosArrowBack  color={isLightMode ? 'black': 'white'} size={17} />
+                       
+                       </button>
+                        <button 
+      className="text-white" 
+      onClick={() => setIsMenu(true)}
+    >
+      <HiOutlineDotsVertical  color={isLightMode ? 'black': 'white'}/>
+    </button>
+       </div>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
-     <div onClick={()=>setIsMenu(false)} className={`w-full lg:border-l lg:border-[#4d4d4d] ${isLightMode ? 'bg-white':'bg-black'} rounded-sm lg:h-screen pt-10 rounded lg:w-[30vw] mb-4 lg:pt-20`}>
-
+     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l sticky top-0 rounded-t rounded-xl  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} rounded-sm lg:h-screen rounded lg:w-[30vw] mb-4 lg:pt-20`}>
+        <h5   className="px-2 my-4" style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
        { votes.length > 0 && <div className='w-full '>
 
 {post?.voteFields?.map((field : any ,index : number)=>{

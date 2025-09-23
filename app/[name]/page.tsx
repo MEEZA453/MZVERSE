@@ -28,6 +28,7 @@ import { VscMail } from 'react-icons/vsc'
 import FollowersList from '../Components/FollowersList'
 import FollowingList from '../Components/FollowingList'
 import WalletPage from '../Components/Wallet'
+import { useThemeContext } from '../Context/ThemeContext'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
 const {profileLink ,  authorId , handle , role , token} = useAuth()
@@ -41,6 +42,7 @@ const [followerWindow , setFollowerWindow] = useState(false)
 const [followingWindow , setFollowingWindow] = useState(false)
 const [isFollowing, setIsFollowing] = useState(false);
 const [localProfile, setLocalProfile] = useState<any>(null);
+const {isLightMode} = useThemeContext()
   const router = useRouter()
 console.log(localProfile)
 useEffect(()=>{
@@ -193,7 +195,7 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
 {localProfile?.isUser&&<button onClick={()=>setProfileMenu(!profileMenu)} className='text-[20px] '>...</button>}
 <button onClick={()=>localProfile?.user?.instagram} className='ml-0.5'><FiInstagram/></button>
 
-             <button className=" relative text-white m duration-300"onClick={()=> router.push('/notification') }><VscMail size={20}/>
+             <button style={{color: isLightMode ?'black':'white'}}  className=" relative text-white m duration-300"onClick={()=> router.push('/notification') }><VscMail size={20}/>
                {hasUnread && (
           <span className="absolute top-[2px] right-0 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
         )}
@@ -224,7 +226,7 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
 
        <div className='flex gap-2 mt-10  overflow-x-scroll hide-scrollbar px-3'>
         {tabs.map((tab  , i)=>{
-          return <button onClick={()=>setActiveIndex(i)} className={`px-2 py-0.5 ${activeIndex === i ? 'bg-white text-black':'bg-[#2d2d2d] text-white'} flex items-center justify-center rounded-full text-[13px]`} key={i}>{tab}</button>
+          return <button onClick={()=>setActiveIndex(i)} className={`px-2 py-0.5 ${activeIndex === i ?  isLightMode ? 'tab-light':'tab-dark':isLightMode ? 'tab-dark':'tab-light'} flex items-center justify-center rounded-full text-[13px]`} key={i}>{tab}</button>
         })}
        </div>
 
