@@ -167,7 +167,7 @@ const handleExplore = async ()=>{
                   </div>
               })}
             </div>
-            <button onClick={()=>setAlart(true)}  className={`${isLightMode ? 'bg-black text-white':'bg-white text-black'} w-[96%] -translate-x-1/2 left-1/2 rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black absolute bottom-5`}>Proceed order at $ {totalAmount}</button>
+            <button style={{color : isLightMode ? 'white': 'black'}} onClick={()=>setAlart(true)}  className={`${isLightMode ? 'bg-black':'bg-white'} w-[96%] -translate-x-1/2 left-1/2 rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black absolute bottom-5`}>Proceed order at $ {totalAmount}</button>
             </div>}
             </div>}
             

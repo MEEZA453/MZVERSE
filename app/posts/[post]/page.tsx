@@ -140,7 +140,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <ImageShower  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
         </section>
         <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full ${isLightMode ? 'bg-white':'bg-black'}`}></div>
-          <div className={`${isLightMode ? 'bg-white border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b h-10 z-[9999] w-screen px-2 absolute top-0 flex justify-between items-center`}>
+          <div className={`${isLightMode ? 'bg-white fixed border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b h-10 z-[100] w-screen px-2 absolute top-0 flex justify-between items-center`}>
        <button onClick={()=> router.back()}>
                        <IoIosArrowBack  color={isLightMode ? 'black': 'white'} size={17} />
                        
@@ -153,7 +153,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     </button>
        </div>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
-     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l sticky top-0 rounded-t rounded-xl  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} rounded-sm lg:h-screen rounded lg:w-[30vw] mb-4 lg:pt-20`}>
+     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l sticky top-0 z-[999] rounded-t rounded-xl  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} rounded-sm lg:h-screen rounded lg:w-[30vw] mb-4 lg:pt-20`}>
         <h5   className="px-2 my-4" style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
        { votes.length > 0 && <div className='w-full '>
 

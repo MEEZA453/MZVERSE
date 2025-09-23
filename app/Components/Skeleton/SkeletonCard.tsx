@@ -17,8 +17,8 @@ export function SkeletonCard() {
           {/* Avatar */}
           <div className={`h-7 lg:h-7 w-7 lg:w-7 rounded-full items-center object-cover  ${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'}  animate-pulse`} />
           <div className="flex flex-col gap-1">
-            <div className={`h-2.5 w-28  ${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'}  animate-pulse`} />
-            <div className={`h-1.5 w-20  ${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'}  animate-pulse `}/>
+            <div className={`h-2.5 w-26  ${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'}  animate-pulse`} />
+            <div className={`h-1.5 w-18  ${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'}  animate-pulse `}/>
           </div>
         </div>
       </div>

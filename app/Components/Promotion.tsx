@@ -20,6 +20,7 @@ const  handle = usePathname().split('/')[1]
       }
     }
   }, [])
+  const {promotion , loading} = useSelector((state: any) => state.promotion)
 
 
    useEffect(() => {
@@ -27,9 +28,8 @@ const  handle = usePathname().split('/')[1]
     if (token) {
       dispatch(getPromotion(token));
     }
-  }, [dispatch, handle , token]);
+  }, [dispatch, promotion?.length, token]);
 
-  const {promotion , loading} = useSelector((state: any) => state.promotion)
   const reoderedPromotion = [...promotion].reverse()
 const handleClick = (path: string): void => {
   window.location.href = window.location.origin +'/AllAssets/' + path;

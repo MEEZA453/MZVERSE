@@ -17,14 +17,14 @@ export default function PromotionOfTheDay() {
   const [isDragging, setIsDragging] = useState(false)
   const [startX, setStartX] = useState(0)
   const [scrollLeft, setScrollLeft] = useState(0)
+  const { promotion, loading } = useSelector((state: any) => state.promotion)
 
   useEffect(() => {
     if (token) {
       dispatch(getPromotion(token))
     }
-  }, [dispatch, token])
+  }, [dispatch, token , promotion?.length])
 
-  const { promotion, loading } = useSelector((state: any) => state.promotion)
   const reoderedPromotion = useMemo(() => [...promotion].reverse(), [promotion])
 
   // Drag-to-scroll handlers
