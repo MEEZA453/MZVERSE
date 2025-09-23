@@ -1,7 +1,24 @@
 @import "tailwindcss";
 
 
+:root {
+  --text-primary: #000000;
+  --text-secondary: #4d4d4d;
+  --bg-primary: #ffffff;
+}
 
+.dark {
+  --text-primary: #ffffff;
+  --text-secondary: #a9a9a9;
+  --bg-primary: #0d0d0d;
+}
+
+h1, h2, h3, h4, h5, h6, p, a, input, textarea {
+  color: var(--text-primary);
+}
+p {
+  color: var(--text-secondary);
+}
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   input[type='range'] {
     overflow: hidden;
@@ -33,6 +50,7 @@ html{
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
+
 }
 .hide-scrollbar::-webkit-scrollbar {
   display: none;
@@ -49,6 +67,23 @@ html{
 }
 .font-inter {
   font-family: var(--font-inter), sans-serif;
+}
+
+.card-dark {
+  background-color: #0D0D0D;
+  border-color: #1D1D1D;
+}
+.card-light {
+  background-color: #ededed;
+  border-color: #dadada;
+}
+.tab-dark{
+  background-color: #dadada;
+  color: black;
+}
+.tab-light{
+  background-color:black ;
+  color: #dadada;
 }
 
 h6 {
@@ -89,7 +124,7 @@ p {
   font-weight: 400;
   font-size: 13.5px;
   line-height: 2ch;
-color : rgb(138, 138, 138);
+color : rgb(159, 159, 159);
 
 }
 h3 {

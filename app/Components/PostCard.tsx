@@ -2,7 +2,9 @@
 import Image from "next/image"
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { useThemeContext } from "../Context/ThemeContext";
 export default function PostCard({post}){
+  const {isLightMode} = useThemeContext() 
       const currentPath  = usePathname  ();
       const router = useRouter()
     const handleClick = (path : string):void=>{
@@ -11,7 +13,7 @@ export default function PostCard({post}){
     return        <div className="mb-2" > <div
         
             
-            className="group relative flex flex-col items-center justify-center  overflow-hidden  bg-surface-light dark:bg-surface-light border-[#1d1d1d] border rounded h-30 w-[43vw] lg:w-full  lg:h-[20vw] min-h-[200px]"
+            className={`group relative flex flex-col items-center justify-center  overflow-hidden  ${isLightMode?'card-light':'card-dark'} border rounded h-30 w-[43vw] lg:w-full  lg:h-[20vw] min-h-[200px]`}
           >
           {/* <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div> */}
           

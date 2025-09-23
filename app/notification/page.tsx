@@ -22,9 +22,11 @@ import AttachRequestNotification from "../Components/AttachRequestNotification"
 import ApproveAttachNotification from "../Components/ApproveAttachNotification"
 import OrderCreatedNotification from "../Components/OrderCreatedNotification"
 import MoneyReceivedNotification from "../Components/MoneyReceivedNotification"
+import { useThemeContext } from "../Context/ThemeContext"
 export default function Notification () {
   const {setIsNotification} = useNotification()
     const {token} = useAuth()
+    const {isLightMode} = useThemeContext()
     const [localItems, setLocalItems] = useState<any[]>([]);
     const router  = useRouter()
     const [isMobile ,setIsMobile] = useState(false)
@@ -64,7 +66,7 @@ useEffect(()=>{
     return () => window.removeEventListener("resize", checkScreen)
   }, [])
 
-    return <motion.div    className="w-screen fixed top-0 right-0 bg-black overflow-y-scroll hide-scrollbar h-screen px-2 z-[999] lg:w-120">
+    return <motion.div    className={`w-screen fixed top-0 right-0 ${isLightMode ? 'bg-white':'bg-black'} overflow-y-scroll hide-scrollbar h-screen px-2 z-[999] lg:w-120`}>
  <div className='w-full flex justify-between lg:w-[23vw] items-center px-0 z-[100] my-4 '>
               <div className='flex gap-1 items-center justify-center'>
               <button onClick={()=> setIsNotification(false)}>

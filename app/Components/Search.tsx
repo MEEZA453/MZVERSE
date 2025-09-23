@@ -12,8 +12,10 @@ import { useAuth } from '../Context/AuthContext';
 import { searchPostsAction } from '../store/actions/post';
 import { useSelector } from 'react-redux';
 import { getDefaultAssets, getDefaultPosts, getDefaultUsers, searchAssets } from '../store/actions/search';
+import { useThemeContext } from '../Context/ThemeContext';
 export default function Search({setSearch}){
     const searchTabs = ['Creators' , 'posts' , 'Assets'];
+    const  {isLightMode}  = useThemeContext()
     const [selectedIndex , setSelectedIndex] = useState(0)
   const [query , setQuery ] = useState("")
   console.log(query)
@@ -50,9 +52,9 @@ useEffect(() => {
 
        return     <div>
 
-      <motion.div   initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }} className=" rounded-b  rounded-lg lg:h-122 h-120 pt-2 fixed bg-[#0d0d0d] top-0 z-[999] lg:w-140 overflow-y-scroll hide-scrollbar -translate-x-1/2 left-1/2 lg:top-10 lg:rounded-[6px] left-0 w-screen ">
-           <div className='w-screen lg:w-full sticky bg-[#0d0d0d] top-0 pt-1 '>
-             <div className="flex items-center mx-2 z-[999] bg-[#1d1d1d]/70 pb-2 px-2  h-8  rounded-[2px] my-3">
+      <motion.div   initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }} className={`" lg:h-122 h-120 pt-2 fixed ${isLightMode ? 'bg-white' : 'bg-[#0d0d0d]'} top-0 z-[999] lg:w-140 overflow-y-scroll hide-scrollbar -translate-x-1/2 left-1/2 lg:top-10 lg:rounded-[6px] left-0 w-screen `}>
+           <div className={`w-screen lg:w-full sticky ${isLightMode ? 'bg-white' : 'bg-[#0d0d0d]'} top-0 pt-1 `}>
+             <div className={`flex items-center mx-2 z-[999]  ${isLightMode ? 'bg-[#ededed]' : 'bg-[#1d1d1d]/70'} pb-2 px-2  h-8  rounded-[2px] my-3`}>
 <IoSearchOutline className="mt-2"
             color="#8d8d8d"
               size={19}
@@ -66,7 +68,7 @@ useEffect(() => {
             className="w-full px-1 pt-2 outline-none text-sm"
             />
             </div>
-            <div className=' tabs flex justify-between w-full px-7 pt-2 bg-[#0d0d0d] -translate-y-2 border-b border-[#2c2b2b] pb-1 items-center'>
+            <div className={`tabs flex justify-between w-full px-7  -translate-y-2 border-b ${isLightMode ? 'border-[#dadada]' : 'border-[#2c2b2b]'} pb-1 items-center`}>
                 {searchTabs.map((el , index)=>{
                     return <button style={{fontSize : '14px'}} onClick={()=>setSelectedIndex(index)} className={`${index === selectedIndex ? 'opacity-100': 'opacity-60'}`} key={index}>{el}</button>
                 })}

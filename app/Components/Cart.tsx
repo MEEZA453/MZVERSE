@@ -13,12 +13,14 @@ import SkeletonNotification from "./Skeleton/SkeletonNotification"
 import Alart from "./Alart"
 import { captureCartPayment, createCartOrder } from "../store/actions/payment"
 import { useNotification } from "../Context/Notification"
+import { useThemeContext } from "../Context/ThemeContext"
 export default function Cart({setIsCart}){
 const {token , user} = useAuth()
 const {setNotification} = useNotification()
   const [openIndex, setOpenIndex] = useState<number | null>(null)
 const {items , loading} = useSelector((state : any)=>state.cart)
 const [isAlart , setAlart]  = useState(false)
+const {isLightMode}  = useThemeContext()
 const [localItems, setLocalItems] = useState<any[]>([]);
 const totalAmount = localItems.reduce((acc, item) => {
   if (item?.product?.amount) {
@@ -135,7 +137,7 @@ const handleExplore = async ()=>{
  await localStorage.setItem("activeTab", String(2));
   setIsCart(false)
 }
-     return <motion.div   className="w-screen fixed top-0 right-0 bg-black h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-120">
+     return <motion.div   className={`w-screen fixed top-0 right-0 ${isLightMode ? 'bg-white': 'bg-black'} h-screen px-2 z-[999] overflow-y-scroll hide-scrollbar lg:w-120`}>
       <div>
  <div className='w-full flex justify-between lg:w-[23vw] items-center px-0 z-[100] my-4 '>
               <div className='flex gap-1 items-center justify-center'>
@@ -165,7 +167,7 @@ const handleExplore = async ()=>{
                   </div>
               })}
             </div>
-            <button onClick={()=>setAlart(true)}  className="bg-white w-[96%] -translate-x-1/2 left-1/2 rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black absolute bottom-5">Proceed order at $ {totalAmount}</button>
+            <button onClick={()=>setAlart(true)}  className={`${isLightMode ? 'bg-black text-white':'bg-white text-black'} w-[96%] -translate-x-1/2 left-1/2 rounded-[2px] h-6.5 items-center justify-center text-[14px] text-black absolute bottom-5`}>Proceed order at $ {totalAmount}</button>
             </div>}
             </div>}
             

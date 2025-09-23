@@ -5,11 +5,13 @@ import { useRef, useState, useEffect } from "react"
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import { IoIosArrowBack } from "react-icons/io";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md"
+import { useThemeContext } from "../Context/ThemeContext";
 
 export default function ImageShower({ images = [], isMobile = false , name , amount , isMyProduct , setIsMenu }: { images?: string[]; isMobile?: boolean , name? : string , amount?: number , isMyProduct ?: boolean , setIsMenu ?: React.Dispatch<React.SetStateAction<boolean>> }) {
   const carouselRef = useRef<HTMLDivElement>(null)
   const isDragging = useRef(false)
   const startPos = useRef(0)
+  const {isLightMode} = useThemeContext()
   const scrollStart = useRef(0)
   const animationFrame = useRef<number | null>(null)
 const router  = useRouter()
@@ -90,10 +92,10 @@ console.log(isMyProduct)
         <div className='w-full flex justify-between  lg:w-[70vw] items-center px-3 absolute z-[600] top-14 '>
                      <div className='flex gap-1 items-center justify-center'>
                      <button onClick={()=> router.back()}>
-                       <IoIosArrowBack size={20} />
+                       <IoIosArrowBack  color="white" size={20} />
                        
                        </button>
-                     <h4 >{name}</h4> { !isMyProduct  === undefined && <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5  " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
+                     <h4  className="" style={{color : 'black'}}>{name}</h4> { !isMyProduct  === undefined && <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5  " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
                             }}>{amount === 0 ? null : '$'}{amount === 0 ? 'free':amount}</label>}</div>
              
                   { (isMyProduct === undefined || isMyProduct === true) && (
@@ -101,7 +103,7 @@ console.log(isMyProduct)
       className="text-white" 
       onClick={() => setIsMenu(true)}
     >
-      <HiOutlineDotsVertical />
+      <HiOutlineDotsVertical  color="white"/>
     </button>
 )}
 </div>
@@ -152,7 +154,7 @@ console.log(isMyProduct)
         ))}
       </div>
 
-      <div className="pointer-events-none fixed w-screen h-80 bg-gradient-to-b from-[#00000070] to-transparent top-0 z-30" />
+   { !isLightMode &&  <div className="pointer-events-none fixed w-screen h-80 bg-gradient-to-b from-[#00000070] to-transparent top-0 z-30" />}
 
       {/* Thumbnail Controller */}
       {images.length > 1 && (

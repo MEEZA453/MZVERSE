@@ -9,12 +9,14 @@ import {motion } from 'framer-motion'
 import ButtonLoaderWhite from '../Components/ButtonLoaderWhite'
 import { votePostAction } from '../store/actions/post';
 import { useNotification } from '../Context/Notification';
+import { useThemeContext } from '../Context/ThemeContext';
     export default function Vote ({fieldOfVote, existingVote , postId , token}:{fieldOfVote:[string],existingVote : object , postId : string , token : string}){
         console.log(postId)
     const [isOpen , setIsOpen]  = useState(false);
     const dispatch = useDispatch<AppDispatch>()
     const [loading , setLoading] = useState(false)
     const {setNotification} = useNotification()
+    const {isLightMode} = useThemeContext()
 const [isMobile, setIsMobile] = useState(
   typeof window !== "undefined" ? window.innerWidth <= 640 : false
 );
@@ -46,7 +48,7 @@ if(Object.keys(votes).length === fieldOfVote.length){setLoading(true)
         return
     }
 };
-    return <div className='w-screen relative lg:w-[30vw] flex items-center  justify-center mt-6'><div  onClick={()=>setIsOpen(true)} className={` duration-400   flex items-center justify-center w-[98%]  z-100 bottom-5  ${isOpen ?` bg-[#dadada] rounded   h-[240px] py-8  `: ` rounded-[2px] h-6.5  bg-[#dadada]`}`}>
+    return <div className='w-screen relative lg:w-[30vw] flex items-center  justify-center mt-6'><div  onClick={()=>setIsOpen(true)} className={` duration-400   flex items-center justify-center w-[98%]  z-100 bottom-5  ${isOpen ?` bg-[#dadada] rounded   h-[240px] py-8  `: ` rounded-[2px] h-6.5  bg-black `}`}>
     
     <div>{isOpen ?<motion.form initial={{opacity : 0 }}
     animate = {{opacity : 1}}
@@ -75,10 +77,10 @@ onChange={(e) => handleChange(vote, Number(e.target.value))}
 })}
 
 {/* <input type='text' placeholder='Comment..' style={{color: 'black' , opacity : 1, borderRadius : '6px'}}className='w-full px-2  mt-2 rounded-[10px] bg-white h-20 text-white'/> */}
-    <button style={{ opacity: Object.keys(votes).length < fieldOfVote.length ? 0.5 : 1 }} type='submit' className='bg-black text-[14px] px-3 py-1 rounded-[3px] mt-2 flex items-center justify-center h-7 w-full'>{loading ? <ButtonLoaderWhite/> : 'Submit'}</button>
+    <button style={{ opacity: Object.keys(votes).length < fieldOfVote.length ? 0.5 : 1  , color: 'white'}} type='submit' className='bg-black text-[14px] px-3 py-1 rounded-[3px] mt-2 flex items-center justify-center h-7 w-full'>{loading ? <ButtonLoaderWhite/> : 'Submit'}</button>
     </motion.form> :<motion.button initial={{opacity : 0 }}
     animate = {{opacity : 1}}
-    transition = {{duration :0.5 , delay : 0.5}} className='text-black w-full text-center'>Vote now</motion.button>}
+    transition = {{duration :0.5 , delay : 0.5}} style={{color : isLightMode ? 'white': 'black'}} className='text-white w-full text-center'>Vote now</motion.button>}
     <div className='w-full flex justify-end'>
 
     </div>

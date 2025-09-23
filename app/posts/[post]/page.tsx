@@ -28,6 +28,7 @@ import SearchAssets from '../../Components/SearchAssets'
 import Attachments from '../../Components/Attachments'
 import AttachmentsMenu from '../../Components/AttachmentsMenu'
 import { getAssetsOfPost } from '../../store/actions/attach'
+import { useThemeContext } from '../../Context/ThemeContext'
 
 type AveragesType = {
   aesthetics: number;
@@ -52,6 +53,7 @@ export default function Post() {
     const {user ,token , role} = useAuth()
     const [attachmentsMenu ,setAttachmentsMenu] = useState(false)
     const router  = useRouter()
+    const {isLightMode}  = useThemeContext()
     const [searchAssets , setSearchAssets] = useState(false)
     const [red , setRed ] = useState(false)
     const {setNotification , notification} = useNotification()
@@ -108,7 +110,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
           
 
           <Notification/>
-            <MasterNavber/>
+            {/* <MasterNavber/> */}
             {!loading && post ?<div className='lg:flex hide-scrollbar lg:h-screen  lg:overflow-hidden'>
                 {post?.createdBy?.handle === user?.handle ?<div>
 
@@ -122,9 +124,12 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         <AnimatePresence>{  isMenu ? isMobile ? <PostMenu currentData={post} setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets} role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId}/>:<PostMenuLg setAttachmentsMenu = {setAttachmentsMenu} setSearchAssets={setSearchAssets}  role={role} isAuthor = {isAuthor} setIsMenu = {setIsMenu} token={token?token:''} postId = {postId} />:null} </AnimatePresence> 
                    <AnimatePresence>{  isVoteMenu ? isMobile ?  <VoteMenu role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/> : <VoteMenuLg role={role} isAuthor = {isAuthor} setVoteMenu = {setVoteMenu} token={token?token:''} postId = {postId}/>:null} </AnimatePresence> 
         {/* <ProductImages images={post?.images}/> */}
+        <section className=' top-0'>
+
 <ImageShower  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
+        </section>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
-     <div onClick={()=>setIsMenu(false)} className='w-full lg:border-l lg:border-[#4d4d4d] bg-black rounded-sm lg:h-screen pt-10 rounded lg:w-[30vw] mb-4 lg:pt-20 '>
+     <div onClick={()=>setIsMenu(false)} className={`w-full lg:border-l lg:border-[#4d4d4d] ${isLightMode ? 'bg-white':'bg-black'} rounded-sm lg:h-screen pt-10 rounded lg:w-[30vw] mb-4 lg:pt-20`}>
 
        { votes.length > 0 && <div className='w-full '>
 
@@ -135,7 +140,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
                 <div className='overall w-full h-6 flex items-center justify-between  relative'>
                     <h3   className='z-10 ml-2'>{field}:</h3>
                     <h3 >{averages[field]}</h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10)-5}%`}} transition={{duration : 1 , ease : 'linear'}} className='ber h-full bg-[#1d1d1d] absolute top-0'></motion.div>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10)-5}%`}} transition={{duration : 1 , ease : 'linear'}} className={`'ber h-full ${isLightMode ? 'bg-[#ededed]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
                 </div>
                 </div>
             </div>
@@ -145,14 +150,14 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 })}
 
              <div className='score w-full h-6 flex items-center px-2 justify-between  relative'>
-                    <h3   className='z-10 text-black ml-2'>Score:</h3>
+                    <h3  style={{color: isLightMode ? 'white': 'black'}}  className={`z-10 ml-2`}>Score:</h3>
                     <h3 >{totalAvg}</h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${70-5}%`}} transition={{duration : 1 , ease : 'linear'}} className='ber h-full bg-[#dadada] absolute top-0'></motion.div>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${70-5}%`}} transition={{duration : 1 , ease : 'linear'}} className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
                 </div>
         </div>}
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
 {votes.length > 0 && <div className='tabs  mt-6'>
-    <div className='flex relative border-b border-[#4d4d4d] pb-1 px-3 gap-12'>
+    <div className={`flex relative border-b  ${isLightMode ? 'border-[#dadada]':'border-[#4d4d4d]'}  pb-1 px-3 gap-12`}>
 {['Creators' , 'Judges'].map((el , i)=>{
     return <button className='text-[14px]' key={i} style={{opacity :currentIndex === i ? 1 : 0.66}}  onClick={()=> setCurrentIndex(i)}>{el}</button>
 })}
@@ -166,7 +171,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 </div>}
 
 
-{votes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div className='votes mt-4 border-b border-[#4d4d4d] relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll hide-scrollbar'>
+{votes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div className={`votes mt-4 border-b ${isLightMode ? 'border-[#dadada]':'border-[#4d4d4d]'}  relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll hide-scrollbar`}>
 <div  style={{transform : isMobile ? `translate(-${currentIndex*100}vw)`: `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
     <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>
@@ -176,7 +181,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     </div>
     <div>
    {votes.map((vote , i)=>{
-    return  <div   onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded relative px-2 duration-500  ${openIndex === i ? 'bg-[#1d1d1d] h-36': 'h-10' }`}>
+    return  <div   onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded relative px-2 duration-500  ${openIndex === i ? isLightMode ? 'bg-[#ededed] h-36': 'bg-[#1d1d1d] h-36': 'h-10' }`}>
       
 
   <div className='w-full pt-2  mt-2 overview flex pr-2  justify-between items-center'>
@@ -218,9 +223,9 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 </div>}
 
 <div className='other-detais  px-2 mt-10'>
-    <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h3 >madeby:</h3><h6>{post?.createdBy?.handle}</h6></div>
-    <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h3 >posted:</h3><h6>{post?.createdAt}</h6></div>
-    <div className='w-full px-2 border-b-[0.5] py-0.5 border-[#4d4d4d] flex justify-between'><h3 >typeof:</h3><h6>{post?.category}</h6></div>
+    <div className={`w-full px-2 border-b-[0.5] py-0.5 ${isLightMode ?'border-[#dadada]':'border-[#4d4d4d]'} flex justify-between`}><h3 >madeby:</h3><h6>{post?.createdBy?.handle}</h6></div>
+    <div className={`w-full px-2 border-b-[0.5] py-0.5 ${isLightMode ?'border-[#dadada]':'border-[#4d4d4d]'} flex justify-between`}><h3 >posted:</h3><h6>{post?.createdAt}</h6></div>
+    <div className={`w-full px-2 border-b-[0.5] py-0.5 ${isLightMode ?'border-[#dadada]':'border-[#4d4d4d]'} flex justify-between`}><h3 >typeof:</h3><h6>{post?.category}</h6></div>
 
 </div>
 

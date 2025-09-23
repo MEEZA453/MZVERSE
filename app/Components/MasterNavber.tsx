@@ -19,6 +19,7 @@ import { AppDispatch } from '../store/store';
 import { useNotification } from '../Context/Notification';
 import CreateMenuLg from './CreateMenuLg';
 import { PiBag } from "react-icons/pi";
+import { useThemeContext } from '../Context/ThemeContext';
 
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -36,6 +37,7 @@ export default function MasterNavber({setShowLoginInput , setShowSignupInput , s
  const [openCreate , setOpenCreate] = useState(false)
   const currentPath = usePathname();
   const [search ,setSearch] = useState(false)
+  const {isLightMode} = useThemeContext()
    const [activeIndex ,setActiveIndex]  = useState(1)
 const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   const outerMenu: { name: string; path: string }[] = [
@@ -123,19 +125,19 @@ useEffect(()=>{
           {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>
             {/* <button className=" text-white  duration-300"onClick={()=> router.push('/createPost ') } ref={dynamicButtonRef}><GoPlusCircle size={22}/></button> */}
 
-             <button className=" relative text-white  duration-300"onClick={()=> setIsNotification(true) } ref={dynamicButtonRef}><VscMail size={22}/>
+             <button style={{color: isLightMode ? 'black': 'white'}} className=" relative text-white  duration-300"onClick={()=> setIsNotification(true) } ref={dynamicButtonRef}><VscMail size={22}/>
                {hasUnread && (
           <span className="absolute top-[6px] right-0 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
         )}
              </button>
- <button onClick={()=>setIsCart(true)}>
+ <button style={{color: isLightMode ? 'black': 'white'}} onClick={()=>setIsCart(true)}>
             <PiBag className=''
             
             size={20}
             /> 
 
             </button> 
-            <button style={{rotate : openCreate ? '45deg' : '0deg'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
+            <button style={{rotate : openCreate ? '45deg' : '0deg',color: isLightMode ? 'black': 'white'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
 
            <AnimatePresence> {openCreate && <CreateMenu setOpenCreate = {setOpenCreate}/>}</AnimatePresence>
                       <Image height = {100} width ={100} alt ="profile" onClick={()=>router.push('/'+profileLink)} className='w-8 h-8 rounded-full full object-cover' src={user.profile || '/image.png'}/>

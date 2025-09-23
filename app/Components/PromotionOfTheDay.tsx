@@ -95,7 +95,7 @@ export default function PromotionOfTheDay() {
                     />
                   </button>
                   <div>
-                    <h3 className="">{promo?.name}</h3>
+                    <h3 style={{color : 'white'}} className="">{promo?.name}</h3>
                     <p style={{fontSize : '12px'}} className="">@{promo?.createdBy?.handle}</p>
                   </div>
                 </div>

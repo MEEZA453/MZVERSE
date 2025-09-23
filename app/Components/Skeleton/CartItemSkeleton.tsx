@@ -1,7 +1,10 @@
+import { useThemeContext } from "../../Context/ThemeContext"
+
 export default function CartItemSkeleton(){
-return    <div className="h-16 w-full bg-[#151515] flex justify-between items-center rounded px-2 animate-pulse">
+  const {isLightMode} = useThemeContext()
+return    <div className={`h-16 w-full  ${isLightMode ? 'bg-[#ededed]':'bg-[#151515]'} flex justify-between items-center rounded px-2 animate-pulse`}>
         <div className="flex items-center gap-2">
-           <div className="w-10 h-10 bg-[#1d1d1d] rounded-sm" />
+           <div className={`w-10 h-10 ${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'} rounded-sm`} />
           <div className="flex flex-col gap-1">
 
 

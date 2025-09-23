@@ -9,10 +9,12 @@ import { useAuth } from "../Context/AuthContext";
 import { approveJury, approveNormal } from "../store/actions/jury";
 import { deleteNotification } from "../store/actions/notification";
 import { approveAttachRequest } from "../store/actions/attach";
+import { useThemeContext } from "../Context/ThemeContext";
 
 
 export default function AttachRequestNotification ({ noti }) {
     const {token} = useAuth()
+    const {isLightMode} = useThemeContext()
   const router = useRouter()
   const [fullNotification, setFullNotification] = useState(false)
   const dispatch = useDispatch<AppDispatch>()
@@ -23,7 +25,7 @@ export default function AttachRequestNotification ({ noti }) {
   }
 
   return (
-    <div className={`${fullNotification ? 'h-44' : 'h-12'} relative duration-300 w-full bg-[#151515] mb-0.5 rounded  px-2`}>
+    <div className={`${fullNotification ? 'h-44' : 'h-12'} relative duration-300 w-full ${isLightMode ? 'bg-[#ededed]': 'bg-[#151515]'} mb-0.5 rounded  px-2`}>
       <div className=" flex items-center justify-between  gap-1 ">
         <div className="flex items-center gap-1">
           <Image src={noti?.sender?.profile || '/image.png'} width={100} height={100} alt='profile' className='w-10 rounded-full h-10'/>

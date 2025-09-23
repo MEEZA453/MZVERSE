@@ -14,6 +14,7 @@ import { AnimatePresence ,motion} from "framer-motion";
 import Cart from "./Components/Cart";
 import ConnectRazorpayButton from "./Components/ConnectWithRazorpay";
 import { useTheme } from "next-themes";
+import { useThemeContext } from "./Context/ThemeContext";
 
 export default function Feed() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function Feed() {
   const { isNotification, setIsNotification , setNotification} = useNotification();
   const [isCart , setIsCart] = useState(false )
   const { user, loading } = useAuth();
- const { theme, setTheme } = useTheme()
+  const {isLightMode} = useThemeContext() 
   useEffect(() => {
     if (loading) return; // wait until user is loaded
     if (!user) {
@@ -67,7 +68,7 @@ useEffect(() => {
   ];
 
   return (
-    <div className="hide-scrollbar  h-full w-screen">
+    <div className={`hide-scrollbar ${isLightMode ? 'bg-white':'bg-black'} h-full w-screen`}>
       <MasterNavber setIsCart={setIsCart} />
 
       <motion.div
@@ -88,7 +89,7 @@ useEffect(() => {
             <button
               key={index}
               onClick={() => {setActiveIndex(index) }}
-              className={`rounded-full ${activeIndex === index ? 'bg-white text-black' : 'bg-[#1d1d1d] text-white'} items-center justify-center px-3 text-[14px] py-0.5`}
+              className={`rounded-full ${activeIndex === index ? isLightMode ? 'tab-light':'tab-dark' : isLightMode?'tab-dark':'tab-light'} items-center justify-center px-3 text-[14px] py-0.5`}
             >
               {tab.name}
             </button>
@@ -110,7 +111,7 @@ useEffect(() => {
       {activeIndex === 1 && <AllPosts />}
       {activeIndex === 2 && <AllAssets />}
 
-      <div className="fixed pointer-events-none w-screen h-80 bg-gradient-to-b from-[#000000] to-[#00000000] z-[50] top-0"></div>
+      <div className={`fixed pointer-events-none w-screen h-80 bg-gradient-to-b   z-[50] top-0 ${isLightMode ? 'from-[#ffffff50] to-[#ffffff00]':'from-[#000000] to-[#00000000]'} `}></div>
     </div>
   );
 }

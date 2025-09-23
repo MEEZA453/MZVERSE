@@ -21,8 +21,8 @@ const {userResult , loading} = useSelector((state : any)  => state.search)
                         width={300}
                         alt='fdfdf'  className='h-9 w-9 rounded-full items-center object-cover' src={user?.profile || '/image.png'}/>  
                           <div>
-                                      <h6   className=''>{user?.name}  </h6>
-                                      <p style={{fontSize : '13px'}} className=''>@{user?.handle}  </p>
+                                      <h6  style={{fontSize : '13px'}} className=''>{user?.name}  </h6>
+                                      <p style={{fontSize : '12px'}} className=''>@{user?.handle}  </p>
                       
                       
                           </div>

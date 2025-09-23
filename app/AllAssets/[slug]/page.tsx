@@ -33,6 +33,7 @@ import { addToCart, getUserCart, removeFromCart } from '../../store/actions/cart
 import { getDownloadLink, handleProductUnlock } from '../../store/actions/order';
 import Alart from '../../Components/Alart';
 import { capturePayment, createOrder } from '../../store/actions/payment';
+import { useThemeContext } from '../../Context/ThemeContext';
 
 export default function ProductPage() {
 const pathname = usePathname()
@@ -54,7 +55,7 @@ const {token , user} = useAuth()
   const [opacity, setOpacity] = useState(0); // start at 0
 const  [isAlart , setAlart] = useState(false)
 const dispatch = useDispatch<AppDispatch>()
-
+const {isLightMode} = useThemeContext()
   const [viewUsages , setViewUsages]  = useState(true)
   const router  = useRouter()
 const {product , loading} = useSelector((state : any)=> state.design)
@@ -253,7 +254,7 @@ const handleBuyNow = async () => {
       <main  className='desc flex max-sm:flex-col h-screen w-screen  max-sm:items-center'>
 
 <section className='sticky top-0'>
-<div       style={{ opacity }} className='h-full absolute pointer-events-none top-0 z-[99] w-full bg-black'></div>
+<div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full ${isLightMode ? 'bg-white':'bg-black'}`}></div>
         <ImageShower setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
 </section>
 {/* <div className='absolute top-16 left-3 flex justify-between z-[999] w-[92vw]  lg:w-[68vw]'>
@@ -273,24 +274,24 @@ const handleBuyNow = async () => {
 </div> */}
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
 
-        <aside  className='flex flex-col bg-black pt-3  lg:overflow-y-scroll h-screen hide-scrollbar -translate-y-4 lg:w-[30vw] rounded-t-[6px] items-center  w-screen sticky top-2    lg:mt-14'>
+        <aside  className={`flex flex-col ${isLightMode ? 'bg-[#ededed]':'bg-black'} pt-3  lg:overflow-y-scroll h-screen hide-scrollbar -translate-y-4 lg:w-[30vw] rounded-t-[6px] items-center  w-screen sticky top-2    lg:mt-14`}>
 <div className='w-full mb-8 px-2'>
-  <div className='w-full mt-1  border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
+  <div className={`w-full mt-1 ${isLightMode ? 'border-[#bababa]':'border-[#4d4d4d]'}   pb-1 flex border-b justify-between items-center`}>
     <h3 >createdBy:</h3>
     <h3 >@immeeza</h3>
   </div>
- <div className='w-full mt-1 border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
+ <div className={`w-full mt-1 ${isLightMode ? 'border-[#bababa]':'border-[#4d4d4d]'} pb-1 flex border-b justify-between items-center`}>
     <h3>Supply type:</h3>
     
             <label className='text-[13px] pt-0.5 bg-[#4d4d4d] text-[#dadada] px-2'>Preset</label>
         
   </div>
-<div className='w-full  mt-1 border-[#4d4d4d] pb-1 flex border-b justify-between items-center'>
+<div className={`w-full  mt-1 ${isLightMode ? 'border-[#bababa]':'border-[#4d4d4d]'} pb-1 flex border-b justify-between items-center`}>
     <h3 >Size:</h3>
     <h3 >2.0GB</h3>
   </div>
-  <button ref={freeProducts} onClick={handleAlart} className={`bg-white text-black w-full rounded-[2px]  h-6 flex items-center justify-center  text-[14px] mt-4`}>{orderLoading ? 'Creating order..':  product?.amount === 0 ?'Get it for free': 'Buy now'}</button>
-  <button onClick={handleAddToBag} className='border border-white text-white w-full rounded-full h-6 flex items-center pb-1 justify-center  text-[14px] mt-2'>{isAddedToCart ? 'Added to bag': 'Add to bag'}</button>
+  <button ref={freeProducts} onClick={handleAlart} className={`${isLightMode ? 'bg-black text-white':'bg-white text-black'} w-full rounded-[2px]  h-6 flex items-center justify-center  text-[14px] mt-4`}>{orderLoading ? 'Creating order..':  product?.amount === 0 ?'Get it for free': 'Buy now'}</button>
+  <button onClick={handleAddToBag} className={`border ${isLightMode ? 'border-black  text-black':'border-white text-white'}  w-full rounded-full h-6 flex items-center pb-1 justify-center  text-[14px] mt-2`}>{isAddedToCart ? 'Added to bag': 'Add to bag'}</button>
 
 
 </div>
