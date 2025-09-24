@@ -22,7 +22,10 @@ export default function PostCard({product}){
           
 
 {product?.image && product?.image?.length > 0 ? (
- <Link href={`/AllAssets/${product._id}`} prefetch>
+ <Link  href={{
+    pathname: `/posts/${product._id}`,
+    query: { data: JSON.stringify(product) } // pass the full post as a string
+  }} prefetch>
           
               <Image
                 height={300}

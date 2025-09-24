@@ -1,38 +1,38 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { usePathname, useRouter } from 'next/navigation'
-import { fetchVotesByPostAction, getPostByIdAction } from '../../store/actions/post'
-import { AppDispatch, RootState } from '../../store/store'
-import MasterNavber from '../../Components/MasterNavber'
-import Loading from '../../Components/loading'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { fetchVotesByPostAction, getPostByIdAction } from '../store/actions/post'
+import { AppDispatch, RootState } from '../store/store'
+import MasterNavber from './MasterNavber'
+import Loading from './loading'
 import Image from 'next/image'
-import ProductImages from '../../Components/ProductImages'
-import Vote from '../../Components/Vote'
-import { useAuth } from '../../Context/AuthContext'
-import { getVotesByPost } from '../../api'
+import ProductImages from './ProductImages'
+import Vote from './Vote'
+import { useAuth } from '../Context/AuthContext'
+import { getVotesByPost } from '../api'
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import PostMenu from '../../Components/PostMenu'
+import PostMenu from './PostMenu'
 import { BsFillLightningChargeFill } from "react-icons/bs";
-import ImageShower from '../../Components/ImageShower'
+import ImageShower from './ImageShower'
 import {AnimatePresence, motion} from 'framer-motion'
 import { GoHeartFill } from 'react-icons/go'
 import { PiBookmarkSimpleLight, PiHeartLight } from 'react-icons/pi'
-import { addToFavorites, removeFromFavorites } from '../../store/actions/fav'
-import { useNotification } from '../../Context/Notification'
-import Notification from '../../Components/Notification'
-import VoteMenu from '../../Components/VoteMenu'
-import VoteMenuLg from '../../Components/VoteMenuLg'
-import PostMenuLg from '../../Components/PostMenuLg'
+import { addToFavorites, removeFromFavorites } from '../store/actions/fav'
+import { useNotification } from '../Context/Notification'
+import Notification from './Notification'
+import VoteMenu from './VoteMenu'
+import VoteMenuLg from './VoteMenuLg'
+import PostMenuLg from './PostMenuLg'
 import { IoIosArrowBack } from 'react-icons/io'
-import SearchAssets from '../../Components/SearchAssets'
-import Attachments from '../../Components/Attachments'
-import AttachmentsMenu from '../../Components/AttachmentsMenu'
-import { getAssetsOfPost } from '../../store/actions/attach'
-import { useThemeContext } from '../../Context/ThemeContext'
+import SearchAssets from './SearchAssets'
+import Attachments from './Attachments'
+import AttachmentsMenu from './AttachmentsMenu'
+import { getAssetsOfPost } from '../store/actions/attach'
+import { useThemeContext } from '../Context/ThemeContext'
 import { VscHeart } from 'react-icons/vsc'
 import { IoBookmarksOutline, IoBookmarksSharp } from 'react-icons/io5'
-import AnimatedNumber from '../../Components/AnimateNumber'
+import AnimatedNumber from './AnimateNumber'
 
 type AveragesType = {
   aesthetics: number;
@@ -46,7 +46,7 @@ const defaultAverages: AveragesType = {
   creativity: 0,
   emotion: 0,
 };
-export default function Post() {
+export default function Post({post , votes}) {
     const dispatch = useDispatch<AppDispatch>()
     const [openIndex , setOpenIndex] = useState(0)
     const [isVoteMenu , setVoteMenu] = useState(false)
@@ -64,24 +64,27 @@ export default function Post() {
     const [isAuthor , setAuthor] = useState(false)
     const [isMobile  ,setIsMobile] = useState(false)
     const [opacity , setOpacity]  = useState(0)
-    const { post, loading , votes } = useSelector((state: any) => state.posts)
- useEffect(() => {
+ const loading =  false
+    const searchParams = useSearchParams();
+  
+const scrollRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const maxScroll = 300; // adjust scroll distance where opacity reaches 0.6
-      const newOpacity = Math.min(scrollY / maxScroll, 0.6); 
-      setOpacity(newOpacity);
-    };
+      if (!scrollRef.current) return
+      const scrollY = scrollRef.current.scrollTop
+      const maxScroll = 300
+      const newOpacity = Math.min(scrollY / maxScroll, 0.6)
+      setOpacity(newOpacity)
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-    useEffect(() => {
+    const container = scrollRef.current
+    container?.addEventListener("scroll", handleScroll)
 
-    dispatch(getPostByIdAction(postId, token))
-    dispatch(fetchVotesByPostAction(postId))
+    return () => container?.removeEventListener("scroll", handleScroll)
+  }, [])
 
-    }, [dispatch, postId, token])
+
         const {assetsOfPost} = useSelector((state: any)=>state.attach)
     
         useEffect(()=>{
@@ -129,7 +132,7 @@ user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
 const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
     return (
-        <div className='hide-scrollbar'>
+        <div  ref={scrollRef} className='fixed top-0 left-0 z-[999] hide-scrollbar w-screen h-screen overflow-y-auto bg-white'>
            
           
 
@@ -206,7 +209,10 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
                 <div className='overall bg-[#f4f4f4] w-full h-5 pr-1 flex items-center justify-between  relative'>
                     <h3   className='z-10 ml-2 opacity-70'>{field}:</h3>
                     <h3 >{averages[field]}</h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} transition={{duration : 2 ,   ease: [0.25, 0.1, 0.25, 1],}} className={`'ber h-full ${isLightMode ? 'bg-[#e2e2e2]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
+                    <motion.div    
+                     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} 
+                     className={`'ber h-full ${isLightMode ? 'bg-[#e2e2e2]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
+
                 </div>
                 </div>
             </div>
@@ -220,7 +226,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
                     <h3 className="">
     {totalAvg}
 </h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`}} transition={{duration : 2,  ease: [0.25, 0.15, 0.25, 1]}} className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`}}  className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
                 </div>
         </div>}
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />

@@ -1,13 +1,13 @@
 'use client'
 import Image from "next/image"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { useAuth } from "../Context/AuthContext"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../store/store"
 import { getPromotion } from "../store/actions/Promotion"
 import { SkeletonPromoCard } from "./Skeleton/SkeletonPromo"
-import Link from "next/link"
+import Post from "./Post"
 
 export default function PromotionOfTheDay() {
   const router = useRouter()
@@ -19,7 +19,14 @@ export default function PromotionOfTheDay() {
   const [scrollLeft, setScrollLeft] = useState(0)
   const { promotion, loading } = useSelector((state: any) => state.promotion)
 
-  // ✅ Only fetch once if promotions are empty
+  const searchParams = useSearchParams()
+  const pid = searchParams.get('pid')
+
+  // Overlay state
+  const [post, setPost] = useState<any>(null)
+  const [votes, setVotes] = useState<any[]>([])
+
+  // Fetch promotions if empty
   useEffect(() => {
     if (token && promotion.length === 0) {
       dispatch(getPromotion(token))
@@ -34,10 +41,8 @@ export default function PromotionOfTheDay() {
     setStartX(e.pageX - (carouselRef.current?.offsetLeft || 0))
     setScrollLeft(carouselRef.current?.scrollLeft || 0)
   }
-
   const handleMouseLeave = () => setIsDragging(false)
   const handleMouseUp = () => setIsDragging(false)
-
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!isDragging || !carouselRef.current) return
     e.preventDefault()
@@ -46,16 +51,36 @@ export default function PromotionOfTheDay() {
     carouselRef.current.scrollLeft = scrollLeft - walk
   }
 
-  // Arrow navigation
   const scrollToPromotion = (direction: 'left' | 'right') => {
     if (!carouselRef.current) return
-    const width = window.innerWidth * 0.8 // approximate card width
+    const width = window.innerWidth * 0.8
     const scrollAmount = direction === 'left' ? -width : width
     carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
   }
 
+  // Open post instantly and update URL
+  const openPost = (promo: any) => {
+    setPost(promo)
+    setVotes(promo.votes || [])
+    router.push(`/?pid=${promo._id}`)
+  }
+
+  // Handle URL pid change (e.g., back button)
+  useEffect(() => {
+    if (pid) {
+      const found = promotion.find((p: any) => p._id === pid)
+      if (found) {
+        setPost(found)
+        setVotes(found.votes || [])
+      }
+    } else {
+      setPost(null)
+      setVotes([])
+    }
+  }, [pid, promotion])
+
   return (
-    <div className="relative lg:m-6 my-4 ">
+    <div className="relative lg:m-6 my-4">
       <div
         ref={carouselRef}
         className="flex gap-3 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory px-4"
@@ -68,27 +93,26 @@ export default function PromotionOfTheDay() {
           reoderedPromotion.map((promo: any, index: number) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[80vw] lg:w-[33.33vw] h-[85vw] lg:h-[37vw]  snap-center relative"
+              className="flex-shrink-0 w-[80vw] lg:w-[33.33vw] h-[85vw] lg:h-[37vw] snap-center relative"
             >
-             <Link prefetch
-  href={`/posts/${promo._id}`}
-  
->
-  <Image
-    src={promo?.images[0]}
-    height={1500}
-    width={1500}
-    alt="promo"
-    className="w-full h-[85vw] lg:h-[37vw] object-cover rounded"
-  />
-</Link>
+              <div
+                onClick={() => openPost(promo)}
+                className="cursor-pointer w-full h-full"
+              >
+                <Image
+                  src={promo.images[0]}
+                  width={300}
+                  height={300}
+                  alt="promo"
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
+
               <div className="absolute pointer-events-none w-full h-80 bg-gradient-to-b from-[#00000080] to-[#00000000] z-[50] top-0"></div>
 
               <div className="flex justify-between items-center w-full z-[99] absolute top-2 left-2 pr-3">
                 <div className="flex items-center gap-1">
-                  <button
-                    onClick={() => router.push("/" + promo?.createdBy?.handle)}
-                  >
+                  <button onClick={() => router.push("/" + promo?.createdBy?.handle)}>
                     <Image
                       src={promo?.createdBy?.profile}
                       alt="profile"
@@ -109,6 +133,11 @@ export default function PromotionOfTheDay() {
           Array.from({ length: 3 }).map((_, i) => <SkeletonPromoCard key={i} />)
         )}
       </div>
+
+      {/* Overlay component */}
+      {post && (
+         <Post post={post} votes={votes}/>
+      )}
     </div>
   )
 }
