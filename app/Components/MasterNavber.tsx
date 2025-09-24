@@ -20,6 +20,7 @@ import { useNotification } from '../Context/Notification';
 import CreateMenuLg from './CreateMenuLg';
 import { PiBag } from "react-icons/pi";
 import { useThemeContext } from '../Context/ThemeContext';
+import Link from 'next/link';
 
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -97,8 +98,17 @@ useEffect(()=>{
       </div>
 
       <div className="top-2 fixed z-[700] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
-<button onClick={()=>router.push('/')}><Image alt='logo' width={100} height={100} src="/logo.png" className="w-8 ml-2 rounded-xl lg:w-7" /></button>
-
+<Link href="/" prefetch>
+  <button>
+    <Image
+      alt="logo"
+      width={100}
+      height={100}
+      src="/logo.png"
+      className="w-8 ml-2 rounded-xl lg:w-7"
+    />
+  </button>
+</Link>
         {/* <div className="flex gap-1 fixed top-15 left-1/2 -translate-x-1/2 lg:gap-6">
           {outerMenu.map((el, i) => (
             <button   className={`border ${i === activeIndex ? 'text-black bg-white': 'text-white'}  rounded text-[14px] lg:w-60 w-[160px] py-0.5`} onClick={()=>{ setActiveIndex(i), router.push(el.path)}} key={i}>{el.name}</button>
@@ -140,7 +150,16 @@ useEffect(()=>{
             <button style={{rotate : openCreate ? '45deg' : '0deg',color: isLightMode ? 'black': 'white'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
 
            <AnimatePresence> {openCreate && <CreateMenu setOpenCreate = {setOpenCreate}/>}</AnimatePresence>
-                      <Image height = {100} width ={100} alt ="profile" onClick={()=>router.push('/'+profileLink)} className='w-8 h-8 rounded-full full object-cover' src={user.profile || '/image.png'}/>
+                 <Link href={`/${profileLink}`} prefetch>
+  <Image
+    height={100}
+    width={100}
+    alt="profile"
+    className="w-8 h-8 rounded-full object-cover"
+    src={user.profile || "/image.png"}
+  />
+</Link>
+
                       
           
  </div></div>
