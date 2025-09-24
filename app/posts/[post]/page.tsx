@@ -96,16 +96,24 @@ const averages = post?.voteFields?.reduce((acc, category) => {
 
 
 useEffect(() => {
-  if (averages) {
-    const values = Object.values(averages).filter(v => typeof v === "number");
-    if (values.length > 0) {
-      const totalAverage = values.reduce((sum, val) => sum + val, 0) / values.length;
-      setTotalAvg(parseFloat(totalAverage.toFixed(1)));
-    } else {
-      setTotalAvg(0); // or keep previous value
-    }
+  if (averages && Object.keys(averages).length > 0) {
+    const delay = 200; // 1.1s in ms (matches AnimatedNumber duration)
+    const fieldsCount = Object.keys(averages).length;
+    
+    const timer = setTimeout(() => {
+      const values = Object.values(averages).filter(v => typeof v === "number");
+      if (values.length > 0) {
+        const totalAverage = values.reduce((sum, val) => sum + val, 0) / values.length;
+        setTotalAvg(parseFloat(totalAverage.toFixed(1)));
+      } else {
+        setTotalAvg(0);
+      }
+    }, delay); 
+
+    return () => clearTimeout(timer); 
   }
 }, [averages]);
+
 
 
 useEffect(()=>{
@@ -195,10 +203,10 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     return <div key={index} className='score mb-1'>
               
                 <div className=''>
-                <div className='overall bg-[#f4f4f4] w-full h-5 pr-2 flex items-center justify-between  relative'>
+                <div className='overall bg-[#f4f4f4] w-full h-5 pr-1 flex items-center justify-between  relative'>
                     <h3   className='z-10 ml-2 opacity-70'>{field}:</h3>
                     <h3 ><AnimatedNumber value={averages[field]} /></h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} transition={{duration : 1 , ease : 'linear'}} className={`'ber h-full ${isLightMode ? 'bg-[#e2e2e2]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} transition={{duration : 2 ,   ease: [0.25, 0.1, 0.25, 1],}} className={`'ber h-full ${isLightMode ? 'bg-[#e2e2e2]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
                 </div>
                 </div>
             </div>
@@ -208,9 +216,11 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 })}
 
              <div  className='score bg-[#f4f4f4]  w-full h-6 flex items-center pr-2 justify-between  relative'>
-                    <h3  style={{color: isLightMode ? 'white': 'black'}}  className={`z-10 ml-2`}>Score:</h3>
-                    <h3 ><AnimatedNumber value={totalAvg} /></h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`}} transition={{duration : 1 , ease : 'linear'}} className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
+                    <h3  style={{color: isLightMode ? 'white': 'black'  , fontWeight : '200'}}  className={`z-10 ml-2 mix-blend-difference`}>Score:</h3>
+                    <h3 className="">
+  <AnimatedNumber value={totalAvg} />
+</h3>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`}} transition={{duration : 2,  ease: [0.25, 0.15, 0.25, 1]}} className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
                 </div>
         </div>}
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
