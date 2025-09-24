@@ -3,7 +3,7 @@ import { useThemeContext } from "../../Context/ThemeContext";
 export function SkeletonPromoCard() {
   const {isLightMode} = useThemeContext()
   return (
-    <div className="flex-shrink-0 w-[80vw] lg:w-[33.33vw] mb-4 snap-center relative">
+    <div className="flex-shrink-0 w-[80vw] h-100 lg:w-[33.33vw] mb-4 snap-center relative">
       {/* Image placeholder */}
       <div className={`w-full h-[22rem] lg:h-[40rem]  ${isLightMode ? 'bg-[#ededed]':'bg-[#151515]'} rounded animate-pulse`} />
 

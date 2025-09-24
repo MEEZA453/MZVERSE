@@ -23,7 +23,7 @@ export default function PostCard({product}){
 
 {product?.image && product?.image?.length > 0 ? (
  <Link href={`/AllAssets/${product._id}`} prefetch>
-            <a className="w-full">
+          
               <Image
                 height={300}
                 width={300}
@@ -32,7 +32,7 @@ export default function PostCard({product}){
                 className="w-full h-fit object-cover flex items-center justify-center lg:mb-4"
                 priority
               />
-            </a>
+           
           </Link>
 ) : null}
 
@@ -54,7 +54,7 @@ export default function PostCard({product}){
   <div className="     flex justify-between items-center w-full pr-3 z-100  duration-200 ">
                         <div className="flex items-center  gap-1">
                           <button onClick={()=>router.push('/'+product?.postedBy?.handle)}><Link href={`/${product?.postedBy?.handle}`} prefetch>
-              <a>
+            
                 <Image
                   height={300}
                   width={300}
@@ -62,7 +62,7 @@ export default function PostCard({product}){
                   src={product?.postedBy?.profile || "/image.png"}
                   className="h-6 w-6 rounded-full object-cover"
                 />
-              </a>
+            
             </Link></button>  
               <div>
                           <h3 className='mt-2'>{product.name}  </h3>

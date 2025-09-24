@@ -55,7 +55,7 @@ export default function PromotionOfTheDay() {
   }
 
   return (
-    <div className="relative lg:m-6 my-2 py-2">
+    <div className="relative lg:m-6 my-4 ">
       <div
         ref={carouselRef}
         className="flex gap-3 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory px-4"
@@ -70,7 +70,7 @@ export default function PromotionOfTheDay() {
               key={index}
               className="flex-shrink-0 w-[80vw] lg:w-[33.33vw] h-[85vw] lg:h-[37vw]  snap-center relative"
             >
-             <Link
+             <Link prefetch
   href={`/posts/${promo._id}`}
   
 >
