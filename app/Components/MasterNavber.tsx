@@ -88,7 +88,7 @@ useEffect(()=>{
 // }
 // },[])
   return (
-    <nav  className="w-screen  overflow-hidden">
+    <nav  className="w-screen bg-white  overflow-hidden">
 
       <div className="  w-screen border-[#4d4d4d] flex justify-between items-center px-1 lg:px-2">
         

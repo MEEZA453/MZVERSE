@@ -16,7 +16,7 @@ import PostMenu from '../../Components/PostMenu'
 import ImageShower from '../../Components/ImageShower'
 import {AnimatePresence, motion} from 'framer-motion'
 import { GoHeartFill } from 'react-icons/go'
-import { PiHeartLight } from 'react-icons/pi'
+import { PiBookmarkSimpleLight, PiHeartLight } from 'react-icons/pi'
 import { addToFavorites, removeFromFavorites } from '../../store/actions/fav'
 import { useNotification } from '../../Context/Notification'
 import Notification from '../../Components/Notification'
@@ -29,6 +29,9 @@ import Attachments from '../../Components/Attachments'
 import AttachmentsMenu from '../../Components/AttachmentsMenu'
 import { getAssetsOfPost } from '../../store/actions/attach'
 import { useThemeContext } from '../../Context/ThemeContext'
+import { VscHeart } from 'react-icons/vsc'
+import { IoBookmarksOutline, IoBookmarksSharp } from 'react-icons/io5'
+import AnimatedNumber from '../../Components/AnimateNumber'
 
 type AveragesType = {
   aesthetics: number;
@@ -142,11 +145,20 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <ImageShower  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
         </section>
         <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full ${isLightMode ? 'bg-white':'bg-black'}`}></div>
-          <div className={`${isLightMode ? 'bg-white fixed border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b h-10 z-[100] w-screen px-2 absolute top-0 flex justify-between items-center`}>
-       <button onClick={()=> router.back()}>
+          <div className={`${isLightMode ? 'bg-white absolute  border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b  h-10 z-[100] w-screen px-2 absolute top-0 flex justify-between items-center`}>
+             <div className='flex items-center gap-5'>
+                            <button onClick={()=> router.back()}>
                        <IoIosArrowBack  color={isLightMode ? 'black': 'white'} size={17} />
                        
                        </button>
+                        <button 
+      className="text-white" 
+      onClick={() => setIsMenu(true)}
+    >
+      <IoBookmarksOutline size={16} color={isLightMode ? 'black': 'white'}/>
+    </button>
+      
+                      </div>
                         <button 
       className="text-white" 
       onClick={() => setIsMenu(true)}
@@ -155,7 +167,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     </button>
        </div>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
-     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l sticky top-0 z-[200] rounded-t rounded-xl  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} rounded-sm lg:h-screen rounded lg:w-[30vw] mb-4 lg:pt-20`}>
+     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-5 sticky top-0 z-[200]  rounded-t-[10px]  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] mb-4 lg:pt-20`}>
         <h5   className="px-2 my-4" style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
        { votes.length > 0 && <div className='w-full '>
 
@@ -163,10 +175,10 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     return <div key={index} className='score px-2 mb-1'>
               
                 <div className=''>
-                <div className='overall w-full h-6 flex items-center justify-between  relative'>
+                <div className='overall w-full h-5  flex items-center justify-between  relative'>
                     <h3   className='z-10 ml-2'>{field}:</h3>
-                    <h3 >{averages[field]}</h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10)-5}%`}} transition={{duration : 1 , ease : 'linear'}} className={`'ber h-full ${isLightMode ? 'bg-[#ededed]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
+                    <h3 ><AnimatedNumber value={averages[field]} /></h3>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} transition={{duration : 1 , ease : 'linear'}} className={`'ber h-full ${isLightMode ? 'bg-[#ededed]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
                 </div>
                 </div>
             </div>
@@ -175,10 +187,10 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
 })}
 
-             <div className='score w-full h-6 flex items-center px-2 justify-between  relative'>
+             <div  className='score w-full h-6 flex items-center px-2 justify-between  relative'>
                     <h3  style={{color: isLightMode ? 'white': 'black'}}  className={`z-10 ml-2`}>Score:</h3>
-                    <h3 >{totalAvg}</h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${70-5}%`}} transition={{duration : 1 , ease : 'linear'}} className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
+                    <h3 ><AnimatedNumber value={totalAvg} /></h3>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`}} transition={{duration : 1 , ease : 'linear'}} className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
                 </div>
         </div>}
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />

@@ -117,7 +117,7 @@ h6 {
 
 h5 {
   font-family: var(--font-inter), sans-serif;
-  font-weight: 300;
+  font-weight: 400;
 
   font-size: 16px;
 }
@@ -150,7 +150,7 @@ color : rgb(159, 159, 159);
 }
 h3 {
   font-family: var(--font-inter), sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 14px;
   line-height: 2ch;
 
@@ -171,8 +171,6 @@ label {
 button{
   font-family: var(--font-inter), sans-serif;
   font-weight: 300;
-
-
 
 
 }

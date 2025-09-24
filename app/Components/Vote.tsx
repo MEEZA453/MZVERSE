@@ -62,7 +62,7 @@ if(Object.keys(votes).length === fieldOfVote.length){setLoading(true)
 
 {fieldOfVote?.map((vote , i)=>{
 
-return  <div key={i} className='flex gap-0.5 flex-col'>
+return  <div key={i} className='flex  flex-col'>
     <div className='w-full flex justify-between'>   <h3  className='text-black leading-[-10px]'>
         {vote}
             </h3>
@@ -72,7 +72,7 @@ return  <div key={i} className='flex gap-0.5 flex-col'>
 <input  min={0}
 onChange={(e) => handleChange(vote, Number(e.target.value))}
             max={100}
-            className='w-full  h-1.5 bg-black' type='range'/>
+            className='w-full  h-2 bg-black' type='range'/>
         </div>
 })}
 
