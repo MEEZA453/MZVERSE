@@ -144,7 +144,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
 <ImageShower  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
         </section>
-        <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full ${isLightMode ? 'bg-white':'bg-black'}`}></div>
+        <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full ${isLightMode ? 'bg-black':'bg-black'}`}></div>
           <div className={`${isLightMode ? 'bg-white absolute  border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b  h-10 z-[100] w-screen px-2 absolute top-0 flex justify-between items-center`}>
              <div className='flex items-center gap-5'>
                             <button onClick={()=> router.back()}>
@@ -168,14 +168,34 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
        </div>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
      <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-5 sticky top-0 z-[200]  rounded-t-[10px]  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] mb-4 lg:pt-20`}>
-        <h5   className="px-2 my-4" style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
+      <div className='flex items-center justify-between px-2 w-full'>
+        <h5   className="px-2 my-3" style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
+       <div className="flex items-center">
+ <div className="flex items-center">
+  <h3>Voted by</h3>
+  {votes.slice(0, 3).map((vote, i) => (
+    <div key={i} className={i !== 0 ? "-ml-2" : ""}>
+      <Image
+        onClick={() => router.push(`/${vote.user.handle}`)}
+        height={100}
+        width={100}
+        alt="profile pic"
+        src={vote?.user?.profile || "/image.png"}
+        className="h-6 w-6 rounded-full object-cover border-2 border-white"
+      />
+    </div>
+  ))}
+  <div  className="h-6 w-6 rounded-full bg-black flex items-center justify-center border-2 text-white -ml-2 font-[inter-light] border-white">+</div>
+</div>
+</div>
+</div>
        { votes.length > 0 && <div className='w-full '>
 
 {post?.voteFields?.map((field : any ,index : number)=>{
     return <div key={index} className='score px-2 mb-1'>
               
                 <div className=''>
-                <div className='overall w-full h-5  flex items-center justify-between  relative'>
+                <div className='overall bg- w-full h-5  flex items-center justify-between  relative'>
                     <h3   className='z-10 ml-2'>{field}:</h3>
                     <h3 ><AnimatedNumber value={averages[field]} /></h3>
                     <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} transition={{duration : 1 , ease : 'linear'}} className={`'ber h-full ${isLightMode ? 'bg-[#ededed]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
@@ -219,7 +239,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     </div>
     <div>
    {votes.map((vote , i)=>{
-    return  <div   onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded relative px-2 duration-500  ${openIndex === i ? isLightMode ? 'bg-[#ededed] h-36': 'bg-[#1d1d1d] h-36': 'h-10' }`}>
+    return <div>{ vote.user && <div onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded relative px-2 duration-500  ${openIndex === i ? isLightMode ? 'bg-[#ededed] h-36': 'bg-[#1d1d1d] h-36': 'h-10' }`}>
       
 
   <div className='w-full pt-2  mt-2 overview flex pr-2  justify-between items-center'>
@@ -250,7 +270,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
       ).toFixed(1)}</h3></div>
 </div>
   
- </div>
+ </div>}</div>
    })}
 </div>
 </div>

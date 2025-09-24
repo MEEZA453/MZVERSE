@@ -24,7 +24,7 @@ export default function PosterOfTheDay() {
   const reoderedHighlight = [...highlight].reverse()
 
   return (
-    <div className="flex my-0 py-2 hide-scrollbar w-screen overflow-y-scroll">
+    <div className="flex   py-2 hide-scrollbar  w-screen overflow-y-scroll">
       {!loading ? (
         <div className="flex gap-2 lg:gap-4">
           {reoderedHighlight?.map((post: any, index: number) => (
@@ -34,7 +34,7 @@ export default function PosterOfTheDay() {
           ))}
         </div>
       ) : (
-        <div className="flex gap-2 lg:gap-4">
+        <div className="flex gap-2  lg:gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
             <SkeletonCard key={i} />
           ))}

@@ -10,7 +10,7 @@ export default function PostCard({post}){
     const handleClick = (path : string):void=>{
         router.push(`/posts/${path}`)
       }
-    return        <div className="mb-2" > <div
+    return        <div className="mb-" > <div
         
             
             className={`group relative flex flex-col items-center justify-center  overflow-hidden  ${isLightMode?'card-light':'card-dark'} border rounded h-30 w-[43vw] lg:w-full  lg:h-[20vw] min-h-[200px]`}

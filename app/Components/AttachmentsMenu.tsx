@@ -9,6 +9,7 @@ import { detachAsset, getAssetsOfPost } from '../store/actions/attach';
 import Image from 'next/image';
 import SwipeToDelete from './SwipeToDelete';
 import AttachmentCard from './AttachmentCard';
+import { useThemeContext } from '../Context/ThemeContext';
 
 interface AttachmentsMenuProps {
   postId: string;
@@ -21,7 +22,7 @@ interface AttachmentsMenuProps {
 export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, assetsOfPost, isMyPost }: AttachmentsMenuProps) {
   const router = useRouter();
   const [openIndex, setOpenIndex] = useState<number | null>(null)
-
+  const {isLightMode}  = useThemeContext()
   const dispatch = useDispatch<AppDispatch>();
   const [isAddToCart , setAddToCart] = useState(false)
 
@@ -58,7 +59,7 @@ const {items} = useSelector((state : any)=>state.cart)
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
       exit={{ opacity: 0 }}
-      className="h-screen w-screen z-[9999] fixed bottom-0   bg-[#101010]/50 backdrop-blur-xl"
+      className={`h-screen w-screen z-[9999] fixed bottom-0 ${isLightMode? 'bg-white/10':'bg-[#101010]/50 '}  backdrop-blur-xl`}
     >
       <div onClick={() => setAttachmentsMenu(false)} className="w-screen h-screen "></div>
       {assetsOfPost?.length<1? <p className=' absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 items-center'>No attachments found</p>: <div>
