@@ -5,7 +5,7 @@ import PhotographyOfTheDay from "./Components/PhotographyOfTheDay";
 import PosterOfTheDay from "./Components/PosterOfTheDay"
 import PromotionOfTheDay from './Components/PromotionOfTheDay';
 import AllPosts from "./posts/page";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import AllAssets from "./AllAssets/page";
 import { useAuth } from "./Context/AuthContext";
 import Notification from "./notification/page";
@@ -101,7 +101,9 @@ useEffect(() => {
         <div>
           {/* <PhotographyOfTheDay p={photo[2]} /> */}
           <PosterOfTheDay />
-          <PromotionOfTheDay />
+          <Suspense fallback={<p>Loading...</p>}>
+      <PromotionOfTheDay />
+    </Suspense>
           <ConnectRazorpayButton/>
   
           <AllPosts />

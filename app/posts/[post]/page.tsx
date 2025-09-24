@@ -206,7 +206,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
                 <div className='overall bg-[#f4f4f4] w-full h-5 pr-1 flex items-center justify-between  relative'>
                     <h3   className='z-10 ml-2 opacity-70'>{field}:</h3>
                     <h3 >{averages[field]}</h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} transition={{duration : 2 ,   ease: [0.25, 0.1, 0.25, 1],}} className={`'ber h-full ${isLightMode ? 'bg-[#e2e2e2]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} transition={{duration : 2 }} className={`'ber h-full ${isLightMode ? 'bg-[#e2e2e2]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
                 </div>
                 </div>
             </div>
@@ -220,7 +220,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
                     <h3 className="">
     {totalAvg}
 </h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`}} transition={{duration : 2,  ease: [0.25, 0.15, 0.25, 1]}} className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`}} transition={{duration : 3, }} className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
                 </div>
         </div>}
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />

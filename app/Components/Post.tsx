@@ -53,7 +53,7 @@ export default function Post({post , votes}) {
     const [currentIndex ,setCurrentIndex] = useState(0)
     const [totalAvg , setTotalAvg] = useState(0)
     const [isMenu , setIsMenu]  = useState(false)
-    const postId = usePathname().split('/')[2]
+    const postId = post?._id
     const {user ,token , role} = useAuth()
     const [attachmentsMenu ,setAttachmentsMenu] = useState(false)
     const router  = useRouter()
@@ -91,11 +91,13 @@ const scrollRef = useRef<HTMLDivElement>(null)
               dispatch(getAssetsOfPost(postId , token))
         },[dispatch, token, postId])
 
-const averages = post?.voteFields?.reduce((acc, category) => {
-  const total = votes.reduce((sum, vote) => sum + vote[category], 0);
-  acc[category] = parseFloat((total / votes.length).toFixed(2));
-  return acc;
-}, {});
+const averages = post?.voteFields?.length && votes?.length
+  ? post.voteFields.reduce((acc, field) => {
+      const total = votes.reduce((sum, vote) => sum + (vote[field] || 0), 0);
+      acc[field] = parseFloat((total / votes.length).toFixed(2));
+      return acc;
+    }, {} as Record<string, number>)
+  : {};
 
 
 useEffect(() => {
@@ -226,7 +228,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
                     <h3 className="">
     {totalAvg}
 </h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`}}  className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`} } transition={{delay : 0.060}}  className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
                 </div>
         </div>}
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />

@@ -89,7 +89,7 @@ useEffect(()=>{
 // }
 // },[])
   return (
-    <nav  className="w-screen bg-white  overflow-hidden">
+    <nav  className="w-screen fixed top-0 z-[999] overflow-hidden">
 
       <div className="  w-screen border-[#4d4d4d] flex justify-between items-center px-1 lg:px-2">
         
@@ -97,7 +97,7 @@ useEffect(()=>{
         </div>
       </div>
 
-      <div className="top-2 fixed z-[700] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
+      <div className="top-0 py-1 bg-white fixed z-[700] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
 <Link href="/" prefetch>
   <button>
     <Image
