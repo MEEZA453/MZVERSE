@@ -59,7 +59,7 @@ const {items} = useSelector((state : any)=>state.cart)
       animate={{ opacity: 1 }}
       transition={{ duration: 0.3 }}
       exit={{ opacity: 0 }}
-      className={`h-screen w-screen z-[9999] fixed bottom-0 ${isLightMode? 'bg-white/10':'bg-[#101010]/50 '}  backdrop-blur-xl`}
+      className={`h-screen w-screen z-[9999] fixed bottom-0 ${isLightMode? 'bg-black/60':'bg-[#101010]/50 '} `}
     >
       <div onClick={() => setAttachmentsMenu(false)} className="w-screen h-screen "></div>
       {assetsOfPost?.length<1? <p className=' absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 items-center'>No attachments found</p>: <div>

@@ -13,6 +13,7 @@ import { useAuth } from '../../Context/AuthContext'
 import { getVotesByPost } from '../../api'
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import PostMenu from '../../Components/PostMenu'
+import { BsFillLightningChargeFill } from "react-icons/bs";
 import ImageShower from '../../Components/ImageShower'
 import {AnimatePresence, motion} from 'framer-motion'
 import { GoHeartFill } from 'react-icons/go'
@@ -168,7 +169,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
      <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-5 sticky top-0 z-[200]  rounded-t-[10px]  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] mb-4 lg:pt-20`}>
       <div className='flex h-10  mb-2 items-center justify-between px-2 w-full'>
-        <h5   className="px-2 " style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
+        <h5   className="px-0 " style={{color : isLightMode ?'black': 'white'}}>{post?.name} </h5>
        <div className="flex items-center">
  <div className="flex items-center">
   <h3>Voted by</h3>
@@ -188,16 +189,16 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 </div>
 </div>
 </div>
-       { votes.length > 0 && <div className='w-full '>
+       { votes.length > 0 && <div className='w-full px-3'>
 
 {post?.voteFields?.map((field : any ,index : number)=>{
-    return <div key={index} className='score px-2 mb-1'>
+    return <div key={index} className='score mb-1'>
               
                 <div className=''>
-                <div className='overall bg- w-full h-5  flex items-center justify-between  relative'>
-                    <h3   className='z-10 ml-2'>{field}:</h3>
+                <div className='overall bg-[#f4f4f4] w-full h-5 pr-2 flex items-center justify-between  relative'>
+                    <h3   className='z-10 ml-2 opacity-70'>{field}:</h3>
                     <h3 ><AnimatedNumber value={averages[field]} /></h3>
-                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} transition={{duration : 1 , ease : 'linear'}} className={`'ber h-full ${isLightMode ? 'bg-[#ededed]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
+                    <motion.div     initial={{width : 0}} animate = {{width : `${(averages[field]*10-10)}%`}} transition={{duration : 1 , ease : 'linear'}} className={`'ber h-full ${isLightMode ? 'bg-[#e2e2e2]':'bg-[#1d1d1d]'} absolute top-0'`}></motion.div>
                 </div>
                 </div>
             </div>
@@ -206,7 +207,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
 })}
 
-             <div  className='score w-full h-6 flex items-center px-2 justify-between  relative'>
+             <div  className='score bg-[#f4f4f4]  w-full h-6 flex items-center pr-2 justify-between  relative'>
                     <h3  style={{color: isLightMode ? 'white': 'black'}}  className={`z-10 ml-2`}>Score:</h3>
                     <h3 ><AnimatedNumber value={totalAvg} /></h3>
                     <motion.div     initial={{width : 0}} animate = {{width : `${totalAvg*10-13}%`}} transition={{duration : 1 , ease : 'linear'}} className={`ber h-full ${isLightMode ? 'bg-black ': 'bg-[#dadada]'} absolute top-0`}></motion.div>
