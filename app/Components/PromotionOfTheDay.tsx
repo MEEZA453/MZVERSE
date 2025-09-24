@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../store/store"
 import { getPromotion } from "../store/actions/Promotion"
 import { SkeletonPromoCard } from "./Skeleton/SkeletonPromo"
+import Link from "next/link"
 
 export default function PromotionOfTheDay() {
   const router = useRouter()
@@ -69,14 +70,18 @@ export default function PromotionOfTheDay() {
               key={index}
               className="flex-shrink-0 w-[80vw] lg:w-[33.33vw] h-[85vw] lg:h-[37vw]  snap-center relative"
             >
-              <Image
-                onClick={() => router.push('/posts/' + promo?._id)}
-                src={promo?.images[0]}
-                height={1500}
-                width={1500}
-                alt="promo"
-                className="w-full h-[85vw] lg:h-[37vw] object-cover rounded"
-              />
+             <Link
+  href={`/posts/${promo._id}`}
+  
+>
+  <Image
+    src={promo?.images[0]}
+    height={1500}
+    width={1500}
+    alt="promo"
+    className="w-full h-[85vw] lg:h-[37vw] object-cover rounded"
+  />
+</Link>
               <div className="absolute pointer-events-none w-full h-80 bg-gradient-to-b from-[#00000080] to-[#00000000] z-[50] top-0"></div>
 
               <div className="flex justify-between items-center w-full z-[99] absolute top-2 left-2 pr-3">
