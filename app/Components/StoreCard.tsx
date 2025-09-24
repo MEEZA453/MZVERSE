@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useTheme } from "styled-components";
 import { useThemeContext } from "../Context/ThemeContext";
+import Link from "next/link";
 export default function PostCard({product}){
   const {isLightMode} = useThemeContext()
       const currentPath  = usePathname  ();
@@ -21,15 +22,18 @@ export default function PostCard({product}){
           
 
 {product?.image && product?.image?.length > 0 ? (
-  <Image
-    onClick={()=>handleClick(product?._id)}
-    height={300}
-    width={300}
-    alt="dff"
-    src={product?.image[0]}
-    className="w-full h-fit object-cover flex items-center justify-center lg:mb-4 "
-    priority
-  />
+ <Link href={`/AllAssets/${product._id}`} prefetch>
+            <a className="w-full">
+              <Image
+                height={300}
+                width={300}
+                alt={product?.name || "Asset"}
+                src={product.image[0]}
+                className="w-full h-fit object-cover flex items-center justify-center lg:mb-4"
+                priority
+              />
+            </a>
+          </Link>
 ) : null}
 
             {/* <div className="   absolute bottom-0 bg-white/40 flex h-6 px-2 justify-between items-center w-full  z-100  duration-200 ">
@@ -49,10 +53,17 @@ export default function PostCard({product}){
 
   <div className="     flex justify-between items-center w-full pr-3 z-100  duration-200 ">
                         <div className="flex items-center  gap-1">
-                          <button onClick={()=>router.push('/'+product?.postedBy?.handle)}><Image  
-            height={300}
-            width={300}
-            alt='fdfdf'  className='h-6 lg:h-6 w-6 lg:w-6 rounded-full items-center object-cover' src={product?.postedBy?.profile || '/image.png'}/></button>  
+                          <button onClick={()=>router.push('/'+product?.postedBy?.handle)}><Link href={`/${product?.postedBy?.handle}`} prefetch>
+              <a>
+                <Image
+                  height={300}
+                  width={300}
+                  alt={product?.postedBy?.handle || "profile"}
+                  src={product?.postedBy?.profile || "/image.png"}
+                  className="h-6 w-6 rounded-full object-cover"
+                />
+              </a>
+            </Link></button>  
               <div>
                           <h3 className='mt-2'>{product.name}  </h3>
                           <p style={{fontSize : '12px'}} className=''>@{product?.postedBy?.handle}  </p>
