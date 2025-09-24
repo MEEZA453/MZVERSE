@@ -167,7 +167,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
        </div>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
      <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-5 sticky top-0 z-[200]  rounded-t-[10px]  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] mb-4 lg:pt-20`}>
-      <div className='flex h-10 border-b border-[#dadada] mb-2 items-center justify-between px-2 w-full'>
+      <div className='flex h-10  mb-2 items-center justify-between px-2 w-full'>
         <h5   className="px-2 " style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
        <div className="flex items-center">
  <div className="flex items-center">

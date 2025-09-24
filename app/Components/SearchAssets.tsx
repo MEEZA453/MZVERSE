@@ -14,11 +14,12 @@ import { searchPostsAction } from '../store/actions/post';
 import { useSelector } from 'react-redux';
 import { getDefaultAssets, getDefaultPosts, getDefaultUsers, searchAssets } from '../store/actions/search';
 import SearchedAssetsToAttach from './SearchAssetsToAttach';
+import { useThemeContext } from '../Context/ThemeContext';
 export default function SearchAssets({setSearchAssets , postId}){
     const searchTabs = ['Creators' , 'posts' , 'Assets'];
     const [selectedIndex , setSelectedIndex] = useState(0)
   const [query , setQuery ] = useState("")
-
+  const {isLightMode} = useThemeContext()
   const {token} =  useAuth()
   const dispatch = useDispatch<AppDispatch>()
 
@@ -44,13 +45,13 @@ useEffect(() => {
        return     <div>
 
       <motion.div   initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }} className="h-fit  rounded-b  rounded-lg lg:h-100  fixed  top-0 z-[999] lg:w-[35vw] overflow-y-scroll hide-scrollbar -translate-x-1/2 left-1/2  px-2 lg:top-4 lg:rounded left-0 w-screen ">
-             <div className="flex items-center z-[999]   h-8 bg-[#1d1d1d]/70 rounded-full my-3 ">
+             <div className={`flex items-center z-[999]  px-2  h-8 ${isLightMode ? 'bg-white/40':'bg-[#1d1d1d]/70'} rounded-full my-3 `}>
 <IoSearchOutline className=""
             color="#8d8d8d"
               size={19}
             />
           <input
-          
+          style={{backgroundColor : 'transparent' , border : 'transparent'}}
             type="text"
             placeholder=" Search assets.."
            
@@ -68,5 +69,5 @@ useEffect(() => {
             
             </div>
          </div>
-    </motion.div> <div onClick={()=>setSearchAssets(false)} className='h-screen w-screen z-[700]  fixed top-0 right-0  bg-black/50 backdrop-blur-xl'></div> </div> 
+    </motion.div> <div onClick={()=>setSearchAssets(false)} className={`h-screen w-screen z-[700]  fixed top-0 right-0 ${isLightMode ? 'bg-white/10':'bg-black/50 '} backdrop-blur-xl`}></div> </div> 
 }

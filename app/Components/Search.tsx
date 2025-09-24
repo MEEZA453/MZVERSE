@@ -63,7 +63,7 @@ useEffect(() => {
           
             type="text"
             placeholder=" Search.."
-           
+           style={{backgroundColor : 'transparent', borderColor : 'transparent'}}
             onChange={(e) => setQuery(e.target.value)}
             className="w-full px-1 pt-2 outline-none text-sm"
             />
