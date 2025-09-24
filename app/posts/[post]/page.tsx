@@ -63,7 +63,7 @@ export default function Post() {
     const [isAuthor , setAuthor] = useState(false)
     const [isMobile  ,setIsMobile] = useState(false)
     const [opacity , setOpacity]  = useState(0)
-    const { post, loading , votes , fetched } = useSelector((state: any) => state.posts)
+    const { post, loading , votes } = useSelector((state: any) => state.posts)
  useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
@@ -76,17 +76,16 @@ export default function Post() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
     useEffect(() => {
-  if(!fetched){
 
     dispatch(getPostByIdAction(postId, token))
     dispatch(fetchVotesByPostAction(postId))
-  }
-    }, [dispatch, postId , fetched])
+
+    }, [dispatch, postId, token])
         const {assetsOfPost} = useSelector((state: any)=>state.attach)
     
         useEffect(()=>{
               dispatch(getAssetsOfPost(postId , token))
-        },[dispatch , token , postId])
+        },[dispatch, token, postId])
 
 const averages = post?.voteFields?.reduce((acc, category) => {
   const total = votes.reduce((sum, vote) => sum + vote[category], 0);
@@ -94,7 +93,7 @@ const averages = post?.voteFields?.reduce((acc, category) => {
   return acc;
 }, {});
 
-console.log(averages)
+
 useEffect(() => {
   if (averages) {
     const values = Object.values(averages).filter(v => typeof v === "number");
@@ -168,15 +167,15 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
        </div>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
      <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-5 sticky top-0 z-[200]  rounded-t-[10px]  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] mb-4 lg:pt-20`}>
-      <div className='flex items-center justify-between px-2 w-full'>
-        <h5   className="px-2 my-3" style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
+      <div className='flex h-10 border-b border-[#dadada] mb-2 items-center justify-between px-2 w-full'>
+        <h5   className="px-2 " style={{color : isLightMode ?'black': 'white'}}>{post?.name}</h5>
        <div className="flex items-center">
  <div className="flex items-center">
   <h3>Voted by</h3>
   {votes.slice(0, 3).map((vote, i) => (
     <div key={i} className={i !== 0 ? "-ml-2" : ""}>
       <Image
-        onClick={() => router.push(`/${vote.user.handle}`)}
+        onClick={() => router.push(`/${vote?.user?.handle}`)}
         height={100}
         width={100}
         alt="profile pic"
@@ -239,7 +238,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     </div>
     <div>
    {votes.map((vote , i)=>{
-    return <div>{ vote.user && <div onClick={()=> setOpenIndex(i)} key={i} className={`vote rounded relative px-2 duration-500  ${openIndex === i ? isLightMode ? 'bg-[#ededed] h-36': 'bg-[#1d1d1d] h-36': 'h-10' }`}>
+    return <div  key={i}>{ vote?.user && <div  onClick={()=> setOpenIndex(i)} className={`vote rounded relative px-2 duration-500  ${openIndex === i ? isLightMode ? 'bg-[#ededed] h-36': 'bg-[#1d1d1d] h-36': 'h-10' }`}>
       
 
   <div className='w-full pt-2  mt-2 overview flex pr-2  justify-between items-center'>
