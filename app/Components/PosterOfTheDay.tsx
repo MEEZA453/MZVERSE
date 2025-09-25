@@ -8,7 +8,6 @@ import { getHighlight } from "../store/actions/Highlight";
 import { SkeletonCard } from "./Skeleton/SkeletonCard";
 import { useRouter, useSearchParams } from "next/navigation";
 import Post from "./Post";
-import Image from "next/image";
 
 export default function PosterOfTheDay() {
   const dispatch = useDispatch<AppDispatch>();
@@ -58,7 +57,7 @@ console.log(reoderedHighlight)
         <div className="flex gap-2 lg:gap-4">
           {reoderedHighlight?.map((post: any, index: number) => (
             <div key={index} onClick={() => openPost(post)}>
-              <PostCard onOpenPost ={openPost} post={post} />
+              <PostCard post={post} />
             </div>
           ))}
         </div>
@@ -73,7 +72,7 @@ console.log(reoderedHighlight)
       {/* Overlay */}
       {(post || pid) && (
         <div>
-         
+          <Post catchedPost={post} catchedVotes={votes} />
         </div>
       )}
     </div>

@@ -40,10 +40,14 @@ export default function AllPosts() {
   };
 
   return (
+    
     <div className='w-screen px-4 lg:px-22'>
       <div className={`grid grid-cols-2 lg:grid-cols-5 gap-2 lg:gap-5`}>
         {!loading ? posts.map((post: any, index: number) => (
-          <PostCard key={index} post={post} onOpenPost={openPost} />
+          <div onClick={()=>openPost(post)}>
+            <PostCard key={index} post={post}  />
+
+          </div>
         )) : Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
       </div>
 
