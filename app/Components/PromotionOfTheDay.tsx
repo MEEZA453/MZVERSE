@@ -135,10 +135,10 @@ export default function PromotionOfTheDay() {
       </div>
 
       {/* Overlay component */}
-      {post && (
+      {(post || pid) && (
         <div>
 
-         <Post post={post} votes={votes}/>
+         <Post catchedPost={post} catchedVotes={votes}/>
         </div>
       )}
     </div>

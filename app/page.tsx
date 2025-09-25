@@ -100,7 +100,9 @@ useEffect(() => {
       {activeIndex === 0 && (
         <div>
           {/* <PhotographyOfTheDay p={photo[2]} /> */}
+          <Suspense fallback={<p>Loading...</p>}>
           <PosterOfTheDay />
+          </Suspense>
           <Suspense fallback={<p>Loading...</p>}>
       <PromotionOfTheDay />
     </Suspense>

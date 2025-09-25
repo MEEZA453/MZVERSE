@@ -132,7 +132,7 @@ console.log(isMyProduct)
               i === images.length - 1 ? "" : ""
             }`}
           >
-            <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="w-full object-cover" />
+            <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="w-[85vw] h-[55vh]  object-cover" />
           </div>
         ))}
       </div>

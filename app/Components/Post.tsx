@@ -46,29 +46,44 @@ const defaultAverages: AveragesType = {
   creativity: 0,
   emotion: 0,
 };
-export default function Post({post , votes}) {
+export default function Post({catchedPost , catchedVotes}) {
     const dispatch = useDispatch<AppDispatch>()
     const [openIndex , setOpenIndex] = useState(0)
     const [isVoteMenu , setVoteMenu] = useState(false)
     const [currentIndex ,setCurrentIndex] = useState(0)
     const [totalAvg , setTotalAvg] = useState(0)
     const [isMenu , setIsMenu]  = useState(false)
-    const postId = post?._id
     const {user ,token , role} = useAuth()
     const [attachmentsMenu ,setAttachmentsMenu] = useState(false)
     const router  = useRouter()
     const {isLightMode}  = useThemeContext()
     const [searchAssets , setSearchAssets] = useState(false)
     const [red , setRed ] = useState(false)
+    const [post , setPost ] = useState(null);
+    const [votes , setVotes ] = useState(null);
     const {setNotification , notification} = useNotification()
     const [isAuthor , setAuthor] = useState(false)
     const [isMobile  ,setIsMobile] = useState(false)
     const [opacity , setOpacity]  = useState(0)
- const loading =  false
+    const {rdxPost, rdxVotes, loading} = useSelector((state : any)=>state.posts)
     const searchParams = useSearchParams();
+     const pid = searchParams.get('pid')
+    const postId = post?._id || pid
   
 const scrollRef = useRef<HTMLDivElement>(null)
-
+useEffect(()=>{
+if(catchedPost || catchedVotes){
+  setPost(catchedPost)
+  setVotes(catchedVotes)
+}else{
+  dispatch(getPostByIdAction(postId, token))
+    dispatch(fetchVotesByPostAction(postId))
+    if(rdxPost || rdxVotes){
+      setPost(rdxPost);
+      setVotes(rdxVotes);
+    }
+}
+},[catchedPost, catchedVotes])
   useEffect(() => {
     const handleScroll = () => {
       if (!scrollRef.current) return
@@ -157,19 +172,19 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
 <ImageShower  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
         </section>
-        <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full ${isLightMode ? 'bg-black':'bg-black'}`}></div>
+        <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full bg-black`}></div>
           <div className={`${isLightMode ? 'bg-white absolute  border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b  h-10 z-[100] w-screen px-2 absolute top-0 flex justify-between items-center`}>
              <div className='flex items-center gap-5'>
                             <button onClick={()=> router.back()}>
                        <IoIosArrowBack  color={isLightMode ? 'black': 'white'} size={17} />
                        
                        </button>
-                        <button 
+                        {/* <button 
       className="text-white" 
       onClick={() => setIsMenu(true)}
     >
       <IoBookmarksOutline size={16} color={isLightMode ? 'black': 'white'}/>
-    </button>
+    </button> */}
       
                       </div>
                         <button 
@@ -180,7 +195,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     </button>
        </div>
 {  assetsOfPost?.length > 0 &&  <Attachments assetsOfPost = {assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>}
-     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-5 sticky top-0 z-[200]  rounded-t-[10px]  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] mb-4 lg:pt-20`}>
+     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-24 sticky top-0 z-[200]  rounded-t-[10px]  lg:border-[#4d4d4d]  ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] mb-4 lg:pt-20`}>
       <div className='flex h-9    mb-2 items-center justify-between px-2 w-full'>
         <h5   className="px-0 " style={{color : isLightMode ?'black': 'white'}}>{post?.name} </h5>
        <div className="flex items-center">
