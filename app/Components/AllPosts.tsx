@@ -4,10 +4,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AppDispatch } from '../store/store';
 import { useAuth } from '../Context/AuthContext';
-import { getPostsAction } from '../store/actions/post';
-import PostCard from '../Components/PostCard';
-import { SkeletonCard } from '../Components/Skeleton/SkeletonCard';
-import Post from '../Components/Post';
+import PostCard from './PostCard';
+import { SkeletonCard } from './Skeleton/SkeletonCard';
+import Post from './Post';
+import { getPostsAction } from "../store/actions/post";
 
 export default function AllPosts() {
   const dispatch = useDispatch<AppDispatch>();
@@ -44,8 +44,8 @@ export default function AllPosts() {
     <div className='w-screen px-4 lg:px-22'>
       <div className={`grid grid-cols-2 lg:grid-cols-5 gap-2 lg:gap-5`}>
         {!loading ? posts.map((post: any, index: number) => (
-          <div onClick={()=>openPost(post)}>
-            <PostCard key={index} post={post}  />
+          <div key={index} onClick={()=>openPost(post)}>
+            <PostCard  post={post}  />
 
           </div>
         )) : Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}

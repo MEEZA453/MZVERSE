@@ -4,7 +4,7 @@ import MasterNavber from "./Components/MasterNavber";
 import PhotographyOfTheDay from "./Components/PhotographyOfTheDay";
 import PosterOfTheDay from "./Components/PosterOfTheDay"
 import PromotionOfTheDay from './Components/PromotionOfTheDay';
-import AllPosts from "./posts/page";
+// import AllPosts from "./Components/AllPosts";
 import { Suspense, useEffect, useState } from "react";
 import AllAssets from "./AllAssets/page";
 import { useAuth } from "./Context/AuthContext";
@@ -15,6 +15,7 @@ import Cart from "./Components/Cart";
 import ConnectRazorpayButton from "./Components/ConnectWithRazorpay";
 import { useTheme } from "next-themes";
 import { useThemeContext } from "./Context/ThemeContext";
+import dynamic from "next/dynamic";
 
 export default function Feed() {
   const router = useRouter();
@@ -23,6 +24,10 @@ export default function Feed() {
   const [isCart , setIsCart] = useState(false )
   const { user, loading } = useAuth();
   const {isLightMode} = useThemeContext() 
+  const AllPosts = dynamic(() => import("./Components/AllPosts"), {
+  ssr: false, // ensure this runs only on the client
+  loading: () => <p>Loading posts...</p>,
+});
   useEffect(() => {
     if (loading) return; // wait until user is loaded
     if (!user) {
@@ -107,12 +112,15 @@ useEffect(() => {
       <PromotionOfTheDay />
     </Suspense>
           <ConnectRazorpayButton/>
-  
+
           <AllPosts />
+
         </div>
       )}
 
-      {activeIndex === 1 && <AllPosts />}
+      {activeIndex === 1 &&
+          <AllPosts />
+}
       {activeIndex === 2 && <AllAssets />}
 
       <div className={`fixed pointer-events-none w-screen h-80 bg-gradient-to-b   z-[50] top-0 ${isLightMode ? 'from-[#ffffff50] to-[#ffffff00]':'from-[#000000] to-[#00000000]'} `}></div>
