@@ -1,59 +1,51 @@
 'use client'
 import Image from "next/image"
-import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useThemeContext } from "../Context/ThemeContext";
-import Link from "next/link";
-export default function PostCard({post}){
-  const {isLightMode} = useThemeContext() 
-      const currentPath  = usePathname  ();
-      const router = useRouter()
-    const handleClick = (path : string):void=>{
-        router.push(`/posts/${path}`)
-      }
-    return        <div className="mb-" > <div
-        
-            
-            className={`group relative flex flex-col items-center justify-center  overflow-hidden  ${isLightMode?'card-light':'card-dark'} border rounded h-30 w-[43vw] lg:w-full  lg:h-[20vw] min-h-[200px]`}
-          >
-          {/* <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div> */}
-          
 
-{post?.images && post?.images?.length > 0 ? (
-   <Link href={`/posts/${post?._id}`} prefetch>
-            <Image
-              height={300}
-              width={300}
-              alt="post image"
-              src={post?.images[0]}
-              className="w-[45vw] h-fit object-cover lg:mb-4 lg:w-[20vw]"
-              priority
-            />
-          </Link>
-) : null}
+export default function PostCard({ post, onOpenPost }: { post: any, onOpenPost: (p: any) => void }) {
+  const { isLightMode } = useThemeContext();
+  const router = useRouter();
 
-           
-          </div>
-           <div className="     flex justify-between items-center w-full pr-3 z-100  duration-200 ">
-                        <div className="flex items-center  gap-1">
-                          <button onClick={()=>router.push('/'+post?.createdBy?.handle)}>  <Link href={`/${post?.createdBy?.handle}`} prefetch>
+  const handleClick = () => {
+    onOpenPost(post);
+  };
+
+  return (
+    <div className="mb-4">
+      <div
+        onClick={handleClick}
+        className={`group relative flex flex-col items-center justify-center overflow-hidden ${isLightMode ? 'card-light' : 'card-dark'} border rounded h-30 w-[43vw] lg:w-full lg:h-[20vw] min-h-[200px] cursor-pointer`}
+      >
+        {post?.images?.length > 0 && (
+          <Image
+            height={300}
+            width={300}
+            alt="post image"
+            src={post.images[0]}
+            className="w-[45vw] h-fit object-cover lg:mb-4 lg:w-[20vw]"
+            priority
+          />
+        )}
+      </div>
+
+      <div className="flex justify-between items-center w-full pr-3 z-100 duration-200 mt-2">
+        <div className="flex items-center gap-1">
+          <button onClick={() => router.push('/' + post?.createdBy?.handle)}>
             <Image
               height={300}
               width={300}
               alt="creator profile"
-              className="h-6 lg:h-6 w-6 lg:w-6 rounded-full object-cover"
+              className="h-6 w-6 rounded-full object-cover"
               src={post?.createdBy?.profile || "/image.png"}
             />
-          </Link></button>  
-              <div>
-                          <h3 className='mt-2'>{post.name}  </h3>
-                          <p style={{fontSize : '12px'}} className=''>@{post?.createdBy?.handle}  </p>
-          
-          
-              </div>
-                           {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
-                        </div>
-                        
-                      </div>
+          </button>
+          <div>
+            <h3>{post.name}</h3>
+            <p style={{ fontSize: '12px' }}>@{post?.createdBy?.handle}</p>
           </div>
+        </div>
+      </div>
+    </div>
+  );
 }
