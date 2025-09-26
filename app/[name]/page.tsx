@@ -1,6 +1,6 @@
 'use client'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState } from 'react'
 import Notification from '../Components/Notification'
 import { AppDispatch } from '../store/store'
 import  Loading from '../Components/loading'
@@ -29,6 +29,7 @@ import FollowersList from '../Components/FollowersList'
 import FollowingList from '../Components/FollowingList'
 import WalletPage from '../Components/Wallet'
 import { useThemeContext } from '../Context/ThemeContext'
+import Post from '../Components/Post'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
 const {profileLink ,  authorId , handle , role , token} = useAuth()
@@ -42,6 +43,8 @@ const [followerWindow , setFollowerWindow] = useState(false)
 const [followingWindow , setFollowingWindow] = useState(false)
 const [isFollowing, setIsFollowing] = useState(false);
 const [localProfile, setLocalProfile] = useState<any>(null);
+  const [post, setPost] = useState<any>(null)
+  const [votes, setVotes] = useState<any[]>([])
 const {isLightMode} = useThemeContext()
   const router = useRouter()
 console.log(localProfile)
@@ -175,13 +178,19 @@ const buttonsOfAuthor = [
   const isDev = true
 
 const isProfileLoaded = localProfile && localProfile.user && localProfile.user.handle === userHandle;
-    if(role === 'dev'){
-    tabs.push('Highlight')
-    tabs.push('promotion')
-  }
+  //   if(role === 'dev'){
+  //   tabs.push('Highlight')
+  //   tabs.push('promotion')
+  // }
   return (
     <div className='w-screen  overflow-hidden'>
   {!isProfileLoaded || loading ? <Loading/> : <div> 
+        {(post ) && (
+                <div className=''>
+        
+                 <Post catchedPost={post} catchedVotes={votes}/>
+                </div>
+              )}
       {/* <Notification/> */}
  <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {localProfile?.user?.role} setProfileMenu = {setProfileMenu} setIsWallet = {setIsWallet}/>: <ProfileMenuLg setIsWallet = {setIsWallet} setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {localProfile?.user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 
@@ -238,10 +247,17 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
 
 
  <Store/>
- <Favourites/>
-<Crafts  handle={localProfile?.user?.handle} token={token} />
-{isDev&&<HighlightControl/>}
-  {isDev&&<Promotion/>}
+ <Suspense>
+ <Favourites setPost={setPost} setVotes={setVotes}/>
+
+ </Suspense>
+
+ <Suspense>
+<Crafts setPost= {setPost}  setVotes= {setVotes}  handle={localProfile?.user?.handle} token={token} />
+
+ </Suspense>
+{/* {isDev&&<HighlightControl/>} */}
+  {/* {isDev&&<Promotion/>} */}
 
  
 

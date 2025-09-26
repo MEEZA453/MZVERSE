@@ -3,13 +3,11 @@ import Image from "next/image"
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useThemeContext } from "../Context/ThemeContext";
-export default function MyPostCard({post}){
+export default function MyPostCard({post, openPost}){
       const currentPath  = usePathname  ();
       const {isLightMode} = useThemeContext()
       const router = useRouter()
-    const handleClick = (path : string):void=>{
-        router.push(`/posts/${path}`)
-      }
+
     return        <div className="mb-2" > <div
         
             
@@ -20,7 +18,8 @@ export default function MyPostCard({post}){
 
 {post?.images && post?.images?.length > 0 ? (
   <Image
-    onClick={()=>handleClick(post?._id)}
+      onClick={()=>openPost(post)}
+
     height={300}
     width={300}
     alt="dff"

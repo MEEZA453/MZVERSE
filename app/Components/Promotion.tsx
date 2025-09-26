@@ -38,7 +38,7 @@ const handleClick = (path: string): void => {
     { !loading?<div className='lg:grid-cols-5 grid-cols-2 px-3 lg:gap-5 lg:px-10  mb-10 grid'>
     {reoderedPromotion?.map((post:any, index : number) => (
       <div  key={index}>
-        <PostCard post={post}/>
+        {/* <PostCard post={post}/> */}
       </div>
             
            ))}

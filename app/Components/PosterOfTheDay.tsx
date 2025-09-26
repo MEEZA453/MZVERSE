@@ -1,7 +1,7 @@
 'use client'
 import PostCard from "./PostCard";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useAuth } from "../Context/AuthContext";
 import { AppDispatch } from "../store/store";
 import { getHighlight } from "../store/actions/Highlight";
@@ -14,50 +14,50 @@ export default function PosterOfTheDay() {
   const { token } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const pid = searchParams.get("pid");
+  const hid = searchParams.get("hid");
 
   const { highlight, loading } = useSelector((state: any) => state.highlight);
 
   const [post, setPost] = useState<any>(null);
   const [votes, setVotes] = useState<any[]>([]);
 
-  // ✅ Only fetch once if highlight is empty
-  useEffect(() => {
+ useEffect(() => {
     if (token && highlight.length === 0) {
-      dispatch(getHighlight(token));
+      dispatch(getHighlight(token)); // Fetch once when feed mounts
     }
-  }, [dispatch, token, highlight.length]);
-
+  }, [token, dispatch, highlight.length]);
   const reoderedHighlight = [...highlight].reverse();
-console.log(reoderedHighlight)
-  // ✅ Open overlay and update URL
-  const openPost = (post: any) => {
-    setPost(post);
-    setVotes(post.votes || []);
-    router.push(`/?pid=${post._id}`);
-  };
-
-  // ✅ Handle URL change (back/forward)
-  useEffect(() => {
-    if (pid) {
-      const found = highlight.find((p: any) => p._id === pid);
-      if (found) {
-        setPost(found);
-        setVotes(found.votes || []);
-      }
-    } else {
-      setPost(null);
-      setVotes([]);
+    const openPost = (post: any) => {
+      console.log('openPot data is:', post)
+       setPost(post)            // ✅ immediate state update
+  setVotes(post.votes || [])
+      router.push(`/?hid=${post._id}`)
     }
-  }, [pid, highlight]);
+
+    // Handle URL pid change (e.g., back button)
+    useEffect(() => {
+      if (hid) {
+        
+        const found = highlight.find((p: any) => p._id === hid)
+console.log('called data is ' , found)
+        if (found) {
+          setPost(found)
+          setVotes(found.votes || [])
+        }
+      } else {
+        setPost(null)
+        setVotes([])
+      }
+    }, [hid , highlight])
+
 
   return (
     <div className="flex py-2 hide-scrollbar w-screen overflow-y-scroll">
       {!loading ? (
         <div className="flex gap-2 lg:gap-4">
-          {reoderedHighlight?.map((post: any, index: number) => (
-            <div key={index} onClick={() => openPost(post)}>
-              <PostCard post={post} />
+          {reoderedHighlight?.map((item: any, index: number) => (
+            <div key={index} onClick={() => openPost(item)}>
+              <PostCard openPost={openPost} post={item} />
             </div>
           ))}
         </div>
@@ -70,11 +70,13 @@ console.log(reoderedHighlight)
       )}
 
       {/* Overlay */}
-      {(post || pid) && (
-        <div>
-          <Post catchedPost={post} catchedVotes={votes} />
-        </div>
-      )}
+        {/* Overlay component */}
+            {(post || hid) && (
+              <div>
+      
+               <Post catchedPost={post} catchedVotes={votes}/>
+              </div>
+            )}
     </div>
   );
 }

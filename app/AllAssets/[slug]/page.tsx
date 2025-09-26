@@ -12,7 +12,7 @@ import { PiHeartLight } from "react-icons/pi";
 import { GoHeartFill } from "react-icons/go";
 import Login from '../../Components/Login';
 import { useShowInput } from '../../Context/ShowInputContext';
-import { useState  , useEffect, useRef} from 'react';
+import { useState  , useEffect, useRef, Suspense} from 'react';
 import Notification from '../../Components/Notification';
 import { useNotification } from '../../Context/Notification';
 import { addToFavorites , removeFromFavorites } from '../../store/actions/fav';
@@ -34,6 +34,7 @@ import { getDownloadLink, handleProductUnlock } from '../../store/actions/order'
 import Alart from '../../Components/Alart';
 import { capturePayment, createOrder } from '../../store/actions/payment';
 import { useThemeContext } from '../../Context/ThemeContext';
+import Post from '../../Components/Post';
 
 export default function ProductPage() {
 const pathname = usePathname()
@@ -61,7 +62,8 @@ const {isLightMode} = useThemeContext()
 const {product , loading} = useSelector((state : any)=> state.design)
 const {setNotification} = useNotification()
 const isAlreadyAddedToCart = items.some((f : any)=> f?.product?._id === String(product?._id))
-console.log(product)
+  const [post, setPost] = useState<any>(null)
+  const [votes, setVotes] = useState<any[]>([])
 
 // console.log(items[0].product?._id , product?._id)
 const [isAddedToCart  ,setAddedToCart] = useState(isAlreadyAddedToCart ?? false)
@@ -247,6 +249,12 @@ const handleBuyNow = async () => {
        {/* <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/> */}
 
       { loading || !product? <Loading/> :<div>
+          {(post ) && (
+                        <div className=''>
+                
+                         <Post catchedPost={post} catchedVotes={votes}/>
+                        </div>
+                      )}
                            { isAlart&& <Alart setAlart={setAlart}  func ={handleBuyNow} nameOfFunc='Proceed'/>}
 
                        {isMobile ? <AnimatePresence>{  isMenu ?  <ProductMenu currentData={product} setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> :
@@ -333,7 +341,7 @@ const handleBuyNow = async () => {
 
 <div className='h-full'>
 {
-  viewUsages?  <Useages assetId  = {product?._id} token ={token }/> :     <div className='details h-full mt-10'>
+  viewUsages? <Suspense><Useages setPost={setPost} setVotes={setVotes} assetId  = {product?._id} token ={token }/></Suspense>  :     <div className='details h-full mt-10'>
          <div className='section-details'>
           {product?.sections.map((section , index)=>{
             return <div  className={` h-fit  mb-2 duration-500`} key={index}>

@@ -47,6 +47,7 @@ const defaultAverages: AveragesType = {
   emotion: 0,
 };
 export default function Post({catchedPost , catchedVotes}) {
+  console.log('look i')
     const dispatch = useDispatch<AppDispatch>()
     const [openIndex , setOpenIndex] = useState(0)
     const [isVoteMenu , setVoteMenu] = useState(false)
@@ -65,7 +66,7 @@ export default function Post({catchedPost , catchedVotes}) {
     const [isAuthor , setAuthor] = useState(false)
     const [isMobile  ,setIsMobile] = useState(false)
     const [opacity , setOpacity]  = useState(0)
-    const {rdxPost, rdxVotes, loading} = useSelector((state : any)=>state.posts)
+    // const {rdxPost, rdxVotes, loading} = useSelector((state : any)=>state.posts)
     const searchParams = useSearchParams();
      const pid = searchParams.get('pid')
     const postId = post?._id || pid
@@ -75,15 +76,17 @@ useEffect(()=>{
 if(catchedPost || catchedVotes){
   setPost(catchedPost)
   setVotes(catchedVotes)
-}else{
-  dispatch(getPostByIdAction(postId, token))
-    dispatch(fetchVotesByPostAction(postId))
-    if(rdxPost || rdxVotes){
-      setPost(rdxPost);
-      setVotes(rdxVotes);
-    }
+// }else{
+//   dispatch(getPostByIdAction(postId, token))
+//     dispatch(fetchVotesByPostAction(postId))
+//     if(rdxPost || rdxVotes){
+//       setPost(rdxPost);
+//       setVotes(rdxVotes);
+//     }
 }
 },[catchedPost, catchedVotes])
+
+// console.log('catched post is:', catchedPost)
   useEffect(() => {
     const handleScroll = () => {
       if (!scrollRef.current) return
@@ -149,13 +152,13 @@ user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
 const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
     return (
-        <div  ref={scrollRef} className='fixed top-0 left-0 z-[999] hide-scrollbar w-screen h-screen overflow-y-auto bg-white'>
+        <div  ref={scrollRef} className='fixed top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto bg-white'>
            
           
 
           <Notification/>
             {/* <MasterNavber/> */}
-            {!loading && post ?<div className='lg:flex hide-scrollbar lg:h-screen  lg:overflow-hidden'>
+            { post ?<div className='lg:flex hide-scrollbar lg:h-screen  lg:overflow-hidden'>
                 {post?.createdBy?.handle === user?.handle ?<div>
 
         

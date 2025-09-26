@@ -12,6 +12,7 @@ import { getPostsAction } from "../store/actions/post";
 export default function AllPosts() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
+  
   const searchParams = useSearchParams();
   const pid = searchParams.get('pid'); // Check if URL has post id
 
@@ -36,7 +37,7 @@ export default function AllPosts() {
 
   const openPost = (post: any) => {
     setSelectedPost(post);
-    router.push(`/posts?pid=${post._id}`);
+    router.push(`/?pid=${post._id}`);
   };
 
   return (
@@ -44,8 +45,8 @@ export default function AllPosts() {
     <div className='w-screen px-4 lg:px-22'>
       <div className={`grid grid-cols-2 lg:grid-cols-5 gap-2 lg:gap-5`}>
         {!loading ? posts.map((post: any, index: number) => (
-          <div key={index} onClick={()=>openPost(post)}>
-            <PostCard  post={post}  />
+          <div key={index} >
+            <PostCard openPost= {openPost}  post={post}  />
 
           </div>
         )) : Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}

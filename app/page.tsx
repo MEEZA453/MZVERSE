@@ -16,6 +16,11 @@ import ConnectRazorpayButton from "./Components/ConnectWithRazorpay";
 import { useTheme } from "next-themes";
 import { useThemeContext } from "./Context/ThemeContext";
 import dynamic from "next/dynamic";
+import { useSelector } from "react-redux";
+import { getHighlight } from "./store/actions/Highlight";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "./store/store";
+import AllPosts from "./Components/AllPosts";
 
 export default function Feed() {
   const router = useRouter();
@@ -23,11 +28,13 @@ export default function Feed() {
   const { isNotification, setIsNotification , setNotification} = useNotification();
   const [isCart , setIsCart] = useState(false )
   const { user, loading } = useAuth();
+  const dispatch = useDispatch<AppDispatch>();
+  const { token } = useAuth();
   const {isLightMode} = useThemeContext() 
-  const AllPosts = dynamic(() => import("./Components/AllPosts"), {
-  ssr: false, // ensure this runs only on the client
-  loading: () => <p>Loading posts...</p>,
-});
+
+  const { highlight } = useSelector((state: any) => state.highlight);
+
+ 
   useEffect(() => {
     if (loading) return; // wait until user is loaded
     if (!user) {
@@ -105,15 +112,18 @@ useEffect(() => {
       {activeIndex === 0 && (
         <div>
           {/* <PhotographyOfTheDay p={photo[2]} /> */}
-          <Suspense fallback={<p>Loading...</p>}>
+    <Suspense>
+
           <PosterOfTheDay />
-          </Suspense>
+    </Suspense>
+   
           <Suspense fallback={<p>Loading...</p>}>
       <PromotionOfTheDay />
     </Suspense>
           <ConnectRazorpayButton/>
-
+<Suspense fallback={<p>Loading...</p>}>
           <AllPosts />
+</Suspense>
 
         </div>
       )}

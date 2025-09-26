@@ -17,7 +17,6 @@ export default function ImageShower({ images = [], isMobile = false , name , amo
 const router  = useRouter()
   const [activeIndex, setActiveIndex] = useState(0)
   const targetScroll = useRef(0)
-console.log(isMyProduct)
   // ---- Desktop Drag ----
   const handleMouseDown = (e: React.MouseEvent) => {
     isDragging.current = true

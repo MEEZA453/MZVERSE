@@ -20,7 +20,7 @@ export default function PromotionOfTheDay() {
   const { promotion, loading } = useSelector((state: any) => state.promotion)
 
   const searchParams = useSearchParams()
-  const pid = searchParams.get('pid')
+  const promo = searchParams.get('promo')
 
   // Overlay state
   const [post, setPost] = useState<any>(null)
@@ -61,14 +61,16 @@ export default function PromotionOfTheDay() {
   // Open post instantly and update URL
   const openPost = (promo: any) => {
     setPost(promo)
+    console.log('calleddata' , post)
     setVotes(promo.votes || [])
-    router.push(`/?pid=${promo._id}`)
+    router.push(`/?promo=${promo._id}`)
   }
 
   // Handle URL pid change (e.g., back button)
   useEffect(() => {
-    if (pid) {
-      const found = promotion.find((p: any) => p._id === pid)
+    if (promo) {
+      const found = promotion.find((p: any) => p._id === promo)
+      console.log('render data : ', found)
       if (found) {
         setPost(found)
         setVotes(found.votes || [])
@@ -77,7 +79,7 @@ export default function PromotionOfTheDay() {
       setPost(null)
       setVotes([])
     }
-  }, [pid, promotion])
+  }, [promo, promotion])
 
   return (
     <div className="relative lg:m-6 my-4">
@@ -135,7 +137,7 @@ export default function PromotionOfTheDay() {
       </div>
 
       {/* Overlay component */}
-      {(post || pid) && (
+      {(post || promo) && (
         <div>
 
          <Post catchedPost={post} catchedVotes={votes}/>
