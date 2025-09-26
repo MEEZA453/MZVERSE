@@ -21,7 +21,8 @@ export default function Useages({assetId , token, setPost, setVotes}){
       const openPost = (post: any) => {
     setPost(post)
     setVotes(post.votes || [])
-    router.push(`?uid=${post._id}`, { scroll: false })
+router.push(`/?pid=${assetId}&uid=${post._id}`, { scroll: false });
+
 
   }
 

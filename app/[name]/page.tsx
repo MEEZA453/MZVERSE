@@ -30,6 +30,7 @@ import FollowingList from '../Components/FollowingList'
 import WalletPage from '../Components/Wallet'
 import { useThemeContext } from '../Context/ThemeContext'
 import Post from '../Components/Post'
+import ProductPage from '../Components/ProductPage'
 export default function Account() {
 const dispatch = useDispatch<AppDispatch>();
 const {profileLink ,  authorId , handle , role , token} = useAuth()
@@ -37,6 +38,8 @@ const pathname = usePathname();
 const userHandle = pathname.split('/').pop();
 const [profileMenu , setProfileMenu] = useState(false) 
   const [activeIndex, setActiveIndex] = useState(2)
+        const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  
 const [isWallet  , setIsWallet] = useState(false)
 const [isMobile , setIsMobile ] = useState(false)
 const [followerWindow , setFollowerWindow] = useState(false)
@@ -191,6 +194,8 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
                  <Post catchedPost={post} catchedVotes={votes}/>
                 </div>
               )}
+                    {selectedProduct &&<Suspense> <ProductPage selectedProduct={selectedProduct}/> </Suspense>}
+              
       {/* <Notification/> */}
  <AnimatePresence>{ profileMenu ? isMobile ? <ProfileMenu setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {localProfile?.user?.role} setProfileMenu = {setProfileMenu} setIsWallet = {setIsWallet}/>: <ProfileMenuLg setIsWallet = {setIsWallet} setFollowingWindow ={setFollowingWindow} setFollowerWindow ={setFollowerWindow} role = {localProfile?.user?.role}  setProfileMenu = {setProfileMenu}/>:null}</AnimatePresence>
 
@@ -246,7 +251,7 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
  <div className={`${isDev ? 'w-[500vw]':'w-[300vw] '} flex duration-500`}style={{transform :`translate(${-activeIndex*100}vw)`}}>
 
 
- <Store/>
+ <Store setSelectedProduct={setSelectedProduct}/>
  <Suspense>
  <Favourites setPost={setPost} setVotes={setVotes}/>
 

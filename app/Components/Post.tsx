@@ -176,7 +176,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <ImageShower  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
         </section>
         <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[99] w-full bg-black`}></div>
-          <div className={`${isLightMode ? 'bg-white absolute  border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b  h-10 z-[100] w-screen px-2 absolute top-0 flex justify-between items-center`}>
+          <div className={`${isLightMode ? 'bg-white absolute  border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b  h-9 z-[100] w-screen px-2 absolute top-0 flex justify-between items-center`}>
              <div className='flex items-center gap-5'>
                             <button onClick={()=> router.back()}>
                        <IoIosArrowBack  color={isLightMode ? 'black': 'white'} size={17} />

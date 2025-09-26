@@ -161,7 +161,7 @@ setNotification('')
 
     return <div className="w-screen flex justify-center "><AnimatePresence>
 
-        {notification !== ''?<motion.div initial ={{y : -60}} animate= {{y : 0}} transition={{duration : 0.3 , ease : 'easeInOut'}} exit={{y : -60}} className="w-[97%] lg:w-90 px-2 items-center fixed top-2 z-[9999] h-fit py-1 flex justify-between  rounded bg-white">
+        {notification !== ''?<motion.div initial ={{y : -60}} animate= {{y : 0}} transition={{duration : 0.3 , ease : 'easeInOut'}} exit={{y : -60}} className="w-[97%] lg:w-90 px-2 items-center fixed top-2 z-[9999] h-fit py-1 flex justify-between  rounded bg-[#ededed]">
 <div className="flex gap-3">
 <div className="h-9 w-9  rounded-lg flex items-center justify-center text-black text-[18px] bg-black/20" >{currentNotification.profile}</div>
 <div className="mt-0.5"><h5 style={{fontSize : 14, fontWeight : 300}} className="text-black">{currentNotification.headline}</h5>{currentNotification.subline && <p style={{fontSize : 12 , lineHeight : 0.8}}>{currentNotification.subline}</p>}</div>

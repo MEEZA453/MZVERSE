@@ -1,29 +1,33 @@
 'use client'
-import MasterNavber from '../Components/MasterNavber';
-import {useRouter , usePathname} from 'next/navigation';
+import MasterNavber from './MasterNavber';
+import {useRouter , usePathname, useSearchParams} from 'next/navigation';
 import Image from 'next/image';
 import {Product} from '../types/Product';
-import {useEffect, useState} from 'react'
-import Notification from '../Components/Notification';
-import Loading from '../Components/loading'
+import {Suspense, useEffect, useState} from 'react'
+import Notification from './Notification';
+import Loading from './loading'
 
 import { MdOutlineAttachFile } from "react-icons/md";
 import { AppDispatch } from '../store/store';
 import { useDispatch } from 'react-redux';
 import { getDesign } from '../store/actions/design';
 import { useSelector } from 'react-redux';
-import StoreCard from '../Components/StoreCard';
+import StoreCard from './StoreCard';
 import { VscUnlock } from "react-icons/vsc";
-import { SkeletonCard } from '../Components/Skeleton/SkeletonCard';
+import { SkeletonCard } from './Skeleton/SkeletonCard';
 import { useAuth } from '../Context/AuthContext';
-import { SkeletonMyPostCard } from '../Components/Skeleton/SkeletomMyPostCard';
+import { SkeletonMyPostCard } from './Skeleton/SkeletomMyPostCard';
+import ProductPage from './ProductPage';
 export default function AllAssets() {
   const currentPath  = usePathname();
    const [unlock, setUnlock] = useState(false)
 
   const router = useRouter();
   const [red , setRed ] = useState(false)
-
+  const {items , loading} = useSelector((state: any) => state.design);
+  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const searchParams = useSearchParams();
+  const pid = searchParams.get('pid');
   const {token}  = useAuth()
 
   const dispatch: AppDispatch = useDispatch();
@@ -37,6 +41,21 @@ export default function AllAssets() {
     fetchData();
 
   }, [dispatch , token]);
+  useEffect(() => {
+    if (pid && items.length > 0) {
+      const found = items.find((p: any) => p._id === pid);
+      if (found) setSelectedProduct(found);
+    } else {
+      setSelectedProduct(null);
+    }
+  }, [pid, items]);
+
+  const openProduct = (product: any) => {
+    setSelectedProduct(product);
+    router.push(`/?pid=${product._id}`);
+  };
+
+
 useEffect(() => {
   if (!unlock) {
     document.body.style.overflow = "hidden"; // lock scroll
@@ -48,7 +67,6 @@ useEffect(() => {
     document.body.style.overflow = "auto"; // cleanup
   };
 }, [unlock]);
-  const {items , loading} = useSelector((state: any) => state.design);
 
   return (
     <div className='w-screen px-4 mt-10 lg:px-22'>
@@ -64,7 +82,7 @@ useEffect(() => {
       {   !loading ? <div className='lg:grid-cols-5 lg:gap-5 gap-2   grid-cols-2 grid'>
            {items?.map((product:any, index:number) => (
              <div key={index}>
-     <StoreCard   product={product}/>
+     <StoreCard openProduct = {openProduct}  product={product}/>
      </div>
            ))}
          </div> : <div className="lg:grid-cols-5 lg:gap-5 gap-1   grid-cols-2 grid">
@@ -72,7 +90,7 @@ useEffect(() => {
                  <SkeletonMyPostCard key={i} />
                ))}
              </div>}
-
+      {selectedProduct &&<Suspense> <ProductPage selectedProduct={selectedProduct}/> </Suspense>}
     </div>
   );
 }

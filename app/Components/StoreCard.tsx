@@ -5,26 +5,25 @@ import { useRouter } from "next/navigation";
 import { useTheme } from "styled-components";
 import { useThemeContext } from "../Context/ThemeContext";
 import Link from "next/link";
-export default function PostCard({product}){
+export default function PostCard({product, openProduct}){
   const {isLightMode} = useThemeContext()
       const currentPath  = usePathname  ();
   
       const router = useRouter()
-    const handleClick = (path : string):void=>{
-        router.push(`/AllAssets/${path}`)
-      }
+   
     return        <div className="mb-2" > <div
         
-            onClick={()=>handleClick(product?._id)}
+           
             className={`group relative flex flex-col items-center  justify-center overflow-hidden ${isLightMode?'card-light':'card-dark'} border rounded h-30 w-[43vw] lg:w-full  lg:h-100 min-h-[200px]`}
           >
           {/* <div className="absolute pointer-events-none w-full h-20 bg-gradient-to-t from-black to-[#00000000] z-[0] bottom-0"></div> */}
           
 
 {product?.image && product?.image?.length > 0 ? (
- <Link href={`/AllAssets/${product._id}`} prefetch>
+
           
               <Image
+              onClick={()=>openProduct(product)}
                 height={300}
                 width={300}
                 alt={product?.name || "Asset"}
@@ -33,7 +32,7 @@ export default function PostCard({product}){
                 priority
               />
            
-          </Link>
+    
 ) :null}
 
             {/* <div className="   absolute bottom-0 bg-white/40 flex h-6 px-2 justify-between items-center w-full  z-100  duration-200 ">

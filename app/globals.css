@@ -150,7 +150,7 @@ color : rgb(159, 159, 159);
 }
 h3 {
   font-family: var(--font-inter), sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 13.5px;
   line-height: 2ch;
 
@@ -163,7 +163,7 @@ h3 {
 
 label {
   font-family: var(--font-inter), sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing : -0px;
   height : fit-content; 
   border-radius : 1.5px;

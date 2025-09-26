@@ -127,11 +127,11 @@ const router  = useRouter()
           <div
             key={i}
             data-index={i}
-            className={`flex-shrink-0 w-screen pointer-events-none  h-[55vh] snap-center flex items-center justify-center lg:w-[40vw] lg:h-[50vh] lg:h-fit ${
+            className={`flex-shrink-0 w-screen pointer-events-none  h-[55vh] snap-center flex items-start justify-center lg:w-[40vw] lg:h-[50vh] lg:h-fit ${
               i === images.length - 1 ? "" : ""
             }`}
           >
-            <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="w-[85vw] h-[55vh]  object-cover" />
+            <Image src={img} alt={`image-${i}`} width={1200} height={1200} className=" h-[48vh]  w-full  object-cover" />
           </div>
         ))}
       </div>

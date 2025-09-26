@@ -6,7 +6,7 @@ import PosterOfTheDay from "./Components/PosterOfTheDay"
 import PromotionOfTheDay from './Components/PromotionOfTheDay';
 // import AllPosts from "./Components/AllPosts";
 import { Suspense, useEffect, useState } from "react";
-import AllAssets from "./AllAssets/page";
+import AllAssets from "./Components/AllAssets";
 import { useAuth } from "./Context/AuthContext";
 import Notification from "./notification/page";
 import { useNotification } from "./Context/Notification";
