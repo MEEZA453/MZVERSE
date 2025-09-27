@@ -23,6 +23,7 @@ import ApproveAttachNotification from "../Components/ApproveAttachNotification"
 import OrderCreatedNotification from "../Components/OrderCreatedNotification"
 import MoneyReceivedNotification from "../Components/MoneyReceivedNotification"
 import { useThemeContext } from "../Context/ThemeContext"
+import { BsThreeDots } from "react-icons/bs"
 export default function Notification () {
   const {setIsNotification} = useNotification()
     const {token} = useAuth()
@@ -66,20 +67,20 @@ useEffect(()=>{
     return () => window.removeEventListener("resize", checkScreen)
   }, [])
 
-    return <motion.div    className={`w-screen fixed top-0 right-0 ${isLightMode ? 'bg-white':'bg-black'} overflow-y-scroll hide-scrollbar h-screen px-2 z-[999] lg:w-120`}>
+    return <motion.div    className={`w-screen fixed top-0 right-0 ${isLightMode ? 'bg-[#f4f4f4]':'bg-black'} overflow-y-scroll hide-scrollbar h-screen px-2 z-[999] lg:w-120`}>
  <div className='w-full flex justify-between lg:w-[23vw] items-center px-0 z-[100] my-4 '>
-              <div className='flex gap-1 items-center justify-center'>
+              <div className='flex gap-0.5 items-center justify-center'>
               <button onClick={()=> setIsNotification(false)}>
                 <IoIosArrowBack size={20} />
                 
                 </button>
               <h4 >Notifications</h4></div>
-    
+    <BsThreeDots/>
             </div>
 
              { loading ?  (
-  Array.from({ length: 4 }).map((_, i) => <SkeletonNotification key={i} />)
-): <div className=" ">{
+  Array.from({ length: 5 }).map((_, i) => <SkeletonNotification key={i} />)
+): <div className=" flex  flex-col gap-1">{
   localItems?.map((noti: any, index: number) => {
     return (
       <div key={index}>

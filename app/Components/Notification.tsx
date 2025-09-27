@@ -37,7 +37,7 @@ const notificationState = {
       
         text : 'Join now'
     } },
- voteSubmit : {headline : 'Vote Submitted Successfully..' , subline : 'tap to view the list.' , profile : <LiaVoteYeaSolid /> ,  button : {
+ voteSubmit : {headline : 'Vote Submitted Successfully' , subline : 'tap to view the list.' , profile : <LiaVoteYeaSolid /> ,  button : {
         action : null,
         text : 'Join now'
     } },

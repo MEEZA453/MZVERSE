@@ -7,6 +7,7 @@ import { useThemeContext } from "../Context/ThemeContext";
 import Link from "next/link";
 export default function PostCard({product, openProduct}){
   const {isLightMode} = useThemeContext()
+
       const currentPath  = usePathname  ();
   
       const router = useRouter()
@@ -34,8 +35,8 @@ export default function PostCard({product, openProduct}){
            
     
 ) :null}
-
-            {/* <div className="   absolute bottom-0 bg-white/40 flex h-6 px-2 justify-between items-center w-full  z-100  duration-200 ">
+  <div className="absolute pointer-events-none w-full h-50 bg-gradient-to-b from-[#00000070] to-[#00000000] z-[50] top-0"></div>
+            <div className="   absolute bottom-0 bg-white/80 flex h-6 px-2 justify-between items-center w-full  z-100  duration-200 ">
                         <div className="flex items-center  gap-1">
                 
               <div>
@@ -46,7 +47,7 @@ export default function PostCard({product, openProduct}){
                        
                         </div>
                        
-                      </div> */}
+                      </div>
 
                         <div className="flex absolute top-1 px-1  w-full items-center justify-between">
 
@@ -64,8 +65,8 @@ export default function PostCard({product, openProduct}){
             
             </Link></button>  
               <div>
-                          <h3 className='mt-2'>{product.name}  </h3>
-                          <p style={{fontSize : '12px'}} className=''>@{product?.postedBy?.handle}  </p>
+                          {/* <h3 className='mt-2'>{product.name}  </h3> */}
+                          <h3 style={{fontSize : '12px', color : 'white'}}  className='mix-blend-difference'>@{product?.postedBy?.handle}  </h3>
           
           
               </div>
@@ -73,7 +74,7 @@ export default function PostCard({product, openProduct}){
                         </div>
                         
                       </div>
-             <label className="bg-white text-black px-1.5 flex items-center justify-center py-2.5 " style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
+             <label  className={`bg-white text-black px-1.5 z-[100] flex items-center justify-center py-2.5  `} style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
                         }}>{product?.amount ? '$':null}{product?.amount || 'free'}</label>
           </div>
             </div>

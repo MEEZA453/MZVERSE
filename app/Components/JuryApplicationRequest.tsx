@@ -25,13 +25,13 @@ export default function JuryApplicationRequest ({ noti }) {
   }
 
   return (
-    <div className={`${fullNotification ? 'h-40' : 'h-12'} relative duration-300 w-full ${isLightMode ? 'bg-[#ededed]': 'bg-[#151515]'} mb-0.5 rounded  px-2`}>
+    <div className={`${fullNotification ? 'h-40' : 'h-12'} relative duration-300 w-full ${isLightMode ? 'bg-white': 'bg-[#151515]'} mb-0.5 rounded  px-2`}>
       <div className=" flex items-center justify-between  gap-1 ">
         <div className="flex items-center gap-1">
           <Image src={noti?.sender?.profile || '/image.png'} width={100} height={100} alt='profile' className='w-10 rounded-full h-10'/>
           <div>
             <div className="flex gap-1">
-              <h6>@{noti?.sender?.handle}</h6>
+              <h6 style={{fontWeight : 500}}>@{noti?.sender?.handle}</h6>
               <h6>{noti?.type === "jury_removal_request" ? 'wants step off as jury':'applid for jury'}</h6>
             </div>
           </div>
@@ -48,16 +48,16 @@ export default function JuryApplicationRequest ({ noti }) {
       <p className={`${fullNotification ? 'opacity-100':'opacity-0'} flex px-2 mt-2 duration-200 delay-100`}>{noti.message}</p>
 
       <div className={`mt-6 w-full ${fullNotification ? 'opacity-100':'opacity-0'} duration-200 delay-100 flex gap-1 `}>
-        <button 
+        <button style={{borderColor : isLightMode ? 'black':'white'}}
           onClick={() => handleApprove(true)} 
-          className="px-2 w-full flex items-center justify-center h-6 text-center mt-1 border border-white text-[14px] rounded-[2px]"
+          className="px-2 w-full flex items-center justify-center h-6 text-center mt-1 border text-[14px] rounded-[2px]"
         >
           Approve
         </button>
 
-        <button 
+        <button style={{borderColor : isLightMode ? 'black':'white'}}
           onClick={() => handleApprove(false)} 
-          className="px-2 w-full flex items-center justify-center h-6 text-center mt-1 text-white text-[14px] rounded-[2px] border border-white"
+          className="px-2 w-full flex items-center justify-center h-6 text-center mt-1 text-white text-[14px] rounded-[2px] border"
         >
           Reject
         </button>
