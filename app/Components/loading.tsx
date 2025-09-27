@@ -4,50 +4,41 @@ import styled from 'styled-components';
 const Loading = () => {
   return (
     <StyledWrapper className=' h-60 w-screen lg:w-full flex items-center justify-center'>
-      <svg viewBox="25 25 50 50">
-        <circle r={10} cy={50} cx={50} />
-      </svg>
+      <div className="loader" />
     </StyledWrapper>
   );
 }
 
 const StyledWrapper = styled.div`
-  svg {
-   width: 3.25em;
-   transform-origin: center;
-   animation: rotate4 2s linear infinite;
+  .loader {
+    border: 2px solid rgba(0, 0, 0, .1);
+    border-left-color: transparent;
+    border-radius: 50%;
   }
 
-  circle {
-   fill: none;
-   stroke: hsl(0, 0%, 70%);
-   stroke-width: 2;
-   stroke-dasharray: 1, 200;
-   stroke-dashoffset: 0;
-   stroke-linecap: round;
-   animation: dash4 1.5s ease-in-out infinite;
+  .loader {
+    border: 4px solid rgba(0, 0, 0, .1);
+    border-left-color: transparent;
+    width: 18px;
+    height: 18px;
   }
 
-  @keyframes rotate4 {
-   100% {
-    transform: rotate(360deg);
-   }
+  .loader {
+    border: 2px solid rgba(0, 0, 0, .6);
+    border-left-color: transparent;
+    width: 20px;
+    height: 20px;
+    animation: spin89345 1.5s linear infinite;
   }
 
-  @keyframes dash4 {
-   0% {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-   }
+  @keyframes spin89345 {
+    0% {
+      transform: rotate(0deg);
+    }
 
-   50% {
-    stroke-dasharray: 90, 200;
-    stroke-dashoffset: -35px;
-   }
-
-   100% {
-    stroke-dashoffset: -125px;
-   }
+    100% {
+      transform: rotate(360deg);
+    }
   }`;
 
 export default Loading;

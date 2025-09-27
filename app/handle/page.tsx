@@ -24,7 +24,7 @@ export default function Handle() {
   // Conditions
   const containsValidChars =handle.length > 0 &&  /^[a-zA-Z0-9._]+$/.test(handle)
   const noStartEndPeriod = handle.length > 0 && !/^\./.test(handle) && !/\.$/.test(handle)
-  const maxLength =handle.length > 0 &&  handle.length <= 12
+  const maxLength =handle.length > 0 &&  handle.length <= 15
   const allLowercase = handle.length > 0 && handle === handle.toLowerCase()
   const hasLetter = handle.length > 0 && /[a-zA-Z]/.test(handle)
   const minLength = handle.length > 0 && handle.length >= 3
@@ -123,9 +123,9 @@ export default function Handle() {
               <p>Contains only letters, numbers, underscores and periods</p>
              <div
                 className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
-                style={{ opacity: minLength ? 1 : 0.3 }}
+                style={{ opacity: containsValidChars ? 1 : 0.3 }}
               >
-                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={12} />
               </div>
             </div>
 
@@ -133,9 +133,9 @@ export default function Handle() {
               <p>Does not start or end with a period</p>
               <div
                 className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
-                style={{ opacity: minLength ? 1 : 0.3 }}
+                style={{ opacity: noStartEndPeriod ? 1 : 0.3 }}
               >
-                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={12} />
               </div>
             </div>
 
@@ -143,9 +143,9 @@ export default function Handle() {
               <p>Only lowercase letters</p>
               <div
                 className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
-                style={{ opacity: minLength ? 1 : 0.3 }}
+                style={{ opacity: allLowercase ? 1 : 0.3 }}
               >
-                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={12} />
               </div>
             </div>
 
@@ -153,9 +153,9 @@ export default function Handle() {
               <p>Contains at least one letter</p>
             <div
                 className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
-                style={{ opacity: minLength ? 1 : 0.3 }}
+                style={{ opacity: hasLetter ? 1 : 0.3 }}
               >
-                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={12} />
               </div>
             </div>
 
@@ -165,17 +165,17 @@ export default function Handle() {
                 className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
                 style={{ opacity: minLength ? 1 : 0.3 }}
               >
-                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={12} />
               </div>
             </div>
 
             <div className="flex w-full mt-1 justify-between">
-              <p>Maximum 12 characters</p>
+              <p>Maximum 15 characters</p>
               <div
                 className={`${isLightMode ? 'bg-black':'bg-white'} oporate rounded-full h-4 w-4 flex items-center justify-center`}
-                style={{ opacity: minLength ? 1 : 0.3 }}
+                style={{ opacity: maxLength ? 1 : 0.3 }}
               >
-                <FiCheck color={isLightMode ? 'white' :'black'} size={13} />
+                <FiCheck color={isLightMode ? 'white' :'black'} size={12} />
               </div>
             </div>
           </div>
