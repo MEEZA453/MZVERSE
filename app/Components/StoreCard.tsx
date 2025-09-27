@@ -35,7 +35,7 @@ export default function PostCard({product, openProduct}){
            
     
 ) :null}
-  <div className="absolute pointer-events-none w-full h-50 bg-gradient-to-b from-[#00000070] to-[#00000000] z-[50] top-0"></div>
+  <div className="absolute pointer-events-none w-full h-40 bg-gradient-to-b from-[#fffffff] to-[#00000000] z-[50] top-0"></div>
             <div className="   absolute bottom-0 bg-white/80 flex h-6 px-2 justify-between items-center w-full  z-100  duration-200 ">
                         <div className="flex items-center  gap-1">
                 
@@ -44,7 +44,7 @@ export default function PostCard({product, openProduct}){
           
           
               </div>
-                       
+                           <p style={{fontSize : '10px', color : 'black'}}>by @meeza</p>    
                         </div>
                        
                       </div>
@@ -52,32 +52,28 @@ export default function PostCard({product, openProduct}){
                         <div className="flex absolute top-1 px-1  w-full items-center justify-between">
 
   <div className="     flex justify-between items-center w-full pr-3 z-100  duration-200 ">
-                        <div className="flex items-center  gap-1">
-                          <button onClick={()=>router.push('/'+product?.postedBy?.handle)}><Link href={`/${product?.postedBy?.handle}`} prefetch>
-            
-                <Image
-                  height={300}
-                  width={300}
-                  alt={product?.postedBy?.handle || "profile"}
-                  src={product?.postedBy?.profile || "/image.png"}
-                  className="h-6 w-6 rounded-full object-cover"
-                />
-            
-            </Link></button>  
-              <div>
-                          {/* <h3 className='mt-2'>{product.name}  </h3> */}
-                          <h3 style={{fontSize : '12px', color : 'white'}}  className='mix-blend-difference'>@{product?.postedBy?.handle}  </h3>
-          
-          
-              </div>
-                           {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
-                        </div>
-                        
+                       
+                
                       </div>
-             <label  className={`bg-white text-black px-1.5 z-[100] flex items-center justify-center py-2.5  `} style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
+             <label  className={`${isLightMode ? 'bg-black text-white':'bg-white text-black'} px-1.5 z-[100] flex items-center justify-center py-2.5  `} style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
                         }}>{product?.amount ? '$':null}{product?.amount || 'free'}</label>
           </div>
             </div>
           
           </div>
 }
+//  <div className="flex items-center  gap-1">
+//                           <button onClick={()=>router.push('/'+product?.postedBy?.handle)}><Link href={`/${product?.postedBy?.handle}`} prefetch>
+            
+//                 <Image
+//                   height={300}
+//                   width={300}
+//                   alt={product?.postedBy?.handle || "profile"}
+//                   src={product?.postedBy?.profile || "/image.png"}
+//                   className="h-6 w-6 rounded-full object-cover"
+//                 />
+            
+//             </Link></button>  
+//                    <p style={{fontSize : '10px', color : 'black'}}>@meeza</p>
+//                            {/* <label className='bg-[#d4d4d4] text-black text-[13px] leading-4 px-1 '>${product.amount}</label> */}
+//                         </div>
