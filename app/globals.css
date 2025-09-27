@@ -3,7 +3,7 @@
 
 :root {
   --text-primary: #000000;
-  --text-secondary: #4d4d4d;
+  --text-secondary: black;
   --bg-primary: #ffffff;
     --input-bg: #ededed;
   --border-color: #dadada;  /* light mode border */
@@ -12,7 +12,7 @@
 
 .dark {
   --text-primary: #ffffff;
-  --text-secondary: #a9a9a9;
+  --text-secondary: white;
   --bg-primary: #0d0d0d;
     --input-bg: #101010;
   --border-color: #333333;  /* dark mode border */
@@ -145,7 +145,7 @@ p {
   font-weight: 400;
   font-size: 13.5px;
   line-height: 2ch;
-color : rgb(159, 159, 159);
+ opacity: 0.66;
 
 }
 h3 {

@@ -388,7 +388,7 @@ const handleBuyNow = async () => {
 
               </div>
               <div className={`px-2 duration-200 delay-200`}>{section.content.map((el , i)=>{
-                return <p style={{color: 'black'}} className='mb-1' key={i}>- {el}</p>
+                return <p style={{}} className='mb-0.5' key={i}>- {el}</p>
               })}</div>
             </div>
           })}
