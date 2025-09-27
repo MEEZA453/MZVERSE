@@ -93,13 +93,12 @@ export default function Handle() {
             type="text"
             name="id"
             value={handle}
+              style={{border : error ?'1px solid red':'0px'}}
             placeholder="Enter your handle..."
             onChange={(e) => setHandle(e.target.value)}
             onFocus={() => setFocused(true)}   // ✅ move up
             onBlur={() => setFocused(false)}   // ✅ reset back
-            className={`flex-1 w-full mb-2 ${isLightMode ? 'bg-[#ededed]':'bg-[#131313]'} ${
-              error ? 'border border-red-600/50' : 'border border-red-600/0'
-            } px-2 py-1 outline-none`}
+            className={`flex-1 w-full mb-2  px-2 py-1 outline-none`}
           />
 
           <button
@@ -107,7 +106,7 @@ export default function Handle() {
                style={{color : isLightMode ? 'white':'black'}}
             className={`px-2 w-full flex items-center ${isLightMode ? 'bg-black':'bg-white'} justify-center h-6 text-center   text-[14px] rounded-[2px]`}
           >
-            {loading ? <ButtonLoader /> : 'Continue'}
+            {loading ? <ButtonLoader color={isLightMode ? "rgba(255, 255, 255, 0.6)":'rgba(0, 0, 0, 0.6)'} /> : 'Continue'}
           </button>
 
           <p

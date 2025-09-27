@@ -98,15 +98,22 @@ html{
   background-color: #ededed;
   border-color: #dadada;
 }
-.tab-dark{
-  background-color: #dadada;
-  color: black;
+.tab-onOfDark{
+  background-color: white;
+  color: rgb(0, 0, 0);
 }
-.tab-light{
-  background-color:black ;
-  color: #dadada;
+.tab-offOfDark{
+  background-color: #1d1d1d ;
+  color: rgb(255, 255, 255);
 }
-
+.tab-offOfLight{
+  background-color:#ededed ;
+  color: rgb(0, 0, 0);
+}
+.tab-onOfLight{
+  background-color:rgb(0, 0, 0) ;
+  color: white;
+}
 h6 {
   font-family: var(--font-inter), sans-serif;
   font-weight: 400;
@@ -136,7 +143,7 @@ h1 {
   font-family: var(--font-inter), sans-serif;
   letter-spacing : -0.5px;
   font-weight: 200;
-  color : white;
+
   font-size: 26px;
 }
 

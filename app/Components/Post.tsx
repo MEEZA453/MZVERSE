@@ -152,7 +152,7 @@ user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
 const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
     return (
-        <div  ref={scrollRef} className='fixed top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto bg-white'>
+        <div style={{backgroundColor : isLightMode ?'white':'black'}}  ref={scrollRef} className='fixed  top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto '>
            
           
 
@@ -212,11 +212,11 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         width={100}
         alt="profile pic"
         src={vote?.user?.profile || "/image.png"}
-        className="h-6 w-6 rounded-full object-cover border-2 border-white"
+        className={`h-6 w-6 rounded-full object-cover border-2 ${isLightMode?'border-white':'border-black'}`}
       />
     </div>
   ))}
-  <div  className="h-6 w-6 rounded-full bg-black flex items-center justify-center border-2 text-white -ml-2 font-[inter-light] border-white">+</div>
+  <div  className={`h-6 w-6 rounded-full  flex items-center justify-center border-2  -ml-2 font-[inter-light] ${isLightMode?'border-white bg-black text-white':'border-black bg-white text-black'}`}>+</div>
 </div>
 </div>
 </div>
@@ -226,7 +226,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
     return <div key={index} className='score px-1  mb-1'>
               
                 <div className=''>
-                <div className='overall b border-b border-[#dadada] w-full h-5 pr-1 flex items-center justify-between  relative'>
+                <div className={`overall b border-b ${isLightMode ? 'border-[#dadada]':'border-[#4d4d4d]'} w-full h-5 pr-1 flex items-center justify-between  relative`}>
                     <h3   className='z-10 ml-2'>{field}:</h3>
                     <h3 >{averages[field]}  </h3>
                     {/* <motion.div    
@@ -241,8 +241,8 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
 })}
 
-             <div  className='score bg-[#f4f4f4]  w-full h-6 flex items-center pr-2 mt-4 justify-between  relative'>
-                    <h3  style={{color: isLightMode ? 'white': 'black'  , fontWeight : '200'}}  className={`z-10 ml-2 mix-blend-difference`}>Score:</h3>
+             <div  className={`score ${isLightMode ?'bg-[#f4f4f4]':'bg-[#1d1d1d]'}  w-full h-6 flex items-center pr-2 mt-4 justify-between  relative`}>
+                    <h3  style={{  fontWeight : '200'}}  className={`z-10 ml-2 mix-blend-difference`}>Score:</h3>
                     <h3 className="">
     {<AnimatedNumber value ={totalAvg}/>}/10
 </h3>

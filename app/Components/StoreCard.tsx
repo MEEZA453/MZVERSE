@@ -40,7 +40,7 @@ export default function PostCard({product, openProduct}){
                         <div className="flex items-center  gap-1">
                 
               <div>
-                          <h3 >{product.name || 'My post'}  </h3>
+                          <h3  style={{color :'black'}}>{product.name || 'My post'}  </h3>
           
           
               </div>

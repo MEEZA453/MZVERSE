@@ -18,6 +18,7 @@ import { RxCross1 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { useNotification } from "../Context/Notification";
 import { useThemeContext } from "../Context/ThemeContext";
+import ButtonLoaderWhite from "../Components/ButtonLoaderWhite";
 
 export default function CreateProduct() {
   const currentData = useSelector((state: any) => state.design.editProduct);
@@ -227,7 +228,9 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         <aside className={`flex flex-col items-center  border ${isLightMode ? 'border-[#dadada]':'border-[#1d1d1d]'} rounded-xl py-7 overflow-y-auto`}>
 <div className="name flex gap-2 relative w-full px-2">
     <div className="w-3/4"><h6>Name:</h6>
-<input value={name} onChange={(e)=> setName(e.target.value)} className={`py-1 mt-1 px-2 border-[#2c2b2b] border bg-[#101010] ${error.nameError ?  'border border-red-500/50':null} rounded-[2px] w-full `}/>
+<input       style={{
+  border: error.nameError ? '1px solid rgba(255, 0, 0, 0.5)' : null
+}} value={name} onChange={(e)=> setName(e.target.value)} className={`py-1 mt-1 px-2  rounded-[2px] w-full `}/>
     </div>
 <div  className="w-1/4"><h6>Amount:</h6>
 <input
@@ -236,9 +239,10 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   onChange={(e) =>
     setAmount(e.target.value === "" ? "" : Number(e.target.value))
   }
-  className={`py-1 mt-1 px-2 border-[#2c2b2b] border bg-[#101010] ${
-    error.amountError ? "border border-red-500/50" : ""
-  } rounded-[2px] w-full `}
+        style={{
+  border: error.amountError ? '1px solid rgba(255, 0, 0, 0.5)' : null
+}}
+  className={`py-1 mt-1 px-2  rounded-[2px] w-full `}
 />
     </div>
 </div>
@@ -250,9 +254,12 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
   </div>
   <input type="url" size ={20} 
+        style={{
+  border: error.urlError ? '1px solid rgba(255, 0, 0, 0.5)' : null
+}}
   value={url}
   onChange={(e)=>setUrl(e.target.value)}  
-      className={`py-1 px-2 border-[#2c2b2b] border-l-0 border bg-[#101010] ${error.urlError ?  'border  border-red-500/50':null} rounded-[2px] w-full `}/>
+      className={`py-1 px-2   rounded-[2px] w-full `}/>
 </div>
           <div className='details'>
        
@@ -260,8 +267,8 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
                     <div className={`heading w-screen lg:w-[30vw] flex justify-between ${isLightMode ? 'bg-[#dadada]':'bg-[#1d1d1d]'} my-2 py-1 px-3`}>
                   <h5 className=''>Add title</h5>
                   <div className="flex gap-1 ">
-                    <button style={{color : isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'black':'white'}} className=" rounded-full text-black h-5 w-5 items-center  flex justify-center"  type="button" onClick={addSections}><GoPlus size={17}/></button>
-                    <button style={{color : isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'black':'white'}}  className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center" type = "button" onClick={deleteSection}><LuMinus size={14}/></button>
+                    <button style={{color : !isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'white':'black'}} className=" rounded-full text-black h-5 w-5 items-center  flex justify-center"  type="button" onClick={addSections}><GoPlus size={17}/></button>
+                    <button style={{color : !isLightMode ?'white':'black' , backgroundColor : isLightMode ? 'white':'black'}}  className="bg-white/70 rounded-full text-black h-5 w-5 items-center  flex justify-center" type = "button" onClick={deleteSection}><LuMinus size={14}/></button>
 
                   </div>
                     </div>
@@ -274,7 +281,10 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 
      <div className="title-input items-center flex gap-1 w-full">
     <input
-    className={`py-1 mt-1 mr-2 px-2 w-[90%]  border-[#2c2b2b] mb-2 border bg-[#101010] ${error.sectionsError[sectionIndex]?.title ?  'border border-red-500/50':null} rounded-[2px] `}
+        style={{
+  border: error.sectionsError[sectionIndex]?.title ? '1px solid rgba(255, 0, 0, 0.5)' : null
+}}
+    className={`py-1 mt-1 mr-2 px-2 w-[90%]  border-[#2c2b2b] mb-2  rounded-[2px] `}
      value={section.title}
      onChange={(e) => {
          const updated = [...sections];
@@ -290,6 +300,9 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
                         key={contentIndex}>
                         <h3 className="mb-1">Content</h3>
                   <textarea 
+                   style={{
+  border:  error.sectionsError[sectionIndex]?.content[contentIndex] ? '1px solid rgba(255, 0, 0, 0.5)' : null
+}}
                    className={`py-1 px-2 mb-1 border-[#2c2b2b]  border bg-[#101010] ${error.sectionsError[sectionIndex]?.content[contentIndex]?  'border  border-red-500/50':null} rounded-[2px] w-full `}
               
                     value={cont}
@@ -357,7 +370,7 @@ const formSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
                        <TagInput error={error.hashtagsError} hashtags={hashtags} setHashtags={setHashtags} />
             
           </div>
-  <button type="submit" className=" text-black flex mb-8 mt-4 w-[97%] h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ? <ButtonLoader /> : currentData ? 'Update' : 'Share'}</button>
+  <button style={{color : isLightMode ? 'white':'black' , backgroundColor : isLightMode ?'black':'white'}} type="submit" className=" text-black flex mb-8 mt-4 w-[97%] h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ? <ButtonLoader  color={isLightMode ? "rgba(255, 255, 255, 0.6)":'rgba(0, 0, 0, 0.6)'} /> : currentData ? 'Update' : 'Share'}</button>
         </aside>
       </div>
 

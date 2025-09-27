@@ -2,13 +2,14 @@
 import React, { useRef, useEffect , useState  } from "react";
 import {useRouter} from 'next/navigation'
 import JoinCommunityInput from '../Components/JoinCommunity'
+import { useThemeContext } from "../Context/ThemeContext";
 export default function InteractiveGrid() {
   const router = useRouter()
   const [isMobile , setIsMobile]  = useState(false)
   const GRID_SIZE = isMobile ? 20 : 8;
   const bgRef = useRef<HTMLDivElement | null>(null);
-  
-
+  const {isLightMode} = useThemeContext()
+ 
   const targetedImages: { row: number; col: number; src: string; alt?: string }[] = [
     { row: 1, col: 3, src: "/nostalogia.webp", alt: "Nostalogia" },
     { row: 2, col: 1, src: "/wanted.webp", alt: "Nostalogia" },
@@ -63,8 +64,8 @@ useEffect(() => {
 
   return (
     <div className="h-screen w-screen  sticky top-0  overflow-hidden">
-      <div className="absolute w-screen h-80 bg-gradient-to-t from-black to-[#00000000] bottom-0 z-[10]"></div>
-      <div className="absolute w-screen h-80 bg-gradient-to-b from-black to-[#00000000] top-0 z-[10]"></div>
+      <div className={`absolute w-screen h-80 bg-gradient-to-t ${isLightMode ?'from-white to-[#ffffff00]':'from-black to-[#00000000]'} bottom-0 z-[10]`}></div>
+      <div className={`absolute w-screen h-80 bg-gradient-to-b ${isLightMode ?'from-white to-[#ffffff00]':'from-black to-[#00000000]'} top-0 z-[10]`}> </div>
 
 
       <div

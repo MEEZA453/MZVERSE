@@ -79,6 +79,9 @@ const {isLightMode}  = useThemeContext()
     <div className="mt-2 ">
       <h3>Category:</h3>
       <input
+            style={{
+  border: error ? '1px solid rgba(255, 0, 0, 0.5)' : null
+}}
         type="text"
         readOnly
         value={formData.category || ""}
@@ -97,7 +100,9 @@ const {isLightMode}  = useThemeContext()
         initial ={{ y : -120 , scale : 0.95}}  animate = {{y : 0 , scale : 1}} transition={{duration : 0.1 }}
          className={`absolute top-0 hide-scrollbar lg:w-[50vw] lg:-translate-x-1/2 lg:left-1/2 -translate-y-1 lg:top-2 lg:h-102 z-[999] left-0 mt-1 w-full  border ${isLightMode ? 'border-[#dadada] bg-white':'border-[#2c2b2b] bg-[#1a1a1a]'} lg:rounded-md max-h-64 overflow-y-auto`}>
           {/* Search Input */}
-<input style={{backgroundColor: 'white', borderColor: 'white'}} type="text" placeholder=" Search category..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full p-2 outline-none text-sm" />
+<input 
+
+style={{backgroundColor: 'white', borderColor: 'white'}} type="text" placeholder=" Search category..." value={search} onChange={(e) => setSearch(e.target.value)} className="w-full p-2 outline-none text-sm" />
           {/* Panel: Parents OR Subcategories */}
           {!selectedParent ? (
             // ---- Parent List ----

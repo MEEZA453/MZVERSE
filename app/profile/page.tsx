@@ -163,7 +163,7 @@ export default function Profile() {
           style={{color : isLightMode ? 'white':'black', backgroundColor: isLightMode ? 'black':'white'}}
           className="px-2 w-full flex items-center justify-center h-6  mt-0  rounded-[2px]"
         >
-          {loading ? isLightMode ? <ButtonLoaderWhite/>:<ButtonLoader /> : "Continue"}
+          {loading ?<ButtonLoader color={isLightMode ? "rgba(255, 255, 255, 0.6)":'rgba(0, 0, 0, 0.6)'}/> : "Continue"}
         </button>
       </form>
     </div>

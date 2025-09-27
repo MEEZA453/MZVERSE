@@ -262,7 +262,7 @@ const handleBuyNow = async () => {
 };}
 
   return (
-    <div ref={scrollRef} className='fixed top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto bg-white'>
+    <div style={{backgroundColor : isLightMode ? 'white': 'black'}} ref={scrollRef} className='fixed top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto '>
 
   <Notification/>
        {/* <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/> */}
@@ -332,11 +332,11 @@ const handleBuyNow = async () => {
                                     width={100}
                                     alt="profile pic"
                                     src={post?.createdBy?.profile || "/image.png"}
-                                    className="h-6 w-6 rounded-full object-cover border-2 border-white"
+                                    className={`h-6 w-6 rounded-full object-cover border-2 ${isLightMode?'border-white':'border-black'}`}
                                   />
                                 </div>
                               ))}
-                              <div  className="h-6 w-6 rounded-full bg-black flex items-center justify-center border-2 text-white -ml-2 font-[inter-light] border-white">+</div>
+                              <div  className={`h-6 w-6 rounded-full bg-black flex items-center justify-center border-2 -ml-2 font-[inter-light] ${isLightMode?'border-white bg-black text-white':'border-black bg-white text-black'}`}>+</div>
                             </div>
                             </div>
 <div className='w-full mb-8 px-2'>
@@ -388,7 +388,7 @@ const handleBuyNow = async () => {
 
               </div>
               <div className={`px-2 duration-200 delay-200`}>{section.content.map((el , i)=>{
-                return <p style={{}} className='mb-0.5' key={i}>- {el}</p>
+                return <p style={{opacity}} className='mb-0.5' key={i}>- {el}</p>
               })}</div>
             </div>
           })}

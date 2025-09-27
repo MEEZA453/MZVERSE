@@ -210,9 +210,11 @@ const deleteField = (i: number) => {
       <input
         type="text"
         name="name"
-        
+       style={{
+  border: error.nameError ? '1px solid rgba(255, 0, 0, 0.5)' : null
+}}
         value={formData.name}
-        className={`py-1 mt-1 px-2 border-[#2c2b2b] border bg-[#101010] ${error.nameError ?  'border border-red-500/50':null} rounded-[2px] w-full `}
+        className={`py-1 mt-1 px-2 border-[#2c2b2b] border bg-[#101010] rounded-[2px] w-full `}
         onChange={handleChange}
         />
         </div>
@@ -261,7 +263,7 @@ const deleteField = (i: number) => {
 
 
 
-<CategorySelect formData = { formData} setFormData = {setFormData} error = {error}/>
+<CategorySelect formData = { formData} setFormData = {setFormData} error = {error.catagoryError}/>
 
 <div className="mt-2 ">
   <h3>Description:</h3>
@@ -275,7 +277,7 @@ const deleteField = (i: number) => {
 </div>
   
 
-     <button type="submit" style={{color: isLightMode ? 'white':'black' , backgroundColor:isLightMode ? 'black':'white'}} className=" text-black flex mb-8 mt-4 w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ? <ButtonLoader /> : editPost ? 'Update' : 'Share'}</button>
+     <button type="submit" style={{color: isLightMode ? 'white':'black' , backgroundColor:isLightMode ? 'black':'white'}} className=" text-black flex mb-8 mt-4 w-full h-7 items-center justify-center bg-white px-2.5 py-0.5 rounded-[2px] mx">{loading ? <ButtonLoader color={isLightMode ? "rgba(255, 255, 255, 0.6)":'rgba(0, 0, 0, 0.6)'} /> : editPost ? 'Update' : 'Share'}</button>
   </div>
 
     </form>

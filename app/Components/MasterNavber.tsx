@@ -97,7 +97,7 @@ useEffect(()=>{
         </div>
       </div>
 
-      <div className="top-0 py-1 bg-white fixed z-[700] lg:px-3 bottom  border-[#4d4d4d]  flex w-screen justify-between items-center">
+      <div  className={`top-0 py-1  fixed z-[700] lg:px-3 bottom  ${isLightMode ?'bg-white border border-[#dadada]':'bg-black border border-[#1d1d1d]'}  flex w-screen justify-between items-center`}>
 <Link href="/" prefetch>
   <button>
     <Image

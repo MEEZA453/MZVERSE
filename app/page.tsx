@@ -101,7 +101,7 @@ useEffect(() => {
             <button
               key={index}
               onClick={() => {setActiveIndex(index) }}
-              className={`rounded-full ${activeIndex === index ? isLightMode ? 'tab-light':'tab-dark' : isLightMode?'tab-dark':'tab-light'} items-center justify-center px-3 text-[14px] py-0.5`}
+              className={`rounded-full  ${activeIndex === index ?  isLightMode ? 'tab-onOfLight':'tab-onOfDark':isLightMode ? 'tab-offOfLight':'tab-offOfDark'} items-center justify-center px-3 text-[14px] py-0.5`}
             >
               {tab.name}
             </button>

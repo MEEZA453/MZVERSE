@@ -30,7 +30,9 @@ const {isLightMode}  = useThemeContext()
       <div className='flex items-center px-2 gap-2'>
         <input
           type="text"
-          
+           style={{
+  border: error ? '1px solid rgba(255, 0, 0, 0.5)' : null
+}}
           className={`py-1 mt-1 px-2 border-[#2c2b2b] border  bg-[#101010] ${error ?  'border border-red-500/50':null} rounded-[2px] w-[94%] `}
           placeholder="eg: texture"
           onChange={(e) => setInputTag(e.target.value)}

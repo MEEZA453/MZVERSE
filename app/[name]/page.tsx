@@ -242,7 +242,7 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
 
        <div className='flex gap-2 mt-10  overflow-x-scroll hide-scrollbar px-3'>
         {tabs.map((tab  , i)=>{
-          return <button onClick={()=>setActiveIndex(i)} className={`px-2 py-0.5 ${activeIndex === i ?  isLightMode ? 'tab-light':'tab-dark':isLightMode ? 'tab-dark':'tab-light'} flex items-center justify-center rounded-full text-[13px]`} key={i}>{tab}</button>
+          return <button onClick={()=>setActiveIndex(i)} className={`px-2 py-0.5 ${activeIndex === i ?  isLightMode ? 'tab-onOfLight':'tab-onOfDark':isLightMode ? 'tab-offOfLight':'tab-offOfDark'} flex items-center justify-center rounded-full text-[13px]`} key={i}>{tab}</button>
         })}
        </div>
 

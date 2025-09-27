@@ -78,10 +78,10 @@ const login = useGoogleLogin({
             id="google"
             type="button"
             onClick={() => login()} // trigger Google login
-            className={`px-2 o google mb-4 w-full flex items-center justify-center h-7 text-center  ${isLightMode ? 'bg-[#dadada]':'bg-[#131313]'} text-black text-[14px] rounded-[2px]`}
+            className={`px-2 o google mb-4 w-full flex items-center justify-center h-7 text-center  ${isLightMode ? 'bg-[#ededed]':'bg-[#131313]'} text-black text-[14px] rounded-[2px]`}
           >
             {loading ? (
-              <ButtonLoader />
+              <ButtonLoader color={isLightMode ? "rgba(255, 255, 255, 0.6)":'rgba(0, 0, 0, 0.6)'} />
             ) : (
               <Image src='/google.webp' className='w-4 object-cover' height={50} width={50} alt='google'/>
             )}
@@ -92,18 +92,19 @@ const login = useGoogleLogin({
             type="email"
             name="id"
             value={email}
+            style={{border : error ?'1px solid red':'0px'}}
             placeholder="Enter your email address.."
             onChange={(e) => { setEmail(e.target.value); setError(false) }}
-            className={`flex-1 w-full ${isLightMode ? 'bg-[#ededed]':'bg-[#131313]'} ${error ? 'border border-red-600/50' : 'border border-red-600/0'} px-2 py-1 mb-2 outline-none`}
+            className={`flex-1 w-full px-2 py-1 mb-2 outline-none`}
           />
 
           <button
             type="button"
             onClick={handleSendOtp}
             style={{color : isLightMode ? 'white':'black'}}
-            className={`px-2 w-full flex items-center ${isLightMode ? 'bg-black':'bg-white'} justify-center h-6 text-centertext-black text-[14px] rounded-[2px]`}
+            className={`px-2 w-full flex items-center ${isLightMode ? 'bg-black':'bg-white'} justify-center h-6 text-centertext-black text-[14px] rounded-[3px]`}
           >
-            {loading ? <ButtonLoader /> : 'Connect'}
+            {loading ? <ButtonLoader color={isLightMode ? "rgba(255, 255, 255, 0.6)":'rgba(0, 0, 0, 0.6)'} /> : 'Connect'}
           </button>
   {  <p 
           className="mt-2 mb-1.5"
