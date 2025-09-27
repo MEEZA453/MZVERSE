@@ -26,16 +26,16 @@ const router = useRouter()
       <motion.div  initial = {{y  : 160}} transition = {{duration : 0.3 , ease : "easeInOut"} } exit={{y :160}} animate = {{y : 0}}  className={`${isLightMode ? 'bg-[#ededed]':'bg-[#0d0d0d]'} fixed   z-[99999] bottom-4 py-4 -translate-x-1/2  left-1/2  flex  flex-col items-center   w-[96%] lg:w-120 rounded-[6px]   `}>
   <button
       onClick={()=>router.push('/createPost')}
-      className={` text-white w-full flex items-center justify-between  px-3 pb-1.5  border-b ${isLightMode ? 'border-[#dadada]':'border-[#4d4d4d]'}  gap-`}
+      className={` text-white w-full flex items-center justify-between  px-3 pb-1.5  border-b ${isLightMode ? 'border-[#d3d3d3]':'border-[#4d4d4d]'}  gap-`}
       >
-  <div className=" gap-4 flex items-center w-full "><PiEyeLight size={17} /><h3  className="" >Share Visual</h3></div>
+  <div className=" gap-4 flex items-center w-full "><PiEyeLight size={17} /><h6 style={{fontWeight : 400, fontSize:'15px'}}  className="" >Share Visual</h6></div>
   <MdOutlineArrowForwardIos className='opacity-60' size={14}/>
     </button>
       <button
       onClick={()=>router.push('/createProduct')}
       className="text-white   px-3 pt-1.5 flex items-center justify-between   w-full gap-"
       >
- <div className=" gap-4 flex items-center  w-full"><AiOutlinePlus /><h3  >Create Supply</h3></div>
+ <div className=" gap-4 flex items-center  w-full"><AiOutlinePlus /><h6 style={{fontWeight : 400, fontSize:'15px'}}  >Create Supply</h6></div>
    <MdOutlineArrowForwardIos className='opacity-60' size={14}/>
     </button>
     </motion.div>

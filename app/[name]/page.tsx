@@ -234,7 +234,9 @@ const isProfileLoaded = localProfile && localProfile.user && localProfile.user.h
           })}
      
         </div>:<div className='flex gap-1 mt-2 items-center justify-center px-5 w-screen'>
-         <button   onClick={handleFollowClick} className={`border  flex items-center justify-center  ${!isFollowing ? 'bg-white text-black': 'text-white'}  rounded text-[14px] lg:w-60 w-full py-0.5`}>{!isFollowing ? 'Follow' : 'Unfollow'}</button>
+         <button  style={{color : !isFollowing ? isLightMode ? 'white': 'black': isLightMode ? 'black': 'white', fontWeight : 400}} onClick={handleFollowClick} className={`border  flex items-center justify-center   ${
+            !isFollowing ? isLightMode ? 'bg-black' : 'bg-white' : "border"
+          }  rounded text-[14px] lg:w-60 w-full py-0.5`}>{!isFollowing ? 'Follow' : 'Unfollow'}</button>
            <button   onClick={handleShareClick} className={`border  flex items-center justify-center text-white  rounded text-[14px] lg:w-60 w-full py-0.5`}>Share profile</button>
         </div>}
 

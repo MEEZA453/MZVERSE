@@ -104,8 +104,8 @@ useEffect(()=>{
       alt="logo"
       width={100}
       height={100}
-      src="/logo.png"
-      className="w-8 ml-2 rounded-xl lg:w-7"
+      src="/mzco.png"
+      className="w-7 ml-2 rounded-xl lg:w-7"
     />
   </button>
 </Link>
@@ -116,7 +116,10 @@ useEffect(()=>{
             </div> */}
 
       
-            {search && <Search setSearch = {setSearch} />}
+            <AnimatePresence>
+              
+              {search && <Search setSearch = {setSearch} />}
+              </AnimatePresence>
 
         <div className="flex gap-3 mr-2 items-center lg:gap-6 lg:mr-4">
           <div className="search mt-0.5 relative">

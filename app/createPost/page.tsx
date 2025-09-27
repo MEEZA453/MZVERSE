@@ -221,7 +221,7 @@ const deleteField = (i: number) => {
 
         <div className="judgements">
 
-<div  className={`w-full gap-1 relative ${error.fieldError ? 'border-red-500/50':'border-[#1c1b1b]'}  px-2   border flex rounded-[4px] pt-5 pb-2 flex`}>
+<div  className={`w-full gap-1 relative ${error.fieldError ? 'border-red-500/50':isLightMode ?'border-[#dadada]':'border-[#1c1b1b]'}  px-2   border flex rounded-[4px] pt-5 pb-2 flex`}>
   
 
 

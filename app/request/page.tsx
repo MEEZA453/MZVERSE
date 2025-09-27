@@ -7,6 +7,7 @@ import { applyJury } from "../store/actions/jury";
 import { useAuth } from "../Context/AuthContext";
 import { IoCheckmark, IoCheckmarkOutline } from "react-icons/io5";
 import Image from "next/image";
+import { useThemeContext } from "../Context/ThemeContext";
 
 export default function Request() {
   const dispatch = useDispatch<AppDispatch>();
@@ -16,7 +17,7 @@ console.log(error)
   const [accepted, setAccepted] = useState(false);
   const [localError, setLocalError] = useState("");
   const { token, user } = useAuth();
-
+ const {isLightMode}  = useThemeContext()
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!token || !accepted) return;
@@ -34,7 +35,7 @@ console.log(error)
     <div className="">
         <Image className="w-8 absolute left-2 top-2 z-[999] rounded-xl" src={'/logo.png'} width={50} height={50} alt="log"/>
         {
-          !error && !applied ?<div className="bg-black w-screen h-screen fixed flex-col top-0 z-[999] flex justify-center items-center">
+          !error && !applied ?<div className={`${isLightMode ?'bg-white':'bg-black'} w-screen h-screen fixed flex-col top-0 z-[999] flex justify-center items-center`}>
 
         
       <h5 className="mb-5">{user?.role === 'normal' ? 'Apply for Jury' : 'Switch to normal user'}</h5>
@@ -47,21 +48,21 @@ console.log(error)
         />
         <div className="flex items-center gap-2 mb-1 mt-2">
           <button
-            className="h-4.5 w-4.5 rounded-[1px] bg-[#0d0d0d] border border-[#4d4d4d]"
+            className={`h-4.5 w-4.5 rounded-[1px] border ${isLightMode ? 'bg-[#ededed] border-[#dadada]':'border-[#4d4d4d] bg-[#0d0d0d] '}`}
             type="button"
             onClick={() => setAccepted(!accepted)}
           >
             {accepted && <IoCheckmarkOutline />}
           </button>
-          <p className="">
+          <p style={{opacity : 1}} className="">
             I accept the <span className="underline cursor-pointer">Terms & Conditions</span>
           </p>
         </div>
         <button
           type="submit"
           disabled={loading || !accepted}
-          style={{opacity : !message || !accepted ? 0.7 : 1}}
-          className="px-2 w-full flex items-center justify-center h-6 text-center mt-1.5 bg-white text-black text-[14px] rounded-[2px]"
+          style={{opacity : !message || !accepted ? 0.7 : 1, color : isLightMode ? 'white':'black'}}
+          className={`px-2 w-full flex items-center justify-center h-6 text-center mt-1.5 ${isLightMode ? 'bg-black ':'bg-white'} text-[14px] rounded-[2px] `}
         >
           {loading ? <ButtonLoaderWhite /> : 'Send request'}
         </button>
@@ -70,7 +71,7 @@ console.log(error)
       </form>
       </div> : <div className="h-screen w-screen relative flex flex-col justify-center items-center">
         <div className="flex flex-col items-center">
-<div className="h-12 w-12 border border-white mb-2 flex items-center justify-center rounded-full"><IoCheckmark color="white" size={30} /></div>
+<div className={`h-12 w-12 border ${isLightMode ?'border-black':'border-white'} mb-2 flex items-center justify-center rounded-full`}><IoCheckmark color= {isLightMode ? 'black':'white'} size={30} /></div>
         <h5 className="mb-1">{error? error :'We got your application'}</h5>
         <p>We will get back to you soon</p>
         </div>
