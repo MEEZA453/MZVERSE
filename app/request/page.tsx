@@ -8,6 +8,7 @@ import { useAuth } from "../Context/AuthContext";
 import { IoCheckmark, IoCheckmarkOutline } from "react-icons/io5";
 import Image from "next/image";
 import { useThemeContext } from "../Context/ThemeContext";
+import ButtonLoader from "../Components/ButtonLoader";
 
 export default function Request() {
   const dispatch = useDispatch<AppDispatch>();
@@ -64,7 +65,7 @@ console.log(error)
           style={{opacity : !message || !accepted ? 0.7 : 1, color : isLightMode ? 'white':'black'}}
           className={`px-2 w-full flex items-center justify-center h-6 text-center mt-1.5 ${isLightMode ? 'bg-black ':'bg-white'} text-[14px] rounded-[2px] `}
         >
-          {loading ? <ButtonLoaderWhite /> : 'Send request'}
+          {loading ? <ButtonLoader color={isLightMode ? "rgba(255, 255, 255, 0.6)":'rgba(0, 0, 0, 0.6)'} /> :'Send request'}
         </button>
         {applied && <p className="text-green-400 text-xs mt-2">Request submitted ✅</p>}
         {error && <p className="text-red-400 mt-2">{error}</p>}

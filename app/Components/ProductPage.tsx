@@ -8,7 +8,7 @@ import ProductImages from './ProductImages'
 import Loading from './loading'
 import { PiHeartLight } from "react-icons/pi";
 import { GoHeartFill } from "react-icons/go";
-import Login from './Login';
+
 import { useShowInput } from '../Context/ShowInputContext';
 import { useState  , useEffect, useRef, Suspense} from 'react';
 import Notification from './Notification';
@@ -278,7 +278,7 @@ const handleBuyNow = async () => {
 
                        {isMobile ? <AnimatePresence>{  isMenu ?  <ProductMenu currentData={product} setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> :
                        <AnimatePresence>{  isMenu ?  <ProductMenuLg setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> }
-      {showLoginInput ? <div className='z-[999] fixed   bg-black/70 h-screen w-screen '><Login setShowLoginInput={setShowLoginInput}/></div>:null}
+     
       <main  className='desc flex max-sm:flex-col h-screen w-screen  max-sm:items-center'>
 
 <section className='sticky top-0'>

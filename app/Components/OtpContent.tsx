@@ -9,6 +9,7 @@ import ButtonLoader from "./ButtonLoader"
 import { LuPenLine } from "react-icons/lu";
 import { Suspense } from "react";
 import Image from "next/image"
+import { useThemeContext } from "../Context/ThemeContext"
 // import { useAuth } from "../Context/AuthContext"
 export default function OtpPage() {
   // const {user} =  useAuth()
@@ -17,7 +18,7 @@ export default function OtpPage() {
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const [email, setEmail] = useState("")
-
+  const {isLightMode}  = useThemeContext()
   const [otpValues, setOtpValues] = useState(Array(6).fill(''))
   const [loading, setLoading] = useState(false)
   const [errorMsg, setErrorMsg] = useState('')
@@ -127,7 +128,7 @@ export default function OtpPage() {
           disabled={loading}
           className="px-2 w-full flex items-center justify-center h-6 text-center bg-white text-black text-[14px] rounded-[2px]"
           >
-            {loading ? <ButtonLoader /> : 'Verify'}
+            {loading ? <ButtonLoader color={isLightMode ? "rgba(255, 255, 255, 0.6)":'rgba(0, 0, 0, 0.6)'} /> : 'Verify'}
           </button>
       
 

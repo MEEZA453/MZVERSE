@@ -6,6 +6,7 @@ import {motion} from 'framer-motion'
 import { useShowInput } from "../Context/ShowInputContext";
 import ButtonLoader from "./ButtonLoader";
 import { useNotification } from "../Context/Notification";
+import { useThemeContext } from "../Context/ThemeContext";
 interface MasterNavberProps {
   setShowSignupInput: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -13,6 +14,7 @@ interface MasterNavberProps {
 export default function JoinCommunityInput({ setShowSignupInput, }: MasterNavberProps) {
   const [errorMessage , setErrorMessage] = useState("")
   const {setShowLoginInput} = useShowInput()
+  const {isLightMode} = useThemeContext()
   const [loading , setLoading] =  useState(false)
   const {setNotification} = useNotification()
   const [user, setUser] = useState({
@@ -131,7 +133,7 @@ setErrorMessage('')
         <div className="flex justify-between pl-22">
           <p style={{ color: 'red' }}>{errorMessage}</p>
           <button type="submit" className="px-2 w-18 flex items-center justify-center  h-5.5 text-center bg-white text-black text-[14px] rounded-[2px]">
-            {loading ? <ButtonLoader/> : 'Register' }
+            {loading ? <ButtonLoader color={isLightMode ? "rgba(255, 255, 255, 0.6)":'rgba(0, 0, 0, 0.6)'} /> : 'Register' }
           </button>
         </div>
       </form>
