@@ -119,7 +119,7 @@ const router  = useRouter()
         onMouseUp={handleMouseUp}
         onMouseMove={handleMouseMove}
       >
-        {!isMobile && (
+        {!isMobile && !isLightMode && (
           <div className="gradient absolute pointer-events-none w-120 h-screen bg-gradient-to-l from-[#000000] to-[#00000000] z-[300] right-0 top-0"></div>
         )}
 
@@ -131,7 +131,7 @@ const router  = useRouter()
               i === images.length - 1 ? "" : ""
             }`}
           >
-            <Image src={img} alt={`image-${i}`} width={1200} height={1200} className=" h-[48vh]  w-full  object-cover" />
+            <Image src={img} alt={`image-${i}`} width={1200} height={1200} className=" h-[48vh] lg:h-full w-full  object-cover" />
           </div>
         ))}
       </div>

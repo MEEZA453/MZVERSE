@@ -21,6 +21,7 @@ import CreateMenuLg from './CreateMenuLg';
 import { PiBag } from "react-icons/pi";
 import { useThemeContext } from '../Context/ThemeContext';
 import Link from 'next/link';
+import { getUserCart } from '../store/actions/cart';
 
 interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -56,14 +57,16 @@ const  dynamicButtonRef = useRef<HTMLButtonElement>(null)
   const dispatch = useDispatch<AppDispatch>()
   const {token} = useAuth()
     const { items } = useSelector((state: any) => state.notification);
+    const cart = useSelector((state : any)=>state.cart)
      useEffect(() => {
     if (token) {
       dispatch(getNotifications(token));
+      dispatch(getUserCart(token))
     }
   }, [dispatch, token]);
 
-    const hasUnread = items.some((n) => !n.isRead);
-
+    const hasUnread = items.filter((n) => ! n.isRead);
+console.log('hasunread is:', hasUnread)
   const [isLargeScreen, setIsLargeScreen] = useState(false);
 useEffect(()=>{
 
@@ -135,21 +138,25 @@ useEffect(()=>{
 
           </div>
           {/* <h6>[ 10 ]</h6> */}
-          {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex gap-4'>
+          {isLoggedIn? <div className='flex  gap-4  lg:gap-4'><div className='flex items-center gap-4'>
             {/* <button className=" text-white  duration-300"onClick={()=> router.push('/createPost ') } ref={dynamicButtonRef}><GoPlusCircle size={22}/></button> */}
-
+ <div className='relative flex '>
+              { hasUnread.length  != 0 && <div className={`h-4 w-4 rounded-full ${isLightMode?'bg-black text-white':'bg-white pointer-events-none text-black'} translate-x- absolute -right-1.5 z-[99] -top-1  text-[10px] items-center justify-center flex`}>{hasUnread?.length}</div>}
              <button style={{color: isLightMode ? 'black': 'white'}} className=" relative text-white  duration-300"onClick={()=> setIsNotification(true) } ref={dynamicButtonRef}><VscMail size={22}/>
-               {hasUnread && (
-          <span className="absolute top-[6px] right-0 h-1.5 w-1.5 bg-red-500 rounded-full"></span>
-        )}
+ 
              </button>
+             </div>
+             <div className='relative flex '>
+              { cart?.items != 0 && <div className={`h-4 w-4 rounded-full ${isLightMode?'bg-black text-white':'bg-white pointer-events-none text-black'} translate-x- absolute -right-1.5 -top-1  text-[10px] items-center justify-center flex`}>{cart?.items?.length}</div>}
  <button style={{color: isLightMode ? 'black': 'white'}} onClick={()=>setIsCart(true)}>
+ 
             <PiBag className=''
             
             size={20}
             /> 
 
             </button> 
+            </div>
             <button style={{rotate : openCreate ? '45deg' : '0deg',color: isLightMode ? 'black': 'white'}}  className=" text-white  duration-300"onClick={()=> setOpenCreate(!openCreate)} ref={dynamicButtonRef}><GoPlusCircle size={22}/></button>
 
            <AnimatePresence> {openCreate && <CreateMenu setOpenCreate = {setOpenCreate}/>}</AnimatePresence>

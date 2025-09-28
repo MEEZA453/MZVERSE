@@ -1,40 +1,40 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { fetchVotesByPostAction, getPostByIdAction } from '../store/actions/post'
-import { AppDispatch, RootState } from '../store/store'
-import MasterNavber from './MasterNavber'
-import Loading from './loading'
+import { usePathname, useRouter } from 'next/navigation'
+import { fetchVotesByPostAction, getPostByIdAction } from '../../store/actions/post'
+import { AppDispatch, RootState } from '../../store/store'
+import MasterNavber from '../../Components/MasterNavber'
+import Loading from '../../Components/loading'
 import Image from 'next/image'
-import ProductImages from './ProductImages'
-import Vote from './Vote'
-import { useAuth } from '../Context/AuthContext'
-import { getVotesByPost } from '../api'
+import ProductImages from '../../Components/ProductImages'
+import Vote from '../../Components/Vote'
+import { useAuth } from '../../Context/AuthContext'
+import { getVotesByPost } from '../../api'
 import { HiOutlineDotsVertical } from "react-icons/hi";
-import PostMenu from './PostMenu'
+import PostMenu from '../../Components/PostMenu'
 import { BsFillLightningChargeFill } from "react-icons/bs";
-import ImageShower from './ImageShower'
+import ImageShower from '../../Components/ImageShower'
 import {AnimatePresence, motion} from 'framer-motion'
 import { GoHeartFill } from 'react-icons/go'
 import { PiBookmarkSimpleLight, PiHeartLight } from 'react-icons/pi'
-import { addToFavorites, removeFromFavorites } from '../store/actions/fav'
-import { useNotification } from '../Context/Notification'
-import Notification from './Notification'
-import VoteMenu from './VoteMenu'
-import VoteMenuLg from './VoteMenuLg'
-import PostMenuLg from './PostMenuLg'
+import { addToFavorites, removeFromFavorites } from '../../store/actions/fav'
+import { useNotification } from '../../Context/Notification'
+import Notification from '../../Components/Notification'
+import VoteMenu from '../../Components/VoteMenu'
+import VoteMenuLg from '../../Components/VoteMenuLg'
+import PostMenuLg from '../../Components/PostMenuLg'
 import { IoIosArrowBack } from 'react-icons/io'
-import SearchAssets from './SearchAssets'
-import Attachments from './Attachments'
-import AttachmentsMenu from './AttachmentsMenu'
-import { getAssetsOfPost } from '../store/actions/attach'
-import { useThemeContext } from '../Context/ThemeContext'
+import SearchAssets from '../../Components/SearchAssets'
+import Attachments from '../../Components/Attachments'
+import AttachmentsMenu from '../../Components/AttachmentsMenu'
+import { getAssetsOfPost } from '../../store/actions/attach'
+import { useThemeContext } from '../../Context/ThemeContext'
 import { VscHeart } from 'react-icons/vsc'
 import { IoBookmarksOutline, IoBookmarksSharp } from 'react-icons/io5'
-import AnimatedNumber from './AnimateNumber'
-import RelatedPosts from './ReletedPosts'
-import RelatedToCatagoty from './RelatedToCatatory'
+import AnimatedNumber from '../../Components/AnimateNumber'
+import RelatedPosts from '../../Components/ReletedPosts'
+import RelatedToCatagoty from '../../Components/RelatedToCatatory'
 
 type AveragesType = {
   aesthetics: number;
@@ -48,67 +48,48 @@ const defaultAverages: AveragesType = {
   creativity: 0,
   emotion: 0,
 };
-export default function Post({catchedPost , catchedVotes}) {
+export default function Post() {
     const dispatch = useDispatch<AppDispatch>()
     const [openIndex , setOpenIndex] = useState(0)
     const [isVoteMenu , setVoteMenu] = useState(false)
     const [currentIndex ,setCurrentIndex] = useState(0)
     const [totalAvg , setTotalAvg] = useState(0)
     const [isMenu , setIsMenu]  = useState(false)
+    const postId = usePathname().split('/')[2]
     const {user ,token , role} = useAuth()
     const [attachmentsMenu ,setAttachmentsMenu] = useState(false)
     const router  = useRouter()
     const {isLightMode}  = useThemeContext()
     const [searchAssets , setSearchAssets] = useState(false)
     const [red , setRed ] = useState(false)
-    const [post , setPost ] = useState(null);
-    const [votes , setVotes ] = useState(null);
     const {setNotification , notification} = useNotification()
     const [isAuthor , setAuthor] = useState(false)
     const [isMobile  ,setIsMobile] = useState(false)
     const [opacity , setOpacity]  = useState(0)
-    // const {rdxPost, rdxVotes, loading} = useSelector((state : any)=>state.posts)
-    const searchParams = useSearchParams();
-     const pid = searchParams.get('pid')
-    const postId = post?._id || pid
-  
-const scrollRef = useRef<HTMLDivElement>(null)
-useEffect(()=>{
-if(catchedPost || catchedVotes){
-  setPost(catchedPost)
-  setVotes(catchedVotes)
-// }else{
-//   dispatch(getPostByIdAction(postId, token))
-//     dispatch(fetchVotesByPostAction(postId))
-//     if(rdxPost || rdxVotes){
-//       setPost(rdxPost);
-//       setVotes(rdxVotes);
-//     }
-}
-},[catchedPost, catchedVotes])
-
-// console.log('catched post is:', catchedPost)
-  useEffect(() => {
+    const { post, loading , votes } = useSelector((state: any) => state.posts)
+ useEffect(() => {
     const handleScroll = () => {
-      if (!scrollRef.current) return
-      const scrollY = scrollRef.current.scrollTop
-      const maxScroll = 300
-      const newOpacity = Math.min(scrollY / maxScroll, 0.6)
-      setOpacity(newOpacity)
-    }
+      const scrollY = window.scrollY;
+      const maxScroll = 300; // adjust scroll distance where opacity reaches 0.6
+      const newOpacity = Math.min(scrollY / maxScroll, 0.6); 
+      setOpacity(newOpacity);
+    };
 
-    const container = scrollRef.current
-    container?.addEventListener("scroll", handleScroll)
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+    useEffect(() => {
 
-    return () => container?.removeEventListener("scroll", handleScroll)
-  }, [])
-
-
+    dispatch(getPostByIdAction(postId, token))
+    dispatch(fetchVotesByPostAction(postId))
+   dispatch(getAssetsOfPost(postId , token))
+    }, [dispatch, postId, token])
         const {assetsOfPost} = useSelector((state: any)=>state.attach)
     
         useEffect(()=>{
-              dispatch(getAssetsOfPost(postId , token))
+           
         },[dispatch, token, postId])
+
 const validVotes = votes?.filter(vote => vote.user) || [];
 const averages = post?.voteFields?.length && validVotes?.length
   ? post.voteFields.reduce((acc, field) => {
@@ -126,7 +107,6 @@ useEffect(() => {
     
     const timer = setTimeout(() => {
       const values = Object.values(averages).filter(v => typeof v === "number");
-  
       if (values.length > 0) {
         const totalAverage = values.reduce((sum, val) => sum + val, 0) / values.length;
         setTotalAvg(parseFloat(totalAverage.toFixed(1)));
@@ -154,7 +134,7 @@ user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
 const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
     return (
-        <div style={{backgroundColor : isLightMode ?'white':'black'}}  ref={scrollRef} className='fixed  top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto '>
+       <div style={{backgroundColor : isLightMode ?'white':'black'}} className='hide-scrollbar  '>
            
           
 
@@ -325,8 +305,8 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
 </div>
 
-<RelatedPosts postId = {postId} handle={post?.createdBy?.handle} token={token} />
-<RelatedToCatagoty catagory={post?.category} postId={postId} />
+{/* <RelatedPosts postId = {postId} handle={post?.createdBy?.handle} token={token} /> */}
+{/* <RelatedToCatagoty catagory={post?.category} postId={postId} /> */}
 </div>
 
 

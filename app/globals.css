@@ -54,7 +54,12 @@ input, textarea {
     -webkit-appearance: none;
     background: #ffffff; /* unfilled color */
   }
-
+.user-select-none {
+  user-select: none;       /* Standard */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;     /* Firefox */
+  -ms-user-select: none;      /* IE/Edge */
+}
 input[type='range']::-webkit-slider-thumb {
   width: 14px;
   height: 20px;

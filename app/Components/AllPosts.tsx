@@ -1,5 +1,5 @@
 'use client'
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AppDispatch } from '../store/store';
@@ -53,7 +53,7 @@ export default function AllPosts() {
       </div>
 
       {/* Overlay Post */}
-      {selectedPost && <Post catchedPost={selectedPost} catchedVotes={selectedPost.votes || []} />}
+      {selectedPost && <Suspense> <Post catchedPost={selectedPost} catchedVotes={selectedPost.votes || []} /></Suspense>}
     </div>
   );
 }

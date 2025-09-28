@@ -36,15 +36,15 @@ export default function PostCard({product, openProduct}){
     
 ) :null}
   <div className="absolute pointer-events-none w-full h-40 bg-gradient-to-b from-[#fffffff] to-[#00000000] z-[50] top-0"></div>
-            <div className="   absolute bottom-0 bg-white/80 flex h-6 px-2 justify-between items-center w-full  z-100  duration-200 ">
+            <div className={`  absolute bottom-0 ${!isLightMode ? 'bg-white/80':'bg-black/80'} flex h-6 px-2 justify-between items-center w-full  z-100  duration-200 `}>
                         <div className="flex items-center  gap-1">
                 
               <div>
-                          <h3  style={{color :'black'}}>{product.name || 'My post'}  </h3>
+                          <h3  style={{color :isLightMode ? 'white':'black'}}>{product.name || 'My post'}  </h3>
           
           
               </div>
-                           <p style={{fontSize : '10px', color : 'black'}}>by @meeza</p>    
+                           <p style={{fontSize : '10px', color :isLightMode ? 'white':'black'}}>by @meeza</p>    
                         </div>
                        
                       </div>

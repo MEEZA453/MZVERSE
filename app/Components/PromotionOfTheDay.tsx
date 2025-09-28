@@ -8,17 +8,13 @@ import { AppDispatch } from "../store/store"
 import { getPromotion } from "../store/actions/Promotion"
 import { SkeletonPromoCard } from "./Skeleton/SkeletonPromo"
 import Post from "./Post"
+import DraggableCarousel from "./DraggableCarousel"
 
 export default function PromotionOfTheDay() {
   const router = useRouter()
   const dispatch = useDispatch<AppDispatch>()
   const { token } = useAuth()
-  const carouselRef = useRef<HTMLDivElement>(null)
-  const [isDragging, setIsDragging] = useState(false)
-  const [startX, setStartX] = useState(0)
-  const [scrollLeft, setScrollLeft] = useState(0)
   const { promotion, loading } = useSelector((state: any) => state.promotion)
-
   const searchParams = useSearchParams()
   const promo = searchParams.get('promo')
 
@@ -34,30 +30,6 @@ export default function PromotionOfTheDay() {
   }, [dispatch, token, promotion.length])
 
   const reoderedPromotion = useMemo(() => [...promotion].reverse(), [promotion])
-
-  // Drag-to-scroll handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setIsDragging(true)
-    setStartX(e.pageX - (carouselRef.current?.offsetLeft || 0))
-    setScrollLeft(carouselRef.current?.scrollLeft || 0)
-  }
-  const handleMouseLeave = () => setIsDragging(false)
-  const handleMouseUp = () => setIsDragging(false)
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isDragging || !carouselRef.current) return
-    e.preventDefault()
-    const x = e.pageX - carouselRef.current.offsetLeft
-    const walk = (x - startX) * 2
-    carouselRef.current.scrollLeft = scrollLeft - walk
-  }
-
-  const scrollToPromotion = (direction: 'left' | 'right') => {
-    if (!carouselRef.current) return
-    const width = window.innerWidth * 0.8
-    const scrollAmount = direction === 'left' ? -width : width
-    carouselRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' })
-  }
-
   // Open post instantly and update URL
   const openPost = (promo: any) => {
     setPost(promo)
@@ -83,22 +55,18 @@ export default function PromotionOfTheDay() {
 
   return (
     <div className="relative lg:m-6 my-4">
-      <div
-        ref={carouselRef}
-        className="flex gap-3 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory px-4"
-        onMouseDown={handleMouseDown}
-        onMouseLeave={handleMouseLeave}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
-      >
+<DraggableCarousel
+  className="px-4"
+  onClickItem={(index) => openPost(reoderedPromotion[index])}
+>
         {!loading ? (
           reoderedPromotion.map((promo: any, index: number) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[80vw] lg:w-[33.33vw] h-[85vw] lg:h-[37vw] snap-center relative"
+              className="flex-shrink-0 w-[80vw] user-select-none  lg:w-[33.33vw] h-[85vw] lg:h-[37vw]  relative"
             >
               <div
-                onClick={() => openPost(promo)}
+           
                 className="cursor-pointer w-full h-full"
               >
                 <Image
@@ -106,7 +74,7 @@ export default function PromotionOfTheDay() {
                   width={300}
                   height={300}
                   alt="promo"
-                  className="w-full h-full object-cover rounded"
+                  className="w-full h-full pointer-events-none object-cover rounded"
                 />
               </div>
 
@@ -134,7 +102,7 @@ export default function PromotionOfTheDay() {
         ) : (
           Array.from({ length: 3 }).map((_, i) => <SkeletonPromoCard key={i} />)
         )}
-      </div>
+      </DraggableCarousel>
 
       {/* Overlay component */}
       {(post || promo) && (

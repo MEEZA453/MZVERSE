@@ -70,7 +70,7 @@ useEffect(() => {
             </div>
             <div className={`tabs  flex justify-between w-full px-7  -translate-y-0  ${isLightMode ? 'border-[#dadada]' : 'border-[#2c2b2b]'} pb-1 items-center`}>
                 {searchTabs.map((el , index)=>{
-                    return <button style={{fontSize : '14px'}} onClick={()=>setSelectedIndex(index)} className={`${index === selectedIndex ? 'opacity-100 border-b border-black': 'opacity-60'} w-full`} key={index}>{el}</button>
+                    return <button style={{fontSize : '14px'}} onClick={()=>setSelectedIndex(index)} className={`${index === selectedIndex ? `opacity-100 border-b ${isLightMode ?'border-black':'border-white'}`: 'opacity-60'} w-full`} key={index}>{el}</button>
                 })}
                  </div>
             </div>

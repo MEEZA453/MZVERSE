@@ -315,11 +315,11 @@ const handleBuyNow = async () => {
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
   
 
-        <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} pt-3  lg:overflow-y-scroll h-screen hide-scrollbar -translate-y-24 lg:w-[30vw] rounded-t-[6px] items-center  w-screen sticky top-2    lg:mt-14`}>
+        <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} pt-3  lg:overflow-y-scroll h-screen hide-scrollbar -translate-y-24 lg:w-[30vw] rounded-t-[6px] items-center lg:border-l w-screen sticky top-2    lg:mt-24`}>
             <div className='flex gap-1 items-center justify-between w-full px-2 mb-4'>
                      
                     <div className='flex gap-1  items-center'>
-                      <h5   className="" style={{color : isLightMode ?'black': 'white'}}>{product?.name}</h5> <label className={`bg-white text-black px-1.5 flex items-center justify-center py-2.5 ${isLightMode ? 'tab-light':'tab-dark'}`} style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
+                      <h5   className="" style={{color : isLightMode ?'black': 'white'}}>{product?.name}</h5> <label className={` px-1.5 flex items-center justify-center py-2.5 ${isLightMode ? 'bg-black text-white':'tab-dark'}`} style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
                             }}>{product?.amount === 0 ? null : '$'}{product?.amount === 0 ? 'free':product?.amount}</label>  </div>
                             
                              <div className="flex items-center">

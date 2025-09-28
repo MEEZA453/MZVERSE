@@ -4,10 +4,10 @@ import { Post } from '../../types/Post';
 interface PostState {
   loading: boolean;
   posts: Post[];
-  rdxPost: Post | null;
+  post: Post | null;
    postsOfUserLoading: boolean;
   postsOfUser : Post[]
-  rdxVotes: any[];      // votes for a single post
+  votes: any[];      // votes for a single post
   allVotes: any[];   // all votes (admin/analytics)
   error: string | null;
     editPost: Post | null;
@@ -17,9 +17,9 @@ const initialState: PostState = {
   loading: true,
    postsOfUserLoading: false,
   posts: [],
-  rdxPost: null,
+  post: null,
   postsOfUser:[],
-  rdxVotes: [],
+  votes: [],
   allVotes: [],
   error: null,
   editPost : null
@@ -37,7 +37,7 @@ const posts = (state = initialState, action: AnyAction): PostState => {
   case 'FETCH_POSTS_REQUEST':
     case 'FETCH_POSTS_BY_HANDLE_REQUEST':
     case 'FETCH_POST_REQUEST':
-      return { ...state,  postsOfUserLoading: true, rdxPost : null, error: null  };
+      return { ...state,  postsOfUserLoading: true, post : null, error: null  };
 
     case 'CREATE_POST_SUCCESS':
       return { ...state, loading: false, posts: [action.payload, ...state.posts] };
@@ -49,7 +49,7 @@ const posts = (state = initialState, action: AnyAction): PostState => {
       return { ...state, loading: false, posts: action.payload };
 
     case 'FETCH_POST_SUCCESS':
-      return { ...state, loading: false, rdxPost: action.payload };
+      return { ...state, loading: false, post: action.payload };
 
     case 'EDIT_POST_SUCCESS':
       return {
@@ -58,7 +58,7 @@ const posts = (state = initialState, action: AnyAction): PostState => {
         posts: state.posts.map((p) =>
           p._id === action.payload._id ? action.payload : p
         ),
-        rdxPost: state.rdxPost && state.rdxPost._id === action.payload._id ? action.payload : state.rdxPost,
+        post: state.post && state.post._id === action.payload._id ? action.payload : state.post,
       };
 
     case 'DELETE_POST_SUCCESS':
@@ -66,7 +66,7 @@ const posts = (state = initialState, action: AnyAction): PostState => {
         ...state,
         loading: false,
         posts: state.posts.filter((p) => p._id !== action.payload),
-        rdxPost: state.rdxPost && state.rdxPost._id === action.payload ? null : state.rdxPost,
+        post: state.post && state.post._id === action.payload ? null : state.post,
       };
 
     case 'VOTE_POST_SUCCESS':
@@ -76,11 +76,11 @@ const posts = (state = initialState, action: AnyAction): PostState => {
         posts: state.posts.map((p) =>
           p._id === action.payload._id ? action.payload : p
         ),
-        rdxPost:
-          state.rdxPost && state.rdxPost._id === action.payload._id
+        post:
+          state.post && state.post._id === action.payload._id
             ? action.payload
-            : state.rdxPost,
-        rdxVotes: action.payload?.votes ?? state.rdxVotes,
+            : state.post,
+        votes: action.payload?.votes ?? state.votes,
       };
 
     case 'CREATE_POST_FAIL':
@@ -101,7 +101,7 @@ const posts = (state = initialState, action: AnyAction): PostState => {
 
     case 'FETCH_VOTES_SUCCESS':
     case 'FETCH_VOTES_USER_SUCCESS':
-      return { ...state, loading: false, rdxVotes: action.payload };
+      return { ...state, loading: false, votes: action.payload };
 
     case 'FETCH_ALL_VOTES_SUCCESS':
       return { ...state, loading: false, allVotes: action.payload };
@@ -110,8 +110,8 @@ const posts = (state = initialState, action: AnyAction): PostState => {
       return {
         ...state,
         loading: false,
-        rdxPost: action.payload,
-      rdxVotes: action.payload?.votes ?? state.rdxVotes,
+        post: action.payload,
+      votes: action.payload?.votes ?? state.votes,
         posts: state.posts.map((p) =>
           p._id === action.payload._id ? action.payload : p
         ),
