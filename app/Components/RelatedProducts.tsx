@@ -8,38 +8,41 @@ import Image from "next/image";
 import DraggableCarousel from "./DraggableCarousel";
 import Link from "next/link";
 import SkeletonRelatedPosts from "./Skeleton/SkeletonReletedPosts";
+import { searchAssets } from "../store/actions/search";
 
-export default function RelatedToCatagoty({ catagory, postId }) {
+export default function RelatedProducts({query, token, productId}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (catagory) {
-      dispatch(searchPostsAction(catagory));
+    if (query) {
+        dispatch(searchAssets(query, 1, 20 , token));
+      }
     }
-  }, [dispatch, catagory]);
+  , [dispatch, query]);
 
-  const { postResult, loading } = useSelector((state: any) => state.search);
+ const {assetResult , loading} = useSelector((state : any)  => state.search)
+console.log(assetResult)
 
   // filter out current post
-  const filteredPosts = postResult?.filter((post: any) => post._id !== postId) || [];
-
+  const filteredSupply = assetResult?.results?.filter((post: any) => post._id !== productId) || [];
+console.log(filteredSupply)
   return (
     <div className="mb-4 mt-6">
-      <h5 className="mx-2 my-3">More {catagory}</h5>
-      <div className="flex w-full hide-scrollbar gap-2">
+      <h5 className="mx-2 my-3">More {query}</h5>
+      <div className="flex w-screen hide-scrollbar  overflow-hidden gap-2">
         {loading ? (
           <SkeletonRelatedPosts />
-        ) : filteredPosts.length === 0 ? (
+        ) : filteredSupply.length === 0 ? (
           <p className="mx-2 text-sm opacity-70">No posts found</p>
         ) : (
           <DraggableCarousel className="px-4">
-            {filteredPosts.map((post: any) => (
-              <div key={post._id} className="shrink-0 w-[80px] h-[80px]">
-                <Link href={`/posts/${post?._id}`}>
+            {filteredSupply?.map((supply: any) => (
+              <div key={supply._id} className="shrink-0 w-[80px] h-[80px]">
+                <Link href={`/AllAssets/${supply?._id}`}>
                   <Image
-                    src={post?.images[0]}
+                    src={supply?.image[0]}
                     alt="related"
                     width={100}
                     height={100}

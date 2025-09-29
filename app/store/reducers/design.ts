@@ -4,7 +4,7 @@ import { AnyAction } from "redux";
 interface ProductState {
   items: Product[];
   editProduct: Product | null;
-  product: Product | null; // product fetched by ID or handle
+  rdxProduct: Product | null; // product fetched by ID or handle
   loading: boolean;
   error: string | null;
   count: number; // total products count from backend
@@ -13,7 +13,7 @@ interface ProductState {
 const initialState: ProductState = {
   items: [],
   editProduct: null,
-  product: null,
+  rdxProduct: null,
   loading: false,
   error: null,
   count: 0,
@@ -26,11 +26,11 @@ const reducer = (state: ProductState = initialState, action: AnyAction): Product
     case "POST_PRODUCT_REQUEST":
     case "EDIT_PRODUCT_REQUEST":
     case "DELETE_PRODUCT_REQUEST":
-      return { ...state, loading: true, error: null, product : null };
+      return { ...state, loading: true, error: null, rdxProduct : null };
 
     case "FETCH_PRODUCT_BY_ID_REQUEST":
     case "FETCH_PRODUCT_BY_HANDLE_REQUEST":
-      return { ...state, loading: true, error: null, product: null }; // clear previous product
+      return { ...state, loading: true, error: null, rdxProduct: null }; // clear previous product
 
     /** Success states **/
     case "FETCH_ALL_PRODUCTS_SUCCESS":
@@ -70,7 +70,7 @@ const reducer = (state: ProductState = initialState, action: AnyAction): Product
     case "FETCH_PRODUCT_BY_HANDLE_SUCCESS":
       return {
         ...state,
-        product: action.payload,
+        rdxProduct: action.payload,
         loading: false,
       };
 
@@ -83,14 +83,14 @@ const reducer = (state: ProductState = initialState, action: AnyAction): Product
 
     case "FETCH_PRODUCT_BY_ID_FAIL":
     case "FETCH_PRODUCT_BY_HANDLE_FAIL":
-      return { ...state, loading: false, error: action.payload, product: null }; // clear product on fail
+      return { ...state, loading: false, error: action.payload, rdxProduct: null }; // clear product on fail
 
     /** Edit product selection **/
     case "SET_EDIT_PRODUCT":
       return { ...state, editProduct: action.payload };
 
     case "CLEAR_EDIT_PRODUCT":
-      return { ...state, editProduct: null, product: null };
+      return { ...state, editProduct: null, rdxProduct: null };
 
     default:
       return state;

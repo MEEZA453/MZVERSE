@@ -38,7 +38,7 @@ console.log(token)
           <DraggableCarousel className="px-4">
             {filteredPosts.map((post: any) => (
               <div key={post._id} className="shrink-0 w-[80px] h-[80px]">
-                <Link href={`posts/${post?._id}`}>
+                <Link href={`/posts/${post?._id}`}>
                   <Image
                     src={post?.images[0]}
                     alt="related"

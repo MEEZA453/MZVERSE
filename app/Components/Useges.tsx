@@ -7,6 +7,10 @@ import PostCard from "./PostCard";
 import Loading from "./loading";
 import { SkeletonMyPostCard } from "./Skeleton/SkeletomMyPostCard";
 import { useRouter, useSearchParams } from "next/navigation";
+import SkeletonRelatedPosts from "./Skeleton/SkeletonReletedPosts";
+import DraggableCarousel from "./DraggableCarousel";
+import Link from "next/link";
+import Image from "next/image";
 
 export default function Useages({assetId , token, setPost, setVotes}){
     const dispatch  = useDispatch<AppDispatch>();
@@ -21,7 +25,7 @@ export default function Useages({assetId , token, setPost, setVotes}){
       const openPost = (post: any) => {
     setPost(post)
     setVotes(post.votes || [])
-router.push(`/?pid=${assetId}&uid=${post._id}`, { scroll: false });
+router.push(`/?pid=${assetId}&uid=${post?._id}`, { scroll: false });
 
 
   }
@@ -31,8 +35,8 @@ router.push(`/?pid=${assetId}&uid=${post._id}`, { scroll: false });
     // Handle URL pid change (e.g., back button)
     useEffect(() => {
       if (uid) {
-        
         const found = postsOfAsset.find((p: any) => p._id === uid)
+        console.log(found)
 console.log('called data is ' , found)
         if (found) {
           setPost(found)
@@ -45,17 +49,31 @@ console.log('called data is ' , found)
     }, [uid , postsOfAsset])
 
 
-    return <div>
-         {   !loading ? <div>{postsOfAsset?.length > 0 ?<div className='lg:grid-cols-2 px-4 lg:gap-5 gap-2  mt-10 grid-cols-2 grid'>
-        {postsOfAsset.map((post , index)=>{
-            return <div key={index}>{<PostCard openPost={openPost} post={post}/>}</div>
-        })}
-        </div>:<p className="mt-10">No usages</p>}</div>: <div className="w-full h-[100vh]"> < div className=" grid-cols-2   px-3 w-screen  my-10 grid">
-                    {Array.from({ length: 6 }).map((_, i) => (
-                      <div className=''  key={i}>
-                      <SkeletonMyPostCard/>
-                     </div>
-                    ))}
-                  </div></div>}
+    return <div className="mb-4 mt-6">
+      <h5 className="mx-2 my-3">Usages</h5>
+      <div className="flex w-screen overflow-hidden hide-scrollbar gap-2">
+        {loading ? (
+          <SkeletonRelatedPosts />
+        ) : postsOfAsset.length === 0 ? (
+          <p className="mx-2 text-sm opacity-70">No posts found</p>
+        ) : (
+          <DraggableCarousel className="px-4">
+            {postsOfAsset.map((post: any) => (
+              <div key={post._id} className="shrink-0 w-[80px] h-[80px]">
+              
+                  <Image
+                  onClick={()=>openPost(post)}
+                    src={post?.images[0]}
+                    alt="related"
+                    width={100}
+                    height={100}
+                    className="w-full h-full rounded-[2px] object-cover"
+                  />
+            
+              </div>
+            ))}
+          </DraggableCarousel>
+        )}
+      </div>
     </div>
 }
