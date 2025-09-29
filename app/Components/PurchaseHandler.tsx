@@ -26,9 +26,11 @@ const {items} = useSelector((state : any)=>state.cart)
 
 
 const isAlreadyAddedToCart = items.some((f : any)=> f?.product?._id === String(productId))
-
-const [isAddedToCart  ,setAddedToCart] = useState(isAlreadyAddedToCart ?? false)
-
+console.log(isAlreadyAddedToCart)
+const [isAddedToCart  ,setAddedToCart] = useState(isAlreadyAddedToCart )
+useEffect(() => {
+  setAddedToCart(isAlreadyAddedToCart);
+}, [isAlreadyAddedToCart]);
 const handleAddToBag = ()=>{
   if(!isAddedToCart){
 setAddedToCart(true)
@@ -58,8 +60,6 @@ const getUserCurrency = async () => {
   }
 };
 
-
-  // 👉 Razorpay Loader
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -69,7 +69,6 @@ const getUserCurrency = async () => {
       document.body.appendChild(script);
     });
   };
-
   // 👉 Payment handler
   const payWithRazorpay = async () => {
     try {
@@ -147,7 +146,7 @@ theme: {
 
 //   }
 // }, [notification]);
-    const handleAlart = async()=>{
+const handleAlart = async()=>{
   if(amount === 0){
         if (!notification && productId) {
       await dispatch(handleProductUnlock(productId, amount, token));

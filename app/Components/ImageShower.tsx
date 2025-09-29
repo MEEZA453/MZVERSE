@@ -8,6 +8,7 @@
   import { useThemeContext } from "../Context/ThemeContext";
 
   export default function ImageShower({ images = [], isMobile = false , name , amount , isMyProduct , setIsMenu }: { images?: string[]; isMobile?: boolean , name? : string , amount?: number , isMyProduct ?: boolean , setIsMenu ?: React.Dispatch<React.SetStateAction<boolean>> }) {
+  
     const carouselRef = useRef<HTMLDivElement>(null)
     const isDragging = useRef(false)
     const startPos = useRef(0)
@@ -87,29 +88,7 @@
     }, [images])
 
     return (
-      <div className="relative lg:w-[70vw] flex items-center  h-[55vh] lg:h-screen w-screen mb-4">
-
-        {/* Left Arrow */}
-        {/* {!isMobile && (
-          <div>
-            {activeIndex !== 0 && (
-              <button
-                onClick={prevImage}
-                className="absolute z-[999] left-6 top-1/2 -translate-y-1/2 bg-white/50 text-black items-center justify-center rounded-full h-7 w-7 flex pl-[5px] hover:bg-white/70"
-              >
-                <MdArrowBackIos />
-              </button>
-            )}
-            {activeIndex !== images.length - 1 && (
-              <button
-                onClick={nextImage}
-                className="absolute z-[999] right-6 top-1/2 -translate-y-1/2 bg-white/50 text-black items-center justify-center rounded-full h-7 w-7 flex hover:bg-white/70"
-              >
-                <MdArrowForwardIos />
-              </button>
-            )}
-          </div>
-        )} */}
+      <div className="relative sticky top-0 lg:w-[70vw] flex items-center  h-[55vh] lg:h-screen w-screen mb-4">
 
         <div
           ref={carouselRef}

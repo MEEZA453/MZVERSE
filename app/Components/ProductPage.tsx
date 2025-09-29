@@ -40,6 +40,8 @@ import DynamicOverlay from './DynamicOverlay';
 import HighlightOfProduct from './HighlightOfProduct';
 import MetaOfProduct from './MetaOfProduct';
 import PurchaseHandler from './PurchaseHandler';
+import DynamicImageShower from './DynamicImageShower';
+import HiddenHeader from './HiddenHeader';
 
 export default function ProductPage({selectedProduct}:{selectedProduct?:any}) {
 const pathname = usePathname()
@@ -58,6 +60,30 @@ const {rdxProduct , loading} = useSelector((state : any)=> state.design)
 const [post, setPost] = useState<any>(null)
 const [votes, setVotes] = useState<any[]>([])
 const {postsOfAsset} = useSelector((state:any)=>state.attach)
+const [opacity , setOpacity] = useState(0)
+const [scale , setScale] = useState(1)
+
+useEffect(() => {
+  const handleScroll = () => {
+    if (!scrollRef.current) return;
+    const scrollY = scrollRef.current.scrollTop;
+
+    const maxScroll = 300; // how far to scroll before fully scaled
+    const newOpacity = Math.min(scrollY / maxScroll, 0.6);
+
+    // 👉 shrink smoothly from 1 → 0.8
+    const newScale = Math.max(1 - scrollY / maxScroll * 0.8, 0.1);
+
+    setOpacity(newOpacity);
+    setScale(newScale);
+  };
+
+  const container = scrollRef.current;
+  container?.addEventListener("scroll", handleScroll);
+
+  return () => container?.removeEventListener("scroll", handleScroll);
+}, []);
+
 
 useEffect(() => {
   if (selectedProduct) {
@@ -84,7 +110,8 @@ useEffect(() => {
     window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
 
 },[])
-
+console.log(scale)
+console.log(product)
 
   return (
     <div style={{backgroundColor : isLightMode ? 'white': 'black'}} ref={scrollRef} className='fixed top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto '>
@@ -104,20 +131,20 @@ useEffect(() => {
                        {isMobile ? <AnimatePresence>{  isMenu ?  <ProductMenu currentData={product} setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> :
                        <AnimatePresence>{  isMenu ?  <ProductMenuLg setIsMenu = {setIsMenu} token={token?token:''} postId = {product?._id}/>:null} </AnimatePresence> }
      
-      <main  className='desc flex max-sm:flex-col h-screen w-screen  max-sm:items-center'>
+      <main  className='desc flex max-sm:flex-col h-screen w-screen '>
 
-<section className='sticky top-0'>
-<DynamicOverlay scrollRef={scrollRef}/>
+{/* <HiddenHeader opacity={opacity}  name={product?.name} amount={product?.amount} isLightMode={isLightMode} postsOfAsset={postsOfAsset}/> */}
+
+{/* <DynamicOverlay scrollRef={scrollRef}/> */}
 <ImageShower setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
-</section>
-<Header setIsMenu={setIsMenu} isLightMode={isLightMode}/>
+{/* <Header setIsMenu={setIsMenu} isLightMode={isLightMode}/> */}
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
   
 
-        <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} pt-3  lg:overflow-y-scroll h-fit py-10 hide-scrollbar -translate-y-32 lg:w-[30vw] rounded-t-[6px] items-center lg:border-l w-screen sticky top-2    lg:mt-24`}>
+        <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} pt-3 z-[500] lg:overflow-y-scroll h-fit py-10 hide-scrollbar -translate-y-32 lg:w-[30vw] rounded-t-[6px] items-center lg:border-l w-screen sticky top-2    lg:mt-24`}>
 <HighlightOfProduct name={product?.name} amount={product?.amount} isLightMode={isLightMode} postsOfAsset={postsOfAsset}/>
 <div className='w-full mb-2 px-2'>
-<MetaOfProduct type={'preset'} creator={product?.createdBy?.handle} size={'2.40GB'} dateOfPosted = {product?.createdAt} isLightMode={isLightMode}/>
+<MetaOfProduct type={'preset'} creator={product?.postedBy?.handle} size={'2.40GB'} dateOfPosted = {product?.createdAt} isLightMode={isLightMode}/>
 <PurchaseHandler amount={product?.amount} productId={product?._id}/>
 </div>
 

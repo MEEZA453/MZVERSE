@@ -17,7 +17,7 @@ function DynamicOverlay({scrollRef}) {
     return () => container?.removeEventListener("scroll", handleScroll)
   }, [])
   return (
-     <div       style={{ opacity }} className={`h-full absolute pointer-events-none top-0 z-[30] w-full bg-black`}></div>
+     <div       style={{ opacity }} className={`h-full fixed pointer-events-none top-0 z-[30] w-full bg-black`}></div>
   )
 }
 
