@@ -30,6 +30,7 @@ export default function DynamicPanelWrapper({
     return startY.current;
   };
 
+  // Direct DOM update
   const updatePosition = (y: number, reportState = false) => {
     if (panelRef.current) {
       panelRef.current.style.transform = `translateY(${y}vh)`;
@@ -39,6 +40,7 @@ export default function DynamicPanelWrapper({
     }
   };
 
+  // rAF updater for smoother dragging
   const scheduleUpdate = (y: number) => {
     pendingY.current = y;
     if (frameRef.current) return;
@@ -66,19 +68,13 @@ export default function DynamicPanelWrapper({
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging.current) return;
 
+    // stop chrome refresh
     if ('touches' in e) e.preventDefault();
 
     const dy = getPageY(e) - startY.current;
     let newY = currentY.current + (dy / window.innerHeight) * 100;
-
-    // ✅ Apply soft resistive boundaries for smooth mobile drag
-    if (newY > positions[0]) {
-      newY = positions[0] + (newY - positions[0]) * 0.2; // top resistive pull
-    } else if (newY < positions[2]) {
-      newY = positions[2] + (newY - positions[2]) * 0.2; // bottom resistive pull
-    }
-
-    scheduleUpdate(newY);
+    newY = Math.min(positions[0], Math.max(positions[2], newY));
+    scheduleUpdate(newY); // use rAF
   };
 
   const handleMouseUp = () => {
@@ -104,7 +100,7 @@ export default function DynamicPanelWrapper({
       animateToStep(nearestStep);
     } else {
       stepRef.current = 3;
-      onTranslateYChange?.(current);
+      onTranslateYChange?.(current); // final update
     }
   };
 
@@ -120,7 +116,7 @@ export default function DynamicPanelWrapper({
       const diff = target - current;
 
       if (Math.abs(diff) < 0.5) {
-        updatePosition(target, true);
+        updatePosition(target, true); // final update
         return;
       }
 
@@ -140,7 +136,7 @@ export default function DynamicPanelWrapper({
     <div
       ref={panelRef}
       className="fixed top-0 left-0 w-full h-screen z-[100] touch-pan-y"
-      style={{ touchAction: 'none', willChange: 'transform' }}
+      style={{ touchAction: 'none', willChange: 'transform' }} // prevent refresh + GPU hint
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
