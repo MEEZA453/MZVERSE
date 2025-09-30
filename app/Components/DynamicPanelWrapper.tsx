@@ -20,7 +20,7 @@ export default function DynamicPanelWrapper({
   const frameRef = useRef<number | null>(null);
   const pendingY = useRef<number | null>(null);
 
-  const positions = [82, 40, -20]; // steps from bottom
+  const positions = [82, 40, -30]; // steps from bottom
   const getTranslateY = (s: number) => positions[s - 1];
 
   const getPageY = (e?: React.MouseEvent | React.TouchEvent) => {
@@ -30,7 +30,6 @@ export default function DynamicPanelWrapper({
     return startY.current;
   };
 
-  // Direct DOM update
   const updatePosition = (y: number, reportState = false) => {
     if (panelRef.current) {
       panelRef.current.style.transform = `translateY(${y}vh)`;
@@ -40,7 +39,6 @@ export default function DynamicPanelWrapper({
     }
   };
 
-  // rAF updater for smoother dragging
   const scheduleUpdate = (y: number) => {
     pendingY.current = y;
     if (frameRef.current) return;
@@ -68,13 +66,12 @@ export default function DynamicPanelWrapper({
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging.current) return;
 
-    // stop chrome refresh
-    if ('touches' in e) e.preventDefault();
+    if ('touches' in e) e.preventDefault(); // stop chrome refresh
 
     const dy = getPageY(e) - startY.current;
     let newY = currentY.current + (dy / window.innerHeight) * 100;
     newY = Math.min(positions[0], Math.max(positions[2], newY));
-    scheduleUpdate(newY); // use rAF
+    scheduleUpdate(newY);
   };
 
   const handleMouseUp = () => {
@@ -85,6 +82,7 @@ export default function DynamicPanelWrapper({
       panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || '0'
     );
 
+    // ✅ Snap only if at or above 40vh
     if (current >= positions[1]) {
       const snapPositions = positions.slice(0, 2);
       let nearestStep: 1 | 2 = 1;
@@ -99,8 +97,10 @@ export default function DynamicPanelWrapper({
       stepRef.current = nearestStep;
       animateToStep(nearestStep);
     } else {
+      // ✅ Completely free below 40vh
       stepRef.current = 3;
-      onTranslateYChange?.(current); // final update
+      onTranslateYChange?.(current);
+      // no snapping, leave panel wherever it stopped
     }
   };
 
@@ -116,7 +116,7 @@ export default function DynamicPanelWrapper({
       const diff = target - current;
 
       if (Math.abs(diff) < 0.5) {
-        updatePosition(target, true); // final update
+        updatePosition(target, true);
         return;
       }
 
@@ -136,7 +136,7 @@ export default function DynamicPanelWrapper({
     <div
       ref={panelRef}
       className="fixed top-0 left-0 w-full h-screen z-[100] touch-pan-y"
-      style={{ touchAction: 'none', willChange: 'transform' }} // prevent refresh + GPU hint
+      style={{ touchAction: 'none', willChange: 'transform' }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
