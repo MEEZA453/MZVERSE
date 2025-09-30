@@ -19,10 +19,8 @@ export default function DynamicPanelWrapper({
   const stepRef = useRef<1 | 2 | 3>(initialStep);
   const frameRef = useRef<number | null>(null);
   const pendingY = useRef<number | null>(null);
-  const activeScrollable = useRef<HTMLElement | null>(null);
 
-  const DRAG_THRESHOLD = 5;
-  const positions = [82, 40, -30]; // vh positions
+  const positions = [82, 40, -30]; // steps from bottom
   const getTranslateY = (s: number) => positions[s - 1];
 
   const getPageY = (e?: React.MouseEvent | React.TouchEvent) => {
@@ -32,11 +30,17 @@ export default function DynamicPanelWrapper({
     return startY.current;
   };
 
+  // Direct DOM update
   const updatePosition = (y: number, reportState = false) => {
-    if (panelRef.current) panelRef.current.style.transform = `translateY(${y}vh)`;
-    if (onTranslateYChange && reportState) onTranslateYChange(y);
+    if (panelRef.current) {
+      panelRef.current.style.transform = `translateY(${y}vh)`;
+    }
+    if (onTranslateYChange && reportState) {
+      onTranslateYChange(y);
+    }
   };
 
+  // rAF updater for smoother dragging
   const scheduleUpdate = (y: number) => {
     pendingY.current = y;
     if (frameRef.current) return;
@@ -51,47 +55,36 @@ export default function DynamicPanelWrapper({
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     const target = e.target as HTMLElement;
-    activeScrollable.current = target.closest('.scrollable') as HTMLElement | null;
+    const scrollable = target.closest('.scrollable') as HTMLElement | null;
 
+    // Allow panel drag only if scrollable is at the top
+    if (scrollable && scrollable.scrollTop > 0) return;
+
+    isDragging.current = true;
     startY.current = getPageY(e);
     currentY.current =
       parseFloat(
-        panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') ||
-          `${getTranslateY(stepRef.current)}`
-      ) || 0;
-
-    isDragging.current = false;
+        panelRef.current?.style.transform
+          .replace('translateY(', '')
+          .replace('vh)', '') || `${getTranslateY(stepRef.current)}`
+      );
     if (frameRef.current) cancelAnimationFrame(frameRef.current);
   };
 
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
-    const dy = getPageY(e) - startY.current;
+    if (!isDragging.current) return;
 
-    // start dragging only after threshold
-    if (!isDragging.current && Math.abs(dy) < DRAG_THRESHOLD) return;
-    isDragging.current = true;
-
-    // If we are inside a scrollable element
-    const scrollable = activeScrollable.current;
-    if (scrollable) {
-      // allow panel drag only if at top (scrollTop === 0) and dragging down
-      if (!(dy > 0 && scrollable.scrollTop === 0)) {
-        return; // allow normal scroll
-      }
-    }
-
+    // stop chrome refresh
     if ('touches' in e) e.preventDefault();
+
+    const dy = getPageY(e) - startY.current;
     let newY = currentY.current + (dy / window.innerHeight) * 100;
     newY = Math.min(positions[0], Math.max(positions[2], newY));
-    scheduleUpdate(newY);
+    scheduleUpdate(newY); // use rAF
   };
 
   const handleMouseUp = () => {
-    if (!isDragging.current) {
-      activeScrollable.current = null;
-      return; // just a click
-    }
-
+    if (!isDragging.current) return;
     isDragging.current = false;
 
     const current = parseFloat(
@@ -113,10 +106,8 @@ export default function DynamicPanelWrapper({
       animateToStep(nearestStep);
     } else {
       stepRef.current = 3;
-      onTranslateYChange?.(current);
+      onTranslateYChange?.(current); // final update
     }
-
-    activeScrollable.current = null;
   };
 
   const animateToStep = (s: 1 | 2) => {
@@ -129,10 +120,12 @@ export default function DynamicPanelWrapper({
         panelRef.current.style.transform.replace('translateY(', '').replace('vh)', '') || '0'
       );
       const diff = target - current;
+
       if (Math.abs(diff) < 0.5) {
-        updatePosition(target, true);
+        updatePosition(target, true); // final update
         return;
       }
+
       updatePosition(current + diff * 0.2, false);
       requestAnimationFrame(animate);
     };
@@ -149,7 +142,7 @@ export default function DynamicPanelWrapper({
     <div
       ref={panelRef}
       className="fixed top-0 left-0 w-full h-screen z-[100] touch-pan-y"
-      style={{ touchAction: 'pan-y', willChange: 'transform' }}
+      style={{ touchAction: 'none', willChange: 'transform' }} // prevent refresh + GPU hint
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}
