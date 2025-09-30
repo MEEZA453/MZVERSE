@@ -42,6 +42,7 @@ import MetaOfProduct from './MetaOfProduct';
 import PurchaseHandler from './PurchaseHandler';
 import DynamicImageShower from './DynamicImageShower';
 import HiddenHeader from './HiddenHeader';
+import DynamicPanelWrapper from './DynamicPanelWrapper';
 
 export default function ProductPage({selectedProduct}:{selectedProduct?:any}) {
 const pathname = usePathname()
@@ -62,6 +63,7 @@ const [votes, setVotes] = useState<any[]>([])
 const {postsOfAsset} = useSelector((state:any)=>state.attach)
 const [opacity , setOpacity] = useState(0)
 const [scale , setScale] = useState(1)
+const [panelY, setPanelY] = useState(40);
 
 useEffect(() => {
   const handleScroll = () => {
@@ -135,12 +137,15 @@ console.log(product)
 
 {/* <HiddenHeader opacity={opacity}  name={product?.name} amount={product?.amount} isLightMode={isLightMode} postsOfAsset={postsOfAsset}/> */}
 
-{/* <DynamicOverlay scrollRef={scrollRef}/> */}
-<ImageShower setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
-{/* <Header setIsMenu={setIsMenu} isLightMode={isLightMode}/> */}
+<DynamicOverlay scrollRef={scrollRef}/>
+<ImageShower style={{ height: `${panelY}vh`, minHeight : '40vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
+<Header setIsMenu={setIsMenu} isLightMode={isLightMode}/>
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
   
-
+      <DynamicPanelWrapper
+        initialStep={2}
+  onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
+      >
         <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} pt-3 z-[500] lg:overflow-y-scroll h-fit py-10 hide-scrollbar -translate-y-32 lg:w-[30vw] rounded-t-[6px] items-center lg:border-l w-screen sticky top-2    lg:mt-24`}>
 <HighlightOfProduct name={product?.name} amount={product?.amount} isLightMode={isLightMode} postsOfAsset={postsOfAsset}/>
 <div className='w-full mb-2 px-2'>
@@ -174,6 +179,7 @@ console.log(product)
 
     
         </aside>
+        </DynamicPanelWrapper>
 </div>
 
 

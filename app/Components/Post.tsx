@@ -41,6 +41,7 @@ import HighlightInfoOfPost from './HighlightInfoOfPost'
 import ScoreBoard from './ScoreBoard'
 import ListOfVotes from './ListOfVotes'
 import PostMeta from './PostMeta'
+import DynamicPanelWrapper from './DynamicPanelWrapper'
 
 type AveragesType = {
   aesthetics: number;
@@ -78,12 +79,13 @@ export default function Post({ catchedPost, catchedVotes }: PostProps) {
     const [isMobile  ,setIsMobile] = useState(false)
     const [opacity , setOpacity]  = useState(0)
     const {rdxPost, rdxVotes, loading} = useSelector((state : any)=>state.posts)
+    const [panelY, setPanelY] = useState(40);
+    console.log(panelY)  
     console.log(rdxPost)
     console.log(post)
     const searchParams = useSearchParams();
      const pid = searchParams.get('pid')
          const postInPath = usePathname().split('/')[2]
-         
     const postId = pid || postInPath 
   
 const scrollRef = useRef<HTMLDivElement>(null)
@@ -145,12 +147,17 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         {/* <ProductImages images={post?.images}/> */}
         <section className=' sticky top-0'>
 
-      <ImageShower  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
+       <DynamicOverlay  scrollRef={scrollRef}/>
         </section>
-       <DynamicOverlay scrollRef={scrollRef}/>
        <Header isLightMode={isLightMode} setIsMenu={setIsMenu}/> 
-<Attachments assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>
-     <div  onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-24  sticky top-0 z-[100]  lg:mt-24 rounded-t-[10px] lg:rounded-t-none   ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] `}>
+        <ImageShower style={{ height: `${panelY}vh`, minHeight : '40vh' ,  transition: 'height 0.2s ease' }} setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
+      <DynamicPanelWrapper
+        initialStep={2}
+  onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
+      >
+     <div id='main' onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-4 sticky top-0 z-[100]  lg:mt-24 rounded-t-[10px] lg:rounded-t-none   ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] `}>
+<Attachments  assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>
+
 <HighlightInfoOfPost isLightMode={isLightMode} postName={post?.name} validVotes={validVotes}/>
 <ScoreBoard isLightMode={isLightMode} post={post} validVotes={validVotes}/>
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
@@ -159,7 +166,8 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <RelatedPosts postId = {postId} handle={post?.createdBy?.handle} token={token} />
 <RelatedToCatagoty catagory={post?.category} postId={postId} />
 </div>
-
+          
+        </DynamicPanelWrapper>
 
 
             

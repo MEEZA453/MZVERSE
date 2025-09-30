@@ -7,10 +7,10 @@ function Header({isLightMode, setIsMenu}) {
 const router = useRouter()
 
   return (
-           <div className={`${isLightMode ? 'bg-white absolute  border-[#dadada]':'bg-black border-[#4d4d4d]'} border-b  h-9 z-[200] w-screen px-2 absolute top-0 flex justify-between items-center`}>
+           <div className={` fixed top-0  h-9 z-[200] w-screen px-2  flex justify-between items-center`}>
                  <div className='flex items-center gap-5'>
                                 <button onClick={()=> router.back()}>
-                           <IoIosArrowBack  color={isLightMode ? 'black': 'white'} size={17} />
+                           <IoIosArrowBack  className='mix-blend-difference' color={isLightMode ? 'black': 'white'} size={17} />
                            
                            </button>
                             {/* <button 

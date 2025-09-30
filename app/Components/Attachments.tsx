@@ -12,7 +12,7 @@ export default function Attachments ({postId , token, setAttachmentsMenu, assets
    return (
     <div>
 {  assetsOfPost?.length > 0 &&  
-  <div className="px-2  fixed top-[40vh] lg:top-[91vh] lg:left-2">
+  <div className="px-2  fixed top-0 -translate-y-20 lg:top-[91vh] lg:left-2">
     {/* {assetsOfPost?.length > 1 ? ( */}
       <MultipleAttachment 
       setAttachmentsMenu={setAttachmentsMenu}
