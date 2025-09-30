@@ -20,7 +20,7 @@ export default function DynamicPanelWrapper({
   const frameRef = useRef<number | null>(null);
   const pendingY = useRef<number | null>(null);
 
-  const positions = [82, 40, -30]; // steps from bottom
+  const positions = [82, 40, -20]; // steps from bottom
   const getTranslateY = (s: number) => positions[s - 1];
 
   const getPageY = (e?: React.MouseEvent | React.TouchEvent) => {
@@ -77,63 +77,32 @@ export default function DynamicPanelWrapper({
     scheduleUpdate(newY); // use rAF
   };
 
-const handleMouseUp = () => {
-  if (!isDragging.current) return;
-  isDragging.current = false;
+  const handleMouseUp = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
 
-  const current = parseFloat(
-    panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || '0'
-  );
+    const current = parseFloat(
+      panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || '0'
+    );
 
-  if (current >= positions[1]) {
-    // snapping zone
-    const snapPositions = positions.slice(0, 2);
-    let nearestStep: 1 | 2 = 1;
-    let minDiff = Math.abs(current - snapPositions[0]);
-    snapPositions.forEach((pos, idx) => {
-      const diff = Math.abs(current - pos);
-      if (diff < minDiff) {
-        minDiff = diff;
-        nearestStep = (idx + 1) as 1 | 2;
-      }
-    });
-    stepRef.current = nearestStep;
-    animateToStep(nearestStep);
-  } else {
-    // free zone → apply smooth spring-damping
-    stepRef.current = 3;
-    smoothFreeMotion(current);
-  }
-};
-
-const smoothFreeMotion = (start: number) => {
-  if (!panelRef.current) return;
-
-  let position = start;
-  let velocity = 0;
-  let target = position; // stays where user left
-  const damping = 0.85;  // friction
-  const stiffness = 0.15; // spring strength
-
-  const animate = () => {
-    if (!panelRef.current) return;
-
-    const force = (target - position) * stiffness;
-    velocity = velocity * damping + force;
-    position += velocity;
-
-    updatePosition(position, false);
-
-    if (Math.abs(velocity) > 0.05) {
-      requestAnimationFrame(animate);
+    if (current >= positions[1]) {
+      const snapPositions = positions.slice(0, 2);
+      let nearestStep: 1 | 2 = 1;
+      let minDiff = Math.abs(current - snapPositions[0]);
+      snapPositions.forEach((pos, idx) => {
+        const diff = Math.abs(current - pos);
+        if (diff < minDiff) {
+          minDiff = diff;
+          nearestStep = (idx + 1) as 1 | 2;
+        }
+      });
+      stepRef.current = nearestStep;
+      animateToStep(nearestStep);
     } else {
-      updatePosition(position, true); // final stable state
+      stepRef.current = 3;
+      onTranslateYChange?.(current); // final update
     }
   };
-
-  animate();
-};
-
 
   const animateToStep = (s: 1 | 2) => {
     if (!panelRef.current) return;
