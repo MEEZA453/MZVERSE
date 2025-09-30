@@ -33,6 +33,7 @@ export default function ImageShower({
       const startPos = useRef(0)
       const {isLightMode} = useThemeContext()
       const scrollStart = useRef(0)
+      
       const animationFrame = useRef<number | null>(null)
     const router  = useRouter()
 
@@ -126,7 +127,7 @@ export default function ImageShower({
               <div
                 key={i}
                 data-index={i}
-                 style={style} 
+                //  style={style} 
                 className={`flex-shrink-0 w-screen pointer-events-none  flex items-center  h-[50vh]  snap-center flex items-center justify-center lg:w-[40vw] lg:h-[50vh] lg:h-fit ${
                   i === images.length - 1 ? "" : ""
                 }`}
