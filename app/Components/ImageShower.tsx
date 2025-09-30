@@ -125,6 +125,7 @@ export default function ImageShower({
 
             {images.map((img: string, i: number) => (
               <div
+              
                 key={i}
                 data-index={i}
                  style={style} 

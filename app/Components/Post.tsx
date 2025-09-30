@@ -147,11 +147,10 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         {/* <ProductImages images={post?.images}/> */}
         <section className=' sticky top-0'>
 
-
        <DynamicOverlay  scrollRef={scrollRef}/>
         </section>
        <Header isLightMode={isLightMode} setIsMenu={setIsMenu}/> 
-        <ImageShower style={{ height: `${panelY+10}vh`, minHeight : '50vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
+        <ImageShower style={{ height: `${panelY+10}vh`, minHeight : '40vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
       <DynamicPanelWrapper
         initialStep={2}
   onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
@@ -169,6 +168,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 </aside>
           
         </DynamicPanelWrapper>
+
 
             
             </div>: <Loading/>}

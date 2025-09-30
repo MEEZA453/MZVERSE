@@ -7,7 +7,7 @@ function ListOfVotes({post, validVotes, isLightMode, isMobile, setVoteMenu}) {
           const [openIndex , setOpenIndex] = useState(0)
           const router = useRouter()
   return (
-    <div>{validVotes.length > 0 && <div className='tabs  mt-6'>
+    <div>{validVotes.length > 0 && <div className='tabs mt-6'>
     <div className={`flex relative border-b  ${isLightMode ? 'border-[#dadada]':'border-[#4d4d4d]'}  pb-1 px-3 gap-12`}>
 {['Creators' , 'Judges'].map((el , i)=>{
     return <button className='text-[14px]' key={i} style={{opacity :currentIndex === i ? 1 : 0.66}}  onClick={()=> setCurrentIndex(i)}>{el}</button>
@@ -22,7 +22,7 @@ function ListOfVotes({post, validVotes, isLightMode, isMobile, setVoteMenu}) {
 </div>}
 
 
-{validVotes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div className={`votes mt-4 border-b ${isLightMode ? 'border-[#dadada]':'border-[#4d4d4d]'}  relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll hide-scrollbar`}>
+{validVotes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div className={`votes mt-4 border-b ${isLightMode ? 'border-[#dadada]':'border-[#4d4d4d]'}  relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll hide-scrollbar scrollable`}>
 <div  style={{transform : isMobile ? `translate(-${currentIndex*100}vw)`: `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
     <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>

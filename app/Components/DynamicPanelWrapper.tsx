@@ -54,6 +54,12 @@ export default function DynamicPanelWrapper({
   };
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+    const target = e.target as HTMLElement;
+    const scrollable = target.closest('.scrollable') as HTMLElement | null;
+
+    // Allow panel drag only if scrollable is at the top
+    if (scrollable && scrollable.scrollTop > 0) return;
+
     isDragging.current = true;
     startY.current = getPageY(e);
     currentY.current =
