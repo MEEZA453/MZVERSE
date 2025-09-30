@@ -14,7 +14,8 @@ export default function DynamicPanelWrapper({
 }: DynamicPanelWrapperProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const startY = useRef(0);
-  const currentY = useRef(0);
+  const currentY = useRef(0); // ← target Y
+  const liveY = useRef(0);    // ← rendered Y
   const isDragging = useRef(false);
   const stepRef = useRef<1 | 2 | 3>(initialStep);
   const frameRef = useRef<number | null>(null);
@@ -29,22 +30,19 @@ export default function DynamicPanelWrapper({
     return startY.current;
   };
 
-  // Direct DOM update for smooth dragging
   const updatePosition = (y: number, reportState = false) => {
     if (panelRef.current) panelRef.current.style.transform = `translateY(${y}vh)`;
-    if (onTranslateYChange && reportState) {
-      // Only report occasionally to React state
-      onTranslateYChange(y);
-    }
+    if (onTranslateYChange && reportState) onTranslateYChange(y);
   };
 
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     isDragging.current = true;
     startY.current = getPageY(e);
     currentY.current =
-      parseFloat(panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') ||
-      `${getTranslateY(stepRef.current)}`);
-    if (frameRef.current) cancelAnimationFrame(frameRef.current);
+      parseFloat(
+        panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') ||
+          `${getTranslateY(stepRef.current)}`
+      );
   };
 
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
@@ -52,14 +50,14 @@ export default function DynamicPanelWrapper({
     const dy = getPageY(e) - startY.current;
     let newY = currentY.current + (dy / window.innerHeight) * 100;
     newY = Math.min(positions[0], Math.max(positions[2], newY));
-    updatePosition(newY, false); // DOM only, no React state
+    liveY.current = newY; // just update ref, rendering happens in RAF
   };
 
   const handleMouseUp = () => {
     if (!isDragging.current) return;
     isDragging.current = false;
 
-    const current = parseFloat(panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || '0');
+    const current = liveY.current;
 
     if (current >= positions[1]) {
       const snapPositions = positions.slice(0, 2);
@@ -75,35 +73,46 @@ export default function DynamicPanelWrapper({
       stepRef.current = nearestStep;
       animateToStep(nearestStep);
     } else {
-      stepRef.current = 3; // free scroll
-      if (onTranslateYChange) onTranslateYChange(current); // final update
+      stepRef.current = 3;
+      if (onTranslateYChange) onTranslateYChange(current);
     }
   };
 
   const animateToStep = (s: 1 | 2) => {
-    if (!panelRef.current) return;
     const target = getTranslateY(s);
 
     const animate = () => {
-      if (!panelRef.current) return;
-      const current = parseFloat(panelRef.current.style.transform.replace('translateY(', '').replace('vh)', '') || '0');
-      const diff = target - current;
-
+      const diff = target - liveY.current;
       if (Math.abs(diff) < 0.5) {
-        updatePosition(target, true); // final state update
+        liveY.current = target;
+        updatePosition(target, true);
         return;
       }
-
-      updatePosition(current + diff * 0.2, false); // DOM only during animation
+      liveY.current += diff * 0.2;
+      updatePosition(liveY.current, false);
       requestAnimationFrame(animate);
     };
 
-    animate();
+    requestAnimationFrame(animate);
+  };
+
+  // master RAF loop for dragging
+  const loop = () => {
+    if (isDragging.current) {
+      updatePosition(liveY.current, false);
+    }
+    frameRef.current = requestAnimationFrame(loop);
   };
 
   useEffect(() => {
     const initY = getTranslateY(stepRef.current);
+    liveY.current = initY;
     updatePosition(initY, true);
+    frameRef.current = requestAnimationFrame(loop);
+
+    return () => {
+      if (frameRef.current) cancelAnimationFrame(frameRef.current);
+    };
   }, []);
 
   return (

@@ -150,12 +150,12 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
        <DynamicOverlay  scrollRef={scrollRef}/>
         </section>
        <Header isLightMode={isLightMode} setIsMenu={setIsMenu}/> 
-        <ImageShower style={{ height: `${panelY}vh`, minHeight : '40vh' ,  transition: 'height 0.2s ease' }} setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
+        <ImageShower style={{ height: `${panelY+10}vh`, minHeight : '40vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
       <DynamicPanelWrapper
         initialStep={2}
   onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
       >
-     <div id='main' onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-4 sticky top-0 z-[100]  lg:mt-24 rounded-t-[10px] lg:rounded-t-none   ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] `}>
+     <aside id='main' onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-4 sticky top-0 z-[100]  lg:mt-24 rounded-t-[10px] lg:rounded-t-none   ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] `}>
 <Attachments  assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>
 
 <HighlightInfoOfPost isLightMode={isLightMode} postName={post?.name} validVotes={validVotes}/>
@@ -165,7 +165,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <PostMeta isLightMode={isLightMode} post= {post}/>
 <RelatedPosts postId = {postId} handle={post?.createdBy?.handle} token={token} />
 <RelatedToCatagoty catagory={post?.category} postId={postId} />
-</div>
+</aside>
           
         </DynamicPanelWrapper>
 
