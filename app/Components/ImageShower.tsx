@@ -46,16 +46,23 @@ export default function ImageShower({
         scrollStart.current = carouselRef.current?.scrollLeft || 0
       }
 
-      const handleMouseMove = (e: React.MouseEvent) => {
-        if (!isDragging.current || !carouselRef.current) return
-        const x = e.pageX - carouselRef.current.offsetLeft
-        const walk = (x - startPos.current) * 2
-        targetScroll.current = scrollStart.current - walk
-        if (!animationFrame.current) {
-          animationFrame.current = requestAnimationFrame(animateScroll)
-        }
-      }
+  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
+  if (!isDragging.current) return;
 
+  if ('touches' in e) e.preventDefault();
+
+  const dy = getPageY(e) - startY.current;
+  let newY = currentY.current + (dy / window.innerHeight) * 100;
+
+  if (newY > positions[0]) newY = positions[0]; // max at 82
+  else if (newY < positions[1]) {
+    // below 40vh → free drag with friction
+    const extra = newY - positions[1];
+    newY = positions[1] + extra * 0.4; // friction factor 0.4, adjust as needed
+  }
+
+  scheduleUpdate(newY);
+};
       const handleMouseUp = () => (isDragging.current = false)
       const handleMouseLeave = () => (isDragging.current = false)
 
@@ -127,7 +134,7 @@ export default function ImageShower({
               <div
                 key={i}
                 data-index={i}
-                //  style={style} 
+                 style={style} 
                 className={`flex-shrink-0 w-screen pointer-events-none  flex items-center  h-[50vh]  snap-center flex items-center justify-center lg:w-[40vw] lg:h-[50vh] lg:h-fit ${
                   i === images.length - 1 ? "" : ""
                 }`}
