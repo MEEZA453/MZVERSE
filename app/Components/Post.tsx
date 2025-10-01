@@ -150,7 +150,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
        {/* <DynamicOverlay  scrollRef={scrollRef}/> */}
         </section>
         <Header isLightMode={isLightMode} setIsMenu={setIsMenu}/> 
-        <ImageShower style={{ height: `${panelY+10}vh`, minHeight : '50vh', maxHeight : '100vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
+        <ImageShower panelY={panelY} setPanelY={setPanelY} style={{ height: `${panelY+10}vh`, minHeight : '50vh', maxHeight : '100vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
       <DynamicPanelWrapper
         initialStep={2}
   onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
@@ -159,6 +159,10 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <div style={{opacity : panelY > 100 ? 1 : 0}} className='rounded-full duration-500 h-1 w-16 bg-[#dadada] absolute -top-3.5 relative -translate-x-1/2 left-1/2 '>
   
     </div>
+{panelY > 100 && (
+  <div className="h-56 w-full  -mt-56">
+  </div>
+)}
 <Attachments  assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>
 
 <HighlightInfoOfPost isLightMode={isLightMode} postName={post?.name} validVotes={validVotes}/>

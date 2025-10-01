@@ -15,6 +15,9 @@ interface ImageShowerProps {
   isMyProduct?: boolean;
   setIsMenu?: React.Dispatch<React.SetStateAction<boolean>>;
   style?: React.CSSProperties; // add style prop
+  panelY?: number
+  setPanelY?: React.Dispatch<React.SetStateAction<Number>>;
+
 }
 
 export default function ImageShower({
@@ -24,6 +27,8 @@ export default function ImageShower({
   amount,
   isMyProduct,
   setIsMenu,
+  panelY,
+  setPanelY,
   style,
 }: ImageShowerProps) {
 
@@ -132,16 +137,16 @@ export default function ImageShower({
                   i === images.length - 1 ? "" : ""
                 }`}
               >
-                <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="   lg:h-full max-h-[700px]   object-cover" />
+                <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="   lg:h-full max-h-[450px]   object-cover" />
               </div>
             ))}
           </div>
 
       { !isLightMode &&  <div className="pointer-events-none fixed w-screen h-80 bg-gradient-to-b from-[#00000070] to-transparent top-0 z-30" />}
-
+<button   style={{color : isLightMode ? 'white': 'black', backgroundColor : isLightMode ? 'black':'white'}} className={`text-[12px] absolute bottom-40 ${panelY > 90 ? 'opacity-100':'opacity-0'}  rounded-full border h-fit px-2 py-1 `}>Vote Now</button>
           {/* Thumbnail Controller */}
-          {/* {images.length > 1 && (
-            <div className="absolute image-controller flex lg:left-[35vw] left-[35vw] bottom-2 gap-1">
+          {images.length > 1 && (
+            <div className="absolute image-controller flex lg:left-[3vw] left-[35vw] bottom-6 gap-1">
               {images.map((el, i) => (
                 <Image
                   key={i}
@@ -151,12 +156,12 @@ export default function ImageShower({
                   height={300}
                   onClick={() => scrollToImage(i)}
                   className={`lg:h-16 w-12 lg:w-16 h-12 object-cover cursor-pointer duration-300 border ${
-                    activeIndex === i ? "border-[#4d4d4d]" : "border-transparent hover:border-[#4d4d4d]"
+                    activeIndex === i ? "opacity-40" : "opacity-100"
                   }`}
                 />
               ))}
             </div>
-          )} */}
+          )}
         </div>
       )
     }
