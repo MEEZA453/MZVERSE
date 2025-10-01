@@ -113,7 +113,7 @@ export default function ImageShower({
 
           <div
             ref={carouselRef}
-            className={`flex hide-scrollbar ${images?.length === 1? 'lg:ml-[15vw]':''}  snap-mandatory cursor-grab  ml flex items-center overflow-x-scroll snap-x lg:w-[70vw] lg:h-screen lg:overflow-x-scroll lg:snap-y`}
+            className={`flex hide-scrollbar ${images?.length === 1? 'lg:ml-[15vw]':''}  snap-mandatory cursor-grab  ml flex items-center overflow-x-scroll snap-x lg:w-[70vw] lg:h-screen lg:overflow-x-scroll lg:snap-y `}
             onMouseDown={handleMouseDown}
             onMouseLeave={handleMouseLeave}
             onMouseUp={handleMouseUp}
@@ -132,7 +132,7 @@ export default function ImageShower({
                   i === images.length - 1 ? "" : ""
                 }`}
               >
-                <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="   lg:h-full    object-cover" />
+                <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="   lg:h-full max-h-[700px]   object-cover" />
               </div>
             ))}
           </div>

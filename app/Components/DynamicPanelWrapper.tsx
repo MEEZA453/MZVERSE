@@ -21,8 +21,10 @@ export default function DynamicPanelWrapper({
   const pendingY = useRef<number | null>(null);
 
   // 3 snap positions
-  const positions = [102, 40, -30]; // step1, step2, step3
+  const positions = [102, 40, -25]; // step1, step2, step3
   const getTranslateY = (s: number) => positions[s - 1];
+
+  const DRAG_THRESHOLD = 20; // drag threshold in vh
 
   const getPageY = (e?: React.MouseEvent | React.TouchEvent) => {
     if (!e) return startY.current;
@@ -75,20 +77,15 @@ export default function DynamicPanelWrapper({
     isDragging.current = false;
 
     const current = parseFloat(panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || '0');
+    const stepIndex = stepRef.current - 1;
+    const distanceMoved = current - positions[stepIndex];
 
-    // Find nearest step
-    let nearestStep: 1 | 2 | 3 = 1;
-    let minDiff = Math.abs(current - positions[0]);
-    positions.forEach((pos, idx) => {
-      const diff = Math.abs(current - pos);
-      if (diff < minDiff) {
-        minDiff = diff;
-        nearestStep = (idx + 1) as 1 | 2 | 3;
-      }
-    });
-
-    stepRef.current = nearestStep;
-    animateToStep(nearestStep);
+    if (distanceMoved > DRAG_THRESHOLD && stepRef.current > 1) {
+      stepRef.current = (stepRef.current - 1) as 1 | 2 | 3; // move up
+    } else if (distanceMoved < -DRAG_THRESHOLD && stepRef.current < 3) {
+      stepRef.current = (stepRef.current + 1) as 1 | 2 | 3; // move down
+    }
+    animateToStep(stepRef.current);
   };
 
   const animateToStep = (s: 1 | 2 | 3) => {
