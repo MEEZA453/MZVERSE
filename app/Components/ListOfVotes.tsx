@@ -22,7 +22,9 @@ function ListOfVotes({post, validVotes, isLightMode, isMobile, setVoteMenu}) {
 </div>}
 
 
-{validVotes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div className={`votes mt-4 border-b ${isLightMode ? 'border-[#dadada]':'border-[#4d4d4d]'}  relative w-screen lg:w-[30vw] max-h-100 h-[50vh] overflow-x-hidden overflow-y-scroll hide-scrollbar scrollable`}>
+{validVotes.length <1 ? <p className='text-center mt-10'>No vote available </p>: <div  className={`votes mt-4 border-b ${isLightMode ? 'border-[#dadada]':'border-[#4d4d4d]'}  relative w-screen lg:w-[30vw] max-h-100 h-[50vh]   hide-scrollbar overflow-hidden`}>
+
+      <div className={`absolute flex justify-center w-full h-80 bg-gradient-to-t ${isLightMode ?'from-white to-[#ffffff00]':'from-black to-[#00000000]'} bottom-0 z-[10]`}><button className='text-[12px] absolute bottom-6 rounded-full border h-fit px-2'>See Details</button></div>
 <div  style={{transform : isMobile ? `translate(-${currentIndex*100}vw)`: `translate(-${currentIndex*30}vw)`}} className='h-50  duration-300 w-[200vw] lg:w-[60vw]  flex'>
     <div className='max-h-100 h-full w-screen lg:w-[30vw] community-votes  '>
     <div className='see-votes  px-2 mt-5'>
