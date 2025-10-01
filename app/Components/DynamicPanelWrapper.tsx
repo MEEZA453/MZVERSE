@@ -21,7 +21,7 @@ export default function DynamicPanelWrapper({
   const pendingY = useRef<number | null>(null);
 
   // 3 snap positions
-  const positions = [80, 40, -30]; // step1, step2, step3
+  const positions = [102, 40, -30]; // step1, step2, step3
   const getTranslateY = (s: number) => positions[s - 1];
 
   const getPageY = (e?: React.MouseEvent | React.TouchEvent) => {

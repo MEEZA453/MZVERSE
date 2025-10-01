@@ -128,7 +128,7 @@ user?._id === post?.createdBy?._id ? setAuthor(true): setAuthor(false)
 const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 
     return (
-        <div style={{backgroundColor : isLightMode ?'white':'black'}}  ref={scrollRef} className='fixed  top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto '>
+        <div style={{backgroundColor : isLightMode ?'white':'black'}}  ref={scrollRef} className='fixed top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto '>
            
        <Notification/>
             {/* <MasterNavber/> */}
@@ -147,15 +147,18 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         {/* <ProductImages images={post?.images}/> */}
         <section className=' sticky top-0'>
 
-       <DynamicOverlay  scrollRef={scrollRef}/>
+       {/* <DynamicOverlay  scrollRef={scrollRef}/> */}
         </section>
-       <Header isLightMode={isLightMode} setIsMenu={setIsMenu}/> 
-        <ImageShower style={{ height: `${panelY+10}vh`, minHeight : '50vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
+        <Header isLightMode={isLightMode} setIsMenu={setIsMenu}/> 
+        <ImageShower style={{ height: `${panelY+10}vh`, minHeight : '50vh', maxHeight : '100vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
       <DynamicPanelWrapper
         initialStep={2}
   onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
       >
      <aside id='main' onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-4 sticky top-0 z-[100]  lg:mt-24 rounded-t-[10px] lg:rounded-t-none   ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] `}>
+<div style={{opacity : panelY > 100 ? 1 : 0}} className='rounded-full duration-500 h-1 w-16 bg-[#dadada] absolute -top-3.5 relative -translate-x-1/2 left-1/2 '>
+  
+    </div>
 <Attachments  assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>
 
 <HighlightInfoOfPost isLightMode={isLightMode} postName={post?.name} validVotes={validVotes}/>
@@ -164,7 +167,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <ListOfVotes setVoteMenu={setVoteMenu} isMobile={isMobile} isLightMode={isLightMode} validVotes={validVotes} post={post} />
 <RelatedPosts postId = {postId} handle={post?.createdBy?.handle} token={token} />
 <RelatedToCatagoty catagory={post?.category} postId={postId} />
-<PostMeta isLightMode={isLightMode} post= {post}/>
+{/* <PostMeta isLightMode={isLightMode} post= {post}/> */}
 </aside>
           
         </DynamicPanelWrapper>

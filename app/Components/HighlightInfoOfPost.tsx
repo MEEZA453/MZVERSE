@@ -6,7 +6,11 @@ function HighlightInfoOfPost({isLightMode, postName, validVotes}) {
 const router = useRouter()
   return (
     <div className='flex h-9    mb-2 items-center justify-between px-2 w-full'>
+
+      <div className='flex items-end gap-1'>
         <h5   className="px-0 " style={{color : isLightMode ?'black': 'white'}}>{postName} </h5>
+  <p className='mb-0.5' style={{fontSize : '11px', opacity : 1}}>by @meeza</p>    
+      </div>
        <div className="flex items-center">
 { validVotes.length > 0 && <div className="flex items-center">
   <h3>Voted by</h3>
