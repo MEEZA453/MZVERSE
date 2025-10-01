@@ -53,23 +53,28 @@ export default function DynamicPanelWrapper({
     });
   };
 
-  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-    const target = e.target as HTMLElement;
-    const scrollable = target.closest('.scrollable') as HTMLElement | null;
+const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+  const target = e.target as HTMLElement;
+  const scrollable = target.closest('.scrollable') as HTMLElement | null;
 
-    // Allow panel drag only if scrollable is at the top
-    if (scrollable && scrollable.scrollTop > 0) return;
+  // ✅ Case 1: At step 1 but scrollable has scroll
+  if (stepRef.current === 1 && scrollable && scrollable.scrollTop > 0) {
+    return; // let scroll work, block drag
+  }
 
-    isDragging.current = true;
-    startY.current = getPageY(e);
-    currentY.current =
-      parseFloat(
-        panelRef.current?.style.transform
-          .replace('translateY(', '')
-          .replace('vh)', '') || `${getTranslateY(stepRef.current)}`
-      );
-    if (frameRef.current) cancelAnimationFrame(frameRef.current);
-  };
+  // ✅ Case 2: Otherwise → enable drag
+  isDragging.current = true;
+  startY.current = getPageY(e);
+  currentY.current =
+    parseFloat(
+      panelRef.current?.style.transform
+        .replace('translateY(', '')
+        .replace('vh)', '') || `${getTranslateY(stepRef.current)}`
+    );
+  if (frameRef.current) cancelAnimationFrame(frameRef.current);
+};
+
+
 
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging.current) return;
@@ -83,56 +88,54 @@ export default function DynamicPanelWrapper({
     scheduleUpdate(newY); // use rAF
   };
 
-  const handleMouseUp = () => {
-    if (!isDragging.current) return;
-    isDragging.current = false;
+const handleMouseUp = () => {
+  if (!isDragging.current) return;
+  isDragging.current = false;
 
-    const current = parseFloat(
-      panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || '0'
-    );
+  const current = parseFloat(
+    panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || '0'
+  );
 
-    if (current >= positions[1]) {
-      const snapPositions = positions.slice(0, 2);
-      let nearestStep: 1 | 2 = 1;
-      let minDiff = Math.abs(current - snapPositions[0]);
-      snapPositions.forEach((pos, idx) => {
-        const diff = Math.abs(current - pos);
-        if (diff < minDiff) {
-          minDiff = diff;
-          nearestStep = (idx + 1) as 1 | 2;
-        }
-      });
-      stepRef.current = nearestStep;
-      animateToStep(nearestStep);
-    } else {
-      stepRef.current = 3;
-      onTranslateYChange?.(current); // final update
+  // find nearest among all 3 positions
+  let nearestStep: 1 | 2 | 3 = 1;
+  let minDiff = Math.abs(current - positions[0]);
+
+  positions.forEach((pos, idx) => {
+    const diff = Math.abs(current - pos);
+    if (diff < minDiff) {
+      minDiff = diff;
+      nearestStep = (idx + 1) as 1 | 2 | 3;
     }
-  };
+  });
 
-  const animateToStep = (s: 1 | 2) => {
+  stepRef.current = nearestStep;
+  animateToStep(nearestStep);
+};
+
+
+
+const animateToStep = (s: 1 | 2 | 3) => {
+  if (!panelRef.current) return;
+  const target = getTranslateY(s);
+
+  const animate = () => {
     if (!panelRef.current) return;
-    const target = getTranslateY(s);
+    const current = parseFloat(
+      panelRef.current.style.transform.replace('translateY(', '').replace('vh)', '') || '0'
+    );
+    const diff = target - current;
 
-    const animate = () => {
-      if (!panelRef.current) return;
-      const current = parseFloat(
-        panelRef.current.style.transform.replace('translateY(', '').replace('vh)', '') || '0'
-      );
-      const diff = target - current;
+    if (Math.abs(diff) < 0.5) {
+      updatePosition(target, true); // final update
+      return;
+    }
 
-      if (Math.abs(diff) < 0.5) {
-        updatePosition(target, true); // final update
-        return;
-      }
-
-      updatePosition(current + diff * 0.2, false);
-      requestAnimationFrame(animate);
-    };
-
-    animate();
+    updatePosition(current + diff * 0.2, false);
+    requestAnimationFrame(animate);
   };
 
+  animate();
+};
   useEffect(() => {
     const initY = getTranslateY(stepRef.current);
     updatePosition(initY, true);
