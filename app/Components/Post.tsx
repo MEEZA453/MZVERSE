@@ -162,9 +162,9 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <ScoreBoard isLightMode={isLightMode} post={post} validVotes={validVotes}/>
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
 <ListOfVotes setVoteMenu={setVoteMenu} isMobile={isMobile} isLightMode={isLightMode} validVotes={validVotes} post={post} />
-<PostMeta isLightMode={isLightMode} post= {post}/>
 <RelatedPosts postId = {postId} handle={post?.createdBy?.handle} token={token} />
 <RelatedToCatagoty catagory={post?.category} postId={postId} />
+<PostMeta isLightMode={isLightMode} post= {post}/>
 </aside>
           
         </DynamicPanelWrapper>

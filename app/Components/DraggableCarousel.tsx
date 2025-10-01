@@ -21,27 +21,14 @@ export default function DraggableCarousel({ children, onClickItem, className }: 
   const isMobile = typeof window !== "undefined" && window.innerWidth <= 768;
 
   // ---- Drag handlers ----
-const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-  const target = e.target as HTMLElement;
-  const scrollable = target.closest('.scrollable') as HTMLElement | null;
-
-  // ✅ If inside a scrollable area
-  if (scrollable) {
-    // If not at top → let scroll handle, disable drag
-    if (scrollable.scrollTop > 0) return;
-  }
-
-  // ✅ Otherwise → enable drag
-  isDragging.current = true;
-  startY.current = getPageY(e);
-  currentY.current =
-    parseFloat(
-      panelRef.current?.style.transform
-        .replace('translateY(', '')
-        .replace('vh)', '') || `${getTranslateY(stepRef.current)}`
-    );
-  if (frameRef.current) cancelAnimationFrame(frameRef.current);
-};
+  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+    isDragging.current = true;
+    const pageX = "touches" in e ? e.touches[0].pageX : e.pageX;
+    startPos.current = pageX;
+    scrollStart.current = carouselRef.current?.scrollLeft || 0;
+    dragDetected.current = false;
+    if (carouselRef.current) carouselRef.current.style.scrollSnapType = "none";
+  };
 const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
   if (!isDragging.current || !carouselRef.current) return;
   const pageX = "touches" in e ? e.touches[0].pageX : e.pageX;
