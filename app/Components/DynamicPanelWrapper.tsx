@@ -58,20 +58,26 @@ export default function DynamicPanelWrapper({
     });
   };
 
-  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
-    const target = e.target as HTMLElement;
-    const scrollable = target.closest('.scrollable') as HTMLElement | null;
-    if (scrollable && scrollable.scrollTop > 0) return;
+const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+  const target = e.target as HTMLElement;
 
-    isDragging.current = true;
-    isHorizontalDrag.current = false;
-    startY.current = getPageY(e);
-    startX.current = getPageX(e);
-    currentY.current =
-      parseFloat(panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || `${getTranslateY(stepRef.current)}`);
-    if (frameRef.current) cancelAnimationFrame(frameRef.current);
-  };
+  // 🚫 If user is inside X-drag (carousel), don't start Y-dragging
+  if (target.closest(".x-drag")) return;
 
+  const scrollable = target.closest('.scrollable') as HTMLElement | null;
+  if (scrollable && scrollable.scrollTop > 0) return;
+
+  isDragging.current = true;
+  isHorizontalDrag.current = false;
+  startY.current = getPageY(e);
+  startX.current = getPageX(e);
+  currentY.current =
+    parseFloat(
+      panelRef.current?.style.transform.replace("translateY(", "").replace("vh)", "") ||
+        `${getTranslateY(stepRef.current)}`
+    );
+  if (frameRef.current) cancelAnimationFrame(frameRef.current);
+};
   const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
     if (!isDragging.current) return;
     if ('touches' in e) e.preventDefault();
