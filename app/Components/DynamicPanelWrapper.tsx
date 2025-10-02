@@ -27,14 +27,14 @@ export default function DynamicPanelWrapper({
 
   const getTranslateY = (s: number) => positions[s - 1];
 
-  const getPageY = (e?: React.MouseEvent | React.TouchEvent) => {
+  const getPageY = (e?: React.MouseEvent | React.TouchEvent | TouchEvent) => {
     if (!e) return startY.current;
     if ('touches' in e && e.touches.length) return e.touches[0].clientY;
     if ('clientY' in e) return e.clientY;
     return startY.current;
   };
 
-  const getPageX = (e?: React.MouseEvent | React.TouchEvent) => {
+  const getPageX = (e?: React.MouseEvent | React.TouchEvent | TouchEvent) => {
     if (!e) return startX.current;
     if ('touches' in e && e.touches.length) return e.touches[0].clientX;
     if ('clientX' in e) return e.clientX;
@@ -58,10 +58,13 @@ export default function DynamicPanelWrapper({
     });
   };
 
-  const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+  // ---- Drag handlers ----
+  const handleDragStart = (e: React.MouseEvent | React.TouchEvent | TouchEvent) => {
     const target = e.target as HTMLElement;
     const scrollable = target.closest('.scrollable') as HTMLElement | null;
     if (scrollable && scrollable.scrollTop > 0) return;
+
+    if ('preventDefault' in e) e.preventDefault(); // Prevent first-touch delay
 
     isDragging.current = true;
     isHorizontalDrag.current = false;
@@ -72,7 +75,7 @@ export default function DynamicPanelWrapper({
     if (frameRef.current) cancelAnimationFrame(frameRef.current);
   };
 
-  const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
+  const handleDragMove = (e: React.MouseEvent | React.TouchEvent | TouchEvent) => {
     if (!isDragging.current) return;
     if ('touches' in e) e.preventDefault();
 
@@ -92,10 +95,10 @@ export default function DynamicPanelWrapper({
     scheduleUpdate(newY);
   };
 
-  const handleMouseUp = () => {
+  const handleDragEnd = () => {
     if (!isDragging.current) return;
     isDragging.current = false;
-    if (isHorizontalDrag.current) return; // do nothing if horizontal drag
+    if (isHorizontalDrag.current) return;
 
     const current = parseFloat(panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || '0');
     const stepIndex = stepRef.current - 1;
@@ -125,6 +128,7 @@ export default function DynamicPanelWrapper({
     animate();
   };
 
+  // ---- Initial mount ----
   useLayoutEffect(() => {
     if (panelRef.current) {
       panelRef.current.style.transform = `translateY(${getTranslateY(stepRef.current)}vh)`;
@@ -132,6 +136,7 @@ export default function DynamicPanelWrapper({
     }
   }, []);
 
+  // ---- Render ----
   return (
     <div
       ref={panelRef}
@@ -141,13 +146,13 @@ export default function DynamicPanelWrapper({
         willChange: 'transform',
         transform: `translateY(${getTranslateY(stepRef.current)}vh)`,
       }}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={handleMouseUp}
-      onTouchStart={handleMouseDown}
-      onTouchMove={handleMouseMove}
-      onTouchEnd={handleMouseUp}
+      onMouseDown={handleDragStart}
+      onMouseMove={handleDragMove}
+      onMouseUp={handleDragEnd}
+      onMouseLeave={handleDragEnd}
+      onTouchStart={handleDragStart}
+      onTouchMove={handleDragMove}
+      onTouchEnd={handleDragEnd}
     >
       {children}
     </div>

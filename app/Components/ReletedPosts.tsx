@@ -29,13 +29,13 @@ console.log(token)
   return (
     <div className="mb-4 mt-6">
       <h5 className="mx-2 my-3">More form {handle}</h5>
-      <div className="flex w-full hide-scrollbar gap-2">
+      <div className="flex ignore-vertical-drag w-full hide-scrollbar gap-2">
         {postsOfUserLoading ? (
           <SkeletonRelatedPosts />
         ) : filteredPosts.length === 0 ? (
           <p className="mx-2 text-sm opacity-70">No posts found</p>
         ) : (
-          <DraggableCarousel className="px-4">
+          <DraggableCarousel className="px-4 ignore-vertical-drag">
             {filteredPosts.map((post: any) => (
               <div key={post._id} className="shrink-0 w-[80px] h-[80px]">
                 <Link href={`/posts/${post?._id}`}>

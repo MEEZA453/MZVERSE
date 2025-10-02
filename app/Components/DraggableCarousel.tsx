@@ -42,6 +42,7 @@ const handleMouseMove = (e: React.MouseEvent | React.TouchEvent) => {
 
 const handleMouseUp = () => {
   isDragging.current = false;
+  dragDetected.current = false; // ✅ reset immediately
 
   if (!carouselRef.current) return;
 
@@ -61,8 +62,11 @@ const handleMouseUp = () => {
   });
 
   targetScroll.current = childrenArr[nearestIndex].offsetLeft;
-  if (!animationFrame.current) animationFrame.current = requestAnimationFrame(animateScroll);
+  if (!animationFrame.current) {
+    animationFrame.current = requestAnimationFrame(animateScroll);
+  }
 };
+
 
 const animateScroll = () => {
   if (!carouselRef.current) return;
@@ -116,7 +120,7 @@ const animateScroll = () => {
   return (
     <div
       ref={carouselRef}
-      className={`flex gap-3 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory ${className}`}
+      className={`flex gap-3 overflow-x-scroll hide-scrollbar cursor-grab snap-x  snap-mandatory ${className}`}
 
       onMouseMove={(e) => handleMouseMove(e)}
       onMouseUp={handleMouseUp}

@@ -64,7 +64,6 @@ export default function Post({ catchedPost, catchedVotes }: PostProps) {
     const dispatch = useDispatch<AppDispatch>()
   
     const [isVoteMenu , setVoteMenu] = useState(false)
-
     const [isMenu , setIsMenu]  = useState(false)
     const {user ,token , role} = useAuth()
     const [attachmentsMenu ,setAttachmentsMenu] = useState(false)
@@ -80,6 +79,7 @@ export default function Post({ catchedPost, catchedVotes }: PostProps) {
     const [opacity , setOpacity]  = useState(0)
     const {rdxPost, rdxVotes, loading} = useSelector((state : any)=>state.posts)
     const [panelY, setPanelY] = useState(40);
+    const [loadingPost, setLoadingPost] = useState(false);
     console.log(panelY)  
     console.log(rdxPost)
     console.log(post)
@@ -89,22 +89,40 @@ export default function Post({ catchedPost, catchedVotes }: PostProps) {
     const postId = pid || postInPath 
   
 const scrollRef = useRef<HTMLDivElement>(null)
-useEffect(() => {
-  if (catchedPost || catchedVotes) {
-    setPost(catchedPost)
-    setVotes(catchedVotes)
-  } else {
-    console.log('api called')
-    dispatch(getPostByIdAction(postId, token))
-    dispatch(fetchVotesByPostAction(postId))
-  }
-}, [catchedPost, catchedVotes, postId, token, dispatch])
 
-// watch redux store updates
+// In-memory cache for normal posts (optional: can be Redux)
+const [postCache, setPostCache] = useState<Record<string, { post: any; votes: any }>>({});
+
+// Overlay: show instantly
+const isOverlay = !!catchedPost || !!catchedVotes;
+
+// Effect for overlay posts (instant)
 useEffect(() => {
-  if (rdxPost) setPost(rdxPost)
-  if (rdxVotes) setVotes(rdxVotes)
-}, [rdxPost, rdxVotes])
+  if (isOverlay) {
+    setPost(catchedPost);
+    setVotes(catchedVotes);
+    // No loader for overlay → instant open
+  }
+}, [catchedPost, catchedVotes]);
+
+// Effect for normal posts (show loader, reset previous post)
+useEffect(() => {
+  if (!isOverlay) {
+    setPost(null);
+    setVotes(null);
+    setLoadingPost(true);
+
+    dispatch(getPostByIdAction(postId, token))
+      .finally(() => setLoadingPost(false));
+    dispatch(fetchVotesByPostAction(postId));
+  }
+}, [postId, isOverlay, dispatch, token]);
+
+// Watch Redux updates only for normal route
+useEffect(() => {
+  if (!isOverlay && rdxPost?._id === postId) setPost(rdxPost);
+  if (!isOverlay && rdxVotes && rdxPost?._id === postId) setVotes(rdxVotes);
+}, [rdxPost, rdxVotes, postId, isOverlay]);
 
 
 // console.log('catched post is:', catchedPost)
@@ -132,7 +150,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
            
        <Notification/>
             {/* <MasterNavber/> */}
-            { post ?<div className='lg:flex hide-scrollbar lg:h-screen  lg:overflow-hidden'>
+            {!loadingPost && post && !loading?<div className='lg:flex hide-scrollbar lg:h-screen  lg:overflow-hidden'>
                 {post?.createdBy?.handle === user?.handle ?<div>
 
         

@@ -37,7 +37,7 @@ const posts = (state = initialState, action: AnyAction): PostState => {
   case 'FETCH_POSTS_REQUEST':
     case 'FETCH_POSTS_BY_HANDLE_REQUEST':
     case 'FETCH_POST_REQUEST':
-      return { ...state,  postsOfUserLoading: true, rdxPost : null, rdxVotes:null, error: null  };
+      return { ...state,  postsOfUserLoading: true, rdxPost : null,  rdxVotes:null, error: null  };
 
     case 'CREATE_POST_SUCCESS':
       return { ...state, loading: false, posts: [action.payload, ...state.posts] };
