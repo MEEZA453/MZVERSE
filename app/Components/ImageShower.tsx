@@ -137,7 +137,16 @@ export default function ImageShower({
                   i === images.length - 1 ? "" : ""
                 }`}
               >
-                <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="  lg:h-full max-h-[450px]   object-cover" />
+                <Image
+  src={img}
+  alt={`image-${i}`}
+  width={1200}
+  height={800}
+  sizes="(max-width: 768px) 100vw, 40vw"
+  placeholder="blur"
+  blurDataURL="/placeholder.png" // tiny transparent or blurred img
+  className="object-cover lg:h-full max-h-[450px]"
+/>
               </div>
             ))}
           </div>

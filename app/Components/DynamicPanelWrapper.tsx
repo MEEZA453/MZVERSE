@@ -24,7 +24,7 @@ export default function DynamicPanelWrapper({
   const positions = [102, 40, -25]; // step1, step2, step3
   const getTranslateY = (s: number) => positions[s - 1];
 
-  const DRAG_THRESHOLD = 20; // drag threshold in vh
+  const DRAG_THRESHOLD = 15; // drag threshold in vh
 
   const getPageY = (e?: React.MouseEvent | React.TouchEvent) => {
     if (!e) return startY.current;

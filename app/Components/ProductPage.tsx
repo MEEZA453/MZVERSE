@@ -135,18 +135,24 @@ console.log(product)
      
       <main  className='desc flex max-sm:flex-col h-screen w-screen '>
 
-{/* <HiddenHeader opacity={opacity}  name={product?.name} amount={product?.amount} isLightMode={isLightMode} postsOfAsset={postsOfAsset}/> */}
 
-<DynamicOverlay scrollRef={scrollRef}/>
+{/* <DynamicOverlay scrollRef={scrollRef}/> */}
 <ImageShower style={{ height: `${panelY}vh`, minHeight : '40vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
 <Header setIsMenu={setIsMenu} isLightMode={isLightMode}/>
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
   
-      <DynamicPanelWrapper
-        initialStep={2}
-  onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
-      >
-        <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t relative  border-[#dadada]':'bg-black'} pt-3 z-[500] lg:overflow-y-scroll h-fit py-10 hide-scrollbar -translate-y-32 lg:w-[30vw] rounded-t-[6px] items-center lg:border-l w-screen sticky top-2    lg:mt-24`}>
+          <DynamicPanelWrapper
+            initialStep={2}
+      onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
+          >
+        <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t relative  border-[#dadada]':'bg-black'} pt-2 z-[500] lg:overflow-y-scroll h-fit py-10 hide-scrollbar -translate-y-4 lg:w-[30vw] rounded-t-[6px] items-center lg:border-l w-screen sticky top-2  lg:mt-24`}>
+          <div style={{opacity : panelY > 100 ? 1 : 0}} className='rounded-full duration-500  h-1 w-16 bg-[#dadada] absolute -top-3.5  -translate-x-1/2 left-1/2 '>
+  
+    </div>
+{panelY > 100 && (
+  <div className="h-[27vh] w-full  -mt-[27vh]">
+  </div>
+)}
 <HighlightOfProduct name={product?.name} amount={product?.amount} isLightMode={isLightMode} postsOfAsset={postsOfAsset}/>
 <div className='w-full mb-2 px-2'>
 <MetaOfProduct type={'preset'} creator={product?.postedBy?.handle} size={'2.40GB'} dateOfPosted = {product?.createdAt} isLightMode={isLightMode}/>

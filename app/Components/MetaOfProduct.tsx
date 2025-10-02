@@ -3,7 +3,7 @@ import React from 'react'
 
 function MetaOfProduct({isLightMode, creator, dateOfPosted, size, type}) {
   return (
-   <div className='w-full mb-4 px-2'>
+   <div className='w-full mb-2 px-2'>
     <div>
 
   <div className={`w-full mt-0.5 pb-[2px] ${isLightMode ? 'border-[#bababa]':'border-[#4d4d4d]'}    flex border-b justify-between items-center`}>
