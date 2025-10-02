@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useEffect, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect } from 'react';
 
 interface DynamicPanelWrapperProps {
   children: React.ReactNode;
@@ -14,21 +14,31 @@ export default function DynamicPanelWrapper({
 }: DynamicPanelWrapperProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const startY = useRef(0);
+  const startX = useRef(0);
   const currentY = useRef(0);
   const isDragging = useRef(false);
+  const isHorizontalDrag = useRef(false);
   const stepRef = useRef<1 | 2 | 3>(initialStep);
   const frameRef = useRef<number | null>(null);
   const pendingY = useRef<number | null>(null);
 
   const positions = [102, 40, -25]; // step1, step2, step3
-  const getTranslateY = (s: number) => positions[s - 1];
   const DRAG_THRESHOLD = 15; // drag threshold in vh
+
+  const getTranslateY = (s: number) => positions[s - 1];
 
   const getPageY = (e?: React.MouseEvent | React.TouchEvent) => {
     if (!e) return startY.current;
     if ('touches' in e && e.touches.length) return e.touches[0].clientY;
     if ('clientY' in e) return e.clientY;
     return startY.current;
+  };
+
+  const getPageX = (e?: React.MouseEvent | React.TouchEvent) => {
+    if (!e) return startX.current;
+    if ('touches' in e && e.touches.length) return e.touches[0].clientX;
+    if ('clientX' in e) return e.clientX;
+    return startX.current;
   };
 
   const updatePosition = (y: number, report = false) => {
@@ -54,7 +64,9 @@ export default function DynamicPanelWrapper({
     if (scrollable && scrollable.scrollTop > 0) return;
 
     isDragging.current = true;
+    isHorizontalDrag.current = false;
     startY.current = getPageY(e);
+    startX.current = getPageX(e);
     currentY.current =
       parseFloat(panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || `${getTranslateY(stepRef.current)}`);
     if (frameRef.current) cancelAnimationFrame(frameRef.current);
@@ -65,6 +77,16 @@ export default function DynamicPanelWrapper({
     if ('touches' in e) e.preventDefault();
 
     const dy = getPageY(e) - startY.current;
+    const dx = getPageX(e) - startX.current;
+
+    // detect horizontal drag to prevent vertical panel drag
+    if (!isHorizontalDrag.current && Math.abs(dx) > Math.abs(dy)) {
+      isHorizontalDrag.current = true;
+      return; // skip vertical drag while horizontal
+    }
+
+    if (isHorizontalDrag.current) return;
+
     let newY = currentY.current + (dy / window.innerHeight) * 100;
     newY = Math.min(positions[0], Math.max(positions[2], newY));
     scheduleUpdate(newY);
@@ -73,6 +95,7 @@ export default function DynamicPanelWrapper({
   const handleMouseUp = () => {
     if (!isDragging.current) return;
     isDragging.current = false;
+    if (isHorizontalDrag.current) return; // do nothing if horizontal drag
 
     const current = parseFloat(panelRef.current?.style.transform.replace('translateY(', '').replace('vh)', '') || '0');
     const stepIndex = stepRef.current - 1;
@@ -102,7 +125,6 @@ export default function DynamicPanelWrapper({
     animate();
   };
 
-  // Use useLayoutEffect so transform is applied **before paint**
   useLayoutEffect(() => {
     if (panelRef.current) {
       panelRef.current.style.transform = `translateY(${getTranslateY(stepRef.current)}vh)`;
@@ -117,7 +139,7 @@ export default function DynamicPanelWrapper({
       style={{
         touchAction: 'none',
         willChange: 'transform',
-        transform: `translateY(${getTranslateY(stepRef.current)}vh)`, // initial inline transform
+        transform: `translateY(${getTranslateY(stepRef.current)}vh)`,
       }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}

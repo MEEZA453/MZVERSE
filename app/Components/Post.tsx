@@ -174,8 +174,8 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <RelatedToCatagoty catagory={post?.category} postId={postId} />
 {/* <PostMeta isLightMode={isLightMode} post= {post}/> */}
 </aside>
-          
         </DynamicPanelWrapper>
+          
 
 </div>
             
