@@ -137,7 +137,7 @@ console.log(product)
 
 
 {/* <DynamicOverlay scrollRef={scrollRef}/> */}
-<ImageShower style={{ height: `${panelY}vh`, minHeight : '40vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
+<ImageShower  style={{ height: `${panelY+10}vh`, minHeight : '50vh', maxHeight : '98vh' ,    transition: 'height 0.35s cubic-bezier(0.25, 0.8, 0.5, 1)'}}  setIsMenu={setIsMenu} isMyProduct = {product?.isMyProduct} name ={product?.name} amount = {product?.amount} isMobile = {isMobile} images = {product?.image}/>
 <Header setIsMenu={setIsMenu} isLightMode={isLightMode}/>
 <div  style={{ height: `${product?.image.length * 50 + 50}vh` }} className=' '>
   

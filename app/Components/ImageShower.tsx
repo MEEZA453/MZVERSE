@@ -155,7 +155,7 @@ export default function ImageShower({
 
           {/* Thumbnail Controller */}
           {images.length > 1 && (
-            <div className="absolute z-[900] image-controller flex lg:left-[3vw] left-[35vw] bottom-6 gap-1">
+            <div className="absolute z-[900] image-controller flex lg:left-[3vw] left-[35vw] bottom-6 gap-0">
               {images.map((el, i) => (
                 <Image
                   key={i}
@@ -164,7 +164,7 @@ export default function ImageShower({
                   width={300}
                   height={300}
                   onClick={() => scrollToImage(i)}
-                  className={`lg:h-16 w-12 lg:w-16 h-12 object-cover cursor-pointer duration-300 border ${
+                  className={`lg:h-16 w-12 lg:w-16 h-12 object-cover cursor-pointer duration-300  ${
                     activeIndex === i ? "opacity-40" : "opacity-100"
                   }`}
                 />
