@@ -9,7 +9,7 @@ import DraggableCarousel from "./DraggableCarousel";
 import Link from "next/link";
 import SkeletonRelatedPosts from "./Skeleton/SkeletonReletedPosts";
 
-export default function RelatedPosts({ handle, postId, token }) {
+export default function RelatedPosts({ handle, postId, token, setPost, setVotes }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 console.log(token)

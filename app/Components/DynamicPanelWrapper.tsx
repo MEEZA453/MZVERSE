@@ -1,5 +1,5 @@
 'use client'
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useLayoutEffect } from 'react';
 
 interface DynamicPanelWrapperProps {
   children: React.ReactNode;
@@ -20,10 +20,8 @@ export default function DynamicPanelWrapper({
   const frameRef = useRef<number | null>(null);
   const pendingY = useRef<number | null>(null);
 
-  // 3 snap positions
   const positions = [102, 40, -25]; // step1, step2, step3
   const getTranslateY = (s: number) => positions[s - 1];
-
   const DRAG_THRESHOLD = 15; // drag threshold in vh
 
   const getPageY = (e?: React.MouseEvent | React.TouchEvent) => {
@@ -53,7 +51,7 @@ export default function DynamicPanelWrapper({
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
     const target = e.target as HTMLElement;
     const scrollable = target.closest('.scrollable') as HTMLElement | null;
-    if (scrollable && scrollable.scrollTop > 0) return; // allow scroll if not at top
+    if (scrollable && scrollable.scrollTop > 0) return;
 
     isDragging.current = true;
     startY.current = getPageY(e);
@@ -81,9 +79,9 @@ export default function DynamicPanelWrapper({
     const distanceMoved = current - positions[stepIndex];
 
     if (distanceMoved > DRAG_THRESHOLD && stepRef.current > 1) {
-      stepRef.current = (stepRef.current - 1) as 1 | 2 | 3; // move up
+      stepRef.current = (stepRef.current - 1) as 1 | 2 | 3;
     } else if (distanceMoved < -DRAG_THRESHOLD && stepRef.current < 3) {
-      stepRef.current = (stepRef.current + 1) as 1 | 2 | 3; // move down
+      stepRef.current = (stepRef.current + 1) as 1 | 2 | 3;
     }
     animateToStep(stepRef.current);
   };
@@ -104,15 +102,23 @@ export default function DynamicPanelWrapper({
     animate();
   };
 
-  useEffect(() => {
-    updatePosition(getTranslateY(stepRef.current), true);
+  // Use useLayoutEffect so transform is applied **before paint**
+  useLayoutEffect(() => {
+    if (panelRef.current) {
+      panelRef.current.style.transform = `translateY(${getTranslateY(stepRef.current)}vh)`;
+      if (onTranslateYChange) onTranslateYChange(getTranslateY(stepRef.current));
+    }
   }, []);
 
   return (
     <div
       ref={panelRef}
       className="fixed top-0 left-0 w-full h-screen z-[100] touch-pan-y"
-      style={{ touchAction: 'none', willChange: 'transform' }}
+      style={{
+        touchAction: 'none',
+        willChange: 'transform',
+        transform: `translateY(${getTranslateY(stepRef.current)}vh)`, // initial inline transform
+      }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
       onMouseUp={handleMouseUp}

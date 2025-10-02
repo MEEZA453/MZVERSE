@@ -171,8 +171,8 @@ const handleBuyNow = async () => {
     <div> 
                { isAlart&& <Alart setAlart={setAlart}  func ={handleBuyNow} nameOfFunc='Proceed'/>}
         
-         <button ref={freeProducts} onClick={handleAlart} style={{color : isLightMode ? 'white': 'black'}} className={`${isLightMode ? 'bg-black text-white':'bg-white text-black'} w-full rounded-[2px]  h-6 flex items-center justify-center  text-[14px] mt-4`}>{orderLoading ? 'Creating order..': amount === 0 ?'Get it for free': 'Buy now'}</button>
-  <button onClick={handleAddToBag} className={`border ${isLightMode ? 'border-black  text-black':'border-white text-white'}  w-full rounded-full h-6 flex items-center pb-1 justify-center  text-[14px] mt-2`}>{isAddedToCart ? 'Added to bag': 'Add to bag'}</button></div>
+         <button ref={freeProducts} onClick={handleAlart} style={{color : isLightMode ? 'white': 'black'}} className={`${isLightMode ? 'bg-black text-white':'bg-white text-black'} w-full rounded-[2px]  h-6 flex items-center justify-center  text-[13.5px] mt-3`}>{orderLoading ? 'Creating order..': amount === 0 ?'Get it for free': 'Buy now'}</button>
+  <button onClick={handleAddToBag} className={`border ${isLightMode ? 'border-black  text-black':'border-white text-white'}  w-full rounded-full h-6 flex items-center  justify-center  text-[13.5px] mt-2`}>{isAddedToCart ? 'Added to bag': 'Add to bag'}</button></div>
   )
 }
 

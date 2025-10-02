@@ -32,7 +32,8 @@ export default function ImageShower({
   style,
 }: ImageShowerProps) {
 
-    
+     const [loaded, setLoaded] = useState(false);
+     
       const carouselRef = useRef<HTMLDivElement>(null)
       const isDragging = useRef(false)
       const startPos = useRef(0)
@@ -133,7 +134,7 @@ export default function ImageShower({
                 key={i}
                 data-index={i}
                  style={style} 
-                className={`flex-shrink-0 w-screen pointer-events-none  flex items-center  h-[50vh]  snap-center flex items-center justify-center lg:w-[40vw] lg:h-[50vh] lg:h-fit ${
+                className={`flex-shrink-0 w-screen pointer-events-none aspect-[3/2] flex items-center  h-[50vh]  snap-center flex items-center justify-center lg:w-[40vw] lg:h-[50vh] lg:h-fit ${
                   i === images.length - 1 ? "" : ""
                 }`}
               >

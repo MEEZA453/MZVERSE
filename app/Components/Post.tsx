@@ -150,7 +150,8 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
        {/* <DynamicOverlay  scrollRef={scrollRef}/> */}
         </section>
         <Header isLightMode={isLightMode} setIsMenu={setIsMenu}/> 
-        <ImageShower panelY={panelY} setPanelY={setPanelY} style={{ height: `${panelY+10}vh`, minHeight : '50vh', maxHeight : '98vh' ,    transition: 'height 0.35s cubic-bezier(0.25, 0.8, 0.5, 1)'}}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
+        <ImageShower panelY={panelY} setPanelY={setPanelY} style={{ height: `${panelY+10}vh`, minHeight : '50vh', maxHeight : '98vh' ,    transition: 'height 0.35s cubic-bezier(0.25, 0.8, 0.5, 1)'}}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile}  images={post?.images || []}/>
+        <div className="relative w-full h-full">
       <DynamicPanelWrapper
         initialStep={2}
   onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
@@ -169,14 +170,14 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 <ScoreBoard isLightMode={isLightMode} post={post} validVotes={validVotes}/>
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
 <ListOfVotes setVoteMenu={setVoteMenu} isMobile={isMobile} isLightMode={isLightMode} validVotes={validVotes} post={post} />
-<RelatedPosts postId = {postId} handle={post?.createdBy?.handle} token={token} />
+<RelatedPosts setPost={setPost} setVotes={setVotes} postId = {postId} handle={post?.createdBy?.handle} token={token} />
 <RelatedToCatagoty catagory={post?.category} postId={postId} />
 {/* <PostMeta isLightMode={isLightMode} post= {post}/> */}
 </aside>
           
         </DynamicPanelWrapper>
 
-
+</div>
             
             </div>: <Loading/>}
         </div>
