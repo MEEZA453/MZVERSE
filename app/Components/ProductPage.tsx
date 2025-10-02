@@ -146,7 +146,7 @@ console.log(product)
         initialStep={2}
   onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
       >
-        <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} pt-3 z-[500] lg:overflow-y-scroll h-fit py-10 hide-scrollbar -translate-y-32 lg:w-[30vw] rounded-t-[6px] items-center lg:border-l w-screen sticky top-2    lg:mt-24`}>
+        <aside  className={`flex flex-col ${isLightMode ? 'bg-white border-t relative  border-[#dadada]':'bg-black'} pt-3 z-[500] lg:overflow-y-scroll h-fit py-10 hide-scrollbar -translate-y-32 lg:w-[30vw] rounded-t-[6px] items-center lg:border-l w-screen sticky top-2    lg:mt-24`}>
 <HighlightOfProduct name={product?.name} amount={product?.amount} isLightMode={isLightMode} postsOfAsset={postsOfAsset}/>
 <div className='w-full mb-2 px-2'>
 <MetaOfProduct type={'preset'} creator={product?.postedBy?.handle} size={'2.40GB'} dateOfPosted = {product?.createdAt} isLightMode={isLightMode}/>

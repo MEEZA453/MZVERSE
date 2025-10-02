@@ -137,16 +137,16 @@ export default function ImageShower({
                   i === images.length - 1 ? "" : ""
                 }`}
               >
-                <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="   lg:h-full max-h-[450px]   object-cover" />
+                <Image src={img} alt={`image-${i}`} width={1200} height={1200} className="  lg:h-full max-h-[450px]   object-cover" />
               </div>
             ))}
           </div>
 
       { !isLightMode &&  <div className="pointer-events-none fixed w-screen h-80 bg-gradient-to-b from-[#00000070] to-transparent top-0 z-30" />}
-<button   style={{color : isLightMode ? 'white': 'black', backgroundColor : isLightMode ? 'black':'white'}} className={`text-[12px] absolute bottom-40 ${panelY > 90 ? 'opacity-100':'opacity-0'}  rounded-full border h-fit px-2 py-1 `}>Vote Now</button>
+
           {/* Thumbnail Controller */}
           {images.length > 1 && (
-            <div className="absolute image-controller flex lg:left-[3vw] left-[35vw] bottom-6 gap-1">
+            <div className="absolute z-[900] image-controller flex lg:left-[3vw] left-[35vw] bottom-6 gap-1">
               {images.map((el, i) => (
                 <Image
                   key={i}

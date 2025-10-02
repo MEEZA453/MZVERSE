@@ -150,17 +150,17 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
        {/* <DynamicOverlay  scrollRef={scrollRef}/> */}
         </section>
         <Header isLightMode={isLightMode} setIsMenu={setIsMenu}/> 
-        <ImageShower panelY={panelY} setPanelY={setPanelY} style={{ height: `${panelY+10}vh`, minHeight : '50vh', maxHeight : '100vh' ,  transition: 'height 0.2s ease' }}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
+        <ImageShower panelY={panelY} setPanelY={setPanelY} style={{ height: `${panelY}vh`, minHeight : '50vh', maxHeight : '100vh' ,  transition: 'height 0.3s ease' }}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile} images = {post?.images}/>
       <DynamicPanelWrapper
         initialStep={2}
   onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
       >
      <aside id='main' onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-4 sticky top-0 z-[500]  lg:mt-24 rounded-t-[10px] lg:rounded-t-none   ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] `}>
-<div style={{opacity : panelY > 100 ? 1 : 0}} className='rounded-full duration-500 h-1 w-16 bg-[#dadada] absolute -top-3.5 relative -translate-x-1/2 left-1/2 '>
+<div style={{opacity : panelY > 100 ? 1 : 0}} className='rounded-full duration-500  h-1 w-16 bg-[#dadada] absolute -top-3.5 relative -translate-x-1/2 left-1/2 '>
   
     </div>
 {panelY > 100 && (
-  <div className="h-56 w-full  -mt-56">
+  <div className="h-[27vh] w-full  -mt-[27vh]">
   </div>
 )}
 <Attachments  assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>
