@@ -117,11 +117,18 @@ const animateScroll = () => {
     <div
       ref={carouselRef}
       className={`flex gap-3 overflow-x-scroll hide-scrollbar cursor-grab snap-x snap-mandatory ${className}`}
-      onMouseDown={(e) => handleMouseDown(e)}
+
       onMouseMove={(e) => handleMouseMove(e)}
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={(e) => handleMouseDown(e)}
+ onMouseDown={(e) => {
+    e.stopPropagation(); // 🚫 prevent DynamicPanelWrapper drag init
+    handleMouseDown(e);
+  }}
+  onTouchStart={(e) => {
+    e.stopPropagation(); // 🚫 prevent DynamicPanelWrapper drag init
+    handleMouseDown(e);
+  }}
       onTouchMove={(e) => handleMouseMove(e)}
       onTouchEnd={handleMouseUp}
     >
