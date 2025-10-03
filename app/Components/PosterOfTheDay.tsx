@@ -1,7 +1,7 @@
 'use client'
 import PostCard from "./PostCard";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useMemo, useState, Suspense } from "react";
 import { useAuth } from "../Context/AuthContext";
 import { AppDispatch } from "../store/store";
 import { getHighlight } from "../store/actions/Highlight";
@@ -18,44 +18,37 @@ export default function PosterOfTheDay() {
 
   const { highlight, loading } = useSelector((state: any) => state.highlight);
 
-  const [post, setPost] = useState<any>(null);
-  const [votes, setVotes] = useState<any[]>([]);
+  const [selectedPost, setSelectedPost] = useState<any>(null);
 
- useEffect(() => {
+  // Fetch highlight posts if empty
+  useEffect(() => {
     if (token && highlight.length === 0) {
-      dispatch(getHighlight(token)); // Fetch once when feed mounts
+      dispatch(getHighlight(token));
     }
   }, [token, dispatch, highlight.length]);
-  const reoderedHighlight = [...highlight].reverse();
-    const openPost = (post: any) => {
-      console.log('openPot data is:', post)
-       setPost(post)            // ✅ immediate state update
-  setVotes(post.votes || [])
-      router.push(`/?hid=${post._id}`)
+
+  const reorderedHighlight = useMemo(() => [...highlight].reverse(), [highlight]);
+
+  // Handle URL changes (back/forward)
+  useEffect(() => {
+    if (hid && highlight.length > 0) {
+      const found = highlight.find((p: any) => p._id === hid);
+      if (found) setSelectedPost(found);
+    } else {
+      setSelectedPost(null);
     }
+  }, [hid, highlight]);
 
-    // Handle URL pid change (e.g., back button)
-    useEffect(() => {
-      if (hid) {
-        
-        const found = highlight.find((p: any) => p._id === hid)
-console.log('called data is ' , found)
-        if (found) {
-          setPost(found)
-          setVotes(found.votes || [])
-        }
-      } else {
-        setPost(null)
-        setVotes([])
-      }
-    }, [hid , highlight])
-
+  const openPost = (post: any) => {
+    setSelectedPost(post);
+    router.push(`/?hid=${post._id}`);
+  };
 
   return (
     <div className="flex py-2 hide-scrollbar w-screen overflow-y-scroll">
       {!loading ? (
         <div className="flex gap-2 lg:gap-4">
-          {reoderedHighlight?.map((item: any, index: number) => (
+          {reorderedHighlight?.map((item: any, index: number) => (
             <div key={index} onClick={() => openPost(item)}>
               <PostCard openPost={openPost} post={item} />
             </div>
@@ -69,14 +62,12 @@ console.log('called data is ' , found)
         </div>
       )}
 
-      {/* Overlay */}
-        {/* Overlay component */}
-            {(post || hid) && (
-              <div>
-      
-               <Post catchedPost={post} catchedVotes={votes}/>
-              </div>
-            )}
+      {/* Overlay Post */}
+      {selectedPost && (
+        <Suspense>
+          <Post catchedPost={selectedPost} catchedVotes={selectedPost.votes || []} />
+        </Suspense>
+      )}
     </div>
   );
 }

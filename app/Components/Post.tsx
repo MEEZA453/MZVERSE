@@ -104,12 +104,15 @@ useEffect(() => {
       setPost(catchedPost);
       setVotes(catchedVotes);
       setLoadingPost(false);
+
+      // ✅ Save overlay post in cache immediately
+      if (!postCache[postId]) {
+        postCache[postId] = { post: catchedPost, votes: catchedVotes, animated: false };
+      }
       return;
     }
 
     // Normal route
-
-    // ✅ 1. If cached → use instantly
     if (postCache[postId]) {
       setPost(postCache[postId].post);
       setVotes(postCache[postId].votes);
@@ -117,7 +120,6 @@ useEffect(() => {
       return;
     }
 
-    // ✅ 2. Don’t clear previous post here → avoids flicker
     setLoadingPost(true);
 
     try {
@@ -126,7 +128,6 @@ useEffect(() => {
         dispatch(fetchVotesByPostAction(postId)),
       ]);
 
-      // ✅ 3. Save in cache
       postCache[postId] = { post: postResult, votes: votesResult, animated: false };
 
       setPost(postResult);
@@ -138,6 +139,7 @@ useEffect(() => {
 
   loadPost();
 }, [postId, isOverlay, catchedPost, catchedVotes, dispatch, token]);
+
 console.log(postCache)
 // Watch Redux updates only for normal route
 useEffect(() => {

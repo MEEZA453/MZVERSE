@@ -1,7 +1,7 @@
 'use client'
 import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
-import { useEffect, useMemo, useRef, useState } from "react"
+import { useEffect, useMemo, useState, Suspense } from "react"
 import { useAuth } from "../Context/AuthContext"
 import { useDispatch, useSelector } from "react-redux"
 import { AppDispatch } from "../store/store"
@@ -16,11 +16,9 @@ export default function PromotionOfTheDay() {
   const { token } = useAuth()
   const { promotion, loading } = useSelector((state: any) => state.promotion)
   const searchParams = useSearchParams()
-  const promo = searchParams.get('promo')
+  const promoId = searchParams.get('promo')
 
-  // Overlay state
-  const [post, setPost] = useState<any>(null)
-  const [votes, setVotes] = useState<any[]>([])
+  const [selectedPost, setSelectedPost] = useState<any>(null)
 
   // Fetch promotions if empty
   useEffect(() => {
@@ -29,46 +27,36 @@ export default function PromotionOfTheDay() {
     }
   }, [dispatch, token, promotion.length])
 
-  const reoderedPromotion = useMemo(() => [...promotion].reverse(), [promotion])
-  // Open post instantly and update URL
+  const reorderedPromotion = useMemo(() => [...promotion].reverse(), [promotion])
+
+  // Handle URL changes (back/forward)
+  useEffect(() => {
+    if (promoId && promotion.length > 0) {
+      const found = promotion.find((p: any) => p._id === promoId)
+      if (found) setSelectedPost(found)
+    } else {
+      setSelectedPost(null)
+    }
+  }, [promoId, promotion])
+
   const openPost = (promo: any) => {
-    setPost(promo)
-    console.log('calleddata' , post)
-    setVotes(promo.votes || [])
+    setSelectedPost(promo)
     router.push(`/?promo=${promo._id}`)
   }
 
-  // Handle URL pid change (e.g., back button)
-  useEffect(() => {
-    if (promo) {
-      const found = promotion.find((p: any) => p._id === promo)
-      console.log('render data : ', found)
-      if (found) {
-        setPost(found)
-        setVotes(found.votes || [])
-      }
-    } else {
-      setPost(null)
-      setVotes([])
-    }
-  }, [promo, promotion])
-
   return (
     <div className="relative lg:m-6 my-4">
-<DraggableCarousel
-  className="px-4"
-  onClickItem={(index) => openPost(reoderedPromotion[index])}
->
+      <DraggableCarousel
+        className="px-4"
+        onClickItem={(index) => openPost(reorderedPromotion[index])}
+      >
         {!loading ? (
-          reoderedPromotion.map((promo: any, index: number) => (
+          reorderedPromotion.map((promo: any, index: number) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[80vw] user-select-none  lg:w-[33.33vw] h-[85vw] lg:h-[37vw]  relative"
+              className="flex-shrink-0 w-[80vw] user-select-none lg:w-[33.33vw] h-[85vw] lg:h-[37vw] relative"
             >
-              <div
-           
-                className="cursor-pointer w-full h-full"
-              >
+              <div className="cursor-pointer w-full h-full">
                 <Image
                   src={promo.images[0]}
                   width={300}
@@ -93,7 +81,7 @@ export default function PromotionOfTheDay() {
                   </button>
                   <div>
                     <h3 style={{ color: 'white' }}>{promo?.name}</h3>
-                    <p style={{ fontSize: '12px',color : 'white' }}>@{promo?.createdBy?.handle}</p>
+                    <p style={{ fontSize: '12px', color: 'white' }}>@{promo?.createdBy?.handle}</p>
                   </div>
                 </div>
               </div>
@@ -104,12 +92,11 @@ export default function PromotionOfTheDay() {
         )}
       </DraggableCarousel>
 
-      {/* Overlay component */}
-      {(post || promo) && (
-        <div>
-
-         <Post catchedPost={post} catchedVotes={votes}/>
-        </div>
+      {/* Overlay Post */}
+      {selectedPost && (
+        <Suspense>
+          <Post catchedPost={selectedPost} catchedVotes={selectedPost.votes || []} />
+        </Suspense>
       )}
     </div>
   )
