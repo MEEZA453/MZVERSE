@@ -9,7 +9,7 @@ import DraggableCarousel from "./DraggableCarousel";
 import Link from "next/link";
 import SkeletonRelatedPosts from "./Skeleton/SkeletonReletedPosts";
 
-export default function RelatedToCatagoty({ catagory, postId }) {
+export default function RelatedToCatagoty({ catagory, postId, setIsNavigating }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
@@ -24,7 +24,11 @@ export default function RelatedToCatagoty({ catagory, postId }) {
 
   // filter out current post
   const filteredPosts = postResult?.filter((post: any) => post._id !== postId) || [];
-
+const handleNavigate = (id: string) => {
+  console.log('clicked')
+  setIsNavigating(true); 
+  router.push(`/posts/${id}`);
+};
   return (
     <div className="mb-4 mt-6">
       <h5 className="mx-2 my-3">More {catagory}</h5>
@@ -37,15 +41,15 @@ export default function RelatedToCatagoty({ catagory, postId }) {
           <DraggableCarousel className="px-4">
             {filteredPosts.map((post: any) => (
               <div key={post._id} className="shrink-0 w-[80px] h-[80px]">
-                <Link href={`/posts/${post?._id}`}>
-                  <Image
-                    src={post?.images[0]}
+            
+                  <Image        onClick={()=>handleNavigate(post?._id)}
+                                      src={post?.images[0]}
                     alt="related"
                     width={100}
                     height={100}
                     className="w-full h-full rounded-[2px] object-cover"
                   />
-                </Link>
+          
               </div>
             ))}
           </DraggableCarousel>

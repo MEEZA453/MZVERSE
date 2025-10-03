@@ -42,6 +42,8 @@ import ScoreBoard from './ScoreBoard'
 import ListOfVotes from './ListOfVotes'
 import PostMeta from './PostMeta'
 import DynamicPanelWrapper from './DynamicPanelWrapper'
+import { postCache } from '../lib/PostCache'
+import RouteLoader from './RouteLoader'
 
 type AveragesType = {
   aesthetics: number;
@@ -71,6 +73,7 @@ export default function Post({ catchedPost, catchedVotes }: PostProps) {
     const {isLightMode}  = useThemeContext()
     const [searchAssets , setSearchAssets] = useState(false)
     const [red , setRed ] = useState(false)
+    const [isNavigating, setIsNavigating] = useState(false);
     const [post , setPost ] = useState(null);
     const [votes , setVotes ] = useState(null);
     const {setNotification , notification} = useNotification()
@@ -80,9 +83,7 @@ export default function Post({ catchedPost, catchedVotes }: PostProps) {
     const {rdxPost, rdxVotes, loading} = useSelector((state : any)=>state.posts)
     const [panelY, setPanelY] = useState(40);
     const [loadingPost, setLoadingPost] = useState(false);
-    console.log(panelY)  
-    console.log(rdxPost)
-    console.log(post)
+const pathname = usePathname();
     const searchParams = useSearchParams();
      const pid = searchParams.get('pid')
          const postInPath = usePathname().split('/')[2]
@@ -91,40 +92,74 @@ export default function Post({ catchedPost, catchedVotes }: PostProps) {
 const scrollRef = useRef<HTMLDivElement>(null)
 
 // In-memory cache for normal posts (optional: can be Redux)
-const [postCache, setPostCache] = useState<Record<string, { post: any; votes: any }>>({});
+
 
 // Overlay: show instantly
 const isOverlay = !!catchedPost || !!catchedVotes;
 
-// Effect for overlay posts (instant)
 useEffect(() => {
-  if (isOverlay) {
-    setPost(catchedPost);
-    setVotes(catchedVotes);
-    // No loader for overlay → instant open
-  }
-}, [catchedPost, catchedVotes]);
+  const loadPost = async () => {
+    if (isOverlay) {
+      // Overlay → instant, no loader
+      setPost(catchedPost);
+      setVotes(catchedVotes);
+      setLoadingPost(false);
+      return;
+    }
 
-// Effect for normal posts (show loader, reset previous post)
-useEffect(() => {
-  if (!isOverlay) {
-    setPost(null);
-    setVotes(null);
+    // Normal route
+
+    // ✅ 1. If cached → use instantly
+    if (postCache[postId]) {
+      setPost(postCache[postId].post);
+      setVotes(postCache[postId].votes);
+      setLoadingPost(false);
+      return;
+    }
+
+    // ✅ 2. Don’t clear previous post here → avoids flicker
     setLoadingPost(true);
 
-    dispatch(getPostByIdAction(postId, token))
-      .finally(() => setLoadingPost(false));
-    dispatch(fetchVotesByPostAction(postId));
-  }
-}, [postId, isOverlay, dispatch, token]);
+    try {
+      const [postResult, votesResult]: any = await Promise.all([
+        dispatch(getPostByIdAction(postId, token)),
+        dispatch(fetchVotesByPostAction(postId)),
+      ]);
 
+      // ✅ 3. Save in cache
+      postCache[postId] = { post: postResult, votes: votesResult, animated: false };
+
+      setPost(postResult);
+      setVotes(votesResult);
+    } finally {
+      setLoadingPost(false);
+    }
+  };
+
+  loadPost();
+}, [postId, isOverlay, catchedPost, catchedVotes, dispatch, token]);
+console.log(postCache)
 // Watch Redux updates only for normal route
 useEffect(() => {
-  if (!isOverlay && rdxPost?._id === postId) setPost(rdxPost);
-  if (!isOverlay && rdxVotes && rdxPost?._id === postId) setVotes(rdxVotes);
+  if (!isOverlay && rdxPost?._id === postId) {
+    const prevAnimated = postCache[postId]?.animated ?? false; // preserve animated flag
+    postCache[postId] = { post: rdxPost, votes: rdxVotes || [], animated: prevAnimated };
+    setPost(rdxPost);
+    setVotes(rdxVotes || []);
+  }
 }, [rdxPost, rdxVotes, postId, isOverlay]);
+  // Watch Redux updates only for normal route
+  useEffect(() => {
+    if (!isOverlay && rdxPost?._id === postId) setPost(rdxPost);
+    if (!isOverlay && rdxVotes && rdxPost?._id === postId) setVotes(rdxVotes);
+  }, [rdxPost, rdxVotes, postId, isOverlay]);
 
-
+useEffect(() => {
+  if (isNavigating) {
+    // once URL changes, stop the "navigation loader"
+    setIsNavigating(false);
+  }
+}, [pathname]);
 // console.log('catched post is:', catchedPost)
 
   const {assetsOfPost} = useSelector((state: any)=>state.attach)
@@ -150,6 +185,8 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
            
        <Notification/>
             {/* <MasterNavber/> */}
+{     isNavigating ? <RouteLoader/>     :  <div>
+
             {!loadingPost && post && !loading?<div className='lg:flex hide-scrollbar lg:h-screen  lg:overflow-hidden'>
                 {post?.createdBy?.handle === user?.handle ?<div>
 
@@ -172,8 +209,8 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
         <div className="relative w-full h-full">
       <DynamicPanelWrapper
         initialStep={2}
-  onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
-      >
+        onTranslateYChange={(y) => setPanelY(y)} // <--- crucial
+        >
      <aside id='main' onClick={()=>setIsMenu(false)} className={`w-full h-fit lg:border-l -translate-y-4 sticky top-0 z-[500]  lg:mt-24 rounded-t-[10px] lg:rounded-t-none   ${isLightMode ? 'bg-white border-t border-[#dadada]':'bg-black'} lg:h-screen  lg:w-[30vw] `}>
 <div style={{opacity : panelY > 100 ? 1 : 0}} className='rounded-full duration-500  h-1 w-16 bg-[#dadada] absolute -top-3.5 relative -translate-x-1/2 left-1/2 '>
   
@@ -182,14 +219,25 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
   <div className="h-[27vh] w-full  -mt-[27vh]">
   </div>
 )}
-<Attachments  assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>
+{/* <Attachments  assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/> */}
 
 <HighlightInfoOfPost isLightMode={isLightMode} postName={post?.name} validVotes={validVotes}/>
-<ScoreBoard isLightMode={isLightMode} post={post} validVotes={validVotes}/>
+<ScoreBoard
+  isFromCache={!!postCache[postId]?.animated}
+  isLightMode={isLightMode}
+  post={post}
+  validVotes={validVotes}
+  onAnimated={() => {
+    // Mark post as animated in cache
+    if (postCache[postId]) {
+      postCache[postId].animated = true;
+    }
+  }}
+/>
 <Vote fieldOfVote={post?.voteFields} existingVote = {existingVote} postId={post?._id} token={user?.token} />
 <ListOfVotes setVoteMenu={setVoteMenu} isMobile={isMobile} isLightMode={isLightMode} validVotes={validVotes} post={post} />
-<RelatedPosts setPost={setPost} setVotes={setVotes} postId = {postId} handle={post?.createdBy?.handle} token={token} />
-<RelatedToCatagoty catagory={post?.category} postId={postId} />
+<RelatedPosts setIsNavigating={setIsNavigating} setPost={setPost} setVotes={setVotes} postId = {postId} handle={post?.createdBy?.handle} token={token} />
+<RelatedToCatagoty setIsNavigating={setIsNavigating} catagory={post?.category} postId={postId} />
 {/* <PostMeta isLightMode={isLightMode} post= {post}/> */}
 </aside>
         </DynamicPanelWrapper>
@@ -198,6 +246,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
 </div>
             
             </div>: <Loading/>}
+</div>}
         </div>
     )
 }

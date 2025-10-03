@@ -1,0 +1,1 @@
+export const postCache: Record<string, { post: any; votes: any; animated : boolean }> = {};
