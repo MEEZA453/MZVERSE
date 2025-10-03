@@ -1,0 +1,1 @@
+export let productCache: Record<string, { product: any; animated: boolean }> = {};

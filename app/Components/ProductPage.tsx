@@ -1,6 +1,6 @@
 'use client'
 import Image from 'next/image';
-import {usePathname, useRouter} from 'next/navigation';
+import {usePathname, useRouter, useSearchParams} from 'next/navigation';
 import { Product } from '../types/Product';
 import { HiOutlineLink } from "react-icons/hi2";
 import MasterNavber from './MasterNavber';
@@ -43,7 +43,7 @@ import PurchaseHandler from './PurchaseHandler';
 import DynamicImageShower from './DynamicImageShower';
 import HiddenHeader from './HiddenHeader';
 import DynamicPanelWrapper from './DynamicPanelWrapper';
-
+import { productCache } from '../lib/ProductCache';
 export default function ProductPage({selectedProduct}:{selectedProduct?:any}) {
 const pathname = usePathname()
 const productpath = pathname.split('/');
@@ -54,8 +54,11 @@ const {token} = useAuth()
 const [isMobile , setIsMobile] = useState(false)
 const dispatch = useDispatch<AppDispatch>()
 const {isLightMode} = useThemeContext()
-const [product , setProduct] = useState(null)
-const productId = usePathname().split('/')[2]
+const searchParams = useSearchParams();
+const pid = searchParams.get('pid');
+const pathParts = usePathname().split('/');
+const productId = pid || pathParts[2] || selectedProduct?._id;
+
 const scrollRef = useRef<HTMLDivElement>(null)
 const {rdxProduct , loading} = useSelector((state : any)=> state.design)
 const [post, setPost] = useState<any>(null)
@@ -64,46 +67,43 @@ const {postsOfAsset} = useSelector((state:any)=>state.attach)
 const [opacity , setOpacity] = useState(0)
 const [scale , setScale] = useState(1)
 const [panelY, setPanelY] = useState(40);
+const [product, setProduct] = useState<any>(null);
+
+
+// Cache / fetch product
+const isOverlay = !!selectedProduct;
 
 useEffect(() => {
-  const handleScroll = () => {
-    if (!scrollRef.current) return;
-    const scrollY = scrollRef.current.scrollTop;
+  if (!productId) return;
 
-    const maxScroll = 300; // how far to scroll before fully scaled
-    const newOpacity = Math.min(scrollY / maxScroll, 0.6);
+  const loadProduct = async () => {
+    if (isOverlay && selectedProduct?._id) {
+      setProduct(selectedProduct);
 
-    // 👉 shrink smoothly from 1 → 0.8
-    const newScale = Math.max(1 - scrollY / maxScroll * 0.8, 0.1);
+      if (!productCache[selectedProduct._id]) {
+        productCache[selectedProduct._id] = { product: selectedProduct, animated: false };
+      }
+      return;
+    }
 
-    setOpacity(newOpacity);
-    setScale(newScale);
+    if (productCache[productId]) {
+      setProduct(productCache[productId].product);
+      return;
+    }
+
+    await dispatch(getDesignById(productId, token));
   };
 
-  const container = scrollRef.current;
-  container?.addEventListener("scroll", handleScroll);
-
-  return () => container?.removeEventListener("scroll", handleScroll);
-}, []);
-
+  loadProduct();
+}, [selectedProduct, productId, dispatch, token, isOverlay]);
 
 useEffect(() => {
-  if (selectedProduct) {
-    setProduct(selectedProduct);
-  } else {
-    console.log("calling api", productId);
-    dispatch(getDesignById(productId, token)); // dispatch async action
-  }
-}, [selectedProduct, productId, dispatch, token]);
-
-// This effect runs whenever rdxProduct updates
-useEffect(() => {
-  if (rdxProduct) {
-    console.log("Updating local product:", rdxProduct);
+  if (!isOverlay && rdxProduct?._id === productId) {
+    const prevAnimated = productCache[productId]?.animated ?? false;
+    productCache[productId] = { product: rdxProduct, animated: prevAnimated };
     setProduct(rdxProduct);
   }
-}, [rdxProduct]);
-
+}, [rdxProduct, productId, isOverlay]);
    useEffect(() => {
     dispatch(getUserCart(token))
    }, [dispatch  , slug, token])
@@ -112,9 +112,7 @@ useEffect(() => {
     window.innerWidth > 640 ?    setIsMobile(false):setIsMobile(true)
 
 },[])
-console.log(scale)
-console.log(product)
-
+console.log('product cache is',productCache)
   return (
     <div style={{backgroundColor : isLightMode ? 'white': 'black'}} ref={scrollRef} className='fixed top-0 left-0 z-[9999] hide-scrollbar w-screen h-screen overflow-y-auto '>
 
@@ -179,7 +177,7 @@ console.log(product)
   <div>
 <ProductDetails isLightMode={isLightMode} product = {product}/> 
 <Suspense><Useages setPost={setPost} setVotes={setVotes} assetId  = {product?._id} token ={token }/></Suspense>
-<Suspense><RelatedProducts query ={'Preset'} token={token} productId={product?._id}/></Suspense>  
+<Suspense><RelatedProducts query ={'s'} token={token} productId={product?._id}/></Suspense>  
   </div> 
     
 
