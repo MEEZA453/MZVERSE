@@ -1,5 +1,5 @@
 import React from 'react'
-import Post from '../../Components/Post'
+import Post from '../../../Components/Post'
 
 function page() {
   return (

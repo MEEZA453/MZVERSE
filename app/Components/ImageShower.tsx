@@ -165,8 +165,8 @@ export default function ImageShower({
                   width={300}
                   height={300}
                   onClick={() => scrollToImage(i)}
-                  className={`lg:h-16 w-12 lg:w-16 h-12 object-cover cursor-pointer duration-300  ${
-                    activeIndex === i ? "opacity-40" : "opacity-100"
+                  className={`lg:h-16 w-10 lg:w-16 h-10 object-cover cursor-pointer duration-300  ${
+                    activeIndex === i ? "opacity-30" : "opacity-90"
                   }`}
                 />
               ))}

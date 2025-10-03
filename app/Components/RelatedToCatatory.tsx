@@ -25,7 +25,6 @@ export default function RelatedToCatagoty({ catagory, postId, setIsNavigating })
   // filter out current post
   const filteredPosts = postResult?.filter((post: any) => post._id !== postId) || [];
 const handleNavigate = (id: string) => {
-  console.log('clicked')
   setIsNavigating(true); 
   router.push(`/posts/${id}`);
 };

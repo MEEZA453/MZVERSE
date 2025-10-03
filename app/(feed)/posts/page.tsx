@@ -1,6 +1,6 @@
 'use client'
 import { Suspense } from "react";
-import AllPosts from "../Components/AllPosts";
+import AllPosts from "../../Components/AllPosts"; 
 
 export default function Posts(){
   return <div>

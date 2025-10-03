@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
-import ProductPage from '../../Components/ProductPage'
-
+import ProductPage from '../../../Components/ProductPage'
 function Product() {
   return (
     <div>

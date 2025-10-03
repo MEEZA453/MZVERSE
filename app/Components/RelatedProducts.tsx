@@ -23,11 +23,11 @@ export default function RelatedProducts({query, token, productId}) {
   , [dispatch, query]);
 
  const {assetResult , loading} = useSelector((state : any)  => state.search)
-console.log(assetResult)
+
 
   // filter out current post
   const filteredSupply = assetResult?.results?.filter((post: any) => post._id !== productId) || [];
-console.log(filteredSupply)
+
   return (
     <div className="mb-4 mt-6">
       <h5 className="mx-2 my-3">More {query}</h5>
@@ -40,7 +40,7 @@ console.log(filteredSupply)
           <DraggableCarousel className="px-4">
             {filteredSupply?.map((supply: any) => (
               <div key={supply._id} className="shrink-0 w-[80px] h-[80px]">
-                <Link href={`/AllAssets/${supply?._id}`}>
+                <Link href={`/supply/${supply?._id}`}>
                   <Image
                     src={supply?.image[0]}
                     alt="related"

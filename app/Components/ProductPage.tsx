@@ -119,7 +119,7 @@ console.log('product cache is',productCache)
   <Notification/>
        {/* <MasterNavber setShowSignupInput={setShowSignupInput} setShowLoginInput={setShowLoginInput}/> */}
 
-      { loading || !product? <Loading/> :<div>
+      { !product && loading ? <Loading/> :<div>
           {(post ) && (
                         <div className='abso'>
                 

@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, Suspense } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AppDispatch } from '../store/store';
 import { useAuth } from '../Context/AuthContext';
 import PostCard from './PostCard';
@@ -12,18 +12,20 @@ import { getPostsAction } from "../store/actions/post";
 export default function AllPosts() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  
   const searchParams = useSearchParams();
   const pid = searchParams.get('pid'); // Check if URL has post id
-
+  const pathname = usePathname()
   const { posts, loading } = useSelector((state: any) => state.posts);
   const { token } = useAuth();
 
   const [selectedPost, setSelectedPost] = useState<any>(null);
 
+  // ✅ Fetch posts only if not already available
   useEffect(() => {
-    dispatch(getPostsAction());
-  }, [dispatch]);
+    if (!posts || posts.length === 0) {
+      dispatch(getPostsAction());
+    }
+  }, [dispatch, posts]);
 
   // Handle URL changes (back/forward navigation)
   useEffect(() => {
@@ -37,23 +39,32 @@ export default function AllPosts() {
 
   const openPost = (post: any) => {
     setSelectedPost(post);
-    router.push(`/?pid=${post._id}`);
+    router.push(`${pathname}?pid=${post._id}`);
   };
 
   return (
-    
     <div className='w-screen px-4 lg:px-22'>
       <div className={`grid grid-cols-2 lg:grid-cols-5 gap-2 lg:gap-5`}>
-        {!loading ? posts.map((post: any, index: number) => (
-          <div key={index} >
-            <PostCard openPost= {openPost}  post={post}  />
-
-          </div>
-        )) : Array.from({ length: 6 }).map((_, i) => <SkeletonCard key={i} />)}
+        {!loading
+          ? posts.map((post: any, index: number) => (
+              <div key={index}>
+                <PostCard openPost={openPost} post={post} />
+              </div>
+            ))
+          : Array.from({ length: 6 }).map((_, i) => (
+              <SkeletonCard key={i} />
+            ))}
       </div>
 
       {/* Overlay Post */}
-      {selectedPost && <Suspense> <Post catchedPost={selectedPost} catchedVotes={selectedPost.votes || []} /></Suspense>}
+      {selectedPost && (
+        <Suspense>
+          <Post
+            catchedPost={selectedPost}
+            catchedVotes={selectedPost.votes || []}
+          />
+        </Suspense>
+      )}
     </div>
   );
 }

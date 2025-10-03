@@ -11,10 +11,10 @@ interface ProductState {
 }
 
 const initialState: ProductState = {
-  items: [],
+  items:null,
   editProduct: null,
   rdxProduct: null,
-  loading: false,
+  loading: true,
   error: null,
   count: 0,
 };
@@ -26,7 +26,7 @@ const reducer = (state: ProductState = initialState, action: AnyAction): Product
     case "POST_PRODUCT_REQUEST":
     case "EDIT_PRODUCT_REQUEST":
     case "DELETE_PRODUCT_REQUEST":
-      return { ...state, loading: true, error: null, rdxProduct : null };
+      return { ...state, loading: true, error: null, rdxProduct : null, };
 
     case "FETCH_PRODUCT_BY_ID_REQUEST":
     case "FETCH_PRODUCT_BY_HANDLE_REQUEST":

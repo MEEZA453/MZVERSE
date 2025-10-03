@@ -26,7 +26,7 @@ const {items} = useSelector((state : any)=>state.cart)
 
 
 const isAlreadyAddedToCart = items.some((f : any)=> f?.product?._id === String(productId))
-console.log(isAlreadyAddedToCart)
+
 const [isAddedToCart  ,setAddedToCart] = useState(isAlreadyAddedToCart )
 useEffect(() => {
   setAddedToCart(isAlreadyAddedToCart);

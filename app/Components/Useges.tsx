@@ -18,14 +18,14 @@ export default function Useages({assetId , token, setPost, setVotes}){
       const uid = searchParams.get('uid')
       const router = useRouter()
     const {postsOfAsset , loading} = useSelector((state:any)=>state.attach)
-    console.log(postsOfAsset)
+ 
     useEffect(()=>{
         dispatch(getPostsOfAsset(assetId , token))
     } , [dispatch , token , assetId])
       const openPost = (post: any) => {
     setPost(post)
     setVotes(post.votes || [])
-router.push(`/?pid=${assetId}&uid=${post?._id}`, { scroll: false });
+router.push(`/supply?pid=${assetId}&uid=${post?._id}`, { scroll: false });
 
 
   }
@@ -37,7 +37,7 @@ router.push(`/?pid=${assetId}&uid=${post?._id}`, { scroll: false });
       if (uid) {
         const found = postsOfAsset.find((p: any) => p._id === uid)
         console.log(found)
-console.log('called data is ' , found)
+
         if (found) {
           setPost(found)
           setVotes(found.votes || [])

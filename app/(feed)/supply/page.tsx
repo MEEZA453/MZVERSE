@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react'
-import AllAssets from '../Components/AllAssets'
+import AllAssets from '../../Components/Supply'
+import Supply from '../../Components/Supply'
 
 function page() {
   return (
@@ -7,7 +8,7 @@ function page() {
 
       <Suspense>
 
-        <AllAssets/>
+        <Supply/>
       </Suspense>
     }</div>
   )

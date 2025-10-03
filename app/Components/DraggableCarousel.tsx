@@ -22,6 +22,7 @@ export default function DraggableCarousel({ children, onClickItem, className }: 
 
   // ---- Drag handlers ----
   const handleMouseDown = (e: React.MouseEvent | React.TouchEvent) => {
+    
     isDragging.current = true;
     const pageX = "touches" in e ? e.touches[0].pageX : e.pageX;
     startPos.current = pageX;

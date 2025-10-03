@@ -86,6 +86,7 @@ export default function Post({ catchedPost, catchedVotes }: PostProps) {
 const pathname = usePathname();
     const searchParams = useSearchParams();
      const pid = searchParams.get('pid')
+     console.log(pid)
          const postInPath = usePathname().split('/')[2]
     const postId = pid || postInPath 
   
@@ -207,7 +208,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
        {/* <DynamicOverlay  scrollRef={scrollRef}/> */}
         </section>
         <Header isLightMode={isLightMode} setIsMenu={setIsMenu}/> 
-        <ImageShower panelY={panelY} setPanelY={setPanelY} style={{ height: `${panelY+10}vh`, minHeight : '50vh', maxHeight : '98vh' ,    transition: 'height 0.35s cubic-bezier(0.25, 0.8, 0.5, 1)'}}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile}  images={post?.images || []}/>
+        <ImageShower panelY={panelY} setPanelY={setPanelY} style={{ height: `${panelY}vh`, minHeight : '40vh', maxHeight : '98vh' ,    transition: 'height 0.35s cubic-bezier(0.25, 0.8, 0.5, 1)'}}  setIsMenu={setIsMenu}  name ={post?.name} amount = {post?.amount} isMobile={isMobile}  images={post?.images || []}/>
         <div className="relative w-full h-full">
       <DynamicPanelWrapper
         initialStep={2}
