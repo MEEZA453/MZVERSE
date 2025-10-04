@@ -27,12 +27,11 @@ interface MasterNavberProps {
   setShowLoginInput?: React.Dispatch<React.SetStateAction<boolean>>;
   setShowSignupInput?: React.Dispatch<React.SetStateAction<boolean>>;
     setIsCart?: React.Dispatch<React.SetStateAction<boolean>>;
-
+        setIsNotification?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export default function MasterNavber({setShowLoginInput , setShowSignupInput , setIsCart}:MasterNavberProps) {
+export default function MasterNavber({setShowLoginInput , setShowSignupInput , setIsCart, setIsNotification}:MasterNavberProps) {
   const router = useRouter();
   
-  const {setIsNotification}  = useNotification()
   
   const  [isMobile , setIsMobile ]  = useState(false)
   const {isLoggedIn , profileLink , user} = useAuth();

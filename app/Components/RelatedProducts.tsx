@@ -10,7 +10,7 @@ import Link from "next/link";
 import SkeletonRelatedPosts from "./Skeleton/SkeletonReletedPosts";
 import { searchAssets } from "../store/actions/search";
 
-export default function RelatedProducts({query, token, productId}) {
+export default function RelatedProducts({query, token, productId, setIsNavigating}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
@@ -23,7 +23,10 @@ export default function RelatedProducts({query, token, productId}) {
   , [dispatch, query]);
 
  const {assetResult , loading} = useSelector((state : any)  => state.search)
-
+const handleNavigate = (id: string) => {
+  setIsNavigating(true); 
+  router.push(`/supply/${id}`);
+};
 
   // filter out current post
   const filteredSupply = assetResult?.results?.filter((post: any) => post._id !== productId) || [];
@@ -40,15 +43,16 @@ export default function RelatedProducts({query, token, productId}) {
           <DraggableCarousel className="px-4">
             {filteredSupply?.map((supply: any) => (
               <div key={supply._id} className="shrink-0 w-[80px] h-[80px]">
-                <Link href={`/supply/${supply?._id}`}>
+         
                   <Image
+                  onClick={()=>handleNavigate(supply?._id)}
                     src={supply?.image[0]}
                     alt="related"
                     width={100}
                     height={100}
                     className="w-full h-full rounded-[2px] object-cover"
                   />
-                </Link>
+        
               </div>
             ))}
           </DraggableCarousel>

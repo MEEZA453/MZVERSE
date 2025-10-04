@@ -144,8 +144,8 @@ export default function ImageShower({
   width={1200}
   height={800}
   sizes="(max-width: 768px) 100vw, 40vw"
-  placeholder="blur"
-  blurDataURL="/placeholder.png" // tiny transparent or blurred img
+  priority
+  placeholder="empty" // no blur
   className="object-cover lg:h-full max-h-[450px]"
 />
               </div>
@@ -156,7 +156,7 @@ export default function ImageShower({
 
           {/* Thumbnail Controller */}
           {images.length > 1 && (
-            <div className="absolute z-[900] image-controller flex lg:left-[3vw] left-[35vw] bottom-6 gap-0">
+            <div className="absolute z-[900] image-controller flex lg:left-[3vw] left-[35vw] bottom-30 gap-0">
               {images.map((el, i) => (
                 <Image
                   key={i}

@@ -9,7 +9,7 @@ const router = useRouter()
                      
                     <div className='flex gap-1  items-center'>
                       <h5   className="" style={{color : isLightMode ?'black': 'white'}}>{name}</h5> <label className={` px-1.5 flex items-center justify-center py-2.5 ${isLightMode ? 'bg-black text-white':'tab-dark'}`} style={{fontFamily : 'inter' , lineHeight : 0, borderRadius :'40px', fontWeight : 300 ,fontSize : '11px'
-                            }}>{amount === 0 ? null : '$ '}{amount === 0 ? 'free':amount}</label>  </div>
+                            }}>{amount === 0 ? null : '$'}{amount === 0 ? 'free':amount}</label>  </div>
                             
                              <div className="flex items-center">
                               <h3>Used by</h3>

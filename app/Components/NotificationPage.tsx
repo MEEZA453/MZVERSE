@@ -8,24 +8,22 @@ import { useDispatch } from "react-redux"
 import { useEffect, useState } from "react"
 import { IoIosArrowBack } from "react-icons/io"
 import { HiOutlineDotsVertical } from "react-icons/hi"
-import FollowNotification from "../Components/FollowNotification"
-import VoteNotification from "../Components/VoteNotification"
-import SkeletonNotification from "../Components/Skeleton/SkeletonNotification"
-import WelcomeNotification from "../Components/WelcomeNotification"
+import FollowNotification from "./FollowNotification"
+import VoteNotification from "./VoteNotification"
+import SkeletonNotification from "./Skeleton/SkeletonNotification"
+import WelcomeNotification from "./WelcomeNotification"
 import {motion } from 'framer-motion'
-import { useNotification } from "../Context/Notification"
 import notification from "../store/reducers/notification"
-import JuryApplicationRequest from "../Components/JuryApplicationRequest"
-import JuryApproval from "../Components/JuryApproval"
-import SwipeToDelete from "../Components/SwipeToDelete"
-import AttachRequestNotification from "../Components/AttachRequestNotification"
-import ApproveAttachNotification from "../Components/ApproveAttachNotification"
-import OrderCreatedNotification from "../Components/OrderCreatedNotification"
-import MoneyReceivedNotification from "../Components/MoneyReceivedNotification"
+import JuryApplicationRequest from "./JuryApplicationRequest"
+import JuryApproval from "./JuryApproval"
+import SwipeToDelete from "./SwipeToDelete"
+import AttachRequestNotification from "./AttachRequestNotification"
+import ApproveAttachNotification from "./ApproveAttachNotification"
+import OrderCreatedNotification from "./OrderCreatedNotification"
+import MoneyReceivedNotification from "./MoneyReceivedNotification"
 import { useThemeContext } from "../Context/ThemeContext"
 import { BsThreeDots } from "react-icons/bs"
-export default function Notification () {
-  const {setIsNotification} = useNotification()
+export default function Notification ({setIsNotification}) {
     const {token} = useAuth()
     const {isLightMode} = useThemeContext()
     const [localItems, setLocalItems] = useState<any[]>([]);
