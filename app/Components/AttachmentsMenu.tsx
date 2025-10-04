@@ -27,10 +27,6 @@ export default function AttachmentsMenu({ postId, token, setAttachmentsMenu, ass
   const [isAddToCart , setAddToCart] = useState(false)
 
 
-  // ✅ fetch once when menu opens
-  useEffect(() => {
-    dispatch(getAssetsOfPost(postId, token));
-  }, [dispatch, postId, token]);
 
   const [isMobile, setIsMobile] = useState(false);
   useEffect(() => {

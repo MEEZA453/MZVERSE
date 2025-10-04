@@ -35,8 +35,8 @@ useEffect(() => {
 
   // Set selected product if URL has ?pid
   useEffect(() => {
-    if (pid && items.length > 0) {
-      const found = items.find((p: any) => p._id === pid);
+    if (pid && items?.length > 0) {
+      const found = items?.find((p: any) => p._id === pid);
       if (found) setSelectedProduct(found);
     } else {
       setSelectedProduct(null);

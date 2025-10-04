@@ -28,7 +28,6 @@ export default function ImageShower({
   isMyProduct,
   setIsMenu,
   panelY,
-  setPanelY,
   style,
 }: ImageShowerProps) {
 
@@ -156,7 +155,7 @@ export default function ImageShower({
 
           {/* Thumbnail Controller */}
           {images.length > 1 && (
-            <div className="absolute z-[900] image-controller flex lg:left-[3vw] left-[35vw] bottom-30 gap-0">
+            <div className={`absolute z-[900] image-controller flex lg:left-[3vw] left-[35vw] ${panelY > 60 ? 'bottom-6':'bottom-30'} gap-0`}>
               {images.map((el, i) => (
                 <Image
                   key={i}

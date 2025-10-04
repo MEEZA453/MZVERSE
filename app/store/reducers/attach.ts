@@ -21,10 +21,12 @@ const initialState: AssetState = {
 const attach = (state = initialState, action: AnyAction): AssetState => {
   switch (action.type) {
     // Existing asset requests
-    case "ATTACH_ASSET_REQUEST":
-    case "DETACH_ASSET_REQUEST":
+    
     case "GET_ASSETS_REQUEST":
-    case "GET_ASSET_POSTS_REQUEST":
+    return { ...state, loading: true, assetsOfPost : null, error: null };
+    case "ATTACH_ASSET_REQUEST":
+      case "GET_ASSET_POSTS_REQUEST":
+          case "DETACH_ASSET_REQUEST":
     case "REQUEST_ATTACH_ASSET_REQUEST":
     case "APPROVE_ATTACH_REQUEST":
       return { ...state, loading: true, error: null };

@@ -8,8 +8,12 @@ import { IoBagCheckSharp, IoBagSharp } from "react-icons/io5";
 import { MdDone } from "react-icons/md";
 import { GoMail } from "react-icons/go";
 import { PiWalletFill } from "react-icons/pi";
+import { useThemeContext } from "../Context/ThemeContext";
+import { useRouter } from "next/navigation";
 export default function Notification(){
 const {notification , setNotification } = useNotification();
+const {isLightMode} = useThemeContext()
+const router  = useRouter()
 const [currentNotification , setCurrentNotification ]  = useState( {headline : 'Added to Moodboard.' , subline : 'tap to view the list.' , profile : <LiaVoteYeaSolid />
  ,  button : {
      
@@ -27,15 +31,13 @@ const notificationState = {
         action : null,
         text : 'Join now'
     } },
- addedToCart : {headline : 'Added to Bag.' , subline : 'tap to view the list.' , profile :<IoBagSharp /> ,  button : {
-        action : null,
-      
-        text : 'Join now'
-    } },
+ addedToCart : {headline : 'Added to Bag successfully' , subline : 'tap to view the list.' , profile :<IoBagSharp /> , button : { isButton : true,
+        action : ()=>{router.push('/cart')},
+        text : 'Open Bag'} },
      cashReceived : {headline : 'Cash received in your wallet' , subline : 'tap to view the list.' , profile :<PiWalletFill /> ,  button : {
         action : null,
       
-        text : 'Join now'
+        text : 'Open cart'
     } },
  voteSubmit : {headline : 'Vote Submitted Successfully' , subline : 'tap to view the list.' , profile : <LiaVoteYeaSolid /> ,  button : {
         action : null,
@@ -161,13 +163,13 @@ setNotification('')
 
     return <div className="w-screen flex justify-center "><AnimatePresence>
 
-        {notification !== ''?<motion.div initial ={{y : -60}} animate= {{y : 0}} transition={{duration : 0.3 , ease : 'easeInOut'}} exit={{y : -60}} className="w-[97%] lg:w-90 px-2 items-center fixed top-2 z-[9999] h-fit py-1 flex justify-between  rounded bg-[#ededed]">
+        {notification !== ''?<motion.div initial ={{y : -60}} animate= {{y : 0}} transition={{duration : 0.3 , ease : 'easeInOut'}} exit={{y : -60}} className="w-[97%] flex lg:w-90 px-2 items-center fixed top-2 z-[9999] h-fit py-1 flex justify-between  rounded-[5px] bg-[#ededed] border border-[#dadada]">
 <div className="flex gap-3">
-<div className="h-9 w-9  rounded-lg flex items-center justify-center text-black text-[18px] bg-black/20" >{currentNotification.profile}</div>
-<div className="mt-0.5"><h5 style={{fontSize : 14, fontWeight : 300}} className="text-black">{currentNotification.headline}</h5>{currentNotification.subline && <p style={{fontSize : 12 , lineHeight : 0.8}}>{currentNotification.subline}</p>}</div>
+<div className={`h-8 w-8  rounded-lg flex items-center justify-center text-black text-[15px] ${isLightMode ? 'bg-white':'bg-black/20'}`} >{currentNotification.profile}</div>
+<div className="mt-0.5 flex flex-col items-center justify-center"><h5 style={{fontSize : 13, fontWeight : 300}} className="text-black">{currentNotification.headline}</h5></div>
 </div>
 
-{currentNotification.button && currentNotification.button.action ? <button className="bg-black text-[14px] px-2 py-1 rounded-[3px]">{currentNotification.button.text}</button>:null}
+{currentNotification.button && currentNotification.button.action ? <button onClick={currentNotification.button.action} style={{color: 'white'}} className="bg-black text-[14px] px-2 py-1 rounded-[3px]">{currentNotification.button.text}</button>:null}
     </motion.div>:null}
     </AnimatePresence>
         </div>

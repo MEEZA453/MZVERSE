@@ -141,7 +141,7 @@ useEffect(() => {
   loadPost();
 }, [postId, isOverlay, catchedPost, catchedVotes, dispatch, token]);
 
-console.log(postCache)
+
 // Watch Redux updates only for normal route
 useEffect(() => {
   if (!isOverlay && rdxPost?._id === postId) {
@@ -166,10 +166,13 @@ useEffect(() => {
 // console.log('catched post is:', catchedPost)
 
   const {assetsOfPost} = useSelector((state: any)=>state.attach)
-        useEffect(()=>{
-              dispatch(getAssetsOfPost(postId , token))
-        },[dispatch, token, postId])
+  useEffect(() => {
+  if (!post?._id) return;
 
+  // Fetch assets once the post is available
+  dispatch(getAssetsOfPost(post._id, token));
+}, [dispatch, post, token]);
+console.log(post)
  
 const validVotes = votes?.filter(vote => vote.user) || [];
 
@@ -222,7 +225,7 @@ const existingVote = post?.votes?.find(v => v?.user?._id === user?._id);
   <div className="h-[27vh] w-full  -mt-[27vh]">
   </div>
 )}
-{/* <Attachments  assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/> */}
+<Attachments  assetsOfPost={assetsOfPost} setAttachmentsMenu={setAttachmentsMenu} postId={post?._id} token={token}/>
 
 <HighlightInfoOfPost isLightMode={isLightMode} postName={post?.name} validVotes={validVotes}/>
 <ScoreBoard

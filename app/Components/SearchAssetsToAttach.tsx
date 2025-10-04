@@ -28,7 +28,7 @@ useEffect(()=>{
     return <div>{loading ?<div className="-translate-x-2"><Loading/></div>:<div className="w-full">
 
         {assetResult?.results?.map((asset , index)=>{
-            const isAttached  = assetsOfPost.some((f: any) => f._id === asset._id);
+            const isAttached  = assetsOfPost?.some((f: any) => f._id === asset._id);
 
             return        <div key={index} className="w-full">
             <SearchedAssetsCard asset ={asset} isAttached = {isAttached} postId = {postId}/>
